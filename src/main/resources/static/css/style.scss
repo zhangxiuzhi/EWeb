@@ -1,0 +1,539 @@
+@charset "utf-8";
+
+/*--------------------------------
+变量
+-----------------------------------------*/
+$color-theme:#de211d;
+$color-theme-response:#f1280f;
+
+$color-success:#3DC18E;
+$color-success-response:#2ad593;
+
+$color-warning:#fc9a2f;
+$color-warning-response:#f4a92c;
+
+$color-info:#20b0de;
+$color-info-response:#20b0de;
+
+$color-blue:#00447c;
+$color-blue-response:#002849;
+
+
+$color-text:#4B4C4D;
+$color-label:#6d7b82;
+$color-black:#2a333a;
+$color-gray-1:#666666;
+$color-gray-2:#999999;
+$color-gray-3:#dddddd ;
+$color-gray-4:#fafafa;
+$color-gray-5:#f1f1f1;
+
+$color-bg:#f5f5f5;
+
+$color-border:#ccc;
+$color-border-light:#aaa;
+
+/*--------------------------------
+
+-----------------------------------------*/
+html, body {
+  height: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+
+.container{
+  margin-right: auto;
+  margin-left: auto;
+  padding-left:0px;
+  padding-right: 0px;
+  width: 1200px;
+}
+
+
+ul,li{margin:0;padding:0}
+
+.no-radius{
+  border-radius:0 !important;
+}
+/*--------------------------------
+字符大小
+-----------------------------------------*/
+.fs-12{font-size:12px !important;}
+.fs-14{font-size:14px!important;}
+.fs-16{font-size:16px!important;}
+.fs-18{font-size:18px!important;}
+.fs-22{font-size:22px!important;}
+.fs-24{font-size:24px!important;}
+.fs-36{font-size:36px!important;}
+
+
+/*--------------------------------
+颜色
+-----------------------------------------*/
+.text-default{
+  color:$color-text;
+}
+.text-gray{
+  color: $color-gray-1;
+}
+.text-gray-low{
+  color: $color-gray-2;
+}
+.text-info{
+  color:$color-info !important;
+}
+.text-danger{
+  color:$color-theme !important;
+}
+.text-warning{
+  color:$color-warning !important;
+}
+.text-success{
+  color:$color-success !important;
+}
+.bg-fff{
+  background: #fff;
+}
+.bg-f5f5f5{
+  background: #f5f5f5;
+}
+
+/*--------------------------------
+文本位置
+-----------------------------------------*/
+.text-center{
+  text-align:center !important;
+}
+.text-left{
+  text-align:left !important;
+}
+.text-right{
+  text-align:right !important;
+}
+/*--------------------------------
+缩略语
+-----------------------------------------*/
+abbr[title], abbr[data-original-title]{
+  border:none;
+}
+/*--------------------------------
+width 宽度
+-----------------------------------------*/
+@mixin width($value: auto) {
+  width:$value;
+}
+
+.widthAuto{
+  @include width(auto);
+}
+.widthFull{
+  @include width(100%);
+}
+.width100{
+  @include width(100px);
+}
+.width120{
+  @include width(120px);
+}
+.width140{
+  @include width(140px);
+}
+/*--------------------------------
+margin 留白
+-----------------------------------------*/
+@mixin margin-left($value: auto) {
+    margin-left:$value;
+}
+@mixin margin-right($value: auto) {
+  margin-right:$value;
+}
+@mixin margin-top($value: auto) {
+  margin-top:$value;
+}
+@mixin margin-bottom($value: auto) {
+  margin-bottom:$value;
+}
+.margin-lr-auto{
+  @include margin-left(auto);
+  @include margin-right(auto);
+}
+/*无留白*/
+.margin0{
+  margin:0 !important;
+}
+/*左侧留白*/
+.margin-left-5 {
+  @include margin-left(5px);
+}
+.margin-left-10 {
+  @include margin-left(10px);
+}
+.margin-left-15 {
+  @include margin-left(15px);
+}
+.margin-left-20 {
+  @include margin-left(20px);
+}
+.margin-left-25{
+  @include margin-left(25px);
+}
+/*右侧留白*/
+.margin-right-5 {
+  @include margin-right(5px);
+}
+.margin-right-10 {
+  @include margin-right(10px);
+}
+.margin-right-15 {
+  @include margin-right(15px);
+}
+.margin-right-20 {
+  @include margin-right(20px);
+}
+.margin-right-25{
+  @include margin-right(25px);
+}
+/*顶部留白*/
+.margin-top-5 {
+  @include margin-top(5px);
+}
+.margin-top-10 {
+  @include margin-top(10px);
+}
+.margin-top-15 {
+  @include margin-top(15px);
+}
+.margin-top-20 {
+  @include margin-top(20px);
+}
+.margin-top-25 {
+  @include margin-top(25px);
+}
+
+/*底部留白*/
+.margin-bottom-5 {
+  @include margin-bottom(5px);
+}
+.margin-bottom-10 {
+  @include margin-bottom(10px);
+}
+.margin-bottom-15 {
+  @include margin-bottom(15px);
+}
+.margin-bottom-20 {
+  @include margin-bottom(20px);
+}
+.margin-bottom-25 {
+  @include margin-bottom(25px);
+}
+
+/*--------------------------------
+padding 填充
+-----------------------------------------*/
+@mixin padding-left($value: auto) {
+  padding-left:$value;
+}
+@mixin padding-right($value: auto) {
+  padding-right:$value;
+}
+@mixin padding-top($value: auto) {
+  padding-top:$value;
+}
+@mixin padding-bottom($value: auto) {
+  padding-bottom:$value;
+}
+/*无填充*/
+.padding0{
+  padding:0 !important;
+}
+.padding10{
+  padding:10px !important;
+}
+.padding20{
+  padding:20px !important;
+}
+/*左侧填充*/
+.padding-left-5 {
+  @include padding-left(5px);
+}
+.padding-left-10 {
+  @include padding-left(10px);
+}
+.padding-left-15 {
+  @include padding-left(15px);
+}
+.padding-left-20 {
+  @include padding-left(20px);
+}
+.padding-left-25{
+  @include padding-left(25px);
+}
+/*右侧填充*/
+.padding-right-5 {
+  @include padding-right(5px);
+}
+.padding-right-10 {
+  @include padding-right(10px);
+}
+.padding-right-15 {
+  @include padding-left(15px);
+}
+.padding-right-20 {
+  @include padding-right(20px);
+}
+.padding-right-25{
+  @include padding-right(25px);
+}
+/*顶部填充*/
+.padding-top-5 {
+  @include padding-top(5px);
+}
+.padding-top-10 {
+  @include padding-top(10px);
+}
+.padding-top-15 {
+  @include padding-top(15px);
+}
+.padding-top-20 {
+  @include padding-top(20px);
+}
+.padding-top-25 {
+  @include padding-top(25px);
+}
+/*底部填充*/
+.padding-bottom-5 {
+  @include padding-bottom(5px);
+}
+.padding-bottom-10 {
+  @include padding-bottom(10px);
+}
+.padding-bottom-15 {
+  @include padding-bottom(15px);
+}
+.padding-bottom-20 {
+  @include padding-bottom(20px);
+}
+.padding-bottom-25 {
+  @include padding-bottom(25px);
+}
+
+/*--------------------------------------
+header
+------------------------------------------*/
+.header{
+  position:relative;
+
+  .topbar{
+    width: 100%;
+    height:30px;
+    line-height: 30px;
+    background: #f2f2f2;
+    border-bottom:1px solid #e7e7e7;
+    .topbar-left{float:left;    display: inline;}
+    .topbar-right{float:right;    display: inline;}
+  }
+
+  .header-nav{
+    width:100%;
+    height:110px;
+    padding:35px;
+  }
+
+  .main-nav{
+    width: 100%;
+    height:39px;
+    border-bottom:1px solid #e7e7e7;
+  }
+}
+.main-nav{
+  ul,li{
+    padding:0;margin:0;
+    list-style-type:none;
+  }
+  ul > li{
+    float: left;
+    display: inline;
+    a{
+      display: inline-block;
+      line-height: 38px;
+      font-size: 16px;
+    }
+  }
+
+  .nav-allitem{
+    position: relative;
+    margin-right:20px;
+    a{
+      width:220px;
+      text-align: center;
+      border-radius: 3px 3px 0 0;
+      padding:0;
+      background:$color-theme ;
+      color:#fff;
+
+    }
+  }
+  .nav-link{
+    a{
+      position: relative;
+      padding:0 42px;
+      height:40px;
+    }
+  }
+  .nav-link.selected a,
+  .nav-link a:hover{
+      height:38px;
+      color: $color-theme;
+      border-bottom:2px solid $color-theme;
+      text-decoration:none;
+  }
+}
+
+/*--------------------------------------
+顶部链接
+------------------------------------------*/
+.topbar-left,
+.topbar-right{
+  li{
+    float:left;
+    list-style:none;
+
+    margin: 0 -3px;
+    font-size: 12px;
+    color: #666;
+    line-height: 30px;
+  }
+  li>a{
+    z-index: 1002;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 15px;
+    overflow: hidden;
+  }
+  li>a>.fa{
+    font-size:14px;
+    margin-right:5px;
+  }
+  li.topbar-gap-line{
+    margin: 0;
+    font-size: 12px;
+    color: #ccc;
+    line-height: 30px;
+  }
+}
+/*--------------------------------------
+logo
+------------------------------------------*/
+.logo{
+  float:left;
+  width: 208px;
+  height:26px;
+}
+/*--------------------------------------
+搜索
+------------------------------------------*/
+.header-nav-searchbar.input-group {
+  float: left;
+  display: inline;
+  width: 510px;
+  margin-left: 200px;
+  .form-control{
+    display: inherit;
+    height:36px;
+    width: 420px;
+    border:1px solid $color-theme;
+
+    &::-webkit-input-placeholder {
+      color: #999;
+    }
+    &:-ms-input-placeholder { // IE10+
+      color: #999;
+    }
+    &:-moz-placeholder { // Firefox4-18
+      color: #999;
+    }
+    &::-moz-placeholder { // Firefox19+
+      color: #999;
+    }
+  }
+
+  .input-group-btn{
+    display: inherit;
+    .btn{
+      height:36px;
+      font-size: 16px;
+      width:96px;
+      border: 1px solid  $color-theme;
+    }
+    .btn:hover{
+      border:none;
+      background: $color-theme;
+    }
+  }
+}
+/*--------------------------------------
+我要报盘，我要招标
+------------------------------------------*/
+.header-nav-btn{
+  position: relative;
+  float: right;
+  display: inline;
+  .btn.btn-addOffer,
+  .btn.btn-addBid{
+    width: 120px;
+    height: 36px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #fff;
+    color: #888;
+    border: 1px solid #dfdfdf;
+    border-radius: 2px;
+    text-align: center;
+    margin-left: 15px;
+  }
+}
+
+/*--------------------------------------
+sortbox
+------------------------------------------*/
+.sortbox{
+  position: relative;
+  padding:18px 0;
+  margin:0;
+  .btn-group>.btn{
+    min-width: 80px;
+    padding:6px 18px;
+    font-size: 12px;
+    color:#787878;
+  }
+}
+
+/*--------------------------------------
+filterbox
+------------------------------------------*/
+.filterbox{
+  position:relative;
+  background: #f6f6f6;
+  padding:32px 30px;
+  margin:25px 0 ;
+
+  .form-group{
+
+  }
+  .form-group .control-label{
+    color: #a5a5a5;
+    width: 90px;
+    text-align: right;
+    font-weight: normal;
+  }
+  .form-group .form-control{
+
+  }
+}
+
+/*--------------------------------------
+
+------------------------------------------*/

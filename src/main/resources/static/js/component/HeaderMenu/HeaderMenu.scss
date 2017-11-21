@@ -1,0 +1,136 @@
+
+.react-headerMenu {
+  ul,li{
+    padding:0;margin:0;
+    list-style-type:none;
+  }
+  ul > li{
+    float: left;
+    display: inline;
+    a{
+      position: relative;
+      display: inline-block;
+      line-height: 38px;
+      font-size: 16px;
+      color:#5e5e5e;
+    }
+    a:hover{
+      text-decoration: none;
+    }
+  }
+
+  .nav-link{
+    a{
+      padding:0 42px;
+      height:40px;
+    }
+  }
+  .nav-link.selected a,
+  .nav-link a:hover{
+    height:38px;
+    color: #de211d;
+    border-bottom:2px solid #de211d;
+    text-decoration:none;
+  }
+
+}
+.esteel-headerMenu {
+
+  /*所有商品*/
+  li.nav-allitem{
+    position: relative;
+    margin-right:20px;
+    a{
+      width:220px;
+      text-align: center;
+      border-radius: 3px 3px 0 0;
+      padding:0;
+      background:#de211d ;
+      color:#fff;
+    }
+  }
+  .nav-allitem>a:hover{
+    color: #fff;
+    border-bottom:0px solid #de211d;
+
+  }
+  .nav-allitem>.allitem-list{
+    display: none;
+    background: #454545;
+    color:#fff;
+    position: absolute;
+    width:220px;
+    height:400px;
+    top:38px;
+    left:0;
+    z-index: 10;
+    >ul.item{
+      margin-top:17px;
+      li.item-li{
+        width:220px;
+      }
+    }
+  }
+  .nav-allitem>.allitem-list>ul.item li.item-li{
+    .item-nav{
+      height:53px;
+      line-height: 53px;
+      padding: 0 20px 0 10px;
+      overflow: hidden;
+      h3{
+        line-height: 53px;
+        float: left;
+        display: inline;
+        font-size: 14px;
+        margin: 0;
+      }
+      .fa{
+        float: right;
+        display: inline;
+        width: 9px;
+        height: 16px;
+        margin-top: 20px;
+      }
+    }
+  }
+
+  .nav-allitem>.allitem-list>ul.item li.item-li>.item-list {
+    display: none;
+    position: absolute;
+    top: -17px;
+    width: 480px;
+    left: 220px;
+    height: 398px;
+    overflow: hidden;
+    border: 1px solid #DDDDDD;
+    background: white;
+  }
+
+  .nav-allitem>.allitem-list>ul.item li.item-li.hover{
+    background: #de211d;
+    >.item-list{
+      display:block;
+    }
+  }
+
+
+  /*tag标签*/
+  li>a > .tag{
+    display: block;
+    width: 24px;
+    height:16px;
+    line-height: 10px;
+    border-radius: 2px;
+    position:absolute;
+    right:12px;
+    top:0;
+    text-indent:-99999px;
+  }
+  .tag-hot{
+    background: url(./tag-hot.png) no-repeat 0 0;
+  }
+  .tag-new{
+    background: url(./tag-new.png) no-repeat 0 0;
+  }
+
+}
