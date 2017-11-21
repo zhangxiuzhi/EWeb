@@ -25,7 +25,10 @@ public class IndexController {
      */
     @RequestMapping("/")
     public String index(){
-        indexService.getPort(1);
+        String port = indexService.getPort(1);
+        System.out.println("0000000000000000000");
+        System.out.println(port);
+        System.out.println("0000000000000000000");
         return "index";
     }
 
