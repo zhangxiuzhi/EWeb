@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="./fragments/head::frontCode" />
+<body>
+
+<!--页头，菜单-->
+<div th:replace="fragments/head::header"></div>
+
+<!--展示内容-->
+<div class="container">
+    <!--过滤-->
+    <div class="filterbox"></div>
+
+    <!--卡片-->
+    <div id="component-tradeCardList"></div>
+</div>
+
+<link rel="stylesheet" th:href="@{/js/component/Card/EsteelCard.css}"/>
+<script th:src="@{/js/component/Card/EsteelCard.es2016.js}"></script>
+<script th:src="@{/js/module/trade/trade.list.js}"></script>
+<script th:src="@{/js/module/trade/trade.js}"></script>
+</body>
+</html>

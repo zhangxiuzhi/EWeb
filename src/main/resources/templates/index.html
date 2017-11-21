@@ -1,61 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="head::htmlHead" />
+<head th:replace="fragments/head::frontCode" />
 <body>
 
-<!--头部-->
-<div class="header">
-    <!--topbar-->
-    <div class="topbar">
-        <div class="container">
-        <ul class="topbar-left">
-            <li><a><span class="fa fa-home"></span>点钢首页</a></li>
-        </ul>
-        <ul class="topbar-right">
-            <li>你好，请登录</li>
-            <li><a class="text-danger">免费注册</a></li>
-            <li class="topbar-gap-line">|</li>
-            <li><a>我的点钢网</a></li>
-            <li class="topbar-gap-line">|</li>
-            <li><a>消息中心</a></li>
-            <li class="topbar-gap-line">|</li>
-            <li><a>帮助中心</a></li>
-            <li class="topbar-gap-line">|</li>
-            <li><a>客服电话：400-007-2323</a></li>
-        </ul>
-            </div>
-    </div>
-    <!--search-->
-    <div class="header-nav">
-        <div class="container">
-            <div class="logo"></div>
-            <div class="input-group header-nav-searchbar">
-                <input type="text" class="form-control" placeholder="请输入关键字查询"/>
-                <span class="input-group-btn">
-                    <button class="btn btn-primary" type="button">搜索</button>
-                </span>
-            </div>
-            <div class="header-nav-btn">
-                <button class="btn btn-addOffer">我要报盘</button>
-                <button class="btn btn-addBid">我要招标</button>
-            </div>
-        </div>
-    </div>
-    <!--main-var-->
-    <div class="main-nav">
-        <div class="container">
-            <div id="component-headerMenu"></div>
-
-        </div>
-    </div>
-</div>
+<div th:replace="fragments/head::header"></div>
 
 
 
 
 
-
-
+<script th:src="@{js/module/index/index.js}"></script>
 </body>
 </html>

@@ -1,0 +1,29 @@
+
+.react-sortGroupButton{
+  .btn-group{
+    .btn{
+      padding:6px 12px;
+      background: #fff;
+    }
+    .btn>.icon{
+      display: inline-block;;
+      width: 16px;
+      height:16px;
+      margin-left: 5px;
+    }
+  }
+}
+
+.wzj-ui.react-sortGroupButton{
+  .btn-group {
+    .btn.asc{
+      color:green;
+    }
+    .btn.desc{
+      color:red;
+    }
+    .btn.none{
+      color:#666;
+    }
+  }
+}

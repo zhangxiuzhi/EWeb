@@ -3,14 +3,7 @@
  */
 
 /**
- * 顶部菜单
- *
- *
- *
- *
- *
- *
- *
+ * 主菜单
  *
  */
 
@@ -37,18 +30,15 @@ class ComponentHeaderMenu extends React.Component {
 					{name:"",text:"品种4",children:[]}
 				]},
 				nav: [
-					{name: "index", text: "首页", tag: "",url:"/demo/index.html"},
-					{name: "marker", text: "交易", tag: "hot",url:"/demo/view/marker/marker.html"},
+					{name: "index", text: "首页", tag: "",url:"/index.html"},
+					{name: "trade", text: "交易", tag: "hot",url:"/trade/trade.html"},
 					{name: "1", text: "招标", tag: ""},
 					{name: "2", text: "意向", tag: ""},
 					{name: "3", text: "资讯", tag: ""},
 					{name: "3", text: "数据", tag: "new"}
 				]
 			},
-			focusNode:{
-				name:"marker",
-				text:"交易"
-			}
+			focusNode:props.current
 		}
 	}
 	/*******************************************************************/

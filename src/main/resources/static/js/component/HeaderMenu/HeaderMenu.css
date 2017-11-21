@@ -88,14 +88,13 @@
   .esteel-headerMenu li > a > .tag {
     display: block;
     width: 24px;
-    height: 16px;
+    height: 12px;
     line-height: 10px;
     border-radius: 2px;
+    background: #de211d;
+    color: #fff;
     position: absolute;
-    right: 12px;
-    top: 0;
-    text-indent: -99999px; }
-  .esteel-headerMenu .tag-hot {
-    background: url(./tag-hot.png) no-repeat 0 0; }
-  .esteel-headerMenu .tag-new {
-    background: url(./tag-new.png) no-repeat 0 0; }
+    right: 0;
+    top: 0; }
+
+/*# sourceMappingURL=HeaderMenu.css.map */

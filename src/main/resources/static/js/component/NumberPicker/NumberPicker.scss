@@ -1,0 +1,43 @@
+/**
+ * Created by WangZhenJia(159109799@qq.com) on 2017/9/7.
+ */
+.react-number-picker{
+  width: 20em;
+  margin:0 0 20px;
+
+  .btn{
+    background: #fff;
+    border:1px solid #ccc;
+  }
+  .btn.minus{
+    border-right:0;
+  }
+
+
+  .input-group-btn.layout-updown{
+    position:relative;
+    .btn{
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 16px;
+      padding:0 12px;
+      line-height: 16px;
+    }
+    .btn:focus{
+      outline:none;
+    }
+    .btn.up{
+      border-top-right-radius: 3px;
+      border-bottom-right-radius: 0px;
+    }
+    .btn.down{
+      top:16px;
+      border-top-right-radius: 0px;
+      border-bottom-right-radius: 3px;
+    }
+    .btn+.btn{
+      border-top:0;
+    }
+  }
+}

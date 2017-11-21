@@ -1,0 +1,52 @@
+@charset "UTF-8";
+/**
+ * Created by WangZhenJia(159109799@qq.com) on 2017/9/5.
+ */
+.react-toggle {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 5px;
+  /*滑动槽*/
+  /*滑动球*/
+  /*checkbox*/ }
+  .react-toggle .toggle-track {
+    width: 50px;
+    height: 24px;
+    border-radius: 30px;
+    background-color: #4D4D4D; }
+  .react-toggle .toggle-thumb {
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    width: 22px;
+    height: 22px;
+    border: 1px solid #4D4D4D;
+    border-radius: 50%;
+    background-color: #fafafa;
+    transition: all 0.25s ease; }
+  .react-toggle .react-toggle-screenreader-only {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    border: 0;
+    clip: rect(0 0 0 0); }
+
+/*选中*/
+.react-toggle--checked {
+  /*滑动槽*/
+  /*滑动球*/ }
+  .react-toggle--checked .toggle-track {
+    background-color: #518BFF; }
+  .react-toggle--checked .toggle-thumb {
+    left: 27px; }
+
+/*不可用*/
+.react-toggle--disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  -webkit-transition: opacity 0.25s;
+  transition: opacity 0.25s; }
+
+/*# sourceMappingURL=Toggle.css.map */

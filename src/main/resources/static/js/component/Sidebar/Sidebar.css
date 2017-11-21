@@ -67,3 +67,8 @@
       transform: translateX(0); }
     .react-sidebar ul.nav-main li.open > a.nav-submenu:before {
       content: "\f107"; }
+    .react-sidebar ul.nav-main li.open > a,
+    .react-sidebar ul.nav-main li > a.selected {
+      color: #fff; }
+
+/*# sourceMappingURL=Sidebar.css.map */

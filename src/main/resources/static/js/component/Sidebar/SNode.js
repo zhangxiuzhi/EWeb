@@ -3,7 +3,11 @@
  */
 
 
-class SNode extends React.Component{
+import React from 'react';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+
+export default class SNode extends React.Component{
 
 	constructor(props){
 		super(props);
@@ -18,13 +22,16 @@ class SNode extends React.Component{
 	//加载子级
 	renderChildNode(){
 		const children = this.props.node.children;
+		const focusNode = this.props.focusNode;
 
 		if (Array.isArray(children)) {
-			return React.createElement(
-				"ul",
-				null,
-				children.map((child, index) => React.createElement(SNode, { key: child.id || index, node: child, focusNode:focusNode }))
-			);
+			return (
+				<ul>
+				{children.map((child,index) =>
+					<SNode key={child.id || index} node={child} focusNode={focusNode}/>
+				)}
+				</ul>
+			)
 		}else{
 			return null;
 		}
@@ -42,7 +49,6 @@ class SNode extends React.Component{
 		const {node:{name, text, url, children, toggled}} = this.props;
 		const {focusNode:fn} = this.props;
 
-
 		var isOpened = this.props.node.open ? "open" : null;
 		const classes = classNames('',{
 			"open":isOpened		//父级是否展开
@@ -55,18 +61,14 @@ class SNode extends React.Component{
 			"selected":isSelected							//是否选中
 		});
 
-		return React.createElement(
-			"li",
-			{ ref: "menuNode", className: classes },
-			React.createElement(
-				"a",
-				{ className: classes_link,
-					href: url,
-					onClick: this.onNodeClick
-				},
-				text
-			),
-			this.renderChildNode()
-		);
+		return(
+			<li ref="menuNode" className={classes}>
+				<a className={classes_link}
+					href={url}
+					onClick={this.onNodeClick}
+				>{text}</a>
+				{this.renderChildNode()}
+			</li>
+		)
 	}
 }

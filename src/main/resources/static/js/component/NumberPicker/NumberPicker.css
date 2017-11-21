@@ -1,0 +1,33 @@
+/**
+ * Created by WangZhenJia(159109799@qq.com) on 2017/9/7.
+ */
+.react-number-picker {
+  width: 20em;
+  margin: 0 0 20px; }
+  .react-number-picker .btn {
+    background: #fff;
+    border: 1px solid #ccc; }
+  .react-number-picker .btn.minus {
+    border-right: 0; }
+  .react-number-picker .input-group-btn.layout-updown {
+    position: relative; }
+    .react-number-picker .input-group-btn.layout-updown .btn {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 16px;
+      padding: 0 12px;
+      line-height: 16px; }
+    .react-number-picker .input-group-btn.layout-updown .btn:focus {
+      outline: none; }
+    .react-number-picker .input-group-btn.layout-updown .btn.up {
+      border-top-right-radius: 3px;
+      border-bottom-right-radius: 0px; }
+    .react-number-picker .input-group-btn.layout-updown .btn.down {
+      top: 16px;
+      border-top-right-radius: 0px;
+      border-bottom-right-radius: 3px; }
+    .react-number-picker .input-group-btn.layout-updown .btn + .btn {
+      border-top: 0; }
+
+/*# sourceMappingURL=NumberPicker.css.map */

@@ -96,7 +96,7 @@ class HeaderMenu extends React.Component {
 	//节点
 	renderLink(fn,link,index){
 		const classes = classNames('nav-link', {
-			"nav-allitem": link.class == "allitem" ? true : false
+			"selected": fn.name == link.name ? true : false
 		});
 
 		var tag = null;
@@ -110,7 +110,7 @@ class HeaderMenu extends React.Component {
 		}
 		return React.createElement(
 			'li',
-			{ key: link.id || index, className: 'nav-link' },
+			{ key: link.id || index, className: classes },
 			React.createElement(
 				'a',
 				{ href: link.url },

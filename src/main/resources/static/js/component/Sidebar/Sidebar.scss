@@ -38,7 +38,6 @@
     padding: 0;
     list-style: none;
 
-
     a {
       display: block;
       padding: 10px 35px 10px 20px;
@@ -71,7 +70,7 @@
       background-color: rgba(0, 0, 0, 0.15);
       overflow: hidden;
     }
-    ul >li{
+    ul > li {
       opacity: 0;
       -webkit-transition: all 0.25s ease-out;
       transition: all 0.25s ease-out;
@@ -89,8 +88,13 @@
       -ms-transform: translateX(0);
       transform: translateX(0);
     }
-    li.open >a.nav-submenu:before{
+    li.open > a.nav-submenu:before {
       content: "\f107";
+    }
+
+    li.open > a,
+    li > a.selected {
+      color: #fff;
     }
   }
 

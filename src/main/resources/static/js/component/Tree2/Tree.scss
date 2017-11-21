@@ -1,0 +1,102 @@
+/**
+ * Created by WangZhenJia(159109799@qq.com) on 2017/9/6.
+ */
+.react-tree {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 5px;
+
+  .tree-header h5,
+  ul.nav>li a{
+    padding:12px 15px;
+    color: #333;
+  }
+  ul.nav>li a:hover,
+  ul.nav>li a:focus{
+    background: none;
+    outline:none;
+  }
+
+  ul.nav{
+    i.toggleIcon{
+      transition:all 0.25s ease;
+      margin-right:10px;
+      float:left;
+      width: 10px;
+      height: 13px;
+    }
+    i.toggleIcon.loaded{
+      animation:remoteLoadNode 0.2s infinite;
+    }
+    i.toggleIcon.loaded:before{
+      content:"\f1ce";
+    }
+  }
+  /*节点选中*/
+  ul.nav>li.tree-node.actived>a{
+    color:red;
+  }
+  /*节点下子级*/
+  ul.nav>li.tree-node.parentNode ul.nav.nav-sub{
+    display: none;
+    padding:0 0 0 20px;
+    background-color:#fff;
+    transition:all 0.25s ease;
+  }
+  /*节点打开子节点后，操作图标跟着变换*/
+  ul.nav>li.tree-node.parentNode.toggled > a > i.toggleIcon{
+    -webkit-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+  }
+  /*节点选中,展开子级*/
+  ul.nav>li.tree-node.parentNode.toggled >ul.nav.nav-sub{
+    display: block;
+  }
+
+
+}
+
+/*展开所有节点*/
+.react-tree.react-tree-expandAll{
+  ul.nav>li.tree-node ul.nav.nav-sub{
+    display: block;
+  }
+  ul.nav>li a{
+    i.toggleIcon{
+      -webkit-transform: rotate(90deg);
+      -ms-transform: rotate(90deg);
+      transform: rotate(90deg);
+    }
+  }
+}
+
+@keyframes remoteLoadNode{
+  0 {transform: rotate(0deg);}
+  100% {transform: rotate(360deg);}
+}
+
+
+
+
+/*自定义开关样式*/
+.wzj-ui.react-toggle.react-toggle--checked .toggle-track{
+  background-color: #FF518B;
+}
+
+/*自定义树样式*/
+.wzj-ui.react-tree ul.nav li.tree-node>a{
+  color:blue;
+}
+.wzj-ui.react-tree ul.nav>li.tree-node.toggled.parentNode > a > i.toggleIcon{
+  -webkit-transform: none;
+  -ms-transform: none;
+  transform: none;
+}
+.wzj-ui.react-tree .tree-node.parentNode >a >.toggleIcon:before{
+  content:"\f196";
+}
+.wzj-ui.react-tree .tree-node.parentNode.toggled >a >.toggleIcon:before{
+  content:"\f147";
+}
