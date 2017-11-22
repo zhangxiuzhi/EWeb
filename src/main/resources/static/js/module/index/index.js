@@ -20,7 +20,7 @@ function JBSFrame_index() {
         //顶部菜单栏
         //当前选中交易大厅
         //ReactDOM.render(<HeaderMenu focusItem="交易大厅"/>, document.getElementById("component-headerMenu"));
-        ReactDOM.render(React.createElement(ComponentHeaderMenu, { focusItem: "交易大厅" }), document.getElementById("component-headerMenu"));
+        ReactDOM.render(React.createElement(ComponentHeaderMenu, { current:{name:"index", text:"首页"} }), document.getElementById("component-headerMenu"));
 
 
     }

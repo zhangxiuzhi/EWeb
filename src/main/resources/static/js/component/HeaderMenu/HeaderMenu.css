@@ -95,6 +95,11 @@
     color: #fff;
     position: absolute;
     right: 0;
-    top: 0; }
+    top: 0;
+    text-indent: -9999px; }
+  .esteel-headerMenu .tag.tag-hot {
+    background: url("./tag-hot.png") 0 0 no-repeat; }
+  .esteel-headerMenu .tag.tag-new {
+    background: url("./tag-new.png") 0 0 no-repeat; }
 
 /*# sourceMappingURL=HeaderMenu.css.map */

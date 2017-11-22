@@ -10,14 +10,51 @@
 <!--展示内容-->
 <div class="container">
     <!--过滤-->
-    <div class="filterbox"></div>
+    <div class="filterbox">
+        <!--交易类型-->
+        <div class="row">
+            <div class="col-md-2 filterbox-label">交易形式</div>
+            <div class="cold-md-10">
+                <div id="component-filter-tradeType"></div>
+            </div>
+        </div>
+        <!--港口-->
+        <div class="row">
+            <div class="col-md-2 filterbox-label">港口</div>
+            <div class="cold-md-10">
+                <div id="component-filter-port"></div>
+            </div>
+        </div>
+        <!--品位-->
+        <div class="row">
+            <div class="col-md-2 filterbox-label">品位</div>
+            <div class="cold-md-10">
+                <div id="component-filter-brand"></div>
+            </div>
+        </div>
+    </div>
+
+    <!--排序-->
+    <div id="component-tradeSortGroup" class="sortbox"></div>
 
     <!--卡片-->
     <div id="component-tradeCardList"></div>
 </div>
 
+<!--组件：排序-->
+<link rel="stylesheet" th:href="@{/js/component/SortGroupButton/SortGroupButton.css}"/>
+<script th:src="@{/js/component/SortGroupButton/SortButton.js}"></script>
+<script th:src="@{/js/component/SortGroupButton/SortGroupButton.js}"></script>
+<script th:src="@{/js/component/component.sortGroupButton.js}"></script>
+<!--组件：卡片-->
 <link rel="stylesheet" th:href="@{/js/component/Card/EsteelCard.css}"/>
 <script th:src="@{/js/component/Card/EsteelCard.es2016.js}"></script>
+<!--组件：单选-->
+<link rel="stylesheet" th:href="@{/js/component/RadioBoxGroup/RadioBoxGroup.css}"/>
+<script th:src="@{/js/component/RadioBoxGroup/Radio.js}"></script>
+<script th:src="@{/js/component/RadioBoxGroup/RadioBoxGroup.js}"></script>
+<script th:src="@{/js/component/component.radioBox.js}"></script>
+<!--控制-->
 <script th:src="@{/js/module/trade/trade.list.js}"></script>
 <script th:src="@{/js/module/trade/trade.js}"></script>
 </body>

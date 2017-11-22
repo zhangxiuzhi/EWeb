@@ -1,10 +1,11 @@
 .react-sortGroupButton .btn-group .btn {
-  padding: 6px 12px;
-  background: #fff; }
+  padding: 0px 16px;
+  height: 24px;
+  line-height: 24px;
+  background: #fff;
+  border: 1px solid #dfdfdf; }
 .react-sortGroupButton .btn-group .btn > .icon {
   display: inline-block;
-  width: 16px;
-  height: 16px;
   margin-left: 5px; }
 
 .wzj-ui.react-sortGroupButton .btn-group .btn.asc {

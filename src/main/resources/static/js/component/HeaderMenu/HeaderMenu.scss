@@ -126,6 +126,14 @@
     position:absolute;
     right:0;
     top:0;
+    text-indent: -9999px;
+
+  }
+  .tag.tag-hot{
+    background: url("./tag-hot.png") 0 0 no-repeat;
+  }
+  .tag.tag-new{
+    background: url("./tag-new.png") 0 0 no-repeat;
   }
 
 }

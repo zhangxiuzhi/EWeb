@@ -12,6 +12,7 @@
     <link rel="stylesheet" th:href="@{/jq/growl/jquery.growl.css}"/>
     <link rel="stylesheet" th:href="@{/css/style.css}"/>
     <link rel="stylesheet" th:href="@{/css/ui.css}"/>
+    <link rel="stylesheet" th:href="@{/css/component.ui.css}"/>
 
     <!--js-->
     <script th:src="@{/react/react.js}"></script>
@@ -63,7 +64,7 @@
     <!--search-->
     <div class="header-nav">
         <div class="container">
-            <div class="logo"></div>
+            <div class="logo"><img class="logo" th:src="@{/images/logo.png}"/></div>
             <div class="input-group header-nav-searchbar">
                 <input type="text" class="form-control" placeholder="请输入关键字查询"/>
                 <span class="input-group-btn">

@@ -5,7 +5,8 @@
     position: relative;
     display: inline-block;
     padding: 0px;
-    margin-right: 20px; }
+    margin-right: 20px;
+    vertical-align: top; }
   .react-radioBox .react-radioBox-screenreader-only {
     position: absolute;
     opacity: 0;
@@ -43,7 +44,7 @@
     .react-radioBox .checked .radio .point {
       background: #de211d; }
 
-.wzj-ui.react-radioBox label {
+.react-radioBox.TagStyle label {
   display: block;
   width: 100%;
   text-align: center;
@@ -51,8 +52,9 @@
   top: 0;
   left: 0;
   height: 28px;
-  line-height: 28px; }
-.wzj-ui.react-radioBox .radio {
+  line-height: 28px;
+  font-size: 12px; }
+.react-radioBox.TagStyle .radio {
   position: relative;
   display: inline-block;
   width: 70px;
@@ -64,13 +66,13 @@
   padding: 0;
   margin: 0 5px 0 0;
   vertical-align: bottom; }
-  .wzj-ui.react-radioBox .radio .point {
+  .react-radioBox.TagStyle .radio .point {
     display: none; }
-.wzj-ui.react-radioBox .checked .radio {
+.react-radioBox.TagStyle .checked .radio {
   border: 2px solid #de211d; }
-  .wzj-ui.react-radioBox .checked .radio .point {
+  .react-radioBox.TagStyle .checked .radio .point {
     display: none; }
-.wzj-ui.react-radioBox .checked label {
+.react-radioBox.TagStyle .checked label {
   color: #de211d; }
 
 /*# sourceMappingURL=RadioBoxGroup.css.map */
