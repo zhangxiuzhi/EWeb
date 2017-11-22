@@ -4,6 +4,9 @@ import com.esteel.framework.util.EsteelCacheKeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 /**
  * ESTeel
  * Description:
@@ -18,4 +21,12 @@ public class WebConfig {
     public EsteelCacheKeyGenerator esteelCacheKeyGenerator(){
         return new EsteelCacheKeyGenerator();
     }
+
+
+    @Bean
+    public ExecutorService executorService(){
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        return executorService;
+    }
+
 }
