@@ -47,7 +47,6 @@ dependencies {
 	compile('com.cuisongliu:druid-spring-boot-starter:1.0.31.04')
 	compile('oracle.jdbc:oracle:11.2')
 
-	compile 'org.springframework.hateoas:spring-hateoas:0.23.0.RELEASE'
 
 	compile('com.esteel:framework:1.0-SNAPSHOT')
 

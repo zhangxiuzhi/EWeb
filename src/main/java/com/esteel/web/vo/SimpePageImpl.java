@@ -1,6 +1,7 @@
 package com.esteel.web.vo;
 
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
@@ -109,5 +110,9 @@ public class SimpePageImpl<T> extends PageImpl<T>{
 
     public void setTotal(long total) {
         this.total = total;
+    }
+
+    public Pageable getPageable(){
+        return new PageRequest(this.number,this.size);
     }
 }

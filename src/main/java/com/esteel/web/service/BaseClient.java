@@ -1,14 +1,10 @@
 package com.esteel.web.service;
 
 import com.esteel.framework.vo.BaseQueryVo;
-import com.esteel.web.config.EsteelFeignConfiguration;
 import com.esteel.web.vo.ProvinceVo;
 import com.esteel.web.vo.SimpePageImpl;
 import feign.hystrix.FallbackFactory;
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.hateoas.PagedResources;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,7 +51,6 @@ class BaseClientCallback implements BaseClient {
 
     @Override
     public SimpePageImpl<ProvinceVo> findProvince(BaseQueryVo vo) {
-        System.out.println("99999999999999999999");
         return null;
     }
 
