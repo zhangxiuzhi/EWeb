@@ -1,5 +1,8 @@
 package com.esteel.web.service;
 
+import com.esteel.web.vo.ProvinceVo;
+import org.springframework.data.domain.Page;
+
 /**
  * ESTeel
  * Description:
@@ -9,6 +12,6 @@ package com.esteel.web.service;
  */
 public interface IndexService {
 
-    public String getPort(long portId);
+    public Page<ProvinceVo> getPort(long portId);
 
 }

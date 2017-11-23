@@ -1,9 +1,12 @@
 package com.esteel.web.web;
 
 import com.esteel.web.service.IndexService;
+import com.esteel.web.vo.ProvinceVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * ESTeel
@@ -24,12 +27,14 @@ public class IndexController {
      * @return
      */
     @RequestMapping("/")
-    public String index(){
-        String port = indexService.getPort(1);
+    @ResponseBody
+    public Page<ProvinceVo> index(){
+        return indexService.getPort(1);
+
 //        System.out.println("0000000000000000000");
 //        System.out.println(port);
 //        System.out.println("0000000000000000000");
-        return "index";
+//        return "index";
     }
 
 }

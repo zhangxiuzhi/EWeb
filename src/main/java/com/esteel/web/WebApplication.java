@@ -11,7 +11,7 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 @EnableDiscoveryClient
 @EnableCaching
 @EnableFeignClients
-@EnableHystrix
+//@EnableHystrix
 public class WebApplication {
 
 	public static void main(String[] args) {
