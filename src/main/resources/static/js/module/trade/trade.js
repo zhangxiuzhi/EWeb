@@ -2,6 +2,32 @@
  * 交易大厅-列表
  * Created by wzj on 2017/6/7.
  */
+var filterData_tradeType = [
+    {id: "tradeType-all", text: "全部", value: "all",name:"tradeType"},
+    {id: "tradeType-inStock", text: "港口现货", value: "inStock",name:"tradeType"},
+    {id: "tradeType-future", text: "远期现货", value: "future",name:"tradeType"},
+    {id: "tradeType-pricing", text: "点价", value: "pricing",name:"tradeType"}
+]
+var filterData_tradePort = [
+    {id: "tradeType-all", text: "全部", value: "all",name:"tradeType"},
+    {id: "tradeType-inStock", text: "港口现货", value: "inStock",name:"tradeType"},
+    {id: "tradeType-future", text: "远期现货", value: "future",name:"tradeType"},
+    {id: "tradeType-pricing", text: "点价", value: "pricing",name:"tradeType"}
+]
+var filterData_tradeBrand = [
+    {id: "tradeBrand-all", text: "全部", value: "all",name:"tradeBrand"},
+    {id: "tradeBrand-inStock", text: "60%以下", value: "inStock",name:"tradeBrand"},
+    {id: "tradeBrand-future", text: "60%-62%", value: "future",name:"tradeBrand"},
+    {id: "tradeBrand-pricing", text: "62%-65%", value: "pricing",name:"tradeBrand"}
+]
+var sortData = [
+    {id:"trade",text:"交易量",sort:"none"},
+    {id:"price",text:"价格",sort:"asc"},
+    {id:"number",text:"数量",sort:"asc"}
+]
+
+
+console.log("???",msg)
 
 function JBSFrame_index() {
 
@@ -10,7 +36,9 @@ function JBSFrame_index() {
     //列表
     this.list = null;
     this.status = "";	//状态
-    this.filter = "";	//过滤
+    this.filter_tradeType = null;	//过滤交易类型
+    this.filter_tradePort = null;   //过滤港口
+    this.filter_tradeBrand = null;  //过滤品位
     this.sorter = null; //排序
     this.portArray = [];
 
@@ -23,18 +51,13 @@ function JBSFrame_index() {
 
         //过滤
         //交易类型
-        this.filter_tradeType = ReactDOM.render(React.createElement(ComponentRadioBox, {value:'all',className:"TagStyle"}), document.getElementById("component-filter-tradeType"));
+        this.filter_tradeType = ReactDOM.render(React.createElement(ComponentRadioBox, {value:'all', data:filterData_tradeType, className:"TagStyle"}), document.getElementById("component-filter-tradeType"));
         //港口
-        this.filter_port = ReactDOM.render(React.createElement(ComponentRadioBox, {value:'all',className:"TagStyle"}), document.getElementById("component-filter-port"));
+        this.filter_tradePort = ReactDOM.render(React.createElement(ComponentRadioBox, {value:'all', data:filterData_tradePort, className:"TagStyle"}), document.getElementById("component-filter-tradePort"));
         //品位
-        this.filter_brand = ReactDOM.render(React.createElement(ComponentRadioBox, {value:'all'}), document.getElementById("component-filter-brand"));
+        this.filter_tradeBrand = ReactDOM.render(React.createElement(ComponentRadioBox, {value:'all', data:filterData_tradeBrand, className:"TagStyle"}), document.getElementById("component-filter-tradeBrand"));
 
         //排序
-        var sortData = [
-            {id:"trade",text:"交易量",sort:"none"},
-            {id:"price",text:"价格",sort:"asc"},
-            {id:"number",text:"数量",sort:"asc"}
-        ]
         this.sorter = ReactDOM.render(React.createElement(ComponentSortGroupButton, {data:sortData,onChange:this.reloadList}), document.getElementById("component-tradeSortGroup"));
 
         //卡片展示

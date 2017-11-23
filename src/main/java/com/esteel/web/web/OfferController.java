@@ -14,9 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class OfferController {
 
-    @RequestMapping("/add")
-    public String addUI(){
-        return "/offer/add";
+    @RequestMapping("/addOffer")
+    public String addOfferUI(){
+        return "/offer/addOffer";
+    }
+    
+    @RequestMapping("/myOffer")
+    public String myOfferUI(){
+        return "/offer/myOffer";
     }
 
 }

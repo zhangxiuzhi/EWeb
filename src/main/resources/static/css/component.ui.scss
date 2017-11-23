@@ -657,11 +657,13 @@ adioBoxGroup
 .react-radioBox.TagStyle {
   label{
     font-size: 14px !important;
-    height: 18px !important;
-    line-height:18px !important;
+    height: 20px !important;
+    line-height:20px !important;
     padding:0 4px !important;
     position: relative !important;
     border:1px solid #f6f6f6;
+    font-weight: normal;
+    color: #5e5e5e;
   }
   .radio {
     border: none !important;
@@ -677,6 +679,9 @@ adioBoxGroup
     label{
       color:#de211d;
       border:1px solid $color-theme;
+      -moz-border-radius:2px;
+      -webkit-border-radius:2px;
+      border-radius:2px;
     }
   }
 }
