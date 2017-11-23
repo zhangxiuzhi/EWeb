@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+
+</head>
+<body>
+
+<div class="sidebar"  th:fragment="sidebar">
+    <div class="sidebar-header user-info">
+        <div class="u-img">
+            <span class="ui-mask"></span>
+            <img th:src="@{/images/logo.png}"/>
+        </div>
+        <div id="assetUserName" class="u-name">上海点钢电子商务</div>
+    </div>
+    <div class="sidebar-content">
+        <div class="nav-main">
+            <div id="component-sidebar"></div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

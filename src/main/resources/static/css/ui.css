@@ -201,16 +201,16 @@ a {
   clear: both; }
 
 .form-group .control-label {
-  color: #6d7b82; }
+  color: #787878;
+  font-weight: normal; }
 .form-group .form-control,
 .form-group .form-control-static {
   width: 100%;
   height: auto;
   padding: 6px 15px;
-  line-height: 30px;
-  padding-right: 15px;
+  line-height: 28px;
   font-size: 14px;
-  border-color: #ccc;
+  border-color: #e4e4e4;
   -webkit-box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.075);
   -moz-box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.075);
   box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.075); }
@@ -265,7 +265,7 @@ a {
 /*标签嵌入输入框*/
 .form-subline {
   position: relative;
-  border: 1px solid #ccc;
+  border: 1px solid #e4e4e4;
   border-radius: 2px;
   margin-bottom: 15px;
   min-height: 42px; }
@@ -305,7 +305,7 @@ a {
     border-radius: 0;
     background: none; }
   .form-subline .input-group-btn {
-    border-left: 1px solid #ccc;
+    border-left: 1px solid #e4e4e4;
     height: 100%; }
   .form-subline .input-group-btn .btn {
     padding: 6px 15px;
@@ -500,7 +500,7 @@ a {
   .table > thead > tr > th {
     border: none !important;
     background: #fff !important;
-    color: #6d7b82;
+    color: #787878;
     font-weight: bold; }
   .table > tbody + tbody {
     border-top: none !important; }
@@ -587,7 +587,7 @@ select
   padding-top: 300px; }
   .page404 h4 {
     font-size: 22px;
-    color: #6d7b82;
+    color: #787878;
     text-align: center; }
   .page404 p {
     margin-top: 20px;

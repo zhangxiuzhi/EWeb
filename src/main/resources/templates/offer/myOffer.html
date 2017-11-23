@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="./fragments/frontCode" />
+
+<body class="member">
+<!--页头，菜单-->
+<div class="header">
+    <div th:replace="fragments/head::topbar"></div>
+    <div th:replace="fragments/head::header-nav-simple"></div>
+</div>
+
+
+<!--内容-->
+<div class="main">
+    <div class="container">
+        <div class="sidebar">
+            <div class="sidebar-header"></div>
+            <div class="sidebar-content">
+                <div class="nav-main">
+                    <div id="component-sidebar"></div>
+                </div>
+            </div>
+
+        </div>
+        <div class="content">
+        </div>
+    </div>
+</div>
+
+<!--组件：侧栏菜单-->
+<script th:src="@{/js/component/component.Sidebar.js}"></script>
+<script th:src="@{/js/component/Sidebar/SNode.js}"></script>
+<script th:src="@{/js/component/Sidebar/Sidebar.js}"></script>
+<!--控制-->
+<script th:src="@{/js/module/offer/myOffer.js}"></script>
+</body>
+</html>

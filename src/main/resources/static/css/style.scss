@@ -392,6 +392,7 @@ header
   }
 }
 
+
 /*--------------------------------------
 顶部链接
 ------------------------------------------*/
@@ -436,6 +437,7 @@ logo
     height:36px;
   }
 }
+
 /*--------------------------------------
 搜索
 ------------------------------------------*/
@@ -478,9 +480,11 @@ logo
     }
   }
 }
+
+
 /*--------------------------------------
-我要报盘，我要招标
-------------------------------------------*/
+ 我要报盘，我要招标
+ ------------------------------------------*/
 .header-nav-btn{
   position: relative;
   float: right;
@@ -527,14 +531,281 @@ filterbox
   .filterbox-label{
     color: #a5a5a5;
     width: 90px;
+    padding-right:24px;
     text-align: right;
     font-weight: normal;
   }
-  .form-group .form-control{
+}
 
+
+
+/*--------------------------------------
+会员中心:我的铁矿，我的钢材
+侧栏展示
+sidebar
+------------------------------------------*/
+body.member{
+  .header>.topbar {
+    background: #fff;
+    border:none;
+  }
+  /*会员中心使用*/
+  .header-nav{
+    height:70px;
+    padding:17px 0;
+    border-bottom:1px solid #e7e7e7;
+
+    //搜索框
+    .input-group.header-nav-searchbar{
+      float: right;
+      width:302px;
+      margin-left: 0px;
+      .form-control{
+        border:1px solid #dfdfdf;
+        width: 220px;
+      }
+      .input-group-btn{
+        .btn{
+          height:36px;
+          font-size: 14px;
+          width:74px;
+          border: 1px solid  #dfdfdf;
+          background: #f9f9f9;
+          color:#5a5a5a;
+        }
+      }
+    }
+
+    //2个快捷按钮，我要报盘，我要招标
+    .header-nav-btn{
+      display: none;
+    }
+  }
+
+  /*主导航菜单*/
+  .main-nav{
+    display: none;
+  }
+
+  /*内容容器*/
+  .main{
+    background-color: #f9f9f9;
+    -webkit-font-smoothing: antialiased;
+    .container{
+      position: relative;
+    }
   }
 }
+
+/*侧栏*/
+.sidebar{
+  position:absolute;
+  left:0;
+  top:0;
+  width:209px;
+  height:100%;
+  background-color: #eaedf4;
+  border-right: 1px solid #d5d9e2;
+  -moz-box-shadow: -1px 1px 6px rgba(0,0,0,.25);
+  -webkit-box-shadow: -1px 1px 6px rgba(0,0,0,.25);
+  box-shadow: -1px 1px 6px rgba(0,0,0,.25);
+}
+.sidebar .sidebar-header{
+  height:190px;
+  min-height: 175px;
+  text-align: center;
+  padding: 18px 10px 0;
+  border-bottom: 1px solid #d8dce5;
+}
+.sidebar .sidebar-content{
+
+}
+
+/*用户信息*/
+.user-info{
+
+  .u-img{
+    position: relative;
+    height:128px;
+    .ui-mask{
+      position: absolute;
+      top: -8px;
+      left: 22px;
+      width:144px;
+      height:144px;
+      background: url(/images/member-portrait.png) 0 0 no-repeat;
+    }
+    img{
+      width: 128px;
+      height: 128px;
+      border-radius: 50%;
+    }
+  }
+  .u-name{
+    height: 24px;
+    color: #474e5d;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 24px;
+    margin-top: 5px;
+  }
+}
+
+/*菜单栏*/
+.nav-main{
+  min-height: 440px;
+  margin-top: -1px;
+  padding-bottom: 13px;
+}
+.nav-main .nav-list li {
+ /* height: 44px;
+  line-height: 44px;*/
+  list-style: none;
+}
+.nav-main .nav-list li >a {
+  position: relative;
+  padding-left: 46px;
+  height: 28px;
+  line-height: 28px;
+  display: block;
+  font-size: 16px;
+  color: #505254;
+}
+.nav-main .nav-list li >a.selected{
+  width: 209px;
+  border-top: 1px solid #ced4e0;
+  border-bottom: 1px solid #ced4e0;
+  border-right: 1px solid #fff;
+  background-color: #fff;
+}
+
+/*一级*/
+.nav-main .nav-list > li{padding:10px 0;}
+/*二级*/
+.nav-main .nav-list > li >ul li a{
+  height: 34px;
+  line-height: 34px;
+  font-size: 14px;
+}
+.nav-main .nav-list > li > ul > li >a:before{
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  right: 15px;
+  display: inline-block;
+  font-family: 'FontAwesome';
+  content: "\F105";
+}
+
+
+/*内容容器*/
+.content{
+  -moz-box-shadow: 3px 3px 2px rgba(0,0,0,.04);
+  -webkit-box-shadow: 3px 3px 2px rgba(0,0,0,.04);
+  box-shadow: 3px 3px 2px rgba(0,0,0,.04);
+  position: relative;
+  min-height: 1000px;
+  _height: 1000px;
+  z-index: 20;
+  margin-left: 209px;
+  background-color: #fff;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.content .userContent{
+  padding:0 40px 0 70px;
+}
+
+/*报盘分类*/
+.type-title{
+  position: relative;
+  padding:30px 0 40px;
+}
+.type-title .t-title{
+  color: #474e5d;
+  font-size: 14px;
+  font-weight: 700;
+  border-bottom: 2px solid #ced4e0;
+}
+.type-title .t-title a{
+  position: relative;
+  display: inline-block;
+  padding:0 0px;
+  width:111px;
+  height:40px;
+  line-height: 40px;
+  text-align: center;
+  &:hover,
+  &:focus,
+  &:active{
+    text-decoration: none;
+  }
+}
+.type-title .t-title a.selected{
+  color:#de211d;
+}
+.type-title .t-title a.selected:after{
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: #de211d;
+  left: 0;
+  bottom: -2px;
+}
+.type-title  .t-t-line {
+  margin: 0 0px;
+  color: #ced4e0;
+}
+
+.box-container{
+  border:1px solid #ccc;
+  padding:15px 10px 0px 10px;
+  margin-bottom: 15px;
+}
+
 
 /*--------------------------------------
 
 ------------------------------------------*/
+/*报盘内容分割*/
+.offer-content-slicer{
+  position: relative;
+  height: 30px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #c2c2c2;
+
+  .slicer-text{
+    position: absolute;
+    bottom:-13px;
+    left: 50%;
+    margin-left:-100px;
+    color:$color-theme;
+    text-align: center;
+    min-width:200px;
+    font-size: 12px;
+    background: #fff;
+  }
+}
+
+/*报盘条款内本文框*/
+.offer-rule.form-horizontal>.form-group {
+  color: $color-label;
+  line-height: 30px;
+  .control-label{
+    padding-top:0
+  }
+  .offer-rule-f-c{
+    margin:0 3px;
+    width:100px;
+    border:none;
+    border-bottom:1px solid $color-border;
+    &:focus{
+      border-color:$color-border-light;
+      outline: none;
+    }
+  }
+}
+

@@ -1,10 +1,10 @@
 /**
  * Created by wzj on 2017/10/31.
- *	发布报盘
+ *	我的报盘
  */
 
 
-function JBSFrame_addOffer() {
+function JBSFrame_myOffer() {
 	JBSFrame.call(this);
 
 	this.sidebar = null;//侧栏菜单
@@ -12,7 +12,7 @@ function JBSFrame_addOffer() {
 	//初始化UI
 	this.initUI = function () {
 
-		this.sidebar = ReactDOM.render(React.createElement(ComponentSidebar,{focusNode:{name:"addOffer",text:"发布报盘"}}), document.getElementById("component-sidebar"));
+		this.sidebar = ReactDOM.render(React.createElement(ComponentSidebar,{focusNode:{name:"addOffer",text:"报盘记录"}}), document.getElementById("component-sidebar"));
 	}
 
 	//初始化路由
@@ -51,12 +51,12 @@ function JBSFrame_addOffer() {
 /*
  //body load
  --------------------------------------------------------------------*/
-var esteel_addOffer;
+var esteel_myOffer;
 $(document).ready(function (e) {
-	esteel_addOffer = new JBSFrame_addOffer();
+	esteel_myOffer = new JBSFrame_myOffer();
 	//初始化UI
-	esteel_addOffer.initUI();
+	esteel_myOffer.initUI();
 	//初始化路由
-	esteel_addOffer.initRouter();
+	esteel_myOffer.initRouter();
 });
 
