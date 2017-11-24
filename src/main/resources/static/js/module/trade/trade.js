@@ -27,8 +27,6 @@ var sortData = [
 ]
 
 
-console.log("???",msg)
-
 function JBSFrame_index() {
 
     JBSFrame.call(this);
