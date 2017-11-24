@@ -129,7 +129,7 @@
       content: "\f05a";
       margin-right: 5px;
       font-size: 16px;
-      color: #6d7b82; }
+      color: #787878; }
   .table.orderTable > tbody.tbody-outOfDate > tr > td {
     border-color: #e8e8e8; }
   .table.orderTable > tbody.tbody-outOfDate > tr.tr-th > td {
@@ -485,19 +485,19 @@ adioBoxGroup
 单选过滤组
 -------------------------------------------------*/
 .react-radioBox.TagStyle label {
-  font-size: 14px !important;
-  height: 20px !important;
-  line-height: 20px !important;
-  padding: 0 4px !important;
-  position: relative !important;
+  font-size: 14px;
+  height: 20px;
+  line-height: 20px;
+  padding: 0 4px;
+  position: relative;
   border: 1px solid #f6f6f6;
   font-weight: normal;
   color: #5e5e5e; }
 .react-radioBox.TagStyle .radio {
-  border: none !important;
-  width: auto !important;
-  height: auto !important;
-  display: none !important; }
+  border: none;
+  width: auto;
+  height: auto;
+  display: none; }
 .react-radioBox.TagStyle .checked .radio {
   border: none !important;
   display: none; }
@@ -521,5 +521,16 @@ sortGroupButton
   background: url(../images/trade-option.png) 0 -9px no-repeat; }
 .react-sortGroupButton .btn-group > .btn > .icon.none {
   display: none; }
+
+/*-------------------------------------------------
+react-selectbox
+下拉框
+-------------------------------------------------*/
+/*-------------------------------------------------
+react-toggle
+开关
+-------------------------------------------------*/
+.react-toggle--checked .toggle-track {
+  background-color: #de211d; }
 
 /*# sourceMappingURL=component.ui.css.map */

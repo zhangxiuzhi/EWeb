@@ -17,7 +17,6 @@ class RadioBox extends React.Component {
 
 	//选择切换后
 	handleChange(event) {
-		console.log(event.target);
 		this.setState({
 			currentValue: event.target.value
 		});

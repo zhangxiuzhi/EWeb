@@ -357,8 +357,9 @@ class SelectBox extends React.Component {
 
 }
 
+/*
 SelectBox.propTypes = {
 	className: Protypes.string,
 	filter: Protypes.bool, //可模糊搜索
 	onChange: Protypes.func //	自定义回调
-};
+};*/

@@ -775,6 +775,19 @@ body.member{
 /*--------------------------------------
 
 ------------------------------------------*/
+/*报盘指标类型*/
+.offerKpi{
+  padding-top:7px;
+}
+/*报盘指标输入框*/
+.offer-kip-table{
+  width: 500px;
+  th{ font-weight: normal; text-align: center; color: $color-label;}
+  td{padding:0 2px;}
+  td>input[type=text]{
+    text-align: center;
+  }
+}
 /*报盘内容分割*/
 .offer-content-slicer{
   position: relative;
