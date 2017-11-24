@@ -8,11 +8,17 @@ function JBSFrame_addOffer() {
 	JBSFrame.call(this);
 
 	this.sidebar = null;//侧栏菜单
+	this.select_ItemName = null;//品名
 
 	//初始化UI
 	this.initUI = function () {
 
+		//主菜单栏
+		//当前选中发布报盘
 		this.sidebar = ReactDOM.render(React.createElement(ComponentSidebar,{focusNode:{name:"addOffer",text:"发布报盘"}}), document.getElementById("component-sidebar"));
+
+		//品名下拉
+		//this.select_ItemName = ReactDOM.render(React.createElement(ComponentSelectBox,{}), document.getElementById("component-selectBox-ItemName"));
 	}
 
 	//初始化路由

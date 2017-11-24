@@ -501,6 +501,11 @@ logo
     border-radius: 2px;
     text-align: center;
     margin-left: 15px;
+    &:hover{
+      background: $color-theme;
+      color:#fff;
+      border-color:$color-theme;
+    }
   }
 }
 
@@ -808,9 +813,11 @@ body.member{
     }
   }
 }
-.offer-rule>.form-group{
+.offer-rule-buttons{
+  text-align: center;
   .btn{
     width: 120px;
+    margin: 0 20px;
   }
 }
 

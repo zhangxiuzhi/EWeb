@@ -416,6 +416,11 @@ logo
     border-radius: 2px;
     text-align: center;
     margin-left: 15px; }
+    .header-nav-btn .btn.btn-addOffer:hover,
+    .header-nav-btn .btn.btn-addBid:hover {
+      background: #de211d;
+      color: #fff;
+      border-color: #de211d; }
 
 /*--------------------------------------
 sortbox
@@ -671,7 +676,10 @@ body.member {
       border-color: #aaa;
       outline: none; }
 
-.offer-rule > .form-group .btn {
-  width: 120px; }
+.offer-rule-buttons {
+  text-align: center; }
+  .offer-rule-buttons .btn {
+    width: 120px;
+    margin: 0 20px; }
 
 /*# sourceMappingURL=style.css.map */
