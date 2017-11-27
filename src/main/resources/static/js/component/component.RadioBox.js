@@ -27,7 +27,7 @@ class ComponentRadioBox extends React.Component{
 	}
 
 	render(){
-		const datas = this.state.data;
+		const datas = this.props.data;
 
 		return React.createElement(RadioBox,{data:datas,className:this.props.className, value:this.props.value, onChange:this.onChange});
 

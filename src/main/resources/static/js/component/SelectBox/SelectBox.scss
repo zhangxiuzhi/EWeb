@@ -4,7 +4,7 @@
 
 .react-selectbox{
   position:relative;
-  width:240px;
+  width:100%;
   display:inline-block;
   -moz-box-shadow:0 0 2px rgba(0,0,0,0.3);
   -webkit-box-shadow:0 0 2px rgba(0,0,0,0.3);
@@ -12,23 +12,24 @@
 
   /*按钮点击项*/
   .react-selectbox-button{
-    padding:15px 0;
+    padding:0px 0;
     display: inline-block;
     width: 100%;
+    line-height: 28px;
     border:none;
     background-color: transparent;
     &:before{
       content:"";
       position:absolute;
       right:35px;
-      top:15px;
+      top:10px;
       height:20px;
       border-right:1px solid #ddd;
     }
     &:after{
       content:"";
       position:absolute;
-      top:23px;
+      top:16px;
       right:15px;
       border-top: 6px solid #999;
       border-right: 5px solid #fff;
@@ -37,12 +38,13 @@
     }
     .react-selectbox-btn-label{
       text-align: left;
-      padding:0 40px 0 20px;
+      padding:6px 40px 6px 15px;
+      min-height:32px;
       white-space: nowrap;
       overflow: hidden;
       .react-selectbox-label-tag{
         display: inline-block;
-        padding:2px 8px;
+        padding:0px 8px;
         border-radius:3px;
         background:#518BFF ;
         margin:0 3px 0 0;
@@ -56,9 +58,9 @@
     position: absolute;
     width:20px;
     height:20px;
-    top:15px;
+    top:10px;
     right:15px;
-    border-radius: 40%;
+    border-radius: 50%;
     background: #eee;
     cursor:pointer;
     &:before{
@@ -85,7 +87,7 @@
       width: 100%;
       background: transparent;
       border: none;
-      padding: 15px 40px 15px 20px;
+      padding: 6px 40px 6px 20px;
 
       &:focus,
       &.hasSearchValue{
@@ -106,6 +108,7 @@
     -moz-box-shadow:0 0 2px rgba(0,0,0,0.3);
     -webkit-box-shadow:0 0 2px rgba(0,0,0,0.3);
     box-shadow:0 0 2px rgba(0,0,0,0.3);
+    z-index:99;
 
     //如果选项超过6个，固定高度并带滚动条
     &.react-selectbox-moreOpt{

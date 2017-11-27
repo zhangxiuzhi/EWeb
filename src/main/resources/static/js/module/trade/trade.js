@@ -9,10 +9,13 @@ var filterData_tradeType = [
     {id: "tradeType-pricing", text: "点价", value: "pricing",name:"tradeType"}
 ]
 var filterData_tradePort = [
-    {id: "tradeType-all", text: "全部", value: "all",name:"tradeType"},
-    {id: "tradeType-inStock", text: "港口现货", value: "inStock",name:"tradeType"},
-    {id: "tradeType-future", text: "远期现货", value: "future",name:"tradeType"},
-    {id: "tradeType-pricing", text: "点价", value: "pricing",name:"tradeType"}
+    {id: "tradePort-all", text: "全部", value: "all",name:"tradePort"},
+    {id: "tradePort-qd", text: "青岛港", value: "qd",name:"tradePort"},
+    {id: "tradePort-ly", text: "连云港", value: "ly",name:"tradePort"},
+    {id: "tradePort-dl", text: "大连港", value: "dl",name:"tradePort"},
+    {id: "tradePort-jt", text: "京唐港", value: "jt",name:"tradePort"},
+    {id: "tradePort-tj", text: "天津港", value: "tj",name:"tradePort"},
+    {id: "tradePort-rz", text: "日照港", value: "rz",name:"tradePort"}
 ]
 var filterData_tradeBrand = [
     {id: "tradeBrand-all", text: "全部", value: "all",name:"tradeBrand"},

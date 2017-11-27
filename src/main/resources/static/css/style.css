@@ -416,6 +416,11 @@ logo
     border-radius: 2px;
     text-align: center;
     margin-left: 15px; }
+    .header-nav-btn .btn.btn-addOffer:hover,
+    .header-nav-btn .btn.btn-addBid:hover {
+      background: #de211d;
+      color: #fff;
+      border-color: #de211d; }
 
 /*--------------------------------------
 sortbox
@@ -639,6 +644,22 @@ body.member {
 /*--------------------------------------
 
 ------------------------------------------*/
+/*报盘指标类型*/
+.offerKpi {
+  padding-top: 7px; }
+
+/*报盘指标输入框*/
+.offer-kip-table {
+  width: 500px; }
+  .offer-kip-table th {
+    font-weight: normal;
+    text-align: center;
+    color: #6d7b82; }
+  .offer-kip-table td {
+    padding: 0 2px; }
+  .offer-kip-table td > input[type=text] {
+    text-align: center; }
+
 /*报盘内容分割*/
 .offer-content-slicer {
   position: relative;
@@ -671,7 +692,10 @@ body.member {
       border-color: #aaa;
       outline: none; }
 
-.offer-rule > .form-group .btn {
-  width: 120px; }
+.offer-rule-buttons {
+  text-align: center; }
+  .offer-rule-buttons .btn {
+    width: 120px;
+    margin: 0 20px; }
 
 /*# sourceMappingURL=style.css.map */

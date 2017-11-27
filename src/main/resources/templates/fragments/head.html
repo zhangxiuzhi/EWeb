@@ -11,7 +11,7 @@
     <div class="topbar"  th:fragment="topbar">
         <div class="container">
             <ul class="topbar-left">
-                <li><a><span class="fa fa-home"></span>点钢首页</a></li>
+                <li><a href="/"><span class="fa fa-home"></span>点钢首页</a></li>
             </ul>
             <ul class="topbar-right">
                 <li>你好，请登录</li>
@@ -30,7 +30,7 @@
     <!--search-->
     <div class="header-nav">
         <div class="container">
-            <div class="logo"><img class="logo" th:src="@{/images/logo.png}"/></div>
+            <div class="logo"><a href="/"><img class="logo" th:src="@{/images/logo.png}"/></a></div>
             <div class="input-group header-nav-searchbar">
                 <input type="text" class="form-control" placeholder="请输入关键字查询"/>
                 <span class="input-group-btn">
