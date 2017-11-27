@@ -768,7 +768,19 @@ body.member{
 .box-container{
   border:1px solid #ccc;
   padding:15px 10px 0px 10px;
+  position: relative;
   margin-bottom: 15px;
+  .box-container-title{
+    background: #fff;
+    width: 100px;
+    height: 30px;
+    border-bottom: 1px solid #ccc;
+    border-right:1px solid #ccc;
+    margin-left: -11px;
+    margin-top: -16px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
 }
 
 
@@ -858,9 +870,19 @@ body.member{
       outline: none;
     }
   }
+  select.form-control{
+    border: none;
+    border-bottom: 1px solid #ccc;
+    display: inline-block;
+    width: 100px;
+    border-radius: 0;
+    box-shadow: none;
+    text-align: center;
+  }
 }
 .offer-rule-buttons{
   text-align: center;
+  margin-top: 15px;
   .btn{
     width: 120px;
     margin: 0 20px;

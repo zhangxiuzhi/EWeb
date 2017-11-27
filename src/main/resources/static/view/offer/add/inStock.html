@@ -8,7 +8,6 @@
             </div>
         </div>
 
-
         <div class="form-group">
             <label class="col-sm-2 control-label">*品名</label>
             <div class="col-sm-4">
@@ -136,19 +135,37 @@
     <div class="form-group">
         <label class="col-sm-2 control-label">交货方式</label>
         <div class="col-sm-10">
-            <input class="offer-rule-f-c"/>（港口）<input class="offer-rule-f-c"/>（交货方式）交货
+            <input class="offer-rule-f-c" id="offer-rules-port1"/>（港口）
+            <select class="form-control" name="checkModeWay" data-validetta="true">
+                <option value=""></option>
+                <option value="0">汽车车板</option>
+                <option value="1">火车车板</option>
+                <option value="2">二程船舱底</option>
+                <option value="3">堆场</option>
+            </select>（计价方式）交货
         </div>
     </div>
     <div class="form-group">
         <label class="col-sm-2 control-label">交货数量标准</label>
         <div class="col-sm-10">
-            以<input class="offer-rule-f-c"/>（港口）<input class="offer-rule-f-c"/>数量为准
+            以<input class="offer-rule-f-c" id="offer-rules-port2"/>（港口）
+            <select class="form-control" name="checkNum" data-validetta="true">
+                <option value=""></option>
+                <option value="0">过磅</option>
+                <option value="1">港航交接</option>
+                <option value="2">轨道衡</option>
+                <option value="3">皮带秤</option>
+            </select>（计量方式）数量为准
         </div>
     </div>
     <div class="form-group">
         <label class="col-sm-2 control-label">货物规格标准</label>
         <div class="col-sm-10">
-            以<input class="offer-rule-f-c"/>检测结果作为结算依据。
+            以<select class="form-control" name="" data-validetta="true">
+                <option value=""></option>
+                <option value="0">卖方</option>
+                <option value="1">买方</option>
+            </select>检测结果作为结算依据。
         </div>
     </div>
     <div class="form-group">

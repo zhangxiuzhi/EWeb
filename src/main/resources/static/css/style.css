@@ -639,7 +639,18 @@ body.member {
 .box-container {
   border: 1px solid #ccc;
   padding: 15px 10px 0px 10px;
+  position: relative;
   margin-bottom: 15px; }
+  .box-container .box-container-title {
+    background: #fff;
+    width: 100px;
+    height: 30px;
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    margin-left: -11px;
+    margin-top: -16px;
+    text-align: center;
+    margin-bottom: 20px; }
 
 /*--------------------------------------
 
@@ -719,9 +730,18 @@ body.member {
     .offer-rule.form-horizontal > .form-group .offer-rule-f-c:focus {
       border-color: #aaa;
       outline: none; }
+  .offer-rule.form-horizontal > .form-group select.form-control {
+    border: none;
+    border-bottom: 1px solid #ccc;
+    display: inline-block;
+    width: 100px;
+    border-radius: 0;
+    box-shadow: none;
+    text-align: center; }
 
 .offer-rule-buttons {
-  text-align: center; }
+  text-align: center;
+  margin-top: 15px; }
   .offer-rule-buttons .btn {
     width: 120px;
     margin: 0 20px; }
