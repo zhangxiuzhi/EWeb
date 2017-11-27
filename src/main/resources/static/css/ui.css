@@ -217,6 +217,8 @@ a {
   .form-group .form-control:focus,
   .form-group .form-control-static:focus {
     border-color: #aaa; }
+.form-group select.form-control {
+  height: 40px; }
 
 /*水平排列标签*/
 .form-horizontal .form-group .control-label,

@@ -71,12 +71,24 @@ function JBSFrame_addOffer() {
 		if($1ship2goods.length>0){
 			this.toggle_1ship2goods = ReactDOM.render(React.createElement(ComponentToggle,{inputName:$1ship2goods.attr("inputName")}), $1ship2goods[0]);
 		}
+		//商品1品名下拉
+		var $ItemName1 = $("#component-selectBox-ItemName-1");
+		if($ItemName1.length>0){
+			this.selectBox_ItemName = ReactDOM.render(React.createElement(ComponentSelectBox,{inputName:$ItemName1.attr("inputName")}), $ItemName1[0]);
+		}
+		//商品2品名下拉
+		var $ItemName2 = $("#component-selectBox-ItemName-2");
+		if($ItemName2.length>0){
+			this.selectBox_ItemName = ReactDOM.render(React.createElement(ComponentSelectBox,{inputName:$ItemName2.attr("inputName")}), $ItemName2[0]);
+		}
 		//报税区
 		var $bondedAreas = $("#component-radioBoxGroup-bondedAreas");
 		if($bondedAreas.length>0){
 			this.toggle_bondedAreas = ReactDOM.render(React.createElement(ComponentToggle,{inputName:$bondedAreas.attr("inputName")}), $bondedAreas[0]);
 		}
 
+		//加载品名
+		load_tbPricingCommodityList();
 		//加载港口
 		load_portList();
 	}
@@ -116,10 +128,77 @@ function JBSFrame_addOffer() {
 	}
 
 
-
-
-
 	var self = this
+
+	/*---------------------------------------------------------------------------------------------------------------------------*/
+	//加载品名
+	function load_tbPricingCommodityList(){
+
+	}
+
+	//加载港口列表
+	function load_portList() {
+		esteel_addOffer.ajaxRequest({
+			url: "pricing/pricingPort"
+		}, function (data, msg) {
+			//港口
+			var $shipmentportKey = $("#component-shipmentportKey");
+			var select_shipmentport = ReactDOM.render(React.createElement(InputGroupSelect, {
+				data: data,
+				multiple: "false,",
+				class: "form-group",
+				formLabel: $shipmentportKey.attr("label"),
+				formName: $shipmentportKey.attr("name")
+			}), $shipmentportKey[0]);
+
+			//交易规则-交货方式港口
+			$("#offer-rules-port1").autocomplete({
+				source: function (request, response) {
+					var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
+					response($.grep(data, function (item) {
+						return matcher.test(item.text) ||
+							matcher.test(item.value);
+					}));
+				},
+				select: function (event, ui) {
+					$("#offer-rules-port1").val(ui.item.text);
+					$("input[name='checkModePort']").val(ui.item.value);
+					return false;
+				}
+			}).data("ui-autocomplete")._renderItem = function (ul, item) {
+				return $("<li>")
+				.data("item.autocomplete", item)
+				.append($("<a></a>").text(item.text))
+				.appendTo(ul);
+			}
+
+
+			//交易规则-交货数量标准港口
+			$("#offer-rules-port2").autocomplete({
+				source: function (request, response) {
+					var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
+					response($.grep(data, function (item) {
+						return matcher.test(item.text) ||
+							matcher.test(item.value);
+					}));
+				},
+				select: function (event, ui) {
+					$("#offer-rules-port2").val(ui.item.text);
+					$("input[name='checkNumPort']").val(ui.item.value);
+					return false;
+				},
+				search: function (event, ui) {
+					console.log("search")
+				}
+			}).data("ui-autocomplete")._renderItem = function (ul, item) {
+				return $("<li>")
+				.data("item.autocomplete", item)
+				.append($("<a></a>").text(item.text))
+				.appendTo(ul);
+			};
+
+		})
+	}
 }
 
 /*
@@ -150,66 +229,3 @@ function submit_offer(){
 
 
 
-//加载港口列表
-function load_portList() {
-	esteel_addOffer.ajaxRequest({
-		url: "pricing/pricingPort"
-	}, function (data, msg) {
-		//港口
-		var $shipmentportKey = $("#component-shipmentportKey");
-		var select_shipmentport = ReactDOM.render(React.createElement(InputGroupSelect, {
-			data: data,
-			multiple: "false,",
-			class: "form-group",
-			formLabel: $shipmentportKey.attr("label"),
-			formName: $shipmentportKey.attr("name")
-		}), $shipmentportKey[0]);
-
-		//交易规则-交货方式港口
-		$("#offer-rules-port1").autocomplete({
-			source: function (request, response) {
-				var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
-				response($.grep(data, function (item) {
-					return matcher.test(item.text) ||
-						matcher.test(item.value);
-				}));
-			},
-			select: function (event, ui) {
-				$("#offer-rules-port1").val(ui.item.text);
-				$("input[name='checkModePort']").val(ui.item.value);
-				return false;
-			}
-		}).data("ui-autocomplete")._renderItem = function (ul, item) {
-			return $("<li>")
-			.data("item.autocomplete", item)
-			.append($("<a></a>").text(item.text))
-			.appendTo(ul);
-		}
-
-
-		//交易规则-交货数量标准港口
-		$("#offer-rules-port2").autocomplete({
-			source: function (request, response) {
-				var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
-				response($.grep(data, function (item) {
-					return matcher.test(item.text) ||
-						matcher.test(item.value);
-				}));
-			},
-			select: function (event, ui) {
-				$("#offer-rules-port2").val(ui.item.text);
-				$("input[name='checkNumPort']").val(ui.item.value);
-				return false;
-			},
-			search: function (event, ui) {
-				console.log("search")
-			}
-		}).data("ui-autocomplete")._renderItem = function (ul, item) {
-			return $("<li>")
-			.data("item.autocomplete", item)
-			.append($("<a></a>").text(item.text))
-			.appendTo(ul);
-		};
-
-	})
-}

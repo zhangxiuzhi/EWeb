@@ -291,6 +291,9 @@ a {
       border-color:$color-border-light;
     }
   }
+  select.form-control{
+    height:40px;
+  }
 }
 /*水平排列标签*/
 .form-horizontal .form-group .control-label,
