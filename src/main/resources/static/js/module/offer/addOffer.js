@@ -29,6 +29,14 @@ function JBSFrame_addOffer() {
 
 	//渲染表单元素
 	this.renderFormElement = function(){
+		//白名单
+		var $TradeCustomer = $("#component-TradeCustomer");
+		var TradeCustomer_data = {
+			orgList:[],
+			curList:[]
+		}
+		this.select_TradeCustomer = ReactDOM.render(React.createElement(ComponentEsteelMultiSelect,{inputName:$TradeCustomer.attr("inputName"),data:TradeCustomer_data}), $TradeCustomer[0]);
+
 		//品名下拉
 		var $ItemName = $("#component-selectBox-ItemName");
 		this.selectBox_ItemName = ReactDOM.render(React.createElement(ComponentSelectBox,{inputName:$ItemName.attr("inputName")}), $ItemName[0]);
