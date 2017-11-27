@@ -48,7 +48,7 @@ dependencies {
 	compile('oracle.jdbc:oracle:11.2')
 
 
-	compile('com.esteel:framework:1.0-SNAPSHOT')
+	compile('com.esteel:Common:1.0.0-SNAPSHOT')
 
 
 	runtime('org.springframework.boot:spring-boot-devtools')

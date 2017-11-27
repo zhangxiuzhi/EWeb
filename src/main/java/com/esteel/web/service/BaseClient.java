@@ -1,8 +1,9 @@
 package com.esteel.web.service;
 
-import com.esteel.framework.vo.BaseQueryVo;
+import com.esteel.common.vo.BaseQueryVo;
+import com.esteel.common.vo.SimpePageImpl;
 import com.esteel.web.vo.ProvinceVo;
-import com.esteel.web.vo.SimpePageImpl;
+
 import feign.hystrix.FallbackFactory;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.stereotype.Component;
@@ -22,7 +23,7 @@ import java.util.List;
  *
  */
 //,url = "http://127.0.0.1:9000"
-@FeignClient(name = "Base",fallbackFactory = BaseClientFallbackFactory.class ,path = "${esteel.language}")
+@FeignClient(name = "Base",fallback = BaseClientCallback.class ,path = "${esteel.language}")
 public interface BaseClient {
 
     @RequestMapping(value = "/port", method = RequestMethod.POST)
