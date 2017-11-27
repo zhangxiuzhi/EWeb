@@ -217,6 +217,8 @@ a {
   .form-group .form-control:focus,
   .form-group .form-control-static:focus {
     border-color: #aaa; }
+.form-group select.form-control {
+  height: 40px; }
 
 /*水平排列标签*/
 .form-horizontal .form-group .control-label,
@@ -703,5 +705,26 @@ select
     right: -22px;
     top: -22px;
     box-shadow: 5px -1px 5px 0px rgba(0, 0, 0, 0.2); }
+
+/*--------------------------------
+hr
+ -----------------------------------------*/
+.hr {
+  border-bottom: 1px solid #ccc;
+  height: 30px;
+  width: 100%;
+  position: relative;
+  margin-bottom: 30px; }
+  .hr span {
+    display: block;
+    width: 200px;
+    background: #fff;
+    position: absolute;
+    left: 50%;
+    margin-left: -100px;
+    top: -15px;
+    top: 15px;
+    text-align: center;
+    font-size: 12px; }
 
 /*# sourceMappingURL=ui.css.map */

@@ -30,7 +30,7 @@ $color-gray-5:#f1f1f1;
 
 $color-bg:#f5f5f5;
 
-$color-border:#ccc;
+$color-border:#e4e4e4;
 $color-border-light:#aaa;
 
 /*-------------------------------------------------
@@ -715,4 +715,33 @@ react-toggle
 -------------------------------------------------*/
 .react-toggle--checked .toggle-track{
   background-color:$color-theme;
+}
+
+/*-------------------------------------------------
+react-multiSelect
+白名单
+-------------------------------------------------*/
+.react-multiSelect {
+
+  .react-ms-top {
+    .react-ms-top-input{
+      width: 42%;
+    }
+    .react-ms-top-text {
+      margin-left: 80px;
+    }
+  }
+
+  .react-ms-bottom{
+    .react-ms-left,
+    .react-ms-right {
+      width: 42%;
+      select {
+        border: 1px solid $color-border;
+      }
+    }
+    .react-ms-btns{
+      width: 90px;
+    }
+  }
 }

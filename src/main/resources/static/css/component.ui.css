@@ -533,4 +533,21 @@ react-toggle
 .react-toggle--checked .toggle-track {
   background-color: #de211d; }
 
+/*-------------------------------------------------
+react-multiSelect
+白名单
+-------------------------------------------------*/
+.react-multiSelect .react-ms-top .react-ms-top-input {
+  width: 42%; }
+.react-multiSelect .react-ms-top .react-ms-top-text {
+  margin-left: 80px; }
+.react-multiSelect .react-ms-bottom .react-ms-left,
+.react-multiSelect .react-ms-bottom .react-ms-right {
+  width: 42%; }
+  .react-multiSelect .react-ms-bottom .react-ms-left select,
+  .react-multiSelect .react-ms-bottom .react-ms-right select {
+    border: 1px solid #e4e4e4; }
+.react-multiSelect .react-ms-bottom .react-ms-btns {
+  width: 90px; }
+
 /*# sourceMappingURL=component.ui.css.map */

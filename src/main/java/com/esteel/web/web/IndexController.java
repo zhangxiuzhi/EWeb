@@ -27,14 +27,13 @@ public class IndexController {
      * @return
      */
     @RequestMapping("/")
-    @ResponseBody
-    public Page<ProvinceVo> index(){
-        return indexService.getPort(1);
+    public String index(){
+//        return indexService.getPort(1);
 
 //        System.out.println("0000000000000000000");
 //        System.out.println(port);
 //        System.out.println("0000000000000000000");
-//        return "index";
+        return "";
     }
 
 }

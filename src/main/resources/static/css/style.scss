@@ -30,7 +30,7 @@ $color-gray-5:#f1f1f1;
 
 $color-bg:#f5f5f5;
 
-$color-border:#ccc;
+$color-border:#e4e4e4;
 $color-border-light:#aaa;
 
 /*--------------------------------
@@ -768,13 +768,58 @@ body.member{
 .box-container{
   border:1px solid #ccc;
   padding:15px 10px 0px 10px;
+  position: relative;
   margin-bottom: 15px;
+  .box-container-title{
+    background: #fff;
+    width: 100px;
+    height: 30px;
+    border-bottom: 1px solid #ccc;
+    border-right:1px solid #ccc;
+    margin-left: -11px;
+    margin-top: -16px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
 }
 
 
 /*--------------------------------------
 
 ------------------------------------------*/
+/*报盘交易对象框*/
+.offer-tradeCustomer-box{
+  width: 100%;
+  border: 1px solid $color-border;
+  height:150px;
+  overflow-y: auto;
+  position: relative;
+  .mask-click{
+    display: none;
+    position: absolute;
+    background: rgba(255,255,255,0.2);
+    width: 100%;
+    height:100%;
+    top:0;
+    left:0;
+    bottom:0;
+    .click-text{
+      display: block;
+      margin: 0 auto;
+      width: 100%;
+      text-align: center;
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      margin-top: -12px;
+    }
+  }
+  &.hover{
+    .mask-click{
+      display: block;
+    }
+  }
+}
 /*报盘指标类型*/
 .offerKpi{
   padding-top:7px;
@@ -825,9 +870,19 @@ body.member{
       outline: none;
     }
   }
+  select.form-control{
+    border: none;
+    border-bottom: 1px solid #ccc;
+    display: inline-block;
+    width: 100px;
+    border-radius: 0;
+    box-shadow: none;
+    text-align: center;
+  }
 }
 .offer-rule-buttons{
   text-align: center;
+  margin-top: 15px;
   .btn{
     width: 120px;
     margin: 0 20px;
