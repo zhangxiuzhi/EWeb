@@ -70,7 +70,10 @@ function JBSFrame_addOffer() {
 		//是否拆分
 		var $Split = $("#component-toggle-split");
 		if($Split.length>0) {
-			this.toggle_Split = ReactDOM.render(React.createElement(ComponentToggle, {inputName: $Split.attr("inputName")}), $Split[0]);
+			this.toggle_Split = ReactDOM.render(React.createElement(ComponentToggle, {
+				inputName: $Split.attr("inputName"),
+				onChange:showQDL//显示起订量
+			}), $Split[0]);
 		}
 		//匿名
 		var $Anonym = $("#component-toggle-anonym");
@@ -80,17 +83,26 @@ function JBSFrame_addOffer() {
 		//一船俩货
 		var $1ship2goods = $("#component-radioBoxGroup-1ship2goods");
 		if($1ship2goods.length>0){
-			this.toggle_1ship2goods = ReactDOM.render(React.createElement(ComponentToggle,{inputName:$1ship2goods.attr("inputName")}), $1ship2goods[0]);
+			this.toggle_1ship2goods = ReactDOM.render(React.createElement(ComponentToggle,{
+				inputName:$1ship2goods.attr("inputName"),
+				onChange:show2goods	//显示2个商品
+			}), $1ship2goods[0]);
 		}
 		//商品1品名下拉
 		var $ItemName1 = $("#component-selectBox-ItemName-1");
 		if($ItemName1.length>0){
-			this.selectBox_ItemName = ReactDOM.render(React.createElement(ComponentSelectBox,{inputName:$ItemName1.attr("inputName")}), $ItemName1[0]);
+			this.selectBox_ItemName = ReactDOM.render(React.createElement(ComponentSelectBox,{
+				inputName:$ItemName1.attr("inputName"),
+				data:[]
+			}), $ItemName1[0]);
 		}
 		//商品2品名下拉
 		var $ItemName2 = $("#component-selectBox-ItemName-2");
 		if($ItemName2.length>0){
-			this.selectBox_ItemName = ReactDOM.render(React.createElement(ComponentSelectBox,{inputName:$ItemName2.attr("inputName")}), $ItemName2[0]);
+			this.selectBox_ItemName = ReactDOM.render(React.createElement(ComponentSelectBox,{
+				inputName:$ItemName2.attr("inputName"),
+				data:[]
+			}), $ItemName2[0]);
 		}
 		//报税区
 		var $bondedAreas = $("#component-radioBoxGroup-bondedAreas");
@@ -336,5 +348,31 @@ function submit_offer(){
 	});
 }
 
+//显示隐藏起订量
+function showQDL(checked){
+	if(checked){
+		$("#offer-qdl-box").show();
+	}else{
+		$("#offer-qdl-box").hide();
+	}
+}
 
+//显示两个商品
+function show2goods(checked){
+	if(checked){
+		$("#offer-goods-2").show();
+	}else{
+		$("#offer-goods-2").hide();
+	}
+}
 
+//显示浮动价
+function showFloatPrice(evt){
+	if(evt.selectedOptions[0].value == "float"){
+		$("#offer-floatPrice-desc").show();
+		$("#offer-floatPrice-desc").attr("data-validetta","required");
+	}else{
+		$("#offer-floatPrice-desc").hide();
+		$("#offer-floatPrice-desc").removeAttr("data-validetta");
+	}
+}

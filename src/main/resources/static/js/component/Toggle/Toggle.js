@@ -5,10 +5,11 @@
 class Toggle extends React.PureComponent {
 
 	constructor(props) {
-		super(props);
+		super(props)
 
 		this.state = {
-			checked: !!(props.checked || props.defaultChecked)
+			//checked: !!(props.checked || props.defaultChecked)
+			checked:props.defaultChecked
 		};
 
 		this.handleClick = this.handleClick.bind(this);
@@ -30,7 +31,7 @@ class Toggle extends React.PureComponent {
 	}
 
 	render() {
-		const { className, id, name, onChange } = this.props;
+		const { className, id, name, defaultChecked, onChange } = this.props;
 		const classes = classNames('react-toggle', {
 			'react-toggle--checked': this.state.checked,
 			'react-toggle--disabled': this.props.disabled
@@ -46,6 +47,8 @@ class Toggle extends React.PureComponent {
 			React.createElement('input', {
 				id: id,
 				name: name,
+				defaultChecked:defaultChecked,
+				onChange:onChange,
 				ref: ref => {
 				this.input = ref;
 	},

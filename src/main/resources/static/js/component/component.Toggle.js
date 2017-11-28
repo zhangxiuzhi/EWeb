@@ -14,21 +14,22 @@ class ComponentToggle extends React.Component{
 	//toggle 开关自定义事件
 	ui_toggle_onChange(event){
 		var target = event.target;
-		var str = target.checked ? "打开" : "关闭";
-		document.getElementById("log-toggle").innerHTML = "ID:"+target.id + " / Name:"+target.name +" / 状态:"+str
+		target.checked
+		if(this.props.onChange){
+			this.props.onChange(target.checked);
+		}
 	}
 
 
 	render(){
 		return React.createElement(Toggle, {defaultChecked:true, name:this.props.inputName, onChange:this.ui_toggle_onChange});
-
 	}
 }
 
 
 //toggle
 var toggleProps_1 = {
-	className:'wzj-ui-toggle'	//自定义class
-	,defaultChecked:true		//默认选中
-	,disabled:true
+	//className:'wzj-ui-toggle'	//自定义class
+	//,defaultChecked:true		//默认选中
+	//,disabled:true
 }
