@@ -40,7 +40,7 @@ function JBSFrame_addOffer() {
 		//品名下拉
 		var $ItemName = $("#component-selectBox-ItemName");
 		if($ItemName.length>0){
-			this.selectBox_ItemName = ReactDOM.render(React.createElement(ComponentSelectBox,{inputName:$ItemName.attr("inputName")}), $ItemName[0]);
+			this.selectBox_ItemName = ReactDOM.render(React.createElement(ComponentSelectBox,{inputName:$ItemName.attr("inputName"),validetta:$ItemName.data("validetta")}), $ItemName[0]);
 		}
 		//港口
 		var $Port = $("#component-selectBox-Port")
@@ -91,6 +91,8 @@ function JBSFrame_addOffer() {
 		load_tbPricingCommodityList();
 		//加载港口
 		load_portList();
+
+		this.renderDatetimepicker();
 	}
 
 
@@ -138,6 +140,7 @@ function JBSFrame_addOffer() {
 
 	//加载港口列表
 	function load_portList() {
+		/*
 		esteel_addOffer.ajaxRequest({
 			url: "pricing/pricingPort"
 		}, function (data, msg) {
@@ -198,7 +201,102 @@ function JBSFrame_addOffer() {
 			};
 
 		})
+		*/
 	}
+}
+
+
+//验证报盘商品信息
+function validateOfferInfo(){
+	var valid = $("#oform-offer [data-validetta],#form-offer select[data-validetta]").length;
+	$("#form-offer .form-control[data-validetta],#form-offer select[data-validetta]").each(function(index,element){
+		if(element.value == "" && element){	///交易对象
+			insertErrorBubble($(element));
+		}else{
+			var $element = $(element);
+			//报盘数量100倍数
+			if($element.attr("id") == "offerNum"){
+				var value = $element.val();
+				var pos,H;
+				if(value !="" && Number(value)%100>0) {
+					esteel_addOffer.validatePricingNumber = false;   //验证点数量为100的倍数失败
+					insertErrorBubble($(element),"数量必须为100的倍数");
+				}else{
+					esteel_addOffer.validatePricingNumber = true;
+					$element.next(".validetta-bubble").remove();
+					valid -=1;
+				}
+			}else{
+				valid -=1;
+			}
+		}
+	});
+
+	//验证报盘数量是否为100倍数
+	if(esteel_addOffer.validatePricingNumber==false){
+		valid +=1;
+	}
+	//console.log("验证商品",valid)
+	return valid == 0 ?true : false;
+}
+
+function insertErrorBubble($element,errorText){
+	$element.next(".validetta-bubble").remove();
+
+	var pos, W = 0, H = 0;
+	var $bubble = $("<div class='validetta-bubble validetta-bubble--bottom'></div>");
+	$bubble.html("此项为必填项");
+
+	if($element.parents(".react-selectbox").length>0) {
+		pos = $element.parents(".react-selectbox").children(".react-selectbox-button").position();
+		H = $element.parents(".react-selectbox").children(".react-selectbox-button").height();
+		$bubble.css({
+			top:pos.top + H + 0,
+			left:pos.left + W + 15
+		});
+		$element.parents(".react-selectbox").after($bubble);
+
+		$element.on("change",function(e){
+			if(e.target.value!=""){
+				$element.next(".validetta-bubble").remove();
+				$element.parent(".btn.btn-file").next(".validetta-bubble").remove();
+			}
+		});
+	}
+	else if($element.hasClass("uploadFile")) {
+		pos = $element.parent(".btn.btn-file").position();
+		H = $element.parent(".btn.btn-file")[0].offsetHeight;
+		$bubble.css({
+			top:pos.top + H + 0,
+			left:pos.left + W + 15
+		});
+		$element.parent(".btn.btn-file").after($bubble);
+	}else{
+		pos = $element.position();
+		H = $element[0].offsetHeight;
+		$bubble.css({
+			top:pos.top + H + 0,
+			left:pos.left + W + 15
+		});
+		$element.after($bubble);
+	}
+	$element.on("change",function(e){
+		if(e.target.value!=""){
+			$element.next(".validetta-bubble").remove();
+			$element.parent(".btn.btn-file").next(".validetta-bubble").remove();
+		}
+	});
+	if($element.hasClass("datetimepicker")){
+		$element.on("dp.change", function (evt) {
+			$(evt.currentTarget).parent(".input-group").removeClass("validetta-error");
+			$(evt.currentTarget).siblings(".validetta-bubble").remove();
+		});
+	}
+	if($element.attr("id") == "offerNum"){
+		$bubble.html(errorText);
+		$element.after($bubble);
+	}
+
 }
 
 /*
@@ -215,9 +313,12 @@ $(document).ready(function (e) {
 
 //保存报盘
 function save_offer(){
-	esteel_addOffer.confirm(null,"该报盘将作为草稿保存到我的报盘记录",function(){
+	if(validateOfferInfo()){
+		esteel_addOffer.confirm(null,"该报盘将作为草稿保存到我的报盘记录",function(){
 
-	});
+		});
+	}
+
 }
 
 //提交报盘
