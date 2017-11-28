@@ -35,17 +35,28 @@ function JBSFrame_addOffer() {
 			orgList:[],
 			curList:[]
 		}
-		this.select_TradeCustomer = ReactDOM.render(React.createElement(ComponentEsteelMultiSelect,{inputName:$TradeCustomer.attr("inputName"),data:TradeCustomer_data}), $TradeCustomer[0]);
+		this.select_TradeCustomer = ReactDOM.render(React.createElement(ComponentEsteelMultiSelect,{
+			inputName:$TradeCustomer.attr("inputName"),
+			data:TradeCustomer_data
+		}), $TradeCustomer[0]);
 
 		//品名下拉
 		var $ItemName = $("#component-selectBox-ItemName");
 		if($ItemName.length>0){
-			this.selectBox_ItemName = ReactDOM.render(React.createElement(ComponentSelectBox,{inputName:$ItemName.attr("inputName"),validetta:$ItemName.data("validetta")}), $ItemName[0]);
+			this.selectBox_ItemName = ReactDOM.render(React.createElement(ComponentSelectBox,{
+				data:[{value:'1',text:"1"},{value:'2',text:"2"}],
+				inputName:$ItemName.attr("inputName"),
+				validetta:$ItemName.data("validetta")
+			}), $ItemName[0]);
 		}
 		//港口
 		var $Port = $("#component-selectBox-Port")
 		if($Port.length>0) {
-			this.selectBox_Port = ReactDOM.render(React.createElement(ComponentSelectBox, {inputName: $Port.attr("inputName")}), $Port[0]);
+			this.selectBox_Port = ReactDOM.render(React.createElement(ComponentSelectBox, {
+				data:[{ value: "node1", text: "天津港" }, { value: "node2", text: '大连港' }, { value: "node3", text: '京唐港' }, { value: "node4", text: '曹妃甸港' }, { value: "node5", text: '青岛港' }, { value: "node6", text: '京唐港' }, { value: "node7", text: '日照港' }, { value: "node8", text: '连云港' }, { value: "node9", text: '北仑港' }, { value: "node10", text: '防城港' }, { value: "node11", text: '湛江港' }, { value: "node12", text: '锦州港' }, { value: "node13", text: '营口港' }, { value: "node14", text: '丹东港' }, { value: "node15", text: '鲅鱼圈港' }, { value: "node16", text: '秦皇岛港' }, { value: "node17", text: '唐山港' }, { value: "node18", text: '黄骅港' }, { value: "node19", text: '龙口港' }],
+				inputName: $Port.attr("inputName"),
+				validetta:$Port.data("validetta")
+			}), $Port[0]);
 		}
 		//指标类型
 		var $kpiType = $("#component-radioBoxGroup-kpiType");
@@ -93,6 +104,7 @@ function JBSFrame_addOffer() {
 		load_portList();
 
 		this.renderDatetimepicker();
+		this.renderNumberMask();
 	}
 
 
@@ -210,7 +222,8 @@ function JBSFrame_addOffer() {
 function validateOfferInfo(){
 	var valid = $("#oform-offer [data-validetta],#form-offer select[data-validetta]").length;
 	$("#form-offer .form-control[data-validetta],#form-offer select[data-validetta]").each(function(index,element){
-		if(element.value == "" && element){	///交易对象
+
+		if(element.value == ""){	//
 			insertErrorBubble($(element));
 		}else{
 			var $element = $(element);
@@ -247,21 +260,16 @@ function insertErrorBubble($element,errorText){
 	var $bubble = $("<div class='validetta-bubble validetta-bubble--bottom'></div>");
 	$bubble.html("此项为必填项");
 
+	//组件下拉
 	if($element.parents(".react-selectbox").length>0) {
-		pos = $element.parents(".react-selectbox").children(".react-selectbox-button").position();
-		H = $element.parents(".react-selectbox").children(".react-selectbox-button").height();
-		$bubble.css({
-			top:pos.top + H + 0,
-			left:pos.left + W + 15
-		});
-		$element.parents(".react-selectbox").after($bubble);
-
-		$element.on("change",function(e){
-			if(e.target.value!=""){
-				$element.next(".validetta-bubble").remove();
-				$element.parent(".btn.btn-file").next(".validetta-bubble").remove();
-			}
-		});
+		//品名
+		if($element[0].name =="ItemName"){
+			esteel_addOffer.selectBox_ItemName.addValidettaBubble();
+		}
+		//港口
+		if($element[0].name =="Port"){
+			esteel_addOffer.selectBox_Port.addValidettaBubble();
+		}
 	}
 	else if($element.hasClass("uploadFile")) {
 		pos = $element.parent(".btn.btn-file").position();

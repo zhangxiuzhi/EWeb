@@ -1,4 +1,4 @@
-<form id="form-offer">
+<form id="form-offer" onsubmit="return false">
 <!--商品信息-->
     <div class="form-horizontal">
         <div class="form-group">
@@ -34,7 +34,7 @@
                         <th>Fe</th><th>SiO2</th><th>A12O3</th><th>Mn</th><th>LOI</th>
                     </tr>
                     <tr>
-                        <td><input type="text" class="form-control"/></td>
+                        <td><input type="text" class="form-control mask-number"  data-validetta="required"/></td>
                         <td><input type="text" class="form-control"/></td>
                         <td><input type="text" class="form-control"/></td>
                         <td><input type="text" class="form-control"/></td>
@@ -57,19 +57,19 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">粒度</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control"/>
+                <input type="text" class="form-control" maxlength="32"/>
             </div>
         </div>
 
         <div class="form-group">
             <label class="col-sm-2 control-label">*数量</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control"/>
+                <input type="text" class="form-control mask-number"  data-validetta="required" name="offerNum" maxlength="100"/>
             </div>
 
             <label class="col-sm-2 control-label">*溢短装</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control"/>
+                <input type="text" class="form-control mask-number"  data-validetta="required" maxlength="4"/>
             </div>
         </div>
 
@@ -81,28 +81,28 @@
 
             <label class="col-sm-2 control-label">*起订量</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control"/>
+                <input type="text" class="form-control mask-number"  data-validetta="required"/>
             </div>
         </div>
 
         <div class="form-group">
             <label class="col-sm-2 control-label">*价格</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control"/>
+                <input type="text" class="form-control mask-number"  data-validetta="required" maxlength="6"/>
             </div>
         </div>
 
         <div class="form-group">
             <label class="col-sm-2 control-label">*报盘有效期：</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control datetimepicker"/>
+                <input type="text" class="form-control datetimepicker"  data-validetta="required"/>
             </div>
         </div>
 
         <div class="form-group">
             <label class="col-sm-2 control-label">商品备注</label>
             <div class="col-sm-10">
-                <textarea type="text" class="form-control"></textarea>
+                <textarea type="text" class="form-control" maxlength="128"></textarea>
             </div>
         </div>
 
@@ -122,14 +122,14 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">*结算方式</label>
             <div class="col-sm-10">
-                <input type="radio"/>签订合同后<input class="offer-rule-f-c"/>个工作日内付全款<br/>
-                <input type="radio"/>签订合同后<input class="offer-rule-f-c"/>个工作日内付合同款的<input class="offer-rule-f-c"/>%作为定金，剩余货款在<input class="offer-rule-f-c"/>个工作日内结清。
+                <input type="radio" name="settlementType" checked/>签订合同后<input class="offer-rule-f-c  mask-number" maxlength="3"/>个工作日内付全款<br/>
+                <input type="radio" name="settlementType"/>签订合同后<input class="offer-rule-f-c  mask-number" maxlength="3"/>个工作日内付合同款的<input class="offer-rule-f-c  mask-number" maxlength="5"/>%作为定金，剩余货款在<input class="offer-rule-f-c  mask-number" maxlength="3"/>个工作日内结清。
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">*交货期</label>
             <div class="col-sm-10">
-                买方付全款后<input class="offer-rule-f-c"/>个工作日内完成货权转移
+                买方付全款后<input class="offer-rule-f-c mask-number"  data-validetta="required" maxlength="3"/>个工作日内完成货权转移
             </div>
         </div>
         <div class="form-group">
@@ -171,17 +171,17 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">费用条款</label>
             <div class="col-sm-10">
-                费用条款：若火车或车板提货，则产生的港口费差价、运费由 <input class="offer-rule-f-c"/> 承担；
-                若二程船提货，则水分检验费及其代理费由<input class="offer-rule-f-c"/>承担， 内贸港口建设费由<input class="offer-rule-f-c"/>承担，
-                二程船运费由<input class="offer-rule-f-c"/>承担， 过磅费或水尺费由<input class="offer-rule-f-c"/>承担；
-                自货权转移之日起，买方享有<input class="offer-rule-f-c"/>天免堆期， 超期产生的堆存费由<input class="offer-rule-f-c"/>承担。
+                费用条款：若火车或车板提货，则产生的港口费差价、运费由 <input class="offer-rule-f-c"  maxlength="3"/> 承担；
+                若二程船提货，则水分检验费及其代理费由<input class="offer-rule-f-c"  maxlength="3"/>承担， 内贸港口建设费由<input class="offer-rule-f-c" maxlength="3"/>承担，
+                二程船运费由<input class="offer-rule-f-c"  maxlength="3"/>承担， 过磅费或水尺费由<input class="offer-rule-f-c" maxlength="3"/>承担；
+                自货权转移之日起，买方享有<input class="offer-rule-f-c"  maxlength="3"/>天免堆期， 超期产生的堆存费由<input class="offer-rule-f-c" maxlength="3"/>承担。
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">发票条款</label>
             <div class="col-sm-10">
                 在卖方收到全部货款后，卖方应向买方开出增值税发票，增值税发票一票结算。增值税发票品种以合同品种为准并且无其他要求。 其他发票条款<br/>
-                <textarea class="form-control"></textarea>
+                <textarea class="form-control" maxlength="200"></textarea>
             </div>
         </div>
         <div class="form-group">
