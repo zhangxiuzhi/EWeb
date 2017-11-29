@@ -423,6 +423,62 @@ logo
       border-color: #de211d; }
 
 /*--------------------------------------
+页脚
+------------------------------------------*/
+.footer {
+  margin-top: 50px; }
+  .footer .advertising {
+    height: 80px;
+    background: #de211d; }
+    .footer .advertising .adver-item {
+      padding: 20px 0 20px 50px;
+      color: #fff;
+      background: url(../images/hzjs.png) 0px 20px no-repeat;
+      background-size: 10%; }
+      .footer .advertising .adver-item .adver-item-t {
+        font-size: 16px;
+        margin-bottom: 5px; }
+      .footer .advertising .adver-item .adver-item-c {
+        font-size: 12px; }
+  .footer .footer-link {
+    padding: 22px 0 22px;
+    border-bottom: 1px solid #dfdfdf; }
+    .footer .footer-link .fl-title {
+      font-size: 16px;
+      margin-bottom: 22px;
+      color: #444; }
+    .footer .footer-link .fl-list,
+    .footer .footer-link .fl-list > li {
+      margin: 0;
+      padding: 0;
+      list-style: none; }
+    .footer .footer-link .fl-list {
+      width: 200px;
+      background: url(../images/footer-link-split.png) right 0px no-repeat; }
+    .footer .footer-link .fl-list > li {
+      line-height: 24px;
+      font-size: 12px;
+      color: #666; }
+    .footer .footer-link .wxgzh > img {
+      vertical-align: text-top;
+      border: 1px solid #ebebeb; }
+    .footer .footer-link .col-md-3:last-child > .fl-list {
+      background: none;
+      width: auto; }
+  .footer .copyright {
+    background: #f2f2f2;
+    border-top: 1px solid #fff;
+    padding: 20px 0;
+    text-align: center; }
+    .footer .copyright p {
+      margin: 0 0 14px;
+      font-size: 12px;
+      color: #787878; }
+    .footer .copyright img {
+      border: 1px solid #e7e8e8;
+      margin: 0 12px; }
+
+/*--------------------------------------
 sortbox
 ------------------------------------------*/
 .sortbox {
@@ -458,7 +514,8 @@ sidebar
 body.member {
   /*会员中心使用*/
   /*主导航菜单*/
-  /*内容容器*/ }
+  /*内容容器*/
+  /*页脚*/ }
   body.member .header > .topbar {
     background: #fff;
     border: none; }
@@ -489,6 +546,22 @@ body.member {
     -webkit-font-smoothing: antialiased; }
     body.member .main .container {
       position: relative; }
+  body.member .footer .advertising {
+    display: none; }
+  body.member .footer .footer-link {
+    background: #323232;
+    border-bottom: 1px solid #222; }
+    body.member .footer .footer-link .fl-title, body.member .footer .footer-link .fl-list > li {
+      color: #b3b5ba; }
+    body.member .footer .footer-link .fl-list {
+      border-right: 1px solid #444;
+      background: none; }
+    body.member .footer .footer-link .col-md-3:last-child > .fl-list {
+      border: none; }
+  body.member .footer .copyright {
+    background: #323232;
+    color: #b3b5ba;
+    border-top: 1px solid #444; }
 
 /*侧栏*/
 .sidebar {

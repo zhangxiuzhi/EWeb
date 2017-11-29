@@ -510,6 +510,76 @@ logo
 }
 
 /*--------------------------------------
+页脚
+------------------------------------------*/
+.footer{
+  margin-top: 50px;
+  .advertising{
+    height:80px;
+    background: $color-theme;
+    .adver-item{
+      padding: 20px 0 20px 50px;
+      color: #fff;
+      background: url(../images/hzjs.png) 0px 20px no-repeat;
+      background-size: 10%;
+      .adver-item-t{
+        font-size: 16px;
+        margin-bottom: 5px;
+      }
+      .adver-item-c{
+        font-size: 12px;
+      }
+    }
+  }
+  .footer-link{
+    padding:22px 0 22px ;
+    border-bottom:1px solid #dfdfdf;
+    .fl-title{
+      font-size: 16px;
+      margin-bottom: 22px;
+      color: #444;
+    }
+    .fl-list,
+    .fl-list>li{
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .fl-list{
+      width: 200px;
+      background: url(../images/footer-link-split.png) right 0px no-repeat;
+    }
+    .fl-list>li{
+      line-height: 24px;
+      font-size: 12px;
+      color: #666;
+    }
+    .wxgzh >img{
+      vertical-align: text-top;
+      border:1px solid #ebebeb;
+    }
+    .col-md-3:last-child>.fl-list{
+      background: none;
+      width: auto;
+    }
+  }
+  .copyright{
+    background: #f2f2f2;
+    border-top:1px solid #fff;
+    padding:20px 0;
+    text-align: center;
+    p{
+      margin:0 0 14px;
+      font-size: 12px;
+      color: #787878;
+    }
+    img{
+      border: 1px solid #e7e8e8;
+      margin: 0 12px;
+    }
+  }
+}
+/*--------------------------------------
 sortbox
 ------------------------------------------*/
 .sortbox{
@@ -598,6 +668,28 @@ body.member{
     -webkit-font-smoothing: antialiased;
     .container{
       position: relative;
+    }
+  }
+
+  /*页脚*/
+  .footer{
+    .advertising{display: none;}
+    .footer-link{
+      background: #323232;
+      border-bottom: 1px solid #222;
+      .fl-title,.fl-list>li{color:#b3b5ba;}
+      .fl-list{
+        border-right: 1px solid #444;
+        background: none;
+      }
+      .col-md-3:last-child >.fl-list{
+        border: none;
+      }
+    }
+    .copyright{
+      background: #323232;
+      color: #b3b5ba;
+      border-top: 1px solid #444;
     }
   }
 }

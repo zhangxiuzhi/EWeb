@@ -232,7 +232,7 @@ function JBSFrame_addOffer() {
 
 //验证报盘商品信息
 function validateOfferInfo(){
-	var valid = $("#oform-offer [data-validetta],#form-offer select[data-validetta]").length;
+	var valid = $("#form-offer [data-validetta],#form-offer select[data-validetta]").length;
 	$("#form-offer .form-control[data-validetta],#form-offer select[data-validetta]").each(function(index,element){
 
 		if(element.value == ""){	//
