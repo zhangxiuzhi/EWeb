@@ -17,9 +17,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class RegisterController {
 
-    @RequestMapping("/register")
+    @RequestMapping("/")
     public String addUI(Model model){
         return "/register/register";
+    }
+    
+    @RequestMapping("/success")
+    public String success(Model model){
+        return "/register/success";
     }
 
 }

@@ -569,6 +569,30 @@ body.register .form-register {
       color: #ccc; }
     body.register .form-register .form-group .form-control:-ms-input-placeholder {
       color: #ccc; }
+body.register.success {
+  color: #787878; }
+  body.register.success .form-register {
+    width: 500px;
+    text-align: center; }
+    body.register.success .form-register .title {
+      font-size: 18px;
+      margin-bottom: 30px;
+      line-height: 60px; }
+      body.register.success .form-register .title img {
+        width: 51px;
+        vertical-align: top;
+        margin-right: 20px; }
+    body.register.success .form-register .level {
+      font-size: 16px;
+      margin-bottom: 40px; }
+    body.register.success .form-register .description {
+      font-size: 14px;
+      line-height: 24px;
+      text-align: left;
+      margin-bottom: 60px; }
+    body.register.success .form-register #register-toVerify {
+      width: 400px;
+      margin: 0 auto; }
 
 /*--------------------------------------
 会员中心:我的铁矿，我的钢材
