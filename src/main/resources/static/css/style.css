@@ -507,6 +507,70 @@ filterbox
     font-weight: normal; }
 
 /*--------------------------------------
+注册
+------------------------------------------*/
+body.register .header {
+  height: 110px;
+  background: url(../images/headbg.jpg) left bottom repeat-x; }
+  body.register .header .logo, body.register .header .logo-title {
+    float: left; }
+  body.register .header .logo {
+    margin-top: 24px;
+    margin-right: 45px; }
+  body.register .header .logo-title {
+    font-size: 20px;
+    margin-top: 34px;
+    color: #787878; }
+  body.register .header .have-account {
+    float: right;
+    margin-top: 55px;
+    font-size: 16px;
+    color: #787878; }
+body.register .form-register {
+  width: 400px;
+  margin: 92px auto; }
+  body.register .form-register .form-group {
+    margin-bottom: 30px;
+    /* 使用webkit内核的浏览器 */
+    /* Firefox版本4-18 */
+    /* Firefox版本19+ */
+    /* IE浏览器 */ }
+    body.register .form-register .form-group .input-group {
+      border: 1px solid #e4e4e4;
+      border-radius: 4px;
+      width: 400px; }
+      body.register .form-register .form-group .input-group .input-group-addon {
+        background: none;
+        border: none;
+        color: #787878;
+        width: 80px;
+        text-align: left; }
+      body.register .form-register .form-group .input-group .input-group-btn {
+        padding: 2px; }
+      body.register .form-register .form-group .input-group .input-group-btn > .btn,
+      body.register .form-register .form-group .input-group .input-group-btn > .btn:hover {
+        width: 100px;
+        border: none;
+        height: 48px;
+        padding: 6px 10px; }
+    body.register .form-register .form-group .form-control {
+      padding: 16px 15px;
+      line-height: 18px;
+      border: none;
+      box-shadow: none; }
+    body.register .form-register .form-group .btn.btn-block {
+      padding: 16px 15px;
+      line-height: 16px; }
+    body.register .form-register .form-group .form-control::-webkit-input-placeholder {
+      color: #ccc; }
+    body.register .form-register .form-group .form-control:-moz-placeholder {
+      color: #ccc; }
+    body.register .form-register .form-group .form-control::-moz-placeholder {
+      color: #ccc; }
+    body.register .form-register .form-group .form-control:-ms-input-placeholder {
+      color: #ccc; }
+
+/*--------------------------------------
 会员中心:我的铁矿，我的钢材
 侧栏展示
 sidebar

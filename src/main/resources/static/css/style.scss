@@ -612,8 +612,74 @@ filterbox
   }
 }
 
-
-
+/*--------------------------------------
+注册
+------------------------------------------*/
+body.register{
+  .header{
+    height:110px;
+    background:url(../images/headbg.jpg) left bottom repeat-x ;
+    .logo,.logo-title{
+      float: left;
+    }
+    .logo{
+      margin-top: 24px;
+      margin-right: 45px;
+    }
+    .logo-title{
+      font-size: 20px;
+      margin-top: 34px;
+      color: #787878;
+    }
+    .have-account{
+      float: right;
+      margin-top: 55px;
+      font-size: 16px;
+      color: #787878;
+    }
+  }
+  .form-register{
+    width: 400px;
+    margin: 92px auto;
+    .form-group{
+      margin-bottom: 30px;
+      .input-group{
+        border:1px solid $color-border;
+        border-radius: 4px;
+        width: 400px;
+        .input-group-addon{
+         background: none;
+          border:none;
+          color: #787878;
+          width: 80px;
+          text-align: left;
+        }
+        .input-group-btn{padding:2px;}
+        .input-group-btn>.btn,
+        .input-group-btn>.btn:hover{
+          width: 100px;
+          border: none;
+          height: 48px;
+          padding: 6px 10px;
+        }
+      }
+      .form-control{
+        padding: 16px 15px;
+        line-height: 18px;
+        border: none;
+        box-shadow: none;
+      }
+      .btn.btn-block{
+        padding: 16px 15px;
+        line-height: 16px;
+      }
+      .form-control::-webkit-input-placeholder{  color:#ccc;  }  /* 使用webkit内核的浏览器 */
+      .form-control:-moz-placeholder{color:#ccc;}                  /* Firefox版本4-18 */
+      .form-control::-moz-placeholder{color:#ccc;}                  /* Firefox版本19+ */
+      .form-control:-ms-input-placeholder{color:#ccc;}           /* IE浏览器 */
+    }
+  }
+}
 /*--------------------------------------
 会员中心:我的铁矿，我的钢材
 侧栏展示

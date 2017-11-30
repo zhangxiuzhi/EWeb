@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="./fragments/frontCode" />
+<body class="register">
+
+<!--页头-->
+<div class="header">
+    <div class="container">
+        <div class="logo"><img th:src="@{/images/logo.png}"/></div>
+        <div class="logo-title">会员注册</div>
+        <div class="have-account">已有账号？<a>请登录</a></div>
+    </div>
+</div>
+
+<div class=" container">
+    <div class="form-register">
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon">手机号码</div>
+                <input type="text" class="form-control" placeholder="请输入手机号码"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div id="dragValidate" class="dragValidate"></div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon">验证码</div>
+                <input type="text" class="form-control" placeholder="请输入短信验证码"/>
+                <div class="input-group-btn"><button id="register-btn-getValidateCode" class="btn btn-primary disabled">获取验证码</button></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon">设置密码</div>
+                <input type="text" class="form-control" placeholder="请输入6-20位密码（支持数字、字母输入）"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon">确认密码</div>
+                <input type="text" class="form-control" placeholder="请再次输入密码"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary btn-block disabled" id="register-submit">注册</button>
+            <p class="text-center margin-top-20"><input type="checkbox" checked="true" onclick="confirmRegisterRule(this)"/>已阅读会员注册协议</p>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" th:href="@{/jq/dragValidate/dragValidate.css}"/>
+<script th:src="@{/jq/dragValidate/dragValidate.js}"></script>
+<script th:src="@{/js/module/register/register.js}"></script>
+</body>
+</html>
