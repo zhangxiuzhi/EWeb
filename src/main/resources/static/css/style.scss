@@ -439,6 +439,13 @@ logo
 }
 
 /*--------------------------------------
+内部导航，会员中心
+------------------------------------------*/
+.header-nav-m{
+  display: none;
+}
+
+/*--------------------------------------
 搜索
 ------------------------------------------*/
 .header-nav-searchbar.input-group {
@@ -751,6 +758,29 @@ body.member{
     display: none;
   }
 
+  /*内部导航，会员中心*/
+  .header-nav-m{
+    display: block;
+    float: left;
+    margin: 0px 0 0 30px;
+    font-size: 16px;
+    width: 654px;
+    ul>li{
+      list-style: none;
+      float: left;
+      position: static;
+      padding: 0 12px;
+      height: 38px;
+      line-height: 38px;
+      text-align: center;
+      margin-right: 2px;
+      border: 1px solid #fff;
+      border-radius: 3px;
+      position: relative;
+      display: block;
+    }
+  }
+
   /*内容容器*/
   .main{
     background-color: #f9f9f9;
@@ -901,7 +931,7 @@ body.member{
   line-height: 1.5;
 }
 .content .userContent{
-  padding:0 40px 0 70px;
+  padding:0 40px 0 40px;
 }
 
 /*报盘分类*/

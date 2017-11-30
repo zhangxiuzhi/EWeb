@@ -366,6 +366,12 @@ logo
     height: 36px; }
 
 /*--------------------------------------
+内部导航，会员中心
+------------------------------------------*/
+.header-nav-m {
+  display: none; }
+
+/*--------------------------------------
 搜索
 ------------------------------------------*/
 .header-nav-searchbar.input-group {
@@ -602,6 +608,7 @@ sidebar
 body.member {
   /*会员中心使用*/
   /*主导航菜单*/
+  /*内部导航，会员中心*/
   /*内容容器*/
   /*页脚*/ }
   body.member .header > .topbar {
@@ -629,6 +636,25 @@ body.member {
       display: none; }
   body.member .main-nav {
     display: none; }
+  body.member .header-nav-m {
+    display: block;
+    float: left;
+    margin: 0px 0 0 30px;
+    font-size: 16px;
+    width: 654px; }
+    body.member .header-nav-m ul > li {
+      list-style: none;
+      float: left;
+      position: static;
+      padding: 0 12px;
+      height: 38px;
+      line-height: 38px;
+      text-align: center;
+      margin-right: 2px;
+      border: 1px solid #fff;
+      border-radius: 3px;
+      position: relative;
+      display: block; }
   body.member .main {
     background-color: #f9f9f9;
     -webkit-font-smoothing: antialiased; }
@@ -757,7 +783,7 @@ body.member {
   line-height: 1.5; }
 
 .content .userContent {
-  padding: 0 40px 0 70px; }
+  padding: 0 40px 0 40px; }
 
 /*报盘分类*/
 .type-title {
