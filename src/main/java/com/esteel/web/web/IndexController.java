@@ -31,6 +31,9 @@ public class IndexController {
     @RequestMapping("/")
     @ResponseBody
     public List<ProvinceVo>  index(){
+
+        indexService.tfsTest();
+
         List<ProvinceVo> ports = indexService.getPort(1);
 
 

@@ -5,6 +5,7 @@ import com.esteel.web.service.BaseClient;
 import com.esteel.web.service.ContactClient;
 import com.esteel.web.service.IndexService;
 import com.esteel.web.vo.ProvinceVo;
+import com.taobao.common.tfs.TfsManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheConfig;
@@ -34,6 +35,8 @@ public class IndexServiceImpl implements IndexService {
     @Autowired
     ContactClient contactClient;
 
+    @Autowired
+    TfsManager tfsManager;
 
 
     @Override
@@ -100,12 +103,23 @@ public class IndexServiceImpl implements IndexService {
 //        contactClient.sendMail("zhangxiuzhi@mysteelsoft.com.cn","新的测试","张修志");
 
 //        发送短信的样例代码
-        contactClient.sendSms("13916048081","新的测试111");
+//        contactClient.sendSms("13916048081","新的测试111");
 
         return all;
 
 //        System.out.println(provinceVos);
 //        System.out.println(vos);
 //        return province;
+    }
+
+    @Override
+    public void tfsTest(){
+
+        System.out.println(tfsManager.isEnable());
+
+
+
+        tfsManager.fetchFile("T13RZTB5xT1RXrhCrK","jpg","e:\\1111.jpg");
+
     }
 }

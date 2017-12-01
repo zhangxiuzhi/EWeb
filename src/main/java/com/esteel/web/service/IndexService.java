@@ -15,4 +15,5 @@ public interface IndexService {
 
     public List<ProvinceVo> getPort(long portId);
 
+    void tfsTest();
 }
