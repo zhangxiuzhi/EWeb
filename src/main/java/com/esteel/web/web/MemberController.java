@@ -27,6 +27,12 @@ public class MemberController {
         return "/member/headSet";
     }
     
+    @RequestMapping("/approve")
+    public String approve(Model model){
+        return "/member/approve";
+    }
+    
+    
     @RequestMapping("/headUpload")
     public String headUpload(Model model){
         return "/member/headUpload";

@@ -1,5 +1,5 @@
 /**
- * 会员中心
+ * 会员中心-用户信息
  * Created by wzj on 2017/11/30.
  */
 var memberSidebarData = [
