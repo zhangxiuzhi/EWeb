@@ -35,17 +35,28 @@ function JBSFrame_addOffer() {
 			orgList:[],
 			curList:[]
 		}
-		this.select_TradeCustomer = ReactDOM.render(React.createElement(ComponentEsteelMultiSelect,{inputName:$TradeCustomer.attr("inputName"),data:TradeCustomer_data}), $TradeCustomer[0]);
+		this.select_TradeCustomer = ReactDOM.render(React.createElement(ComponentEsteelMultiSelect,{
+			inputName:$TradeCustomer.attr("inputName"),
+			data:TradeCustomer_data
+		}), $TradeCustomer[0]);
 
 		//品名下拉
 		var $ItemName = $("#component-selectBox-ItemName");
 		if($ItemName.length>0){
-			this.selectBox_ItemName = ReactDOM.render(React.createElement(ComponentSelectBox,{inputName:$ItemName.attr("inputName")}), $ItemName[0]);
+			this.selectBox_ItemName = ReactDOM.render(React.createElement(ComponentSelectBox,{
+				data:[{value:'1',text:"1"},{value:'2',text:"2"}],
+				inputName:$ItemName.attr("inputName"),
+				validetta:$ItemName.data("validetta")
+			}), $ItemName[0]);
 		}
 		//港口
 		var $Port = $("#component-selectBox-Port")
 		if($Port.length>0) {
-			this.selectBox_Port = ReactDOM.render(React.createElement(ComponentSelectBox, {inputName: $Port.attr("inputName")}), $Port[0]);
+			this.selectBox_Port = ReactDOM.render(React.createElement(ComponentSelectBox, {
+				data:[{ value: "node1", text: "天津港" }, { value: "node2", text: '大连港' }, { value: "node3", text: '京唐港' }, { value: "node4", text: '曹妃甸港' }, { value: "node5", text: '青岛港' }, { value: "node6", text: '京唐港' }, { value: "node7", text: '日照港' }, { value: "node8", text: '连云港' }, { value: "node9", text: '北仑港' }, { value: "node10", text: '防城港' }, { value: "node11", text: '湛江港' }, { value: "node12", text: '锦州港' }, { value: "node13", text: '营口港' }, { value: "node14", text: '丹东港' }, { value: "node15", text: '鲅鱼圈港' }, { value: "node16", text: '秦皇岛港' }, { value: "node17", text: '唐山港' }, { value: "node18", text: '黄骅港' }, { value: "node19", text: '龙口港' }],
+				inputName: $Port.attr("inputName"),
+				validetta:$Port.data("validetta")
+			}), $Port[0]);
 		}
 		//指标类型
 		var $kpiType = $("#component-radioBoxGroup-kpiType");
@@ -59,7 +70,10 @@ function JBSFrame_addOffer() {
 		//是否拆分
 		var $Split = $("#component-toggle-split");
 		if($Split.length>0) {
-			this.toggle_Split = ReactDOM.render(React.createElement(ComponentToggle, {inputName: $Split.attr("inputName")}), $Split[0]);
+			this.toggle_Split = ReactDOM.render(React.createElement(ComponentToggle, {
+				inputName: $Split.attr("inputName"),
+				onChange:showQDL//显示起订量
+			}), $Split[0]);
 		}
 		//匿名
 		var $Anonym = $("#component-toggle-anonym");
@@ -69,17 +83,26 @@ function JBSFrame_addOffer() {
 		//一船俩货
 		var $1ship2goods = $("#component-radioBoxGroup-1ship2goods");
 		if($1ship2goods.length>0){
-			this.toggle_1ship2goods = ReactDOM.render(React.createElement(ComponentToggle,{inputName:$1ship2goods.attr("inputName")}), $1ship2goods[0]);
+			this.toggle_1ship2goods = ReactDOM.render(React.createElement(ComponentToggle,{
+				inputName:$1ship2goods.attr("inputName"),
+				onChange:show2goods	//显示2个商品
+			}), $1ship2goods[0]);
 		}
 		//商品1品名下拉
 		var $ItemName1 = $("#component-selectBox-ItemName-1");
 		if($ItemName1.length>0){
-			this.selectBox_ItemName = ReactDOM.render(React.createElement(ComponentSelectBox,{inputName:$ItemName1.attr("inputName")}), $ItemName1[0]);
+			this.selectBox_ItemName = ReactDOM.render(React.createElement(ComponentSelectBox,{
+				inputName:$ItemName1.attr("inputName"),
+				data:[]
+			}), $ItemName1[0]);
 		}
 		//商品2品名下拉
 		var $ItemName2 = $("#component-selectBox-ItemName-2");
 		if($ItemName2.length>0){
-			this.selectBox_ItemName = ReactDOM.render(React.createElement(ComponentSelectBox,{inputName:$ItemName2.attr("inputName")}), $ItemName2[0]);
+			this.selectBox_ItemName = ReactDOM.render(React.createElement(ComponentSelectBox,{
+				inputName:$ItemName2.attr("inputName"),
+				data:[]
+			}), $ItemName2[0]);
 		}
 		//报税区
 		var $bondedAreas = $("#component-radioBoxGroup-bondedAreas");
@@ -91,6 +114,9 @@ function JBSFrame_addOffer() {
 		load_tbPricingCommodityList();
 		//加载港口
 		load_portList();
+
+		this.renderDatetimepicker();
+		this.renderNumberMask();
 	}
 
 
@@ -138,6 +164,7 @@ function JBSFrame_addOffer() {
 
 	//加载港口列表
 	function load_portList() {
+		/*
 		esteel_addOffer.ajaxRequest({
 			url: "pricing/pricingPort"
 		}, function (data, msg) {
@@ -198,7 +225,98 @@ function JBSFrame_addOffer() {
 			};
 
 		})
+		*/
 	}
+}
+
+
+//验证报盘商品信息
+function validateOfferInfo(){
+	var valid = $("#form-offer [data-validetta],#form-offer select[data-validetta]").length;
+	$("#form-offer .form-control[data-validetta],#form-offer select[data-validetta]").each(function(index,element){
+
+		if(element.value == ""){	//
+			insertErrorBubble($(element));
+		}else{
+			var $element = $(element);
+			//报盘数量100倍数
+			if($element.attr("id") == "offerNum"){
+				var value = $element.val();
+				var pos,H;
+				if(value !="" && Number(value)%100>0) {
+					esteel_addOffer.validatePricingNumber = false;   //验证点数量为100的倍数失败
+					insertErrorBubble($(element),"数量必须为100的倍数");
+				}else{
+					esteel_addOffer.validatePricingNumber = true;
+					$element.next(".validetta-bubble").remove();
+					valid -=1;
+				}
+			}else{
+				valid -=1;
+			}
+		}
+	});
+
+	//验证报盘数量是否为100倍数
+	if(esteel_addOffer.validatePricingNumber==false){
+		valid +=1;
+	}
+	//console.log("验证商品",valid)
+	return valid == 0 ?true : false;
+}
+
+function insertErrorBubble($element,errorText){
+	$element.next(".validetta-bubble").remove();
+
+	var pos, W = 0, H = 0;
+	var $bubble = $("<div class='validetta-bubble validetta-bubble--bottom'></div>");
+	$bubble.html("此项为必填项");
+
+	//组件下拉
+	if($element.parents(".react-selectbox").length>0) {
+		//品名
+		if($element[0].name =="ItemName"){
+			esteel_addOffer.selectBox_ItemName.addValidettaBubble();
+		}
+		//港口
+		if($element[0].name =="Port"){
+			esteel_addOffer.selectBox_Port.addValidettaBubble();
+		}
+	}
+	else if($element.hasClass("uploadFile")) {
+		pos = $element.parent(".btn.btn-file").position();
+		H = $element.parent(".btn.btn-file")[0].offsetHeight;
+		$bubble.css({
+			top:pos.top + H + 0,
+			left:pos.left + W + 15
+		});
+		$element.parent(".btn.btn-file").after($bubble);
+	}else{
+		pos = $element.position();
+		H = $element[0].offsetHeight;
+		$bubble.css({
+			top:pos.top + H + 0,
+			left:pos.left + W + 15
+		});
+		$element.after($bubble);
+	}
+	$element.on("change",function(e){
+		if(e.target.value!=""){
+			$element.next(".validetta-bubble").remove();
+			$element.parent(".btn.btn-file").next(".validetta-bubble").remove();
+		}
+	});
+	if($element.hasClass("datetimepicker")){
+		$element.on("dp.change", function (evt) {
+			$(evt.currentTarget).parent(".input-group").removeClass("validetta-error");
+			$(evt.currentTarget).siblings(".validetta-bubble").remove();
+		});
+	}
+	if($element.attr("id") == "offerNum"){
+		$bubble.html(errorText);
+		$element.after($bubble);
+	}
+
 }
 
 /*
@@ -215,9 +333,12 @@ $(document).ready(function (e) {
 
 //保存报盘
 function save_offer(){
-	esteel_addOffer.confirm(null,"该报盘将作为草稿保存到我的报盘记录",function(){
+	if(validateOfferInfo()){
+		esteel_addOffer.confirm(null,"该报盘将作为草稿保存到我的报盘记录",function(){
 
-	});
+		});
+	}
+
 }
 
 //提交报盘
@@ -227,5 +348,31 @@ function submit_offer(){
 	});
 }
 
+//显示隐藏起订量
+function showQDL(checked){
+	if(checked){
+		$("#offer-qdl-box").show();
+	}else{
+		$("#offer-qdl-box").hide();
+	}
+}
 
+//显示两个商品
+function show2goods(checked){
+	if(checked){
+		$("#offer-goods-2").show();
+	}else{
+		$("#offer-goods-2").hide();
+	}
+}
 
+//显示浮动价
+function showFloatPrice(evt){
+	if(evt.selectedOptions[0].value == "float"){
+		$("#offer-floatPrice-desc").show();
+		$("#offer-floatPrice-desc").attr("data-validetta","required");
+	}else{
+		$("#offer-floatPrice-desc").hide();
+		$("#offer-floatPrice-desc").removeAttr("data-validetta");
+	}
+}

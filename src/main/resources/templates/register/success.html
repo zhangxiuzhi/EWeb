@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="./fragments/frontCode" />
+<body class="register success">
+
+<!--页头-->
+<div class="header">
+    <div class="container">
+        <div class="logo"><img th:src="@{/images/logo.png}"/></div>
+        <div class="logo-title">会员注册</div>
+        <div class="have-account">已有账号？<a>请登录</a></div>
+    </div>
+</div>
+
+<div class=" container">
+    <div class="form-register">
+        <div class="title"><img th:src="@{/images/icon-success.png}"/>注册成功</div>
+        <div class="level">您当前的会员等级为：个人会员</div>
+        <div class="description">您当前只有浏览和发布意向的权限（<a class="text-info">参考会员等级说明</a>），您如果想进行有安全保障的线上交易和公平公正的招投标，请认证个人和企业信息。认证后您将升级为企业会员，获得更多权利！</div>
+        <div class="form-group">
+            <button class="btn btn-primary btn-block" id="register-toVerify">前往认证</button>
+            <p class="margin-top-20"><a class="text-info" th:href="@{/}">返回首页</a></p>
+        </div>
+    </div>
+</div>
+
+
+<div class="footer">
+    <div th:replace="fragments/foot::link"></div>
+</div>
+
+<link rel="stylesheet" th:href="@{/jq/dragValidate/dragValidate.css}"/>
+<script th:src="@{/jq/dragValidate/dragValidate.js}"></script>
+<script th:src="@{/js/module/register/register.js}"></script>
+</body>
+</html>

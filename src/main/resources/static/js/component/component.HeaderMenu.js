@@ -30,7 +30,7 @@ class ComponentHeaderMenu extends React.Component {
 					{name:"",text:"品种4",children:[]}
 				]},
 				nav: [
-					{name: "index", text: "首页", tag: "",url:"/index.html"},
+					{name: "index", text: "首页", tag: "",url:"/register.html"},
 					{name: "trade", text: "交易", tag: "hot",url:"/trade/trade.html"},
 					{name: "1", text: "招标", tag: ""},
 					{name: "2", text: "意向", tag: ""},

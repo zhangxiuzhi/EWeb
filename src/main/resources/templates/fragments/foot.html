@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<div class="footer"  th:fragment="footer">
+    <!--广告-->
+    <div class="advertising">
+        <div class="container">
+            <div class="adver-item col-md-4">
+                <div class="adver-item-t">货真价实</div>
+                <div class="adver-item-c">价格、库存真实有效，杜绝虚假交易</div>
+            </div>
+            <div class="adver-item col-md-4">
+                <div class="adver-item-t">货真价实</div>
+                <div class="adver-item-c">价格、库存真实有效，杜绝虚假交易</div>
+            </div>
+            <div class="adver-item col-md-4">
+                <div class="adver-item-t">货真价实</div>
+                <div class="adver-item-c">价格、库存真实有效，杜绝虚假交易</div>
+            </div>
+        </div>
+    </div>
+    <!--链接-->
+    <div class="footer-link" th:fragment="link">
+        <div class="container">
+            <div class="col-md-3">
+                <div class="fl-title">关于我们</div>
+                <ul class="fl-list">
+                    <li>公司介绍</li>
+                    <li>交易规则</li>
+                    <li>法律声明</li>
+                    <li>隐私声明</li>
+                    <li>网站公告</li>
+                    <li>人才招聘</li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <div class="fl-title">操作指南</div>
+                <ul class="fl-list">
+                    <li>企业用户注册</li>
+                    <li>会员认证</li>
+                    <li>报盘交易</li>
+                    <li>招标投标</li>
+                    <li>创建子账号</li>
+                    <li>添加白名单</li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <div class="fl-title">常见问题</div>
+                <ul class="fl-list">
+                    <li>支持浏览器说明</li>
+                    <li>会员等级说明</li>
+                    <li>忘记密码</li>
+                    <li>交易合同</li>
+                    <li>其他常见问题</li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <div class="fl-title">联系我们</div>
+                <ul class="fl-list">
+                    <li>客服电话：400-007-2323（工作日9：00-18：00）</li>
+                    <li> 邮箱：service@esteel.com</li>
+                    <li class="wxgzh"> 微信公众号：<img th:src="@{/images/wxgzh.png}"/></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--copyright-->
+    <div class="copyright">
+        <p>Copyright©2014-2016 Esteel.com, All Rights Reserved</p>
+        <p>上海点钢电子商务有限公司 版权所有 沪B2-20150138</p>
+        <p><img th:src="@{/images/copyright-img-1.png}"/><img th:src="@{/images/copyright-img-2.png}"/></p>
+    </div>
+</div>
+
+</body>
+</html>

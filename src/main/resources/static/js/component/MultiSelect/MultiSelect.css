@@ -1,0 +1,39 @@
+.react-multiSelect {
+  position: relative; }
+  .react-multiSelect .react-ms-top .react-ms-top-input,
+  .react-multiSelect .react-ms-top .react-ms-top-text {
+    float: left;
+    width: 200px; }
+  .react-multiSelect .react-ms-top .react-ms-top-text {
+    border: none;
+    box-shadow: none;
+    margin-left: 80px; }
+    .react-multiSelect .react-ms-top .react-ms-top-text[disabled] {
+      background: none;
+      cursor: default; }
+  .react-multiSelect .react-ms-bottom {
+    padding: 10px 0 20px; }
+    .react-multiSelect .react-ms-bottom .react-ms-left,
+    .react-multiSelect .react-ms-bottom .react-ms-right {
+      width: 200px;
+      float: left; }
+      .react-multiSelect .react-ms-bottom .react-ms-left select,
+      .react-multiSelect .react-ms-bottom .react-ms-right select {
+        width: 100%;
+        height: 200px; }
+    .react-multiSelect .react-ms-bottom .react-ms-btns {
+      width: 80px;
+      float: left;
+      padding: 0 10px; }
+      .react-multiSelect .react-ms-bottom .react-ms-btns .btn {
+        width: 100%;
+        margin: 0 0 5px; }
+  .react-multiSelect .react-ms-top:before, .react-multiSelect .react-ms-top:after,
+  .react-multiSelect .react-ms-bottom:before, .react-multiSelect .react-ms-bottom:after {
+    content: "";
+    display: table; }
+  .react-multiSelect .react-ms-top:after,
+  .react-multiSelect .react-ms-bottom:after {
+    clear: both; }
+
+/*# sourceMappingURL=MultiSelect.css.map */

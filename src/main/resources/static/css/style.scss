@@ -439,6 +439,13 @@ logo
 }
 
 /*--------------------------------------
+内部导航，会员中心
+------------------------------------------*/
+.header-nav-m{
+  display: none;
+}
+
+/*--------------------------------------
 搜索
 ------------------------------------------*/
 .header-nav-searchbar.input-group {
@@ -510,6 +517,76 @@ logo
 }
 
 /*--------------------------------------
+页脚
+------------------------------------------*/
+.footer{
+  margin-top: 50px;
+  .advertising{
+    height:80px;
+    background: $color-theme;
+    .adver-item{
+      padding: 20px 0 20px 50px;
+      color: #fff;
+      background: url(../images/hzjs.png) 0px 20px no-repeat;
+      background-size: 10%;
+      .adver-item-t{
+        font-size: 16px;
+        margin-bottom: 5px;
+      }
+      .adver-item-c{
+        font-size: 12px;
+      }
+    }
+  }
+  .footer-link{
+    padding:22px 0 22px ;
+    border-bottom:1px solid #dfdfdf;
+    .fl-title{
+      font-size: 16px;
+      margin-bottom: 22px;
+      color: #444;
+    }
+    .fl-list,
+    .fl-list>li{
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .fl-list{
+      width: 200px;
+      background: url(../images/footer-link-split.png) right 0px no-repeat;
+    }
+    .fl-list>li{
+      line-height: 24px;
+      font-size: 12px;
+      color: #666;
+    }
+    .wxgzh >img{
+      vertical-align: text-top;
+      border:1px solid #ebebeb;
+    }
+    .col-md-3:last-child>.fl-list{
+      background: none;
+      width: auto;
+    }
+  }
+  .copyright{
+    background: #f2f2f2;
+    border-top:1px solid #fff;
+    padding:20px 0;
+    text-align: center;
+    p{
+      margin:0 0 14px;
+      font-size: 12px;
+      color: #787878;
+    }
+    img{
+      border: 1px solid #e7e8e8;
+      margin: 0 12px;
+    }
+  }
+}
+/*--------------------------------------
 sortbox
 ------------------------------------------*/
 .sortbox{
@@ -542,8 +619,97 @@ filterbox
   }
 }
 
+/*--------------------------------------
+注册
+------------------------------------------*/
+body.register{
+  .header{
+    height:110px;
+    background:url(../images/headbg.jpg) left bottom repeat-x ;
+    .logo,.logo-title{
+      float: left;
+    }
+    .logo{
+      margin-top: 24px;
+      margin-right: 45px;
+    }
+    .logo-title{
+      font-size: 20px;
+      margin-top: 34px;
+      color: #787878;
+    }
+    .have-account{
+      float: right;
+      margin-top: 55px;
+      font-size: 16px;
+      color: #787878;
+    }
+  }
+  .form-register{
+    width: 400px;
+    margin: 92px auto;
+    .form-group{
+      margin-bottom: 30px;
+      .input-group{
+        border:1px solid $color-border;
+        border-radius: 4px;
+        width: 400px;
+        .input-group-addon{
+         background: none;
+          border:none;
+          color: #787878;
+          width: 80px;
+          text-align: left;
+        }
+        .input-group-btn{padding:2px;}
+        .input-group-btn>.btn,
+        .input-group-btn>.btn:hover{
+          width: 100px;
+          border: none;
+          height: 48px;
+          padding: 6px 10px;
+        }
+      }
+      .form-control{
+        padding: 16px 15px;
+        line-height: 18px;
+        border: none;
+        box-shadow: none;
+      }
+      .btn.btn-block{
+        padding: 16px 15px;
+        line-height: 16px;
+      }
+      .form-control::-webkit-input-placeholder{  color:#ccc;  }  /* 使用webkit内核的浏览器 */
+      .form-control:-moz-placeholder{color:#ccc;}                  /* Firefox版本4-18 */
+      .form-control::-moz-placeholder{color:#ccc;}                  /* Firefox版本19+ */
+      .form-control:-ms-input-placeholder{color:#ccc;}           /* IE浏览器 */
+    }
+  }
 
+  &.success{
+    color: #787878;
+    .form-register{
+      width: 500px;
+      text-align: center;
+      .title{
+        font-size: 18px;margin-bottom:30px;
+        line-height: 60px;
+        img{width: 51px;
+          vertical-align: top;
+          margin-right: 20px;
+        }
+      }
+      .level{font-size: 16px;margin-bottom:40px;}
+      .description{font-size:14px; line-height: 24px; text-align: left;margin-bottom:60px;}
+      #register-toVerify{
+        width: 400px;
+        margin: 0 auto;
+      }
+    }
 
+  }
+}
 /*--------------------------------------
 会员中心:我的铁矿，我的钢材
 侧栏展示
@@ -592,12 +758,57 @@ body.member{
     display: none;
   }
 
+  /*内部导航，会员中心*/
+  .header-nav-m{
+    display: block;
+    float: left;
+    margin: 0px 0 0 30px;
+    font-size: 16px;
+    width: 654px;
+    ul>li{
+      list-style: none;
+      float: left;
+      position: static;
+      padding: 0 12px;
+      height: 38px;
+      line-height: 38px;
+      text-align: center;
+      margin-right: 2px;
+      border: 1px solid #fff;
+      border-radius: 3px;
+      position: relative;
+      display: block;
+    }
+  }
+
   /*内容容器*/
   .main{
     background-color: #f9f9f9;
     -webkit-font-smoothing: antialiased;
     .container{
       position: relative;
+    }
+  }
+
+  /*页脚*/
+  .footer{
+    .advertising{display: none;}
+    .footer-link{
+      background: #323232;
+      border-bottom: 1px solid #222;
+      .fl-title,.fl-list>li{color:#b3b5ba;}
+      .fl-list{
+        border-right: 1px solid #444;
+        background: none;
+      }
+      .col-md-3:last-child >.fl-list{
+        border: none;
+      }
+    }
+    .copyright{
+      background: #323232;
+      color: #b3b5ba;
+      border-top: 1px solid #444;
     }
   }
 }
@@ -720,7 +931,7 @@ body.member{
   line-height: 1.5;
 }
 .content .userContent{
-  padding:0 40px 0 70px;
+  padding:0 40px 0 40px;
 }
 
 /*报盘分类*/
