@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="./fragments/frontCode" />
+
+<body class="member">
+
+<!--页头，菜单-->
+<div th:replace="fragments/head::header"></div>
+
+<!--内容-->
+<div class="main">
+    <div class="container">
+        <!--侧栏-->
+        <div th:replace="fragments/sidebar::sidebar"></div>
+
+        <!--内容-->
+        <div class="content">
+            <div class="userContent">
+
+                <!--分类-->
+                <div class="type-title">
+                    <div class="t-title" id="router-linkNode">
+                        <a href="#/approve" linkNode="approve" class="selected">企业认证</a>
+                    </div>
+                </div>
+
+                <!--分类页面-->
+                <div id="router-pageCotainer" class="padding-left-10 padding-right-10 padding-bottom-10">
+                   
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--页脚，链接-->
+<div th:replace="fragments/foot::footer"></div>
+
+<!--控制-->
+<script th:src="@{/js/module/member/member.approve.js}"></script>
+
+
+</body>
+</html>
+
+
