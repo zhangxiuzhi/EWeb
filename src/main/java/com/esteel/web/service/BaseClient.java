@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,7 +24,7 @@ import java.util.List;
  *
  */
 //,url = "http://127.0.0.1:9000"
-@FeignClient(name = "Base",fallback = BaseClientCallback.class ,path = "${esteel.language}")
+@FeignClient(name = "Base",fallback = BaseClientCallback.class ,path = "cn")
 public interface BaseClient {
 
     @RequestMapping(value = "/port", method = RequestMethod.POST)
@@ -47,7 +48,8 @@ class BaseClientCallback implements BaseClient {
 
     @Override
     public List<ProvinceVo> findAll() {
-        return null;
+        ArrayList<ProvinceVo> vos = new ArrayList<>();
+        return vos;
     }
 
     @Override

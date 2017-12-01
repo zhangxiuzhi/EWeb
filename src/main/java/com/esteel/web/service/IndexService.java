@@ -1,7 +1,8 @@
 package com.esteel.web.service;
 
 import com.esteel.web.vo.ProvinceVo;
-import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 /**
  * ESTeel
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Page;
  */
 public interface IndexService {
 
-    public Page<ProvinceVo> getPort(long portId);
+    public List<ProvinceVo> getPort(long portId);
 
+    void tfsTest();
 }
