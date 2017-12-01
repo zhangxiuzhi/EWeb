@@ -1,0 +1,103 @@
+<!--头像编辑-->
+
+<div class="update-head clearfix">
+
+    <div class="uh-left">
+
+        <div class="choose-file">
+            仅支持JPG、PNG、JPEG、BMP格式，文件小于4M
+        </div>
+        <div class="img-big img-count">
+            <img id="picture_original" src="http://files.jb51.net/demoimg/201003/634030306987187500.jpg"/>
+        </div>
+        <div class="save"><button type="button" id="save_btn">确定</button></div>
+        <div id="picture_original">
+            <img src="/images/111.jpg" alt="" style="width: 50%;height:50%;">
+        </div>
+    </div>
+
+    <div class="uh-right">
+        <h3>效果预览</h3>
+        你上传的图片会自动生成2种尺寸，请注意小尺寸的头像是否清晰
+        <!--缩略图-->
+        <div class="preview-container">
+            <div id="picture_100"></div>
+            <div class="size">100*100像素</div>
+        </div>
+        <div class="preview-container">
+            <div id="picture_50"></div>
+            <div class="size">50*50像素</div>
+        </div>
+    </div>
+
+
+
+
+</div>
+
+
+
+
+
+
+<link rel="Stylesheet" href="/jq/ImgCutter//jquery.Jcrop.css"/>
+<script src="/jq/ImgCutter/jquery.Jcrop.min.js"></script>
+<script src="/jq/ImgCutter/jQuery.UtrialAvatarCutter.js"></script>
+<script>
+    $(document).ready(function(){
+
+        $("#uploadFile").change(function(){
+            upload();
+        });
+
+    });
+
+    function upload(){
+        $.ajaxFileUpload({
+            url:'/member/user_head_upload.htm',
+            secureuri:false,
+            fileElementId:"uploadFile",//file标签的id
+            dataType: 'json',
+            success: function (data) {
+                var status=data.status;
+                var message=data.message;
+                if("success"==status){
+                    window.location.href = "/member/user_head_cut.htm?imgUrl="+message;
+                }else{
+                    alert("上传失败");
+                    $("#uploadFile").change(function(){
+                        upload();
+                    });
+                }
+            }
+        });
+    }
+    /*
+    var cutter = new jQuery.UtrialAvatarCutter(
+            {
+                //主图片所在容器ID
+                content : "picture_original",
+
+                //缩略图配置,ID:所在容器ID;width,height:缩略图大小
+                purviews : [
+                    {id:"picture_100",width:100,height:100},
+                    {id:"picture_50",width:50,height:50}
+                ],
+                //选择器默认大小
+                selector : {width:100,height:100}
+            }
+    );
+
+    $(window).load(function(){
+      //  cutter.init();
+
+        //确定按钮动作
+        $("#save_btn").click(
+                function(){
+                    var data = cutter.submit();
+                    alert("x="+data.x+"\ny="+data.y+"\nw="+data.w+"\nh="+data.h+"\ns="+data.s);
+                }
+        );
+    });
+    */
+</script>

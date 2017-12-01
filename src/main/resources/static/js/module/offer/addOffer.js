@@ -141,7 +141,6 @@ function JBSFrame_addOffer() {
 	this.loadRouter = function(){
 		var path = window.location.hash.slice(2);
 		$("#router-pageCotainer").load('/view/offer/add/'+path+".html", function(){
-			console.log(document.getElementById("component-selectBox-ItemName"))
 			self.renderFormElement();//渲染表单元素
 		});	//加载静态文件
 	}

@@ -3,7 +3,7 @@
 
 <head th:replace="./fragments/frontCode" />
 
-<body class="member myIron">
+<body class="member">
 
 <!--页头，菜单-->
 <div th:replace="fragments/head::header"></div>
@@ -21,11 +21,8 @@
                 <!--分类-->
                 <div class="type-title">
                     <div class="t-title" id="router-linkNode">
-                        <a href="#/inStock" linkNode="inStock" class="selected">港口现货</a>
-                        <em class="t-t-line">|</em>
-                        <a href="#/futures" linkNode="futures">远期现货</a>
-                        <em class="t-t-line">|</em>
-                        <a href="#/pricing" linkNode="pricing">点价</a>
+                        <a href="#/userInfo" linkNode="userInfo" class="selected">基本信息</a>
+                        <a href="#/portrait" linkNode="portrait">头像编辑</a>
                     </div>
                 </div>
                 <!--分类页面-->
@@ -41,7 +38,7 @@
 <div th:replace="fragments/foot::footer"></div>
 
 <!--控制-->
-<script th:src="@{/js/module/offer/addOffer.js}"></script>
+<script th:src="@{/js/module/member/member.userInfo.js}"></script>
 
 </body>
 
