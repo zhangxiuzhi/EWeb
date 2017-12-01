@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 /**
  * ESTeel
  * Description:
@@ -27,13 +29,16 @@ public class IndexController {
      * @return
      */
     @RequestMapping("/")
-    public String index(){
-//        return indexService.getPort(1);
+    @ResponseBody
+    public List<ProvinceVo>  index(){
+        List<ProvinceVo> ports = indexService.getPort(1);
+
+
 
 //        System.out.println("0000000000000000000");
 //        System.out.println(port);
 //        System.out.println("0000000000000000000");
-        return "";
+        return ports;
     }
 
 }

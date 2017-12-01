@@ -50,6 +50,12 @@ dependencies {
 
 	compile('com.esteel:Common:1.0.0-SNAPSHOT')
 
+	compile('io.projectreactor:reactor-net:2.0.8.RELEASE')
+	compile('io.netty:netty-all:4.0.33.Final')
+
+	compile('com.taobao.common.tair:common-tair:2.3.1')
+	compile('com.taobao.common.tfs:tfs-javaclient:2.1.1')
+	compile('org.apache.mina:apache-mina:2.0.6')
 
 	runtime('org.springframework.boot:spring-boot-devtools')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
