@@ -46,6 +46,11 @@ public class CommodityVo implements Serializable {
 	 * 更新人
 	 */
 	private String updateUser;
+	/**
+	 * 品名别名
+	 * 扩展字段
+	 */
+	private String commodityAlias;
 
 	public long getCommodityId() {
 		return commodityId;
@@ -109,5 +114,13 @@ public class CommodityVo implements Serializable {
 
 	public void setUpdateUser(String updateUser) {
 		this.updateUser = updateUser;
+	}
+
+	public String getCommodityAlias() {
+		return commodityAlias;
+	}
+
+	public void setCommodityAlias(String commodityAlias) {
+		this.commodityAlias = commodityAlias;
 	}
 }

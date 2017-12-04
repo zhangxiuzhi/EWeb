@@ -47,6 +47,7 @@ class OfferClientCallbackFactory implements FallbackFactory<OfferClient> {
 		return new OfferClient() {
 			@Override
 			public IronOfferVo saveOffer(IronOfferVo ironOfferVo) {
+				cause.printStackTrace();
 				return null;
 			}
 		};

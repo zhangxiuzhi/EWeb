@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.esteel.common.vo.BaseQueryVo;
 import com.esteel.common.vo.SimpePageImpl;
 import com.esteel.web.vo.ProvinceVo;
+import com.esteel.web.vo.base.CommodityCategoryVo;
 import com.esteel.web.vo.base.CommodityQueryVo;
 import com.esteel.web.vo.base.CommodityVo;
 import com.esteel.web.vo.base.PortVo;
@@ -29,14 +30,14 @@ import feign.hystrix.FallbackFactory;
  * Time: 14:55
  *
  */
-//,url = "http://127.0.0.1:9000"
-@FeignClient(name = "Base",fallback = BaseClientCallback.class ,path = "offer")
+//,url = "http://127.0.0.1:9920"
+@FeignClient(name = "Base",url = "http://127.0.0.1:9920",fallback = BaseClientCallback.class ,path = "offer")
 public interface BaseClient {
 
     @RequestMapping(value = "/port", method = RequestMethod.POST)
     public String getPort(@RequestParam("portId") long portId);
 
-    @RequestMapping(value = "/saveOffer", method = RequestMethod.POST)
+    @RequestMapping(value = "/province", method = RequestMethod.POST)
     public List<ProvinceVo> findAll();
 
     @RequestMapping(value = "/findProvince", method = RequestMethod.POST)
@@ -61,8 +62,16 @@ public interface BaseClient {
      * @param commodityQueryVo
      * @return
      */
-    @RequestMapping(value = "/bondedAreaPortListForOffer", method = RequestMethod.POST)
+    @RequestMapping(value = "/loadingPortListForOffer", method = RequestMethod.POST)
     public List<PortVo> findLoadingPortListForOffer(@RequestBody CommodityQueryVo commodityQueryVo);
+    
+    /**
+	 * 品名大类:根据编码获取
+	 * @param optionCode
+	 * @return
+	 */
+	@RequestMapping("/commodityCategoryByCode")
+	public CommodityCategoryVo findByCategoryCode(String categoryCode);
     
     /**
 	 * 品名查询:根据名称模糊查询
@@ -77,7 +86,7 @@ public interface BaseClient {
      * @param baseCommodityQueryVo
      * @return
      */
-    @RequestMapping(value = "/attributeList", method = RequestMethod.POST)
+    @RequestMapping(value = "/ironAttributeList", method = RequestMethod.POST)
     public List<IronAttributeLinkVo> findAttributeListByIron(@RequestBody CommodityQueryVo commodityQueryVo);
     
     /**
@@ -85,8 +94,23 @@ public interface BaseClient {
      * @param attributeCode
      * @return
      */
-    @RequestMapping("/attributeValueOptionListByCode")
+    @RequestMapping(value = "/attributeValueOptionListByAttributeCode", method = RequestMethod.POST)
     public List<AttributeValueOptionVo> findByAttributeCode(@RequestParam("attributeCode") String attributeCode);
+    
+    /**
+     * 属性值选项查询:根据属性编码查询
+     * @param attributeCode
+     * @return
+     */
+    @RequestMapping(value = "/attributeValueOptionByOptionCode", method = RequestMethod.POST)
+    public AttributeValueOptionVo findByOptionCode(@RequestParam("optionCode") String optionCode);
+    
+    /**
+	 * 铁矿品名列表
+	 * @return
+	 */
+    @RequestMapping(value = "/ironCommodityList", method = RequestMethod.POST)
+	public List<CommodityVo> findCommodityListByIron();
 }
 
 @Component
@@ -144,6 +168,24 @@ class BaseClientCallback implements BaseClient {
 		return vos;
 	}
 
+	@Override
+	public AttributeValueOptionVo findByOptionCode(String optionCode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public CommodityCategoryVo findByCategoryCode(String categoryCode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<CommodityVo> findCommodityListByIron() {
+		ArrayList<CommodityVo> vos = new ArrayList<>();
+		return vos;
+	}
+
 }
 @Component
 class BaseClientFallbackFactory implements FallbackFactory<BaseClient>{
@@ -196,6 +238,24 @@ class BaseClientFallbackFactory implements FallbackFactory<BaseClient>{
 
 			@Override
 			public List<AttributeValueOptionVo> findByAttributeCode(String attributeCode) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public AttributeValueOptionVo findByOptionCode(String optionCode) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public CommodityCategoryVo findByCategoryCode(String categoryCode) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public List<CommodityVo> findCommodityListByIron() {
 				// TODO Auto-generated method stub
 				return null;
 			}
