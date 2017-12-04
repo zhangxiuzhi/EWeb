@@ -880,7 +880,7 @@ body.member {
   .offer-kip-table th {
     font-weight: normal;
     text-align: center;
-    color: #6d7b82; }
+    color: #787878; }
   .offer-kip-table td {
     padding: 0 2px; }
   .offer-kip-table td > input[type=text] {
@@ -905,7 +905,7 @@ body.member {
 
 /*报盘条款内本文框*/
 .offer-rule.form-horizontal > .form-group {
-  color: #6d7b82;
+  color: #787878;
   line-height: 30px; }
   .offer-rule.form-horizontal > .form-group .control-label {
     padding-top: 0; }
@@ -932,5 +932,75 @@ body.member {
   .offer-rule-buttons .btn {
     width: 120px;
     margin: 0 20px; }
+
+/*--------------------------------------
+member
+用户信息,头像，手机号编辑
+------------------------------------------*/
+.update-head {
+  color: #999; }
+  .update-head .uh-left {
+    float: left;
+    display: inline;
+    width: 602px;
+    padding-right: 30px;
+    border-right: 1px solid #e9eaec; }
+    .update-head .uh-left .choose-file {
+      margin-bottom: 10px; }
+      .update-head .uh-left .choose-file .update-btn {
+        background: url(../images/head/update-btn.png) 0 0 no-repeat;
+        margin-bottom: 3px; }
+  .update-head .img-count {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    background: #f9f9f9;
+    border: 1px solid #e9eaec;
+    margin-bottom: 20px; }
+  .update-head .img-big {
+    width: 602px;
+    height: 300px; }
+  .update-head .btn-file {
+    position: relative;
+    display: inline-block;
+    padding: 4px 15px;
+    height: 20px;
+    overflow: hidden;
+    color: #333;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 20px;
+    border: 1px solid #DCDCDC;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+    vertical-align: middle;
+    background: #EEEEEE; }
+  .update-head .save {
+    padding: 10px 0 50px 0; }
+  .update-head .uh-right {
+    float: left;
+    display: inline;
+    width: 247px;
+    padding-left: 30px; }
+    .update-head .uh-right h3 {
+      font-size: 15px;
+      font-weight: bold;
+      color: #4B4C4D;
+      margin: 0; }
+    .update-head .uh-right .preview-container {
+      position: relative;
+      margin-top: 20px; }
+    .update-head .uh-right .preview-container1 {
+      width: 150px;
+      height: 150px;
+      margin-top: 0; }
+    .update-head .uh-right .preview-container2 {
+      width: 100px;
+      height: 100px;
+      margin-top: 0; }
+    .update-head .uh-right .size {
+      margin-top: 2px; }
 
 /*# sourceMappingURL=style.css.map */

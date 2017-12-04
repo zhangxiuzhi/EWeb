@@ -294,6 +294,12 @@ a {
   select.form-control{
     height:40px;
   }
+  &.form-group-btns{
+    .btn{
+      min-width: 120px;
+      margin: 0 20px;
+    }
+  }
 }
 /*水平排列标签*/
 .form-horizontal .form-group .control-label,

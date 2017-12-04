@@ -20,7 +20,7 @@ $color-blue-response:#002849;
 
 
 $color-text:#4B4C4D;
-$color-label:#6d7b82;
+$color-label:#787878;
 $color-black:#2a333a;
 $color-gray-1:#666666;
 $color-gray-2:#999999;
@@ -1100,3 +1100,80 @@ body.member{
   }
 }
 
+/*--------------------------------------
+member
+用户信息,头像，手机号编辑
+------------------------------------------*/
+.update-head{
+  color: #999;
+  .uh-left {
+    float: left;
+    display: inline;
+    width: 602px;
+    padding-right: 30px;
+    border-right: 1px solid #e9eaec;
+    .choose-file {
+      margin-bottom: 10px;
+      .update-btn {
+        background: url(../images/head/update-btn.png) 0 0 no-repeat;
+        margin-bottom: 3px;
+      }
+    }
+  }
+  .img-count {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    background: #f9f9f9;
+    border: 1px solid #e9eaec;
+    margin-bottom: 20px;
+  }
+  .img-big {
+    width: 602px;
+    height: 300px;
+  }
+  .btn-file{
+    position: relative;
+    display: inline-block;
+    padding: 4px 15px;
+    height: 20px;
+    overflow: hidden;
+    color: #333;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 20px;
+    border: 1px solid #DCDCDC;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+    vertical-align: middle;
+    background: #EEEEEE;
+  }
+  .save{
+    padding: 10px 0 50px 0;
+  }
+
+  .uh-right {
+    float: left;
+    display: inline;
+    width: 247px;
+    padding-left: 30px;
+    h3{
+      font-size: 15px;
+      font-weight: bold;
+      color: $color-text;
+      margin: 0;
+    }
+    .preview-container{
+      position: relative;
+      margin-top:20px;
+    }
+    .preview-container1{width:150px;height:150px;margin-top:0;}
+    .preview-container2{width:100px;height:100px;margin-top:0;}
+    .size{
+      margin-top:2px;
+    }
+  }
+
+}
