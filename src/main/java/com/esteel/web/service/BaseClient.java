@@ -30,7 +30,7 @@ public interface BaseClient {
     @RequestMapping(value = "/port", method = RequestMethod.POST)
     public String getPort(@RequestParam("portId") long portId);
 
-    @RequestMapping(value = "/allProvince", method = RequestMethod.POST)
+    @RequestMapping(value = "/province", method = RequestMethod.POST)
     public List<ProvinceVo> findAll();
 
     @RequestMapping(value = "/findProvince", method = RequestMethod.POST)
