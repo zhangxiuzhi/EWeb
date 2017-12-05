@@ -17,17 +17,16 @@
         <!--内容-->
         <div class="content">
             <div class="userContent">
-
                 <!--分类-->
                 <div class="type-title">
                     <div class="t-title" id="router-linkNode">
-                        <a href="#/headSet" linkNode="headSet" class="selected">头像设置</a>
+                        <a href="#/verifyMail" linkNode="verifyMail" class="selected">验证邮箱</a>
                     </div>
                 </div>
 
                 <!--分类页面-->
                 <div id="router-pageCotainer" class="padding-left-10 padding-right-10 padding-bottom-10">
-                   
+
                 </div>
 
             </div>
@@ -40,8 +39,10 @@
 
 <!--组件-->
 <script th:src="@{/js/component/component.MemberSidebar.js}"></script>
+<link rel="stylesheet" th:href="@{/jq/dragValidate/dragValidate.css}"/>
+<script th:src="@{/jq/dragValidate/dragValidate.js}"></script>
 <!--控制-->
-<script th:src="@{/js/module/member/member.headSet.js}"></script>
+<script th:src="@{/js/module/safe/safe.verifyMail.js}"></script>
 
 
 </body>

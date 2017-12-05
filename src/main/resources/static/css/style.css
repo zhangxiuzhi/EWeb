@@ -292,6 +292,10 @@ header
     width: 100%;
     height: 39px;
     border-bottom: 1px solid #e7e7e7; }
+  .header a {
+    color: #4B4C4D; }
+    .header a:hover {
+      text-decoration: none; }
 
 .main-nav ul, .main-nav li {
   padding: 0;
@@ -736,8 +740,10 @@ body.member {
   padding-left: 46px;
   height: 28px;
   line-height: 28px;
+  height: 42px;
+  line-height: 42px;
   display: block;
-  font-size: 16px;
+  font-size: 14px;
   color: #505254; }
 
 .nav-main .nav-list li > a.selected {
@@ -1002,5 +1008,123 @@ member
       margin-top: 0; }
     .update-head .uh-right .size {
       margin-top: 2px; }
+
+/*--------------------------------------
+member
+企业认证,证件照片
+------------------------------------------*/
+.img-uploadPhoto {
+  position: relative;
+  float: left;
+  vertical-align: middle;
+  text-align: center;
+  background: #f9f9f9;
+  border: 1px solid #e9eaec;
+  margin-right: 10px;
+  width: 200px;
+  height: 160px;
+  border-radius: 3px;
+  color: #666666; }
+  .img-uploadPhoto:before {
+    font-family: FontAwesome;
+    content: "\f067";
+    position: absolute;
+    width: 30px;
+    left: 50%;
+    top: 60px;
+    margin-left: -15px; }
+  .img-uploadPhoto .btn-file {
+    margin-top: 40%;
+    display: block; }
+
+/*--------------------------------------
+member
+账号安全,
+------------------------------------------*/
+.accoutSafe-item-list {
+  margin-bottom: -21px;
+  overflow: hidden; }
+  .accoutSafe-item-list .safe-item {
+    display: block;
+    padding: 30px 0;
+    border-bottom: 1px solid #e6e6e6; }
+    .accoutSafe-item-list .safe-item .item1, .accoutSafe-item-list .safe-item .item2, .accoutSafe-item-list .safe-item .item3 {
+      float: left;
+      height: 32px;
+      line-height: 32px; }
+    .accoutSafe-item-list .safe-item .item1 {
+      width: 175px;
+      text-align: left;
+      font-family: \5FAE\8F6F\96C5\9ED1;
+      font-size: 18px;
+      padding-left: 25px; }
+      .accoutSafe-item-list .safe-item .item1 .fa {
+        font-size: 32px;
+        margin-right: 32px;
+        margin-top: -5px;
+        vertical-align: middle; }
+    .accoutSafe-item-list .safe-item .item2 {
+      border-left: 1px solid #E6E6E6;
+      width: 450px;
+      height: auto;
+      line-height: 24px;
+      padding: 4px 0 4px 15px; }
+    .accoutSafe-item-list .safe-item .item3 {
+      text-align: center;
+      width: 140px; }
+    .accoutSafe-item-list .safe-item .item-text {
+      color: #999999; }
+  .accoutSafe-item-list .safe-item .item1 strong {
+    margin-right: 5px; }
+
+/*--------------------------------------
+member
+修改密码步骤,
+------------------------------------------*/
+.updateForm-step {
+  margin-bottom: 0;
+  padding-left: 0;
+  list-style: none;
+  margin: 0 auto;
+  width: 480px;
+  /*进行中*/
+  /*完成*/ }
+  .updateForm-step > li {
+    float: left;
+    position: relative;
+    width: 160px;
+    top: -5px;
+    border-top: 5px solid #dddddd;
+    text-align: center; }
+  .updateForm-step > li .up-s-num {
+    position: relative;
+    margin: -15px auto 0;
+    color: #fff;
+    font-weight: 700;
+    width: 23px;
+    height: 23px;
+    background: #dddddd;
+    line-height: 23px;
+    border-radius: 50%; }
+  .updateForm-step > li.active {
+    border-color: #3DC18E; }
+  .updateForm-step > li.active .up-s-num {
+    background: #3DC18E; }
+  .updateForm-step > li.active .up-s-text {
+    color: #3DC18E; }
+  .updateForm-step > li.done {
+    border-color: #B6E8D5; }
+  .updateForm-step > li.done .up-s-num {
+    background: #B6E8D5; }
+  .updateForm-step > li.done .up-s-text {
+    color: #B6E8D5; }
+
+.updateForm-step-content .finish {
+  font-size: 14px;
+  color: #666;
+  padding: 50px 0 50px 0px;
+  text-align: center;
+  line-height: 24px;
+  border: 1px solid #ececec; }
 
 /*# sourceMappingURL=style.css.map */

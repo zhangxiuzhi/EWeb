@@ -1,9 +1,9 @@
 /**
- * 会员中心-头像设置
- * Created by wzj on 2017/11/30.
+ * 会员中心-账号安全
+ * Created by wzj on 2017/12/4.
  */
 
-function JBSFrame_member_headSet() {
+function JBSFrame_safe_account() {
 
 	JBSFrame.call(this);
 
@@ -12,7 +12,13 @@ function JBSFrame_member_headSet() {
 	this.initUI = function () {
 		//主菜单栏
 		//当前选中发布报盘
-		this.sidebar = ReactDOM.render(React.createElement(ComponentMemberSidebar,{focusNode:{name:"userInfo",text:"个人资料"}}), document.getElementById("component-sidebar"));
+		this.sidebar = ReactDOM.render(React.createElement(ComponentMemberSidebar,{focusNode:{name:"accountSafe",text:"账号安全"}}), document.getElementById("component-sidebar"));
+
+
+	}
+
+	//渲染表单元素
+	this.renderFormElement = function(){
 
 
 	}
@@ -33,7 +39,6 @@ function JBSFrame_member_headSet() {
 			var rr = elem.getAttribute("linkNode")
 			offerRoutes[rr] = self.loadRouter
 		})
-		console.log(offerRoutes)
 		var router = Router(offerRoutes);
 		router.configure({
 			on: self.selectTypeTab	//切换路由后设置高亮标签
@@ -43,8 +48,8 @@ function JBSFrame_member_headSet() {
 
 	this.loadRouter = function(){
 		var path = window.location.hash.slice(2);
-		$("#router-pageCotainer").load('/view/member/'+path+".html", function(){
-
+		$("#router-pageCotainer").load('/view/safe/'+path+".html", function(){
+			self.renderFormElement();//渲染表单元素
 		});	//加载静态文件
 	}
 
@@ -64,12 +69,12 @@ function JBSFrame_member_headSet() {
 /*
  //body load
  --------------------------------------------------------------------*/
-var esteel_member_headSet;
+var esteel_safe_account;
 $(document).ready(function (e) {
-	esteel_member_headSet = new JBSFrame_member_headSet();
+	esteel_safe_account = new JBSFrame_safe_account();
 	//初始化UI
-	esteel_member_headSet.initUI();
+	esteel_safe_account.initUI();
 	//初始化路由
-	esteel_member_headSet.initRouter();
+	esteel_safe_account.initRouter();
 });
 
