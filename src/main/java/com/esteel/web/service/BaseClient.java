@@ -8,13 +8,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.esteel.common.vo.BaseQueryVo;
 import com.esteel.common.vo.SimpePageImpl;
 import com.esteel.web.vo.ProvinceVo;
 import com.esteel.web.vo.base.CommodityCategoryVo;
-import com.esteel.web.vo.base.CommodityQueryVo;
 import com.esteel.web.vo.base.CommodityVo;
 import com.esteel.web.vo.base.PortVo;
 import com.esteel.web.vo.config.AttributeValueOptionVo;
@@ -30,18 +28,23 @@ import feign.hystrix.FallbackFactory;
  * Time: 14:55
  *
  */
-//,url = "http://127.0.0.1:9920"
-@FeignClient(name = "Base",url = "http://127.0.0.1:9920",fallback = BaseClientCallback.class ,path = "offer")
+//@FeignClient(name = "Base",url = "http://127.0.0.1:9920",fallback = BaseClientCallback.class ,path = "cn")
+@FeignClient(name = "Base",fallback = BaseClientCallback.class ,path = "cn")
 public interface BaseClient {
-
-    @RequestMapping(value = "/port", method = RequestMethod.POST)
-    public String getPort(@RequestParam("portId") long portId);
 
     @RequestMapping(value = "/province", method = RequestMethod.POST)
     public List<ProvinceVo> findAll();
 
     @RequestMapping(value = "/findProvince", method = RequestMethod.POST)
     public SimpePageImpl<ProvinceVo> findProvince(@RequestBody BaseQueryVo vo);
+    
+    /**
+     * 港口
+     * @param port
+     * @return
+     */
+    @RequestMapping(value = "/port", method = RequestMethod.POST)
+    public PortVo getPort(@RequestBody PortVo vo);
     
     /**
      * 报盘模块 港口列表
@@ -59,51 +62,35 @@ public interface BaseClient {
     
     /**
      * 报盘模块 装货港查询
-     * @param commodityQueryVo
+     * @param commodityVo
      * @return
      */
     @RequestMapping(value = "/loadingPortListForOffer", method = RequestMethod.POST)
-    public List<PortVo> findLoadingPortListForOffer(@RequestBody CommodityQueryVo commodityQueryVo);
+    public List<PortVo> findLoadingPortListForOffer(@RequestBody CommodityVo commodityVo);
     
     /**
-	 * 品名大类:根据编码获取
-	 * @param optionCode
+	 * 品名大类
+	 * @param commodityCategoryVo
 	 * @return
 	 */
-	@RequestMapping("/commodityCategoryByCode")
-	public CommodityCategoryVo findByCategoryCode(String categoryCode);
+	@RequestMapping("/commodityCategory")
+	public CommodityCategoryVo getCommodityCategory(@RequestBody CommodityCategoryVo commodityCategoryVo);
     
     /**
 	 * 品名查询:根据名称模糊查询
-	 * @param name
+	 * @param commodityName
 	 * @return
 	 */
     @RequestMapping(value = "/commodityListByName", method = RequestMethod.POST)
-    public List<CommodityVo> findCommodityListByName(@RequestParam("name") String CommodityName);
+    public List<CommodityVo> findCommodityListByName(@RequestBody CommodityVo commodityVo);
     
     /**
      * 铁矿属性查询:根据品名查询
-     * @param baseCommodityQueryVo
+     * @param commodityVo
      * @return
      */
     @RequestMapping(value = "/ironAttributeList", method = RequestMethod.POST)
-    public List<IronAttributeLinkVo> findAttributeListByIron(@RequestBody CommodityQueryVo commodityQueryVo);
-    
-    /**
-     * 属性值选项查询:根据属性编码查询
-     * @param attributeCode
-     * @return
-     */
-    @RequestMapping(value = "/attributeValueOptionListByAttributeCode", method = RequestMethod.POST)
-    public List<AttributeValueOptionVo> findByAttributeCode(@RequestParam("attributeCode") String attributeCode);
-    
-    /**
-     * 属性值选项查询:根据属性编码查询
-     * @param attributeCode
-     * @return
-     */
-    @RequestMapping(value = "/attributeValueOptionByOptionCode", method = RequestMethod.POST)
-    public AttributeValueOptionVo findByOptionCode(@RequestParam("optionCode") String optionCode);
+    public List<IronAttributeLinkVo> findAttributeListByIron(@RequestBody CommodityVo commodityVo);
     
     /**
 	 * 铁矿品名列表
@@ -111,14 +98,41 @@ public interface BaseClient {
 	 */
     @RequestMapping(value = "/ironCommodityList", method = RequestMethod.POST)
 	public List<CommodityVo> findCommodityListByIron();
+    
+    /**
+     * 属性值选项查询:根据属性编码查询
+     * @param attributeValueOptionVo
+     * @return
+     */
+    @RequestMapping(value = "/attributeValueOptionListByAttributeCode", method = RequestMethod.POST)
+    public List<AttributeValueOptionVo> findAttributeValueOptionListByAttributeCode(@RequestBody AttributeValueOptionVo attributeValueOptionVo);
+    
+    /**
+     * 属性值选项
+     * @param attributeValueOptionVo
+     * @return
+     */
+    @RequestMapping(value = "/attributeValueOption", method = RequestMethod.POST)
+    public AttributeValueOptionVo getAttributeValueOption(@RequestBody AttributeValueOptionVo attributeValueOptionVo);
+    
 }
 
 @Component
 class BaseClientCallback implements BaseClient {
 
     @Override
-    public String getPort(long portId){
-        return "数据丢失";
+    public PortVo getPort(PortVo vo){
+    	if (vo == null) {
+    		vo = new PortVo();
+    	}
+		
+		vo.setPortId(-1);;
+		
+		vo.setStatus(99);
+		vo.setMsg("根据属性编码查询失败！");
+		vo.setMsg("");
+		
+		return vo;
     }
 
     @Override
@@ -129,7 +143,11 @@ class BaseClientCallback implements BaseClient {
 
     @Override
     public SimpePageImpl<ProvinceVo> findProvince(BaseQueryVo vo) {
-        return null;
+    	if (vo == null) {
+    		vo = new BaseQueryVo();
+    	}
+    	
+		return new SimpePageImpl<>(new ArrayList<>(), vo.getPageable(), 0);
     }
 
 	@Override
@@ -145,39 +163,57 @@ class BaseClientCallback implements BaseClient {
 	}
 
 	@Override
-	public List<PortVo> findLoadingPortListForOffer(CommodityQueryVo commodityQueryVo) {
+	public List<PortVo> findLoadingPortListForOffer(CommodityVo commodityVo) {
 		ArrayList<PortVo> vos = new ArrayList<>();
 		return vos;
 	}
 
 	@Override
-	public List<CommodityVo> findCommodityListByName(String CommodityName) {
+	public List<CommodityVo> findCommodityListByName(CommodityVo commodityVo) {
 		ArrayList<CommodityVo> vos = new ArrayList<>();
 		return vos;
 	}
 
 	@Override
-	public List<IronAttributeLinkVo> findAttributeListByIron(CommodityQueryVo commodityQueryVo) {
+	public List<IronAttributeLinkVo> findAttributeListByIron(CommodityVo commodityVo) {
 		ArrayList<IronAttributeLinkVo> vos = new ArrayList<>();
 		return vos;
 	}
 
 	@Override
-	public List<AttributeValueOptionVo> findByAttributeCode(String attributeCode) {
+	public List<AttributeValueOptionVo> findAttributeValueOptionListByAttributeCode(AttributeValueOptionVo attributeValueOptionVo) {
 		ArrayList<AttributeValueOptionVo> vos = new ArrayList<>();
 		return vos;
 	}
 
 	@Override
-	public AttributeValueOptionVo findByOptionCode(String optionCode) {
-		// TODO Auto-generated method stub
-		return null;
+	public AttributeValueOptionVo getAttributeValueOption(AttributeValueOptionVo vo) {
+		if (vo == null) {
+			vo = new AttributeValueOptionVo();
+		}
+		
+		vo.setOptionId(-1);
+		
+		vo.setStatus(99);
+		vo.setMsg("根据属性编码查询失败！");
+		vo.setMsg("");
+		
+		return vo;
 	}
 
 	@Override
-	public CommodityCategoryVo findByCategoryCode(String categoryCode) {
-		// TODO Auto-generated method stub
-		return null;
+	public CommodityCategoryVo getCommodityCategory(CommodityCategoryVo vo) {
+		if (vo == null) {
+			vo = new CommodityCategoryVo();
+		}
+		
+		vo.setCategoryId(-1);
+		
+		vo.setStatus(99);
+		vo.setMsg("");
+		vo.setMsg("");
+		
+		return vo;
 	}
 
 	@Override
@@ -193,63 +229,57 @@ class BaseClientFallbackFactory implements FallbackFactory<BaseClient>{
     @Override
     public BaseClient create(Throwable cause) {
         return new BaseClient() {
-            @Override
-            public String getPort(long portId) {
-                return null;
-            }
 
-            @Override
-            public List<ProvinceVo> findAll() {
-                return null;
-            }
+			@Override
+			public List<ProvinceVo> findAll() {
+				// TODO Auto-generated method stub
+				return null;
+			}
 
-            @Override
-            public SimpePageImpl<ProvinceVo> findProvince(BaseQueryVo vo) {
-                cause.printStackTrace();
-                return null;
-            }
+			@Override
+			public SimpePageImpl<ProvinceVo> findProvince(BaseQueryVo vo) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public PortVo getPort(PortVo vo) {
+				// TODO Auto-generated method stub
+				return null;
+			}
 
 			@Override
 			public List<PortVo> findPortListForOffer() {
+				// TODO Auto-generated method stub
 				return null;
 			}
 
 			@Override
 			public List<PortVo> findBondedAreaPortListForOffer() {
-				return null;
-			}
-
-			@Override
-			public List<PortVo> findLoadingPortListForOffer(CommodityQueryVo commodityQueryVo) {
-				return null;
-			}
-
-			@Override
-			public List<CommodityVo> findCommodityListByName(String CommodityName) {
 				// TODO Auto-generated method stub
 				return null;
 			}
 
 			@Override
-			public List<IronAttributeLinkVo> findAttributeListByIron(CommodityQueryVo commodityQueryVo) {
+			public List<PortVo> findLoadingPortListForOffer(CommodityVo commodityVo) {
 				// TODO Auto-generated method stub
 				return null;
 			}
 
 			@Override
-			public List<AttributeValueOptionVo> findByAttributeCode(String attributeCode) {
+			public CommodityCategoryVo getCommodityCategory(CommodityCategoryVo commodityCategoryVo) {
 				// TODO Auto-generated method stub
 				return null;
 			}
 
 			@Override
-			public AttributeValueOptionVo findByOptionCode(String optionCode) {
+			public List<CommodityVo> findCommodityListByName(CommodityVo commodityVo) {
 				// TODO Auto-generated method stub
 				return null;
 			}
 
 			@Override
-			public CommodityCategoryVo findByCategoryCode(String categoryCode) {
+			public List<IronAttributeLinkVo> findAttributeListByIron(CommodityVo commodityVo) {
 				// TODO Auto-generated method stub
 				return null;
 			}
@@ -259,6 +289,19 @@ class BaseClientFallbackFactory implements FallbackFactory<BaseClient>{
 				// TODO Auto-generated method stub
 				return null;
 			}
+
+			@Override
+			public List<AttributeValueOptionVo> findAttributeValueOptionListByAttributeCode(AttributeValueOptionVo attributeValueOptionVo) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public AttributeValueOptionVo getAttributeValueOption(AttributeValueOptionVo queryVo) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+        	
         };
     }
 }

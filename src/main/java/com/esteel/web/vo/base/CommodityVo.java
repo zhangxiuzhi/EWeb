@@ -3,6 +3,8 @@ package com.esteel.web.vo.base;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.esteel.common.vo.StatusMSGVo;
+
 /**
  * 
  * @ClassName: CommodityVo
@@ -11,7 +13,7 @@ import java.util.Date;
  * @date 2017年11月30日 下午2:48:18 
  *
  */
-public class CommodityVo implements Serializable {
+public class CommodityVo extends StatusMSGVo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -46,6 +48,11 @@ public class CommodityVo implements Serializable {
 	 * 更新人
 	 */
 	private String updateUser;
+	/**
+	 * 品名大类ID
+	 * 扩展字段
+	 */
+	private long categoryId;
 	/**
 	 * 品名别名
 	 * 扩展字段
@@ -118,6 +125,14 @@ public class CommodityVo implements Serializable {
 
 	public String getCommodityAlias() {
 		return commodityAlias;
+	}
+
+	public long getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(long categoryId) {
+		this.categoryId = categoryId;
 	}
 
 	public void setCommodityAlias(String commodityAlias) {

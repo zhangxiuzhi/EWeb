@@ -3,7 +3,9 @@ package com.esteel.web.vo.base;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.esteel.common.util.EsteelConstant;
+import com.esteel.web.service.AutowireHelper;
 import com.esteel.web.service.BaseClient;
+import com.esteel.web.vo.config.AttributeValueOptionVo;
 
 /**
  * 
@@ -35,13 +37,16 @@ public class CommodityCategoryEnum {
 	public Content COAL = new Content(EsteelConstant.COMMODITY_CATEGORY_CODE_COAL);
 	
 	@Autowired
-	BaseClient baseClient;
+	private BaseClient baseClient;
 
 	public static CommodityCategoryEnum getInstance() {
 		return INSTANCE;
 	}
 
 	private CommodityCategoryEnum() {
+		if (baseClient == null) {
+			AutowireHelper.autowire(this, baseClient);
+		}
 	}
 	
 	public class Content {
@@ -57,7 +62,10 @@ public class CommodityCategoryEnum {
 
 		public long getId() {
 			if (id == -1) {
-				CommodityCategoryVo vo = baseClient.findByCategoryCode(code);
+				CommodityCategoryVo queryVo = new CommodityCategoryVo();
+				queryVo.setCategoryCode(code);
+				
+				CommodityCategoryVo vo = baseClient.getCommodityCategory(queryVo);
 				if (vo == null) {
 					vo = new CommodityCategoryVo();
 					vo.setCategoryId(-1);
@@ -102,7 +110,10 @@ public class CommodityCategoryEnum {
 
 		public CommodityCategoryVo getCategoryVo() {
 			if (categoryVo == null) {
-				CommodityCategoryVo vo = baseClient.findByCategoryCode(code);
+				CommodityCategoryVo queryVo = new CommodityCategoryVo();
+				queryVo.setCategoryCode(code);
+				
+				CommodityCategoryVo vo = baseClient.getCommodityCategory(queryVo);
 				if (vo == null) {
 					vo = new CommodityCategoryVo();
 					vo.setCategoryId(-1);

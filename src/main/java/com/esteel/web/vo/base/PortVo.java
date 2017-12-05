@@ -3,6 +3,8 @@ package com.esteel.web.vo.base;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.esteel.common.vo.StatusMSGVo;
+
 /**
  * 
  * @ClassName: PortVo
@@ -11,7 +13,7 @@ import java.util.Date;
  * @date 2017年11月30日 下午2:48:18 
  *
  */
-public class PortVo implements Serializable {
+public class PortVo extends StatusMSGVo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**

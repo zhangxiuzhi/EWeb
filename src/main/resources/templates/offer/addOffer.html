@@ -32,6 +32,24 @@
                 <div id="router-pageCotainer" class="padding-left-10 padding-right-10 padding-bottom-10"></div>
             </div>
 
+			<!-- 品名列表 格式:[{"text":"commodityName","value":"commodityAlias"},...] -->
+			<div th:text="${ironCommodityJson}"></div>
+			<!-- 铁矿品名属性值联动列表  格式:[{"commodityName":[{"text":"attributeCode","value":"attributeValue"},...]},...]-->
+			<div th:text="${ironAttributeLinkJson}"></div>
+			<!-- 铁矿品名装货港联动列表 格式:[{"commodityName":[{"text":"portName","value":"portCode"},...]},...] -->
+			<div th:text="${ironLoadingPortJson}"></div>
+			<!-- 港口列表 格式:[{"text":"portName","value":"portCode"},...] -->
+			<div th:text="${portJson}"></div>
+			<!-- 保税区港口列表 格式:[{"text":"portName","value":"portCode"},...] -->
+			<div th:text="${bondedAreaPortJson}"></div>
+			<!-- 指标类型列表 格式:[{"text":"optionValue","value":"optionCode"},...] -->
+			<div th:text="${indicatorTypeJson}"></div>
+			<!-- 价格术语列表 格式:[{"text":"optionValue","value":"optionCode"},...] -->
+			<div th:text="${priceTermJson}"></div>
+			<!-- 计量方式列表 格式:[{"text":"optionValue","value":"optionCode"},...] -->
+			<div th:text="${measureMethodJson}"></div>
+			<!-- 计价方式列表 格式:[{"text":"optionValue","value":"optionCode"},...] -->
+			<div th:text="${pricingMethodJson}"></div>
 
         </div>
     </div>

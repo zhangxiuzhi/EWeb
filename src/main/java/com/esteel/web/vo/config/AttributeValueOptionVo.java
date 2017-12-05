@@ -3,6 +3,8 @@ package com.esteel.web.vo.config;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import com.esteel.common.vo.StatusMSGVo;
+
 /**
  * 
  * @ClassName: AttributeValueOptionVo
@@ -11,7 +13,7 @@ import java.sql.Timestamp;
  * @date 2017年12月4日 下午3:29:01 
  *
  */
-public class AttributeValueOptionVo implements Serializable {
+public class AttributeValueOptionVo extends StatusMSGVo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	/**

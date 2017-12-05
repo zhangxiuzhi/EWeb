@@ -3,6 +3,7 @@ package com.esteel.web.vo.config;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.esteel.common.util.EsteelConstant;
+import com.esteel.web.service.AutowireHelper;
 import com.esteel.web.service.BaseClient;
 
 /**
@@ -51,13 +52,16 @@ public class AttributeValueOptionEnum {
 	public Content CNY_MT = new Content(EsteelConstant.ATTRIBUTE_VALUE_OPTION_CODE_CNY_MT);
 	
 	@Autowired
-	BaseClient baseClient;
+	private BaseClient baseClient;
 
 	public static AttributeValueOptionEnum getInstance() {
 		return INSTANCE;
 	}
 
 	private AttributeValueOptionEnum() {
+		if (baseClient == null) {
+			AutowireHelper.autowire(this, baseClient);
+		}
 	}
 	
 	public class Content {
@@ -73,7 +77,10 @@ public class AttributeValueOptionEnum {
 
 		public long getId() {
 			if (id == -1) {
-				AttributeValueOptionVo vo = baseClient.findByOptionCode(code);
+				AttributeValueOptionVo queryVo = new AttributeValueOptionVo();
+				queryVo.setOptionCode(code);
+				
+				AttributeValueOptionVo vo = baseClient.getAttributeValueOption(queryVo);
 				if (vo == null) {
 					vo = new AttributeValueOptionVo();
 					vo.setOptionId(-1);
@@ -118,7 +125,10 @@ public class AttributeValueOptionEnum {
 
 		public AttributeValueOptionVo getOptionVo() {
 			if (optionVo == null) {
-				AttributeValueOptionVo vo = baseClient.findByOptionCode(code);
+				AttributeValueOptionVo queryVo = new AttributeValueOptionVo();
+				queryVo.setOptionCode(code);
+				
+				AttributeValueOptionVo vo = baseClient.getAttributeValueOption(queryVo);
 				if (vo == null) {
 					vo = new AttributeValueOptionVo();
 					vo.setOptionId(-1);
