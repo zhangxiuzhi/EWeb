@@ -332,12 +332,13 @@ $(document).ready(function (e) {
 
 //保存报盘
 function save_offer(){
-	if(validateOfferInfo()){
+/*	if(validateOfferInfo()){
 		esteel_addOffer.confirm(null,"该报盘将作为草稿保存到我的报盘记录",function(){
-
 		});
-	}
-
+		
+		$("#form-offer").submit();
+	}*/
+	$("#form-offer")[0].submit();
 }
 
 //提交报盘
