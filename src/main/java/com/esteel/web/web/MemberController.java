@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class MemberController {
 
-    @RequestMapping("/userInfo")
+	@RequestMapping("/userInfo")
     public String userInfo(Model model){
         return "/member/userInfo";
     }
@@ -37,5 +37,7 @@ public class MemberController {
     public String headUpload(Model model){
         return "/member/headUpload";
     }
+    
+    
 
 }

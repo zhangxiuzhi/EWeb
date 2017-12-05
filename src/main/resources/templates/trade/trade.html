@@ -15,7 +15,7 @@
         <div class="filterbox">
             <!--交易类型-->
             <div class="row">
-                <div class="col-md-2 filterbox-label">交易形式</div>
+                <div class="col-md-2 filterbox-label">交易形式<h1 th:text="${message}"></h1></div>
                 <div class="cold-md-10">
                     <div id="component-filter-tradeType"></div>
                 </div>
@@ -56,11 +56,6 @@
 <!--组件：卡片-->
 <link rel="stylesheet" th:href="@{/js/component/Card/EsteelCard.css}"/>
 <script th:src="@{/js/component/Card/EsteelCard.es2016.js}"></script>
-<!--组件：单选-->
-<link rel="stylesheet" th:href="@{/js/component/RadioBoxGroup/RadioBoxGroup.css}"/>
-<script th:src="@{/js/component/RadioBoxGroup/Radio.js}"></script>
-<script th:src="@{/js/component/RadioBoxGroup/RadioBoxGroup.js}"></script>
-<script th:src="@{/js/component/component.RadioBox.js}"></script>
 <!--控制-->
 <script th:src="@{/js/module/trade/trade.list.js}"></script>
 <script th:src="@{/js/module/trade/trade.js}" th:inline="javascript">var msg = [[${message}]]</script>
