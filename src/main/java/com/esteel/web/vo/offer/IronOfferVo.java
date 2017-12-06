@@ -3,15 +3,17 @@ package com.esteel.web.vo.offer;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.esteel.common.vo.StatusMSGVo;
+
 /**
  * 
  * @ClassName: IronOfferVo
- * @Description: TODO
+ * @Description: 铁矿报盘DTO
  * @author wyf
  * @date 2017年12月4日 下午3:46:41 
  *
  */
-public class IronOfferVo implements Serializable {
+public class IronOfferVo extends StatusMSGVo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private long offerId;
