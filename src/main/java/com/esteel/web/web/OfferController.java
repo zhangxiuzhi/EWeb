@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -51,27 +52,27 @@ public class OfferController {
     	 * 品名列表
     	 * 格式:[{"text":"commodityName","value":"commodityId","key":"commodityAlias"},...]
     	 */
-    	List<Map<String, String>> ironCommodityJson = new ArrayList<Map<String, String>>();
+    	List<Map<String, String>> ironCommodityList = new ArrayList<Map<String, String>>();
     	
     	/**
     	 * 铁矿品名属性值联动列表
     	 * 格式:{"commodityName":[{"text":"attributeCode","value":"attributeValue","key":"attributeCode"},...],...}
     	 */
-    	Map<String, List<Map<String, String>>> ironAttributeLinkJson = new HashMap<>();
+    	Map<String, List<Map<String, String>>> ironAttributeLinkMap = new HashMap<>();
     	
     	/**
     	 * 铁矿品名装货港联动列表
     	 * 格式:{"commodityName":[{"text":"portName","value":"portId","key":"portName,portNameEn"},...],...}
     	 */
-    	Map<String, List<Map<String, String>>> ironLoadingPortJson = new HashMap<>();
+    	Map<String, List<Map<String, String>>> ironLoadingPortMap = new HashMap<>();
     	
     	CommodityVo queryVo = new CommodityVo();
     	queryVo.setCategoryId(CommodityCategoryEnum.getInstance().IRON.getId());
     	
-    	List<CommodityVo> ironCommodityList = baseClient.findCommodityListByIron();
-    	for (CommodityVo commodityVo : ironCommodityList) {
+    	List<CommodityVo> ironCommoditys = baseClient.findCommodityListByIron();
+    	for (CommodityVo commodityVo : ironCommoditys) {
     		Map<String, String> ironCommodityMap = new HashMap<>();
-    		ironCommodityJson.add(ironCommodityMap);
+    		ironCommodityList.add(ironCommodityMap);
     		ironCommodityMap.put("text", commodityVo.getCommodityName());
     		ironCommodityMap.put("value", commodityVo.getCommodityId() + "");
     		ironCommodityMap.put("key", commodityVo.getCommodityAlias());
@@ -81,7 +82,7 @@ public class OfferController {
         	 * 格式:[{"text":"attributeCode","value":"attributeValue","key":"attributeCode"},...]
         	 */
     		List<Map<String, String>> ironAttributes = new ArrayList<Map<String, String>>();
-    		ironAttributeLinkJson.put(commodityVo.getCommodityName(), ironAttributes);
+    		ironAttributeLinkMap.put(commodityVo.getCommodityName(), ironAttributes);
     		
     		queryVo.setCommodityCode(commodityVo.getCommodityCode());
     		
@@ -99,7 +100,7 @@ public class OfferController {
         	 * 格式:[{"text":"portName","value":"portId","key":"portName,portNameEn"},...]
         	 */
     		List<Map<String, String>> loadingPorts = new ArrayList<Map<String, String>>();
-    		ironLoadingPortJson.put(commodityVo.getCommodityName(), loadingPorts);
+    		ironLoadingPortMap.put(commodityVo.getCommodityName(), loadingPorts);
     		
     		List<PortVo> loadingPortList = baseClient.findLoadingPortListForOffer(queryVo);
     		loadingPortList.forEach(port -> {
@@ -115,12 +116,12 @@ public class OfferController {
     	 * 港口列表
     	 * 格式:[{"text":"portName","value":"portId","key":"portName,portNameEn"},...]
     	 */
-		List<Map<String, String>> portJson = new ArrayList<Map<String, String>>();
+		List<Map<String, String>> portList = new ArrayList<Map<String, String>>();
 		
-    	List<PortVo> portList = baseClient.findPortListForOffer();
-    	portList.forEach(port -> {
+    	List<PortVo> ports = baseClient.findPortListForOffer();
+    	ports.forEach(port -> {
     		Map<String, String> portMap = new HashMap<>();
-    		portJson.add(portMap);
+    		portList.add(portMap);
     		portMap.put("text", port.getPortName());
     		portMap.put("value", port.getPortId() + "");
     		portMap.put("key", port.getPortName() + "," + port.getPortNameEn());
@@ -130,12 +131,12 @@ public class OfferController {
     	 * 保税区港口列表
     	 * 格式:[{"text":"portName","value":"portId","key":"portName,portNameEn"},...]
     	 */
-    	List<Map<String, String>> bondedAreaPortJson = new ArrayList<Map<String, String>>();
+    	List<Map<String, String>> bondedAreaPortList = new ArrayList<Map<String, String>>();
 		
-    	List<PortVo> bondedAreaPortList = baseClient.findBondedAreaPortListForOffer();
-    	bondedAreaPortList.forEach(port -> {
+    	List<PortVo> bondedAreaPorts = baseClient.findBondedAreaPortListForOffer();
+    	bondedAreaPorts.forEach(port -> {
     		Map<String, String> bondedAreaPortMap = new HashMap<>();
-    		bondedAreaPortJson.add(bondedAreaPortMap);
+    		bondedAreaPortList.add(bondedAreaPortMap);
     		bondedAreaPortMap.put("text", port.getPortName());
     		bondedAreaPortMap.put("value", port.getPortId() + "");
     		bondedAreaPortMap.put("key", port.getPortName() + "," + port.getPortNameEn());
@@ -145,16 +146,16 @@ public class OfferController {
     	 * 指标类型列表
     	 * 格式:[{"text":"optionValue","value":"optionId","key":"optionValue,optionValueEn"},...]
     	 */
-    	List<Map<String, String>> indicatorTypeJson = new ArrayList<Map<String, String>>();
+    	List<Map<String, String>> indicatorTypeList = new ArrayList<Map<String, String>>();
     	
     	AttributeValueOptionVo attributeValueOptionVo = new AttributeValueOptionVo();
     	attributeValueOptionVo.setAttributeCode(EsteelConstant.ATTRIBUTE_CODE_IRON_INDICATOR_TYPE);
     	
-    	List<AttributeValueOptionVo> indicatorTypeList = 
+    	List<AttributeValueOptionVo> indicatorTypes = 
     			baseClient.findAttributeValueOptionListByAttributeCode(attributeValueOptionVo);
-    	indicatorTypeList.forEach(indicatorType -> {
+    	indicatorTypes.forEach(indicatorType -> {
     		Map<String, String> indicatorTypeMap = new HashMap<>();
-    		indicatorTypeJson.add(indicatorTypeMap);
+    		indicatorTypeList.add(indicatorTypeMap);
     		indicatorTypeMap.put("text", indicatorType.getOptionValue());
     		indicatorTypeMap.put("value", indicatorType.getOptionId() + "");
     		indicatorTypeMap.put("key", indicatorType.getOptionValue() + "," + indicatorType.getOptionValueEn());
@@ -164,14 +165,14 @@ public class OfferController {
     	 * 价格术语列表
     	 * 格式:[{"text":"optionValue","value":"optionId","key":"optionValue,optionValueEn"},...]
     	 */
-		List<Map<String, String>> priceTermJson = new ArrayList<Map<String, String>>();
+		List<Map<String, String>> priceTermList = new ArrayList<Map<String, String>>();
     	
     	attributeValueOptionVo.setAttributeCode(EsteelConstant.ATTRIBUTE_CODE_PRICE_TERM);
-    	List<AttributeValueOptionVo> priceTermList = 
+    	List<AttributeValueOptionVo> priceTerms = 
     			baseClient.findAttributeValueOptionListByAttributeCode(attributeValueOptionVo);
-    	priceTermList.forEach(indicatorType -> {
+    	priceTerms.forEach(indicatorType -> {
     		Map<String, String> priceTermMap = new HashMap<>();
-    		priceTermJson.add(priceTermMap);
+    		priceTermList.add(priceTermMap);
     		priceTermMap.put("text", indicatorType.getOptionValue());
     		priceTermMap.put("value", indicatorType.getOptionId() + "");
     		priceTermMap.put("key", indicatorType.getOptionValue() + "," + indicatorType.getOptionValueEn());
@@ -181,14 +182,14 @@ public class OfferController {
     	 * 计量方式列表
     	 * 格式:[{"text":"optionValue","value":"optionId","key":"optionValue,optionValueEn"},...]
     	 */
-		List<Map<String, String>> measureMethodJson = new ArrayList<Map<String, String>>();
+		List<Map<String, String>> measureMethodList = new ArrayList<Map<String, String>>();
     	
     	attributeValueOptionVo.setAttributeCode(EsteelConstant.ATTRIBUTE_CODE_IRON_MEASURE_METHOD);
-    	List<AttributeValueOptionVo> measureMethodList = 
+    	List<AttributeValueOptionVo> measureMethods = 
     			baseClient.findAttributeValueOptionListByAttributeCode(attributeValueOptionVo);
-    	measureMethodList.forEach(indicatorType -> {
+    	measureMethods.forEach(indicatorType -> {
     		Map<String, String> measureMethodMap = new HashMap<>();
-    		measureMethodJson.add(measureMethodMap);
+    		measureMethodList.add(measureMethodMap);
     		measureMethodMap.put("text", indicatorType.getOptionValue());
     		measureMethodMap.put("value", indicatorType.getOptionId() + "");
     		measureMethodMap.put("key", indicatorType.getOptionValue() + "," + indicatorType.getOptionValueEn());
@@ -198,39 +199,134 @@ public class OfferController {
     	 * 计价方式列表
     	 * 格式:[{"text":"optionValue","value":"optionId","key":"optionValue,optionValueEn"},...]
     	 */
-		List<Map<String, String>> pricingMethodJson = new ArrayList<Map<String, String>>();
+		List<Map<String, String>> pricingMethodList = new ArrayList<Map<String, String>>();
     	
     	attributeValueOptionVo.setAttributeCode(EsteelConstant.ATTRIBUTE_CODE_IRON_PRICING_METHOD);
-    	List<AttributeValueOptionVo> pricingMethodList = 
+    	List<AttributeValueOptionVo> pricingMethods = 
     			baseClient.findAttributeValueOptionListByAttributeCode(attributeValueOptionVo);
-    	pricingMethodList.forEach(indicatorType -> {
+    	pricingMethods.forEach(indicatorType -> {
     		Map<String, String> pricingMethodMap = new HashMap<>();
-    		pricingMethodJson.add(pricingMethodMap);
+    		pricingMethodList.add(pricingMethodMap);
     		pricingMethodMap.put("text", indicatorType.getOptionValue());
     		pricingMethodMap.put("value", indicatorType.getOptionId() + "");
     		pricingMethodMap.put("key", indicatorType.getOptionValue() + "," + indicatorType.getOptionValueEn());
     	});
+    	
+    	/**
+    	 * 交易方式
+    	 * 格式:[{"text":"","value":"","key":""},...]
+    	 */
+    	List<Map<String, String>> tradeModeList = new ArrayList<Map<String, String>>();
+    	
+    	Map<String, String> tradeModeMap = new HashMap<>();
+    	tradeModeList.add(tradeModeMap);
+    	tradeModeMap.put("text", "港口现货");
+    	tradeModeMap.put("value", EsteelConstant.TRADE_MODE_INSTOCK + "");
+    	tradeModeMap.put("key", "InStock");
+    	
+    	tradeModeMap = new HashMap<>();
+    	tradeModeList.add(tradeModeMap);
+    	tradeModeMap.put("text", "远期现货");
+    	tradeModeMap.put("value", EsteelConstant.TRADE_MODE_FUTURES + "");
+    	tradeModeMap.put("key", "Futures");
+    	
+    	tradeModeMap = new HashMap<>();
+    	tradeModeList.add(tradeModeMap);
+    	tradeModeMap.put("text", "点价");
+    	tradeModeMap.put("value", EsteelConstant.TRADE_MODE_PRICING + "");
+    	tradeModeMap.put("key", "Pricing");
+    	
+    	Map<String, String> yesMap = new HashMap<>();
+    	yesMap.put("text", "否");
+    	yesMap.put("value", EsteelConstant.NO + "");
+    	yesMap.put("key", "Yes");
+    	Map<String, String> noMap = new HashMap<>();
+    	noMap.put("text", "是");
+    	noMap.put("value", EsteelConstant.YES + "");
+    	noMap.put("key", "No");
+    	
+    	/**
+    	 * 是否一船多货
+    	 * 格式:[{"text":"","value":"","key":""},...]
+    	 */
+    	List<Map<String, String>> isMultiCargoList = new ArrayList<Map<String, String>>();
+    	isMultiCargoList.add(yesMap);
+    	isMultiCargoList.add(noMap);
+    	
+    	/**
+    	 * 是否拆分
+    	 * 格式:[{"text":"","value":"","key":""},...]
+    	 */
+    	List<Map<String, String>> isSplitList = new ArrayList<Map<String, String>>();
+    	isSplitList.add(yesMap);
+    	isSplitList.add(noMap);
+    	
+    	/**
+    	 * 是否在保税区
+    	 * 格式:[{"text":"","value":"","key":""},...]
+    	 */
+    	List<Map<String, String>> isBondedAreaList = new ArrayList<Map<String, String>>();
+    	isBondedAreaList.add(yesMap);
+    	isBondedAreaList.add(noMap);
+    	
+    	/**
+    	 * 价格模式
+    	 * 格式:[{"text":"","value":"","key":""},...]
+    	 */
+    	List<Map<String, String>> priceModelList = new ArrayList<Map<String, String>>();
+    	
+    	Map<String, String> map = new HashMap<>();
+    	priceModelList.add(map);
+    	map.put("text", "固定价");
+    	map.put("value", EsteelConstant.PRICE_MODEL_FIX + "");
+    	map.put("key", "Fix");
+    	
+    	map = new HashMap<>();
+    	priceModelList.add(map);
+    	map.put("text", "浮动价");
+    	map.put("value", EsteelConstant.PRICE_MODEL_FLOAT + "");
+    	map.put("key", "Float");
+    	
+    	/**
+    	 * 是否匿名
+    	 * 格式:[{"text":"","value":"","key":""},...]
+    	 */
+    	List<Map<String, String>> isAnonymousList = new ArrayList<Map<String, String>>();
+    	isAnonymousList.add(yesMap);
+    	isAnonymousList.add(noMap);
     	/* 页面数据组装 结束 */
     	
     	/* 页面数据传输 开始 */
     	// 品名列表
-    	model.addAttribute("ironCommodityJson", JSONArray.toJSONString(ironCommodityJson));
+    	model.addAttribute("ironCommodityJson", JSONArray.toJSONString(ironCommodityList));
     	// 铁矿品名属性值联动列表
-    	model.addAttribute("ironAttributeLinkJson", JSONObject.toJSONString(ironAttributeLinkJson));
+    	model.addAttribute("ironAttributeLinkJson", JSONObject.toJSONString(ironAttributeLinkMap));
     	// 铁矿品名装货港联动列表
-    	model.addAttribute("ironLoadingPortJson", JSONObject.toJSONString(ironLoadingPortJson));
+    	model.addAttribute("ironLoadingPortJson", JSONObject.toJSONString(ironLoadingPortMap));
     	// 港口列表
-    	model.addAttribute("portJson", JSONArray.toJSONString(portJson));
+    	model.addAttribute("portJson", JSONArray.toJSONString(portList));
     	// 保税区港口列表
-    	model.addAttribute("bondedAreaPortJson", JSONArray.toJSONString(bondedAreaPortJson));
+    	model.addAttribute("bondedAreaPortJson", JSONArray.toJSONString(bondedAreaPortList));
     	// 指标类型列表
-    	model.addAttribute("indicatorTypeJson", JSONArray.toJSONString(indicatorTypeJson));
+    	model.addAttribute("indicatorTypeJson", JSONArray.toJSONString(indicatorTypeList));
     	// 价格术语列表
-    	model.addAttribute("priceTermJson", JSONArray.toJSONString(priceTermJson));
+    	model.addAttribute("priceTermJson", JSONArray.toJSONString(priceTermList));
     	// 计量方式列表
-    	model.addAttribute("measureMethodJson", JSONArray.toJSONString(measureMethodJson));
+    	model.addAttribute("measureMethodJson", JSONArray.toJSONString(measureMethodList));
     	// 计价方式列表
-    	model.addAttribute("pricingMethodJson", JSONArray.toJSONString(pricingMethodJson));
+    	model.addAttribute("pricingMethodJson", JSONArray.toJSONString(pricingMethodList));
+    	// 交易方式
+    	model.addAttribute("tradeModeJson", JSONArray.toJSONString(tradeModeList));
+    	// 是否一船多货
+    	model.addAttribute("isMultiCargoJson", JSONArray.toJSONString(isMultiCargoList));
+    	// 是否拆分
+    	model.addAttribute("isSplitJson", JSONArray.toJSONString(isSplitList));
+    	// 是否在保税区
+    	model.addAttribute("isBondedAreaJson", JSONArray.toJSONString(isBondedAreaList));
+    	// 价格模式
+    	model.addAttribute("priceModelJson", JSONArray.toJSONString(priceModelList));
+    	// 是否匿名
+    	model.addAttribute("isAnonymousJson", JSONArray.toJSONString(isAnonymousList));
     	/* 页面数据传输 结束 */
     	
         return "/offer/addOffer";

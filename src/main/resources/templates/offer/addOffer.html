@@ -52,6 +52,19 @@
 			<div th:text="${measureMethodJson}"></div>
 			<!-- 计价方式列表 格式:[{"text":"optionValue","value":"optionId","key":"optionValue,optionValueEn"},...] -->
 			<div th:text="${pricingMethodJson}"></div>
+			
+			<!-- 交易方式 格式:[{"text":"","value":"","key":""},...] -->
+			<div th:text="${tradeModeJson}"></div>
+			<!-- 是否一船多货 格式:[{"text":"","value":"","key":""},...] -->
+			<div th:text="${isMultiCargoJson}"></div>
+			<!-- 是否拆分 格式:[{"text":"","value":"","key":""},...] -->
+			<div th:text="${isSplitJson}"></div>
+			<!-- 是否在保税区 格式:[{"text":"","value":"","key":""},...] -->
+			<div th:text="${isBondedAreaJson}"></div>
+			<!-- 价格模式 格式:[{"text":"","value":"","key":""},...] -->
+			<div th:text="${priceModelJson}"></div>
+			<!-- 是否匿名 格式:[{"text":"","value":"","key":""},...] -->
+			<div th:text="${isAnonymousJson}"></div>
 
         </div>
     </div>
