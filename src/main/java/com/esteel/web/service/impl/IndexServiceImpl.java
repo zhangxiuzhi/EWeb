@@ -44,9 +44,7 @@ public class IndexServiceImpl implements IndexService {
     public List<ProvinceVo> getPort(long portId) {
 
         int companyStatusCancel = EsteelConstant.COMPANY_STATUS_CANCEL;
-
         List<ProvinceVo> all = baseClient.findAll();
-
 //        String key = "com.esteel.base.service.BaseProvinceService.findAll:10";
 //
 //        Cache baseCache = cacheManager.getCache("base");
