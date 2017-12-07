@@ -313,6 +313,7 @@ public class OfferController {
     	model.addAttribute("measureMethodList", measureMethods);
     	// 计价方式列表
     	model.addAttribute("pricingMethodList", pricingMethods);
+    	model.addAttribute("pricingMethodListJson", JSONArray.toJSONString(pricingMethods));
     	
     	// 品名列表Json
     	model.addAttribute("ironCommodityJson", JSONArray.toJSONString(ironCommodityList));
