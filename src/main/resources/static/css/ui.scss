@@ -507,11 +507,10 @@ a {
 .modal-body,
 .modal-footer{
   padding: 15px 20px;
-  text-align: center;
 }
 .modal-header{
   font-size:14px;
-
+  text-align: left;
   >.close{
     font-size:14px;
   }
@@ -525,7 +524,7 @@ a {
 }
 
 .modal-body{
-  font-size:18px;
+  font-size:14px;
   .form-subline{
     .control-label{
       top:6px;
@@ -533,8 +532,8 @@ a {
   }
 }
 .modal-footer{
+  text-align: center;
   margin:0;
-
   .btn{width:200px;}
   .btn+.btn{
     margin-left:10px;

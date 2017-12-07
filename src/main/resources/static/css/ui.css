@@ -393,11 +393,11 @@ a {
 .modal-header,
 .modal-body,
 .modal-footer {
-  padding: 15px 20px;
-  text-align: center; }
+  padding: 15px 20px; }
 
 .modal-header {
-  font-size: 14px; }
+  font-size: 14px;
+  text-align: left; }
   .modal-header > .close {
     font-size: 14px; }
   .modal-header h3 {
@@ -407,11 +407,12 @@ a {
     margin: 0; }
 
 .modal-body {
-  font-size: 18px; }
+  font-size: 14px; }
   .modal-body .form-subline .control-label {
     top: 6px; }
 
 .modal-footer {
+  text-align: center;
   margin: 0; }
   .modal-footer .btn {
     width: 200px; }
