@@ -2,6 +2,7 @@
  * Created by wzj on 2017/9/12.
  */
 
+
 var idInc = 0;
 
 class SelectBox extends React.Component {
@@ -129,8 +130,8 @@ class SelectBox extends React.Component {
 		//匹配选项
 		this.matchOptionSelected(value).forEach(function (opt, index) {
 			selected.push(React.createElement(
-				"span",
-				{ key: index, className: "react-selectbox-label-tag" },
+				'span',
+				{ key: index, className: 'react-selectbox-label-tag' },
 				opt.label
 			));
 		});
@@ -173,7 +174,6 @@ class SelectBox extends React.Component {
 
 	//搜索事件
 	handleSearch(event) {
-		console.log(event.target.value);
 		var searchTerm = event.target.value.toString().toLowerCase();
 		this.setState({ searchValue: searchTerm }); //设置搜索值
 		/*
@@ -204,14 +204,14 @@ class SelectBox extends React.Component {
 			"hasValue": value && value.length > 0 //是否有值
 		});
 		return React.createElement(
-			"div",
+			'div',
 			{ className: classes },
 			React.createElement(
-				"button",
-				{ className: "react-selectbox-button", ref: "button", onClick: this.onToggleOptionsMenu, onBlur: this.handleBlur },
+				'button',
+				{ className: 'react-selectbox-button', ref: 'button', onClick: this.onToggleOptionsMenu, onBlur: this.handleBlur },
 				React.createElement(
-					"div",
-					{ className: "react-selectbox-btn-label" },
+					'div',
+					{ className: 'react-selectbox-btn-label' },
 					this.label()
 				),
 				this.props.filter ? this.renderSearch() : null
@@ -226,9 +226,9 @@ class SelectBox extends React.Component {
 	renderSearch() {
 		const classes = classNames("react-selectbox-search");
 		return React.createElement(
-			"div",
+			'div',
 			{ className: classes },
-			React.createElement("input", { ref: "searchInput", type: "text", className: "react-selectbox-search-input", onChange: this.handleSearch, onBlur: this.handleSearchBlur })
+			React.createElement('input', { ref: 'searchInput', type: 'text', className: 'react-selectbox-search-input', onChange: this.handleSearch, onBlur: this.handleSearchBlur })
 		);
 	}
 
@@ -240,14 +240,16 @@ class SelectBox extends React.Component {
 			this.props.data.forEach(function (option) {
 				options.push({
 					value: option.value,
-					label: option.text
+					label: option.text,
+					key: option.key || ""
 				});
 			});
 		} else {
 			React.Children.forEach(this.props.children, function (option) {
 				options.push({
 					value: option.props.value,
-					label: option.props.children
+					label: option.props.children,
+					key: option.key || ""
 				});
 			});
 		}
@@ -264,11 +266,11 @@ class SelectBox extends React.Component {
 		});
 
 		return React.createElement(
-			"div",
-			{ className: classes, ref: "menu" },
+			'div',
+			{ className: classes, ref: 'menu' },
 			React.createElement(
-				"div",
-				{ className: "react-selectbox-box-off-screen" },
+				'div',
+				{ className: 'react-selectbox-box-off-screen' },
 				this.options().map((option, index) => this.renderOption(option, index))
 		)
 	);
@@ -290,8 +292,9 @@ class SelectBox extends React.Component {
 			}
 		});
 
-		var labelSlug = option.label.toString().toLowerCase();
-		if (this.state.searchValue && labelSlug.indexOf(this.state.searchValue) == -1) {
+		//var labelSlug = option.label.toString().toLowerCase();
+		var titleSlug = option.key.toString().toLowerCase();
+		if (this.state.searchValue && titleSlug.indexOf(this.state.searchValue) == -1) {
 			hidden = true;
 		}
 
@@ -301,8 +304,8 @@ class SelectBox extends React.Component {
 		});
 
 		return React.createElement(
-			"a",
-			{ key: index, href: "javascript:void(0)",
+			'a',
+			{ key: index, href: 'javascript:void(0)',
 				className: optionClasses,
 				id: this.state.id + "-" + index,
 				onClick: this.onChangeValue(option.value),
@@ -315,28 +318,43 @@ class SelectBox extends React.Component {
 
 	//构建原始下拉框
 	renderNativeSelect() {
-		const id = this.state.id + "-native-select";
+		const id = this.props.id ? this.props.id : this.state.id + "-native-select";
 		const multiple = this.isMultiple(); //是否多选
+
+		//是否通过选择后关闭的，以此判断是取选择值还是默认值
+		var value = this.state.changeOnClose ? this.state.pendingValue : this.props.value;
 
 		//选项
 		var option = React.createElement.bind(null, 'option');
 		var empty = option({ key: '', value: '' }, 'No Selection');
 		var options = [empty].concat(this.props.children);
-
-		//是否通过选择后关闭的，以此判断是取选择值还是默认值
-		var value = this.state.changeOnClose ? this.state.pendingValue : this.props.value;
+		if (this.props.children == undefined && this.props.data.length > 0) {
+			for (var i = 0; i < this.props.data.length; i++) {
+				var selectedOpt = false;
+				//和当前值匹配，如果相同就选中option
+				if (value == this.props.data[i].value) {
+					selectedOpt = "selected";
+				}
+				options.push(React.createElement(
+					'option',
+					{ value: this.props.data[i].value, selected: selectedOpt },
+					this.props.data[i].text
+				));
+			}
+		}
 
 		return React.createElement(
-			"div",
-			{ className: "react-selectbox-native" },
+			'div',
+			{ className: 'react-selectbox-native' },
 			React.createElement(
-				"label",
+				'label',
 				{ htmlFor: id },
 				this.props.label
 			),
 			React.createElement(
-				"select",
+				'select',
 				{ id: id,
+					name: this.props.name,
 					multiple: multiple,
 					value: value || (multiple ? [] : ''),
 					onChange: this.handleNativeChange
@@ -351,7 +369,7 @@ class SelectBox extends React.Component {
 		//是否通过选择后关闭的，以此判断是取选择值还是默认值
 		var val = this.state.changeOnClose ? this.state.pendingValue : this.props.value;
 		if (val && val.length > 0) {
-			return React.createElement("div", { className: "react-selectbox-clearbtn", onClick: this.handleClearValue });
+			return React.createElement('div', { className: 'react-selectbox-clearbtn', onClick: this.handleClearValue });
 		}
 	}
 

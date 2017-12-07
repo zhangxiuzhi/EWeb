@@ -1,0 +1,152 @@
+<!--企业认证-->
+
+<form id="form-userInfo" onsubmit="return false">
+    <!--基本信息-->
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">公司全称</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">公司简称</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">注册地址</label>
+            <div class="col-sm-8">
+                <div class="clearfix margin-bottom-15">
+                    <div class="pull-left margin-right-10" id="component-regAddress-1"></div>
+                    <div class="pull-left margin-right-10" id="component-regAddress-2"></div>
+                    <div class="pull-left margin-right-10" id="component-regAddress-3"></div>
+                </div>
+                <textarea class="form-control" placeholder="请输入详细地址"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">通信地址</label>
+            <div class="col-sm-8">
+                <div class="clearfix margin-bottom-15">
+                    <div class="pull-left margin-right-10" id="component-contactAddress-1"></div>
+                    <div class="pull-left margin-right-10" id="component-contactAddress-2"></div>
+                    <div class="pull-left margin-right-10" id="component-contactAddress-3"></div>
+                </div>
+                <textarea class="form-control" placeholder="请输入详细地址"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">代理人姓名</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">代理人身份证号</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">代理人身份证正反面</label>
+            <div class="col-sm-8 clearfix">
+                <div class="img-uploadPhoto">
+                    <form name="dataForm" enctype="multipart/form-data">
+                        <a href="javascript:;" class="btn-file">上传人像面
+                            <input id="" name="uploadFile" type="file"></a>
+                    </form>
+                </div>
+                <div class="img-uploadPhoto">
+                    <form name="dataForm" enctype="multipart/form-data">
+                        <a href="javascript:;" class="btn-file">上传国徽面
+                            <input id="" name="uploadFile" type="file"></a>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">法人姓名</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">法人身份证号</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">法人身份证正反面</label>
+            <div class="col-sm-8 clearfix">
+                <div class="img-uploadPhoto">
+                    <form name="dataForm" enctype="multipart/form-data">
+                        <a href="javascript:;" class="btn-file">上传人像面
+                            <input id="" name="uploadFile" type="file"></a>
+                    </form>
+                </div>
+                <div class="img-uploadPhoto">
+                    <form name="dataForm" enctype="multipart/form-data">
+                        <a href="javascript:;" class="btn-file">上传国徽面
+                            <input id="" name="uploadFile" type="file"></a>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">授权书</label>
+            <div class="col-sm-10">
+                <div id=""></div>
+                <span class="fileupload fileupload-new" data-provides="fileupload">
+                    <span class="btn btn-default btn-file btn-ghost">
+                        <span class="fileupload-new"><i class="fa fa-folder-open-o"></i> 选择文件</span>
+                        <span class="fileupload-exists"><i class="fa fa-folder-open-o"></i> 替换文件</span>
+                        <input type="file" name="ccFile" class="form-control  uploadFile" accept=".zip,.rar,.doc,.docx,.pdf,.jpg,.png"/>
+                    </span>
+                    <span class="fileupload-preview"></span>
+                    <a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none">×</a>
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">是否三证合一</label>
+            <div class="col-sm-8">
+                <div id="component-certificate" inputName="certificate"></div>
+            </div>
+        </div>
+        <div class="box-container">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">营业执照注册号</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control"/>
+                </div>
+                <label class="col-sm-2 control-label">统一社会信用代码</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">组织机构代码</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control"/>
+                </div>
+                <label class="col-sm-2 control-label">税务登记证号</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">营业执照</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control"/>
+                </div>
+            </div>
+        </div>
+        <div class="form-group text-center form-group-btns">
+            <button class="btn btn-primary">提交</button>
+            <a class="btn btn-default" href="/member/userInfo">返回</a>
+        </div>
+    </div>
+</form>

@@ -22,7 +22,7 @@ import java.util.List;
  * Time: 15:06
  */
 @Service
-@CacheConfig(cacheNames = "base",keyGenerator = "esteelCacheKeyGenerator")
+@CacheConfig(cacheNames = "SMS",cacheManager = "tmpCacheManager",keyGenerator = "esteelCacheKeyGenerator")
 public class IndexServiceImpl implements IndexService {
 
     @Autowired
@@ -40,7 +40,7 @@ public class IndexServiceImpl implements IndexService {
 
 
     @Override
-//    @Cacheable(key="'com.esteel.base.service.BaseProvinceService.findAll:00'",unless = " !(#result != null&&#result.size()>0) ")
+    @Cacheable(key="'com.esteel.base.service.BaseProvinceService.findAll:00'",unless = " !(#result != null&&#result.size()>0) ")
     public List<ProvinceVo> getPort(long portId) {
 
         int companyStatusCancel = EsteelConstant.COMPANY_STATUS_CANCEL;

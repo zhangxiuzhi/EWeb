@@ -125,6 +125,10 @@ function register() {
 	var phone = $("#mobile").val();
 	var codes = $("#code").val();
 	var pwd = $("#firmPwd").val();
+	if(codes==""){
+		alert("验证码不能为空");
+		return;
+	}
 	if(pass&&status){
 		
 		// alert(phone+"---"+codes+pwd)
@@ -145,9 +149,7 @@ function register() {
 		if(phone==""){
 			alert("号码不能为空");
 		}
-		if(codes==""){
-			alert("验证码不能为空");
-		}if(pwd==""){
+		if(pwd==""){
 			alert("密码不能为空");
 		}
 	}

@@ -19,7 +19,7 @@ public class RegisterController {
 
     @RequestMapping("/")
     public String addUI(Model model){
-        return "/register/register";
+        return "/register/register";	
     }
     
     @RequestMapping("/success")
