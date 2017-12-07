@@ -1,52 +1,52 @@
-<form id="form-offer" action="/offer/saveOffer" method="post" onsubmit="return false">
+<form id="form-offer" action="/offer/saveInStockOffer" enctype="multipart/form-data" method="post" onsubmit="return false">
 <!--商品信息-->
     <div class="form-horizontal">
         <div class="form-group">
             <label class="col-sm-2 control-label">交易对象</label>
             <div class="col-sm-10">
-                <div id="component-TradeCustomer"></div>
+                <div id="component-TradeCustomer" inputName="counterpartyIds"></div>
             </div>
         </div>
 
         <div class="form-group">
             <label class="col-sm-2 control-label">*品名</label>
             <div class="col-sm-4">
-                <div id="component-selectBox-ItemName" inputName="ItemName" data-validetta="required"></div>
+                <div id="component-selectBox-ItemName" inputName="commodityId" data-validetta="required"></div>
             </div>
             <label class="col-sm-2 control-label">*港口</label>
             <div class="col-sm-4">
-                <div id="component-selectBox-Port" inputName="Port" data-validetta="required"></div>
+                <div id="component-selectBox-Port" inputName="portName" data-validetta="required"></div>
             </div>
         </div>
 
         <div class="form-group">
             <label class="col-sm-2 control-label">指标类型</label>
             <div class="col-sm-8">
-                <div id="component-radioBoxGroup-kpiType"></div>
+                <div id="component-radioBoxGroup-kpiType" inputName="indicatorTypeName"></div>
             </div>
         </div>
 
         <div class="form-group">
-            <label class="col-sm-2 control-label">指标</label>
+            <label class="col-sm-2 control-label">指标(%)</label>
             <div class="col-sm-8">
                 <table class="offer-kip-table">
                     <tr>
                         <th>Fe</th><th>SiO2</th><th>A12O3</th><th>Mn</th><th>LOI</th>
                     </tr>
                     <tr>
-                        <td><input type="text" class="form-control mask-number"  data-validetta="required"/></td>
-                        <td><input type="text" class="form-control"/></td>
-                        <td><input type="text" class="form-control"/></td>
-                        <td><input type="text" class="form-control"/></td>
-                        <td><input type="text" class="form-control"/></td>
+                        <td><input type="text" class="form-control mask-number" name="fe" data-validetta="required"/></td>
+                        <td><input type="text" class="form-control" name="sio2" id="indicator-SIO2"/></td>
+                        <td><input type="text" class="form-control" name="al2o3" id="indicator-AL2O3"/></td>
+                        <td><input type="text" class="form-control" name="mn" id="indicator-MN"/></td>
+                        <td><input type="text" class="form-control" name="LOI" id="indicator-LOI"/></td>
                     </tr>
                     <tr>
                         <th>P</th><th>S</th><th>H20</th><th>&nbsp;</th><th>&nbsp;</th>
                     </tr>
                     <tr>
-                        <td><input type="text" class="form-control"/></td>
-                        <td><input type="text" class="form-control"/></td>
-                        <td><input type="text" class="form-control"/></td>
+                        <td><input type="text" class="form-control" name="p" id="indicator-P"/></td>
+                        <td><input type="text" class="form-control" name="s" id="indicator-S"/></td>
+                        <td><input type="text" class="form-control" name="h2o" id="indicator-H2O"/></td>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                     </tr>
@@ -57,32 +57,32 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">粒度</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control" maxlength="32"/>
+                <input type="text" class="form-control" maxlength="32" name="sizeIndicators"/>
             </div>
         </div>
 
         <div class="form-group">
             <label class="col-sm-2 control-label">*数量</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control mask-number"  data-validetta="required" name="offerNum" maxlength="100"/>
+                <input type="text" class="form-control mask-number"  data-validetta="required" name="offerQuantity" maxlength="100"/>
             </div>
 
             <label class="col-sm-2 control-label">*溢短装</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control mask-number"  data-validetta="required" maxlength="4"/>
+                <input type="text" class="form-control mask-number"  data-validetta="required" maxlength="4" name="moreOrLess"/>
             </div>
         </div>
 
         <div class="form-group">
             <label class="col-sm-2 control-label">*可否拆分</label>
             <div class="col-sm-4">
-                <div id="component-toggle-split" inputName="split"></div>
+                <div id="component-toggle-split" ></div>
             </div>
 
             <div id="offer-qdl-box">
                 <label class="col-sm-2 control-label">*起订量</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control mask-number"  data-validetta="required"/>
+                    <input type="text" class="form-control mask-number" name="minQuantity" ata-validetta="required"/>
                 </div>
             </div>
         </div>
@@ -90,28 +90,37 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">*价格</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control mask-number"  data-validetta="required" maxlength="6"/>
+                <input type="text" class="form-control mask-number" name="priceValue" data-validetta="required" maxlength="6"/>
             </div>
         </div>
 
         <div class="form-group">
             <label class="col-sm-2 control-label">*报盘有效期：</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control datetimepicker"  data-validetta="required"/>
+                <input type="text" class="form-control datetimepicker" name="validTimeStr" data-validetta="required"/>
             </div>
         </div>
 
         <div class="form-group">
             <label class="col-sm-2 control-label">商品备注</label>
             <div class="col-sm-10">
-                <textarea type="text" class="form-control" maxlength="128"></textarea>
+                <textarea type="text" class="form-control" maxlength="128" name="remarks"></textarea>
             </div>
         </div>
 
         <div class="form-group">
             <label class="col-sm-2 control-label">上传附件</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" />
+                <div id=""></div>
+                <span class="fileupload fileupload-new" data-provides="fileupload">
+                    <span class="btn btn-default btn-file btn-ghost">
+                        <span class="fileupload-new"><i class="fa fa-folder-open-o"></i> 选择文件</span>
+                        <span class="fileupload-exists"><i class="fa fa-folder-open-o"></i> 替换文件</span>
+                        <input type="file" name="offerAffix" class="form-control uploadFile" accept=".doc,.docx,.xls,.xlsx,.pdf,.zip,.rar,.7z"/>
+                    </span>
+                    <span class="fileupload-preview"></span>
+                    <a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none">×</a>
+                </span>
             </div>
         </div>
 
@@ -124,34 +133,31 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">*结算方式</label>
             <div class="col-sm-10">
-                <input type="radio" name="settlementType" checked/>签订合同后<input class="offer-rule-f-c  mask-number" maxlength="3"/>个工作日内付全款<br/>
-                <input type="radio" name="settlementType"/>签订合同后<input class="offer-rule-f-c  mask-number" maxlength="3"/>个工作日内付合同款的<input class="offer-rule-f-c  mask-number" maxlength="5"/>%作为定金，剩余货款在<input class="offer-rule-f-c  mask-number" maxlength="3"/>个工作日内结清。
+                <input type="radio" value="0" name="settlement_method" checked/>签订合同后<input class="offer-rule-f-c  mask-number" maxlength="3" name="clear_within_several_working_days"/>个工作日内付全款<br/>
+                <input type="radio" value="1" name="settlement_method"/>签订合同后<input class="offer-rule-f-c  mask-number" maxlength="3" name="after_sign_several_working_days"/>个工作日内付合同款的<input class="offer-rule-f-c  mask-number" maxlength="5" name="contract_funds_percentage"/>%作为定金，剩余货款在<input class="offer-rule-f-c  mask-number" maxlength="3" name="clear_within_several_working_days"/>个工作日内结清。
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">*交货期</label>
             <div class="col-sm-10">
-                买方付全款后<input class="offer-rule-f-c mask-number"  data-validetta="required" maxlength="3"/>个工作日内完成货权转移
+                买方付全款后<input class="offer-rule-f-c mask-number"  data-validetta="required" maxlength="3" name="after_pay_off_several_working_days"/>个工作日内完成货权转移
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">交货方式</label>
             <div class="col-sm-10">
-                <input class="offer-rule-f-c" id="offer-rules-port1"/>（港口）
-                <select class="form-control" name="checkModeWay" data-validetta="true">
-                    <option value=""></option>
-                    <option value="0">汽车车板</option>
-                    <option value="1">火车车板</option>
-                    <option value="2">二程船舱底</option>
-                    <option value="3">堆场</option>
+                <input class="offer-rule-f-c" id="offer-rules-port1" name="Delivery_Method_port"/>（港口）
+                <select class="form-control" name="Pricing_method" data-validetta="true" th:field="*{paymentMethod}">
+                    <option th:each="tmp : ${pricingMethodList}"
+                            th:value="${tmp}" th:text="${name.optionId}">Credit card</option>
                 </select>（计价方式）交货
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">交货数量标准</label>
             <div class="col-sm-10">
-                以<input class="offer-rule-f-c" id="offer-rules-port2"/>（港口）
-                <select class="form-control" name="checkNum" data-validetta="true">
+                以<input class="offer-rule-f-c" id="offer-rules-port2" name="Delivery_quantity_port"/>（港口）
+                <select class="form-control" name="measure_method" data-validetta="true">
                     <option value=""></option>
                     <option value="0">过磅</option>
                     <option value="1">港航交接</option>
@@ -163,7 +169,7 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">货物规格标准</label>
             <div class="col-sm-10">
-                以<select class="form-control" name="" data-validetta="true">
+                以<select class="form-control" name="trader_type" data-validetta="true">
                     <option value=""></option>
                     <option value="0">卖方</option>
                     <option value="1">买方</option>
@@ -173,17 +179,17 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">费用条款</label>
             <div class="col-sm-10">
-                费用条款：若火车或车板提货，则产生的港口费差价、运费由 <input class="offer-rule-f-c"  maxlength="3"/> 承担；
-                若二程船提货，则水分检验费及其代理费由<input class="offer-rule-f-c"  maxlength="3"/>承担， 内贸港口建设费由<input class="offer-rule-f-c" maxlength="3"/>承担，
-                二程船运费由<input class="offer-rule-f-c"  maxlength="3"/>承担， 过磅费或水尺费由<input class="offer-rule-f-c" maxlength="3"/>承担；
-                自货权转移之日起，买方享有<input class="offer-rule-f-c"  maxlength="3"/>天免堆期， 超期产生的堆存费由<input class="offer-rule-f-c" maxlength="3"/>承担。
+                费用条款：若火车或车板提货，则产生的港口费差价、运费由 <input class="offer-rule-f-c"  maxlength="3" name="transport_costs_bearer"/> 承担；
+                若二程船提货，则水分检验费及其代理费由<input class="offer-rule-f-c"  maxlength="3" name="agency_fee_bearer"/>承担， 内贸港口建设费由<input class="offer-rule-f-c" maxlength="3" name="port_construction_fee_bearer"/>承担，
+                二程船运费由<input class="offer-rule-f-c"  maxlength="3" name="second_vessel_fee_bearer"/>承担， 过磅费或水尺费由<input class="offer-rule-f-c" maxlength="3" name="weighing_fee_bearer"/>承担；
+                自货权转移之日起，买方享有<input class="offer-rule-f-c"  maxlength="3" name="free_storage_several_days"/>天免堆期， 超期产生的堆存费由<input class="offer-rule-f-c" maxlength="3" name="overdue_storage_fee_bearer"/>承担。
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">发票条款</label>
             <div class="col-sm-10">
                 在卖方收到全部货款后，卖方应向买方开出增值税发票，增值税发票一票结算。增值税发票品种以合同品种为准并且无其他要求。 其他发票条款<br/>
-                <textarea class="form-control" maxlength="200"></textarea>
+                <textarea class="form-control" maxlength="200" name="invoice_terms"></textarea>
             </div>
         </div>
         <div class="form-group">
@@ -193,14 +199,14 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">上传附件</label>
+            <label class="col-sm-2 control-label">上传合同</label>
             <div class="col-sm-10">
                 <div id=""></div>
                 <span class="fileupload fileupload-new" data-provides="fileupload">
                     <span class="btn btn-default btn-file btn-ghost">
                         <span class="fileupload-new"><i class="fa fa-folder-open-o"></i> 选择文件</span>
                         <span class="fileupload-exists"><i class="fa fa-folder-open-o"></i> 替换文件</span>
-                        <input type="file" name="ccFile" class="form-control  uploadFile" accept=".zip,.rar,.doc,.docx,.pdf,.jpg,.png"/>
+                        <input type="file" name="contractAffix" class="form-control uploadFile" accept=".doc,.docx,.xls,.xlsx,.pdf,.zip,.rar,.7z"/>
                     </span>
                     <span class="fileupload-preview"></span>
                     <a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none">×</a>
@@ -216,7 +222,7 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">匿名发布</label>
             <div class="col-sm-10">
-                <div id="component-toggle-anonym" inputName="anonym"></div>
+                <div id="component-toggle-anonym" inputName="isAnonymousStr"></div>
             </div>
         </div>
     </div>

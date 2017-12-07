@@ -43,18 +43,18 @@ function JBSFrame_addOffer() {
 		//品名下拉
 		var $ItemName = $("#component-selectBox-ItemName");
 		if($ItemName.length>0){
-			console.log(JSON.parse("'"+$("#offer-json-ironCommodity").html())+"'")
 			this.selectBox_ItemName = ReactDOM.render(React.createElement(ComponentSelectBox,{
-				data:[{value:'1',text:"1"},{value:'2',text:"2"}],
+				data:JSON.parse($("#ironCommodityJson").html()),
 				inputName:$ItemName.attr("inputName"),
-				validetta:$ItemName.data("validetta")
+				validetta:$ItemName.data("validetta"),
+				onChange:changeIronAttributeLink
 			}), $ItemName[0]);
 		}
 		//港口
 		var $Port = $("#component-selectBox-Port")
 		if($Port.length>0) {
 			this.selectBox_Port = ReactDOM.render(React.createElement(ComponentSelectBox, {
-				data:[{ value: "node1", text: "天津港" }, { value: "node2", text: '大连港' }, { value: "node3", text: '京唐港' }, { value: "node4", text: '曹妃甸港' }, { value: "node5", text: '青岛港' }, { value: "node6", text: '京唐港' }, { value: "node7", text: '日照港' }, { value: "node8", text: '连云港' }, { value: "node9", text: '北仑港' }, { value: "node10", text: '防城港' }, { value: "node11", text: '湛江港' }, { value: "node12", text: '锦州港' }, { value: "node13", text: '营口港' }, { value: "node14", text: '丹东港' }, { value: "node15", text: '鲅鱼圈港' }, { value: "node16", text: '秦皇岛港' }, { value: "node17", text: '唐山港' }, { value: "node18", text: '黄骅港' }, { value: "node19", text: '龙口港' }],
+				data:JSON.parse($("#portJson").html()),
 				inputName: $Port.attr("inputName"),
 				validetta:$Port.data("validetta")
 			}), $Port[0]);
@@ -63,11 +63,14 @@ function JBSFrame_addOffer() {
 		var $kpiType = $("#component-radioBoxGroup-kpiType");
 		if($kpiType.length>0) {
 			this.radioBox_kpiType = ReactDOM.render(React.createElement(ComponentRadioBox, {
-				data: data_kpiType,
-				value: "dx",
-				className: "TagStyle offerKpi"
+				data: JSON.parse($("#indicatorTypeJson").html()),
+				value: "26",
+				className: "TagStyle offerKpi",
+				name:$kpiType.attr("inputName")
 			}), $kpiType[0]);
 		}
+		ironAttributeLinkJson
+
 		//是否拆分
 		var $Split = $("#component-toggle-split");
 		if($Split.length>0) {
@@ -92,17 +95,19 @@ function JBSFrame_addOffer() {
 		//商品1品名下拉
 		var $ItemName1 = $("#component-selectBox-ItemName-1");
 		if($ItemName1.length>0){
-			this.selectBox_ItemName = ReactDOM.render(React.createElement(ComponentSelectBox,{
+			this.selectBox_ItemName1 = ReactDOM.render(React.createElement(ComponentSelectBox,{
 				inputName:$ItemName1.attr("inputName"),
-				data:[]
+				data:JSON.parse($("#ironCommodityJson").html()),
+				onChange:changeIronAttributeLink_1
 			}), $ItemName1[0]);
 		}
 		//商品2品名下拉
 		var $ItemName2 = $("#component-selectBox-ItemName-2");
 		if($ItemName2.length>0){
-			this.selectBox_ItemName = ReactDOM.render(React.createElement(ComponentSelectBox,{
+			this.selectBox_ItemName2 = ReactDOM.render(React.createElement(ComponentSelectBox,{
 				inputName:$ItemName2.attr("inputName"),
-				data:[]
+				data:JSON.parse($("#ironCommodityJson").html()),
+				onChange:changeIronAttributeLink_2
 			}), $ItemName2[0]);
 		}
 		//报税区
@@ -111,10 +116,6 @@ function JBSFrame_addOffer() {
 			this.toggle_bondedAreas = ReactDOM.render(React.createElement(ComponentToggle,{inputName:$bondedAreas.attr("inputName")}), $bondedAreas[0]);
 		}
 
-		//加载品名
-		load_tbPricingCommodityList();
-		//加载港口
-		load_portList();
 
 		this.renderDatetimepicker();
 		this.renderNumberMask();
@@ -157,76 +158,7 @@ function JBSFrame_addOffer() {
 	var self = this
 
 	/*---------------------------------------------------------------------------------------------------------------------------*/
-	//加载品名
-	function load_tbPricingCommodityList(){
 
-	}
-
-	//加载港口列表
-	function load_portList() {
-		/*
-		esteel_addOffer.ajaxRequest({
-			url: "pricing/pricingPort"
-		}, function (data, msg) {
-			//港口
-			var $shipmentportKey = $("#component-shipmentportKey");
-			var select_shipmentport = ReactDOM.render(React.createElement(InputGroupSelect, {
-				data: data,
-				multiple: "false,",
-				class: "form-group",
-				formLabel: $shipmentportKey.attr("label"),
-				formName: $shipmentportKey.attr("name")
-			}), $shipmentportKey[0]);
-
-			//交易规则-交货方式港口
-			$("#offer-rules-port1").autocomplete({
-				source: function (request, response) {
-					var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
-					response($.grep(data, function (item) {
-						return matcher.test(item.text) ||
-							matcher.test(item.value);
-					}));
-				},
-				select: function (event, ui) {
-					$("#offer-rules-port1").val(ui.item.text);
-					$("input[name='checkModePort']").val(ui.item.value);
-					return false;
-				}
-			}).data("ui-autocomplete")._renderItem = function (ul, item) {
-				return $("<li>")
-				.data("item.autocomplete", item)
-				.append($("<a></a>").text(item.text))
-				.appendTo(ul);
-			}
-
-
-			//交易规则-交货数量标准港口
-			$("#offer-rules-port2").autocomplete({
-				source: function (request, response) {
-					var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
-					response($.grep(data, function (item) {
-						return matcher.test(item.text) ||
-							matcher.test(item.value);
-					}));
-				},
-				select: function (event, ui) {
-					$("#offer-rules-port2").val(ui.item.text);
-					$("input[name='checkNumPort']").val(ui.item.value);
-					return false;
-				},
-				search: function (event, ui) {
-					console.log("search")
-				}
-			}).data("ui-autocomplete")._renderItem = function (ul, item) {
-				return $("<li>")
-				.data("item.autocomplete", item)
-				.append($("<a></a>").text(item.text))
-				.appendTo(ul);
-			};
-
-		})
-		*/
-	}
 }
 
 
@@ -348,6 +280,36 @@ function submit_offer(){
 
 	});
 }
+
+//品名切换改变指标值
+function changeIronAttributeLink(node){
+	//典型值
+	if($("input[name='indicatorTypeName']").val() == "26"){
+		changeIronCommodityIndicator(node,'');
+	}
+}
+//期货商品1联动指标
+function changeIronAttributeLink_1(node){
+	changeIronCommodityIndicator(node,'1');
+}
+//期货商品2联动指标
+function changeIronAttributeLink_2(node) {
+	changeIronCommodityIndicator(node,'2');
+}
+//品名联动
+function changeIronCommodityIndicator(node,index){
+	var ironAttr = JSON.parse($("#ironAttributeLinkJson").html());
+	for(var attr in ironAttr){
+		if(attr == node.label){
+			var iron = ironAttr[attr];
+			for(var i=0;i<iron.length;i++){
+				$("#indicator"+index+"-"+iron[i].text).val(iron[i].value);
+			}
+		}
+	}
+}
+
+
 
 //显示隐藏起订量
 function showQDL(checked){
