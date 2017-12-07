@@ -2,17 +2,6 @@
  * Created by wzj on 2017/10/31.
  *	发布报盘
  */
-
-//指标类型
-var data_kpiType = [
-	{id: "kpiType-dx", text: "典型值", value: "dx",name:"kpiType"},
-	{id: "kpiType-zg", text: "装港值", value: "zg",name:"kpiType"},
-	{id: "kpiType-xg", text: "卸港值", value: "xg",name:"kpiType"},
-	{id: "kpiType-bz", text: "保证值", value: "bz",name:"kpiType"}
-]
-
-
-
 function JBSFrame_addOffer() {
 	JBSFrame.call(this);
 
@@ -32,13 +21,15 @@ function JBSFrame_addOffer() {
 		//白名单
 		var $TradeCustomer = $("#component-TradeCustomer");
 		var TradeCustomer_data = {
-			orgList:[],
+			orgList:JSON.parse($("#companyWhitelistJson").html()),
 			curList:[]
 		}
-		this.select_TradeCustomer = ReactDOM.render(React.createElement(ComponentEsteelMultiSelect,{
-			inputName:$TradeCustomer.attr("inputName"),
-			data:TradeCustomer_data
-		}), $TradeCustomer[0]);
+		if($TradeCustomer.length>0){
+			this.select_TradeCustomer = ReactDOM.render(React.createElement(ComponentEsteelMultiSelect,{
+				inputName:$TradeCustomer.attr("inputName"),
+				data:TradeCustomer_data
+			}), $TradeCustomer[0]);
+		}
 
 		//品名下拉
 		var $ItemName = $("#component-selectBox-ItemName");
@@ -335,10 +326,12 @@ $(document).ready(function (e) {
 function save_offer(){
 	if(validateOfferInfo()){
 		esteel_addOffer.confirm(null,"该报盘将作为草稿保存到我的报盘记录",function(){
-
 		});
+		
+		
 	}
-
+	
+	$("#form-offer")[0].submit();
 }
 
 //提交报盘
