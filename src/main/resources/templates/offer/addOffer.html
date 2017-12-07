@@ -5,7 +5,11 @@
 
 <body class="member myIron">
 
+<<<<<<< HEAD
 <!--页头，菜�?-->
+=======
+<!--页头，菜�?-->
+>>>>>>> branch 'master' of http://wangzhenjia@10.0.1.234:9028/r/Web.git
 <div th:replace="fragments/head::header"></div>
 
 <!--内容-->
@@ -34,22 +38,61 @@
                 </div>
             </div>
 
+<<<<<<< HEAD
+=======
+			<!-- 品名列表 格式:[{"text":"commodityName","value":"commodityAlias"},...] -->
+			<div id="offer-json-ironCommodity" th:text="${ironCommodityJson}"></div>
+			<!-- 铁矿品名属�?��?�联动列�?  格式:[{"commodityName":[{"text":"attributeCode","value":"attributeValue"},...]},...]-->
+			<div th:text="${ironAttributeLinkJson}"></div>
+			<!-- 铁矿品名装货港联动列�? 格式:[{"commodityName":[{"text":"portName","value":"portCode"},...]},...] -->
+			<div th:text="${ironLoadingPortJson}"></div>
+			<!-- 港口列表 格式:[{"text":"portName","value":"portCode"},...] -->
+			<div id="offer-json-port" th:text="${portJson}"></div>
+			<!-- 保税区港口列�? 格式:[{"text":"portName","value":"portCode"},...] -->
+			<div th:text="${bondedAreaPortJson}"></div>
+			<!-- 指标类型列表 格式:[{"text":"optionValue","value":"optionCode"},...] -->
+			<div th:text="${indicatorTypeJson}"></div>
+			<!-- 价格术语列表 格式:[{"text":"optionValue","value":"optionCode"},...] -->
+			<div th:text="${priceTermJson}"></div>
+			<!-- 计量方式列表 格式:[{"text":"optionValue","value":"optionCode"},...] -->
+			<div th:text="${measureMethodJson}"></div>
+			<!-- 计价方式列表 格式:[{"text":"optionValue","value":"optionCode"},...] -->
+			<div th:text="${pricingMethodJson}"></div>
+>>>>>>> branch 'master' of http://wangzhenjia@10.0.1.234:9028/r/Web.git
 			<div style="display:none">
 				<!-- 品名列表 格式:[{"text":"commodityName","value":"commodityId","key":"commodityAlias"},...] -->
 				<div id="ironCommodityJson" th:text="${ironCommodityJson}"></div>
+<<<<<<< HEAD
 
                 <!-- 铁矿品名属性值联动列表 格式:格式:{"commodityName":[{"text":"attributeCode","value":"attributeValue","key":"attributeCode"},...],...} -->
+=======
+				
+				<!-- 铁矿品名属�?��?�联动列�?  格式:格式:{"commodityName":[{"text":"attributeCode","value":"attributeValue","key":"attributeCode"},...],...} -->
+>>>>>>> branch 'master' of http://wangzhenjia@10.0.1.234:9028/r/Web.git
 				<div id="ironAttributeLinkJson" th:text="${ironAttributeLinkJson}"></div>
+<<<<<<< HEAD
 
 				<!-- 铁矿品名装货港联动列表 格式:{"commodityName":[{"text":"portName","value":"portId","key":"portName,portNameEn"},...],...} -->
+=======
+				
+				<!-- 铁矿品名装货港联动列�? 格式:{"commodityName":[{"text":"portName","value":"portId","key":"portName,portNameEn"},...],...} -->
+>>>>>>> branch 'master' of http://wangzhenjia@10.0.1.234:9028/r/Web.git
 				<div id="ironLoadingPortJson" th:text="${ironLoadingPortJson}"></div>
 
 				<!-- 港口列表 格式:[{"text":"portName","value":"portId","key":"portName,portNameEn"},...] -->
+<<<<<<< HEAD
 				<div id="portJson" th:text="${portJson}"></div>
 
 				<!-- 保税区港口列表 格式:[{"text":"portName","value":"portId","key":"portName,portNameEn"},...] -->
 				<div id="bondedAreaPortJson" th:text="${bondedAreaPortJson}"></div>
 
+=======
+				<div id="bondedAreaPortJson" th:text="${portJson}"></div>
+				
+				<!-- 保税区港口列�? 格式:[{"text":"portName","value":"portId","key":"portName,portNameEn"},...] -->
+				<div id="" th:text="${bondedAreaPortJson}"></div>
+				
+>>>>>>> branch 'master' of http://wangzhenjia@10.0.1.234:9028/r/Web.git
 				<!-- 指标类型列表 格式:[{"text":"optionValue","value":"optionId","key":"optionValue,optionValueEn"},...] -->
 				<div id="indicatorTypeJson" th:text="${indicatorTypeJson}"></div>
 
@@ -64,8 +107,13 @@
 
 				<!-- 交易方式 格式:[{"text":"","value":"","key":""},...] -->
 				<div id="tradeModeJson" th:text="${tradeModeJson}"></div>
+<<<<<<< HEAD
 
 				<!-- 是否一船多货 格式:[{"text":"","value":"","key":""},...] -->
+=======
+				
+				<!-- 是否�?船多�? 格式:[{"text":"","value":"","key":""},...] -->
+>>>>>>> branch 'master' of http://wangzhenjia@10.0.1.234:9028/r/Web.git
 				<div id="isMultiCargoJson" th:text="${isMultiCargoJson}"></div>
 
 				<!-- 是否拆分 格式:[{"text":"","value":"","key":""},...] -->
@@ -85,7 +133,11 @@
     </div>
 </div>
 
+<<<<<<< HEAD
 <!--页脚，链�?-->
+=======
+<!--页脚，链�?-->
+>>>>>>> branch 'master' of http://wangzhenjia@10.0.1.234:9028/r/Web.git
 <div th:replace="fragments/foot::footer"></div>
 
 <!--控制-->
