@@ -77,7 +77,8 @@ function JBSFrame_addOffer() {
 		var $Split = $("#component-toggle-split");
 		if($Split.length>0) {
 			this.toggle_Split = ReactDOM.render(React.createElement(ComponentToggle, {
-				inputName: $Split.attr("inputName"),
+				name: $Split.attr("inputName"),
+				value:$Split.attr("inputValue"),
 				onChange:showQDL//显示起订量
 			}), $Split[0]);
 		}
