@@ -22,11 +22,7 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">指标类型</label>
             <div class="col-sm-8">
-<<<<<<< HEAD
                 <div id="component-radioBoxGroup-kpiType" inputName="indicatorTypeId"></div>
-=======
-                <div id="component-radioBoxGroup-kpiType" inputName="indicatorTypeName"></div>
->>>>>>> branch 'master' of ssh://wangyanfei@10.0.1.234:29418/Web.git
             </div>
         </div>
 
@@ -38,11 +34,7 @@
                         <th>Fe</th><th>SiO2</th><th>A12O3</th><th>Mn</th><th>LOI</th>
                     </tr>
                     <tr>
-<<<<<<< HEAD
 						<td><input type="text" class="form-control mask-number" name="fe" id="indicator-FE" data-validetta="required"/></td>
-=======
-                        <td><input type="text" class="form-control mask-number" name="fe" id="indicator-FE" data-validetta="required"/></td>
->>>>>>> branch 'master' of ssh://wangyanfei@10.0.1.234:29418/Web.git
                         <td><input type="text" class="form-control" name="sio2" id="indicator-SIO2"/></td>
                         <td><input type="text" class="form-control" name="al2o3" id="indicator-AL2O3"/></td>
                         <td><input type="text" class="form-control" name="mn" id="indicator-MN"/></td>
@@ -75,7 +67,7 @@
                 <input type="text" class="form-control mask-number"  data-validetta="required" name="offerQuantity" maxlength="100"/>
             </div>
 
-            <label class="col-sm-2 control-label">*溢短�?</label>
+            <label class="col-sm-2 control-label">*溢短装</label>
             <div class="col-sm-4">
                 <input type="text" class="form-control mask-number"  data-validetta="required" maxlength="4" name="moreOrLess"/>
             </div>
@@ -84,15 +76,11 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">*可否拆分</label>
             <div class="col-sm-4">
-<<<<<<< HEAD
                 <div id="component-toggle-split" inputName="isSplit" inputValue="0"></div>
-=======
-                <div id="component-toggle-split" inputValue="0"></div>
->>>>>>> branch 'master' of ssh://wangyanfei@10.0.1.234:29418/Web.git
             </div>
 
             <div id="offer-qdl-box">
-                <label class="col-sm-2 control-label">*起订�?</label>
+                <label class="col-sm-2 control-label">*起订量</label>
                 <div class="col-sm-4">
                     <input type="text" class="form-control mask-number" name="minQuantity" ata-validetta="required"/>
                 </div>
@@ -109,22 +97,14 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">*报盘有效期：</label>
             <div class="col-sm-4">
-<<<<<<< HEAD
-                <input type="text" class="form-control datetimepicker" name="validTime" data-validetta="required"/>
-=======
-                <input type="text" class="form-control datetimepicker" name="validTimeStr" data-validetta="required"/>
->>>>>>> branch 'master' of ssh://wangyanfei@10.0.1.234:29418/Web.git
+                <input type="text" class="form-control datetimepicker" name="validTimestamp" data-validetta="required"/>
             </div>
         </div>
 
         <div class="form-group">
             <label class="col-sm-2 control-label">商品备注</label>
             <div class="col-sm-10">
-<<<<<<< HEAD
                 <textarea type="text" class="form-control" maxlength="128" name="offerAttachRemarks"></textarea>
-=======
-                <textarea type="text" class="form-control" maxlength="128" name="remarks"></textarea>
->>>>>>> branch 'master' of ssh://wangyanfei@10.0.1.234:29418/Web.git
             </div>
         </div>
 
@@ -153,35 +133,21 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">*结算方式</label>
             <div class="col-sm-10">
-<<<<<<< HEAD
                 <input type="radio" value="0" name="settlement_method" checked/>签订合同后<input class="offer-rule-f-c  mask-number" maxlength="3" name="clear_within_several_working_days"/>个工作日内付全款<br/>
                 <input type="radio" value="1" name="settlement_method"/>签订合同后<input class="offer-rule-f-c  mask-number" maxlength="3" name="after_sign_several_working_days"/>个工作日内付合同款的<input class="offer-rule-f-c  mask-number" maxlength="5" name="contract_funds_percentage"/>%作为定金，剩余货款在<input class="offer-rule-f-c  mask-number" maxlength="3" name="clear_within_several_working_days"/>个工作日内结清。
-=======
-                <input type="radio" value="0" name="settlement_method" checked/>签订合同�?<input class="offer-rule-f-c  mask-number" maxlength="3" name="clear_within_several_working_days"/>个工作日内付全款<br/>
-                <input type="radio" value="1" name="settlement_method"/>签订合同�?<input class="offer-rule-f-c  mask-number" maxlength="3" name="after_sign_several_working_days"/>个工作日内付合同款的<input class="offer-rule-f-c  mask-number" maxlength="5" name="contract_funds_percentage"/>%作为定金，剩余货款在<input class="offer-rule-f-c  mask-number" maxlength="3" name="clear_within_several_working_days"/>个工作日内结清�??
->>>>>>> branch 'master' of ssh://wangyanfei@10.0.1.234:29418/Web.git
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">*交货�?</label>
+            <label class="col-sm-2 control-label">*交货期</label>
             <div class="col-sm-10">
-<<<<<<< HEAD
                 买方付全款后<input class="offer-rule-f-c mask-number"  data-validetta="required" maxlength="3" name="after_pay_off_several_working_days"/>个工作日内完成货权转移
-=======
-                买方付全款后<input class="offer-rule-f-c mask-number"  data-validetta="required" maxlength="3" name="after_pay_off_several_working_days"/>个工作日内完成货权转�?
->>>>>>> branch 'master' of ssh://wangyanfei@10.0.1.234:29418/Web.git
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">交货方式</label>
             <div class="col-sm-10">
-<<<<<<< HEAD
                 <input class="offer-rule-f-c" id="offer-rules-port1" name="delivery_Method_port"/>（港口）
 				<select class="form-control" name="pricing_method" id="select-Pricing_method">
-=======
-                <input class="offer-rule-f-c" id="offer-rules-port1" name="Delivery_Method_port"/>（港口）
-				<select class="form-control" name="Pricing_method" id="select-Pricing_method">
->>>>>>> branch 'master' of ssh://wangyanfei@10.0.1.234:29418/Web.git
                     <option value=""></option>
                 </select>（计价方式）交货
                 
@@ -191,11 +157,7 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">交货数量标准</label>
             <div class="col-sm-10">
-<<<<<<< HEAD
                 以<input class="offer-rule-f-c" id="offer-rules-port2" name="delivery_quantity_port"/>（港口）
-=======
-                �?<input class="offer-rule-f-c" id="offer-rules-port2" name="Delivery_quantity_port"/>（港口）
->>>>>>> branch 'master' of ssh://wangyanfei@10.0.1.234:29418/Web.git
                 <select class="form-control" name="measure_method" data-validetta="true" id="select-measure_method">
                     <option value=""></option>
                 </select>（计量方式）数量为准
@@ -204,46 +166,33 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">货物规格标准</label>
             <div class="col-sm-10">
-<<<<<<< HEAD
                 以<select class="form-control" name="trader_type" data-validetta="true" id="select-trader_type">
-=======
-                �?<select class="form-control" name="trader_type" data-validetta="true" id="select-trader_type">
->>>>>>> branch 'master' of ssh://wangyanfei@10.0.1.234:29418/Web.git
                     <option value=""></option>
-                </select>�?测结果作为结算依据�??
+                    <option value="0">卖方</option>
+                    <option value="1">买方</option>
+                </select>检测结果作为结算依据。
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">费用条款</label>
             <div class="col-sm-10">
-<<<<<<< HEAD
                 费用条款：若火车或车板提货，则产生的港口费差价、运费由 <input class="offer-rule-f-c"  maxlength="3" name="transport_costs_bearer"/> 承担；
                 若二程船提货，则水分检验费及其代理费由<input class="offer-rule-f-c"  maxlength="3" name="agency_fee_bearer"/>承担， 内贸港口建设费由<input class="offer-rule-f-c" maxlength="3" name="port_construction_fee_bearer"/>承担，
                 二程船运费由<input class="offer-rule-f-c"  maxlength="3" name="second_vessel_fee_bearer"/>承担， 过磅费或水尺费由<input class="offer-rule-f-c" maxlength="3" name="weighing_fee_bearer"/>承担；
                 自货权转移之日起，买方享有<input class="offer-rule-f-c"  maxlength="3" name="free_storage_several_days"/>天免堆期， 超期产生的堆存费由<input class="offer-rule-f-c" maxlength="3" name="overdue_storage_fee_bearer"/>承担。
-=======
-                费用条款：若火车或车板提货，则产生的港口费差价�?�运费由 <input class="offer-rule-f-c"  maxlength="3" name="transport_costs_bearer"/> 承担�?
-                若二程船提货，则水分�?验费及其代理费由<input class="offer-rule-f-c"  maxlength="3" name="agency_fee_bearer"/>承担�? 内贸港口建设费由<input class="offer-rule-f-c" maxlength="3" name="port_construction_fee_bearer"/>承担�?
-                二程船运费由<input class="offer-rule-f-c"  maxlength="3" name="second_vessel_fee_bearer"/>承担�? 过磅费或水尺费由<input class="offer-rule-f-c" maxlength="3" name="weighing_fee_bearer"/>承担�?
-                自货权转移之日起，买方享�?<input class="offer-rule-f-c"  maxlength="3" name="free_storage_several_days"/>天免堆期�? 超期产生的堆存费�?<input class="offer-rule-f-c" maxlength="3" name="overdue_storage_fee_bearer"/>承担�?
->>>>>>> branch 'master' of ssh://wangyanfei@10.0.1.234:29418/Web.git
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">发票条款</label>
             <div class="col-sm-10">
-<<<<<<< HEAD
                 在卖方收到全部货款后，卖方应向买方开出增值税发票，增值税发票一票结算。增值税发票品种以合同品种为准并且无其他要求。 其他发票条款<br/>
-=======
-                在卖方收到全部货款后，卖方应向买方开出增值税发票，增值税发票�?票结算�?�增值税发票品种以合同品种为准并且无其他要求�? 其他发票条款<br/>
->>>>>>> branch 'master' of ssh://wangyanfei@10.0.1.234:29418/Web.git
                 <textarea class="form-control" maxlength="200" name="invoice_terms"></textarea>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">不可抗力</label>
             <div class="col-sm-10">
-                买�?�卖双方的任何一方由于不可抗力的原因不能全部或部分履行合同义务时，应本着诚信原则尽快通知对方，经提供相应证明后，可允许延期履行�?�部分履行或不履行，并可根据情况全部或部分免予承担违约责�?
+                买、卖双方的任何一方由于不可抗力的原因不能全部或部分履行合同义务时，应本着诚信原则尽快通知对方，经提供相应证明后，可允许延期履行、部分履行或不履行，并可根据情况全部或部分免予承担违约责任
             </div>
         </div>
         <div class="form-group">
@@ -270,11 +219,7 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">匿名发布</label>
             <div class="col-sm-10">
-<<<<<<< HEAD
                 <div id="component-toggle-anonym" inputName="isAnonymousStr" inputValue="1"></div>
-=======
-                <div id="component-toggle-anonym" inputName="isAnonymousStr"></div>
->>>>>>> branch 'master' of ssh://wangyanfei@10.0.1.234:29418/Web.git
             </div>
         </div>
     </div>

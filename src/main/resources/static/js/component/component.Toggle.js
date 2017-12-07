@@ -14,7 +14,6 @@ class ComponentToggle extends React.Component{
 	//toggle 开关自定义事件
 	ui_toggle_onChange(event){
 		var target = event.target;
-		target.checked
 		if(this.props.onChange){
 			this.props.onChange(target.checked);
 		}
@@ -22,7 +21,13 @@ class ComponentToggle extends React.Component{
 
 
 	render(){
-		return React.createElement(Toggle, {defaultChecked:true, name:this.props.inputName, onChange:this.ui_toggle_onChange});
+		var val = this.props.value == "1" ? true : false;
+
+		return React.createElement(Toggle, {
+			defaultChecked:val,
+			name:this.props.name,
+			onChange:this.ui_toggle_onChange
+		});
 	}
 }
 
