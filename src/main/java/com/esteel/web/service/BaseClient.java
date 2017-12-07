@@ -2,6 +2,8 @@ package com.esteel.web.service;
 
 import com.esteel.common.vo.BaseQueryVo;
 import com.esteel.common.vo.SimpePageImpl;
+import com.esteel.web.vo.CityVo;
+import com.esteel.web.vo.DistrictVo;
 import com.esteel.web.vo.ProvinceVo;
 
 import feign.hystrix.FallbackFactory;
@@ -29,12 +31,26 @@ public interface BaseClient {
 
     @RequestMapping(value = "/port", method = RequestMethod.POST)
     public String getPort(@RequestParam("portId") long portId);
-
+    
     @RequestMapping(value = "/allProvince", method = RequestMethod.POST)
     public List<ProvinceVo> findAll();
 
     @RequestMapping(value = "/findProvince", method = RequestMethod.POST)
     public SimpePageImpl<ProvinceVo> findProvince(@RequestBody BaseQueryVo vo);
+    /**
+     * 获取所有的城市
+     * @param provinceId
+     * @return
+     */
+    @RequestMapping(value = "/findCity", method = RequestMethod.POST)
+    public List<CityVo> findAllCity(int provinceId);
+    /**
+     * 获取所有的区县
+     * @param cityId
+     * @return
+     */
+    @RequestMapping(value = "/findDistrict", method = RequestMethod.POST)
+    public List<DistrictVo> findAllDistrict(int cityId);
 
 }
 
@@ -56,6 +72,16 @@ class BaseClientCallback implements BaseClient {
     public SimpePageImpl<ProvinceVo> findProvince(BaseQueryVo vo) {
         return null;
     }
+
+	@Override
+	public List<CityVo> findAllCity(int provinceId) {
+		return null;
+	}
+
+	@Override
+	public List<DistrictVo> findAllDistrict(int cityId) {
+		return null;
+	}
 
 }
 @Component
@@ -79,6 +105,16 @@ class BaseClientFallbackFactory implements FallbackFactory<BaseClient>{
                 cause.printStackTrace();
                 return null;
             }
+
+			@Override
+			public List<CityVo> findAllCity(int provinceId) {
+				return null;
+			}
+
+			@Override
+			public List<DistrictVo> findAllDistrict(int cityId) {
+				return null;
+			}
         };
     }
 }
