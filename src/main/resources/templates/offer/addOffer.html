@@ -5,7 +5,7 @@
 
 <body class="member myIron">
 
-<!--页头，菜单-->
+<!--页头，菜�?-->
 <div th:replace="fragments/head::header"></div>
 
 <!--内容-->
@@ -34,20 +34,38 @@
                 </div>
             </div>
 
+			<!-- 品名列表 格式:[{"text":"commodityName","value":"commodityAlias"},...] -->
+			<div id="offer-json-ironCommodity" th:text="${ironCommodityJson}"></div>
+			<!-- 铁矿品名属�?��?�联动列�?  格式:[{"commodityName":[{"text":"attributeCode","value":"attributeValue"},...]},...]-->
+			<div th:text="${ironAttributeLinkJson}"></div>
+			<!-- 铁矿品名装货港联动列�? 格式:[{"commodityName":[{"text":"portName","value":"portCode"},...]},...] -->
+			<div th:text="${ironLoadingPortJson}"></div>
+			<!-- 港口列表 格式:[{"text":"portName","value":"portCode"},...] -->
+			<div id="offer-json-port" th:text="${portJson}"></div>
+			<!-- 保税区港口列�? 格式:[{"text":"portName","value":"portCode"},...] -->
+			<div th:text="${bondedAreaPortJson}"></div>
+			<!-- 指标类型列表 格式:[{"text":"optionValue","value":"optionCode"},...] -->
+			<div th:text="${indicatorTypeJson}"></div>
+			<!-- 价格术语列表 格式:[{"text":"optionValue","value":"optionCode"},...] -->
+			<div th:text="${priceTermJson}"></div>
+			<!-- 计量方式列表 格式:[{"text":"optionValue","value":"optionCode"},...] -->
+			<div th:text="${measureMethodJson}"></div>
+			<!-- 计价方式列表 格式:[{"text":"optionValue","value":"optionCode"},...] -->
+			<div th:text="${pricingMethodJson}"></div>
 			<div style="display:none">
 				<!-- 品名列表 格式:[{"text":"commodityName","value":"commodityId","key":"commodityAlias"},...] -->
 				<div id="ironCommodityJson" th:text="${ironCommodityJson}"></div>
 				
-				<!-- 铁矿品名属性值联动列表  格式:格式:{"commodityName":[{"text":"attributeCode","value":"attributeValue","key":"attributeCode"},...],...} -->
+				<!-- 铁矿品名属�?��?�联动列�?  格式:格式:{"commodityName":[{"text":"attributeCode","value":"attributeValue","key":"attributeCode"},...],...} -->
 				<div id="ironAttributeLinkJson" th:text="${ironAttributeLinkJson}"></div>
 				
-				<!-- 铁矿品名装货港联动列表 格式:{"commodityName":[{"text":"portName","value":"portId","key":"portName,portNameEn"},...],...} -->
+				<!-- 铁矿品名装货港联动列�? 格式:{"commodityName":[{"text":"portName","value":"portId","key":"portName,portNameEn"},...],...} -->
 				<div id="ironLoadingPortJson" th:text="${ironLoadingPortJson}"></div>
 				
 				<!-- 港口列表 格式:[{"text":"portName","value":"portId","key":"portName,portNameEn"},...] -->
 				<div id="bondedAreaPortJson" th:text="${portJson}"></div>
 				
-				<!-- 保税区港口列表 格式:[{"text":"portName","value":"portId","key":"portName,portNameEn"},...] -->
+				<!-- 保税区港口列�? 格式:[{"text":"portName","value":"portId","key":"portName,portNameEn"},...] -->
 				<div id="" th:text="${bondedAreaPortJson}"></div>
 				
 				<!-- 指标类型列表 格式:[{"text":"optionValue","value":"optionId","key":"optionValue,optionValueEn"},...] -->
@@ -65,7 +83,7 @@
 				<!-- 交易方式 格式:[{"text":"","value":"","key":""},...] -->
 				<div id="tradeModeJson" th:text="${tradeModeJson}"></div>
 				
-				<!-- 是否一船多货 格式:[{"text":"","value":"","key":""},...] -->
+				<!-- 是否�?船多�? 格式:[{"text":"","value":"","key":""},...] -->
 				<div id="isMultiCargoJson" th:text="${isMultiCargoJson}"></div>
 				
 				<!-- 是否拆分 格式:[{"text":"","value":"","key":""},...] -->
@@ -85,7 +103,7 @@
     </div>
 </div>
 
-<!--页脚，链接-->
+<!--页脚，链�?-->
 <div th:replace="fragments/foot::footer"></div>
 
 <!--控制-->

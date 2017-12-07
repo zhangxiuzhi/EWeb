@@ -29,7 +29,7 @@ import feign.hystrix.FallbackFactory;
  *
  */
 //@FeignClient(name = "Base",url = "http://127.0.0.1:9920",fallback = BaseClientCallback.class ,path = "cn")
-@FeignClient(name = "Base",fallback = BaseClientCallback.class ,path = "cn")
+@FeignClient(name = "Base",url = "http://10.0.1.214:9920",fallback = BaseClientCallback.class ,path = "cn")
 public interface BaseClient {
 
     @RequestMapping(value = "/province", method = RequestMethod.POST)
