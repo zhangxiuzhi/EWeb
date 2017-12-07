@@ -3,6 +3,8 @@ package com.esteel.web.vo.offer;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * 
  * @ClassName: IronInStockOfferVo
@@ -21,6 +23,7 @@ public class IronInStockOfferVo extends IronOfferBaseVo implements Serializable 
 	/**
 	 * 化学元素指标 Al2O3
 	 */
+	@NotBlank
 	private String al2o3;
 	/**
 	 * 其他化学元素指标 Json数据

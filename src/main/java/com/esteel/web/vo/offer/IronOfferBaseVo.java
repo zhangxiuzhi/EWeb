@@ -1,7 +1,14 @@
 package com.esteel.web.vo.offer;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.esteel.common.vo.StatusMSGVo;
 
@@ -51,6 +58,7 @@ public class IronOfferBaseVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 是否匿名 0:否, 1:是
 	 */
+//	@NotBlank
 	private String isAnonymous = "1";
 	/**
 	 * 是否指定 0:否, 1:是
@@ -63,10 +71,12 @@ public class IronOfferBaseVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 是否一船多货 0:否, 1:是
 	 */
+//	@NotBlank
 	private String isMultiCargo = "0";
 	/**
 	 * 是否拆分 0:否, 1:是
 	 */
+//	@NotBlank
 	private String isSplit = "0";
 	/**
 	 * 铁矿报盘编码
@@ -119,15 +129,18 @@ public class IronOfferBaseVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 有效日期
 	 */
+	@NotNull
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date validTime;
 	/**
 	 * 版本号
 	 */
-	private int version;
+	private int version = 1;
 	/**
 	 * 有效日期(yyyy-MM-dd HH:mm:ss)
 	 * 扩展字段
 	 */
+//	@NotBlank
 	private String validTimestamp;
 	/**
 	 * 指定对手(多选值)
@@ -135,15 +148,10 @@ public class IronOfferBaseVo extends StatusMSGVo implements Serializable {
 	 */
 	private String counterpartyIdMulti;
 	/**
-	 * 报盘附件(tfs返回ID)
-	 * 扩展字段
+	 * 附件List
+	 * 扩展属性
 	 */
-	private String offerAffixPath;
-	/**
-	 * 合同附件(tfs返回ID)
-	 * 扩展字段
-	 */
-	private String contractAffixPath;
+	private List<OfferAffixVo> offerAffixList = new ArrayList<>();
 	
 	public long getOfferId() {
 		return offerId;
@@ -319,16 +327,10 @@ public class IronOfferBaseVo extends StatusMSGVo implements Serializable {
 	public void setCounterpartyIdMulti(String counterpartyIdMulti) {
 		this.counterpartyIdMulti = counterpartyIdMulti;
 	}
-	public String getOfferAffixPath() {
-		return offerAffixPath;
+	public List<OfferAffixVo> getOfferAffixList() {
+		return offerAffixList;
 	}
-	public void setOfferAffixPath(String offerAffixPath) {
-		this.offerAffixPath = offerAffixPath;
-	}
-	public String getContractAffixPath() {
-		return contractAffixPath;
-	}
-	public void setContractAffixPath(String contractAffixPath) {
-		this.contractAffixPath = contractAffixPath;
+	public void setOfferAffixList(List<OfferAffixVo> offerAffixList) {
+		this.offerAffixList = offerAffixList;
 	}
 }

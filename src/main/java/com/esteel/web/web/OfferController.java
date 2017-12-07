@@ -1,17 +1,16 @@
 package com.esteel.web.web;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,6 +29,7 @@ import com.esteel.web.vo.offer.IronFuturesOfferVo;
 import com.esteel.web.vo.offer.IronInStockOfferVo;
 import com.esteel.web.vo.offer.IronOfferBaseVo;
 import com.esteel.web.vo.offer.IronOfferClauseVo;
+import com.esteel.web.vo.offer.OfferAffixVo;
 import com.taobao.common.tfs.TfsManager;
 import com.taobao.tair.json.JSONObject;
 
@@ -388,7 +388,7 @@ public class OfferController {
     }
     
     @RequestMapping(value = "/saveInStockOffer", method = RequestMethod.POST)
-    public String saveInStockOffer(IronInStockOfferVo inStockOfferVo, @RequestParam("offerAffix") MultipartFile offerAffix, 
+    public String saveInStockOffer(@Validated IronInStockOfferVo inStockOfferVo, @RequestParam("offerAffix") MultipartFile offerAffix, 
     		IronOfferClauseVo offerClauseVo, @RequestParam("contractAffix") MultipartFile contractAffix, Model model){
     	if (inStockOfferVo == null) {
     		model.addAttribute("msg", "提交失败！");
@@ -407,7 +407,8 @@ public class OfferController {
     	}
     	
     	// 报盘附件保存 tfs
-    	StatusMSGVo msg = getTfsFileName(offerAffix, "报盘附件");
+    	StatusMSGVo msg = getTfsFileName(offerAffix, "报盘备注附件", 
+    			EsteelConstant.AFFIX_TYPE_OFFER_REMARKS, inStockOfferVo);
     	
     	if (msg != null && msg.getStatus() != 0) {
     		model.addAttribute("msg", msg.getMsg());
@@ -417,12 +418,10 @@ public class OfferController {
     		
     		return "/offer/addOffer";
     	}
-    	
-    	// tfs返回ID
-    	inStockOfferVo.setOfferAffixPath(msg.getMsg());
     	
     	// 合同附件保存 tfs
-    	msg = getTfsFileName(contractAffix, "合同附件");
+    	msg = getTfsFileName(contractAffix, "报盘合同附件", 
+    			EsteelConstant.AFFIX_TYPE_OFFER_CONTRACT, inStockOfferVo);
     	
     	if (msg != null && msg.getStatus() != 0) {
     		model.addAttribute("msg", msg.getMsg());
@@ -433,10 +432,18 @@ public class OfferController {
     		return "/offer/addOffer";
     	}
     	
-    	// tfs返回ID
-    	inStockOfferVo.setContractAffixPath(msg.getMsg());
+    	// 初始化
+    	// 交易方式 1:现货
+    	inStockOfferVo.setTradeMode(EsteelConstant.TRADE_MODE_INSTOCK);
     	
     	inStockOfferVo.setCompanyId(1);
+    	inStockOfferVo.setCreateUser("王雁飞测试");
+    	inStockOfferVo.setUpdateUser("王雁飞测试");
+    	inStockOfferVo.setPublishUser("王雁飞测试");
+    	
+    	// 有效日期
+//    	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//    	inStockOfferVo.setValidTime(dateFormat.parse(inStockOfferVo.getValidTimestamp(), new ParsePosition(0)));
     	
     	try {
     		offerClient.saveOffer(inStockOfferVo);
@@ -475,7 +482,8 @@ public class OfferController {
     	}
     	
     	// 报盘附件保存 tfs
-    	StatusMSGVo msg = getTfsFileName(offerAffix, "报盘附件");
+    	StatusMSGVo msg = getTfsFileName(offerAffix, "报盘备注附件", 
+    			EsteelConstant.AFFIX_TYPE_OFFER_REMARKS, futuresOfferVo);
     	
     	if (msg != null && msg.getStatus() != 0) {
     		model.addAttribute("msg", msg.getMsg());
@@ -485,12 +493,10 @@ public class OfferController {
     		
     		return "/offer/addOffer";
     	}
-    	
-    	// tfs返回ID
-    	futuresOfferVo.setOfferAffixPath(msg.getMsg());
     	
     	// 合同附件保存 tfs
-    	msg = getTfsFileName(contractAffix, "合同附件");
+    	msg = getTfsFileName(contractAffix, "报盘合同附件", 
+    			EsteelConstant.AFFIX_TYPE_OFFER_CONTRACT, futuresOfferVo);
     	
     	if (msg != null && msg.getStatus() != 0) {
     		model.addAttribute("msg", msg.getMsg());
@@ -500,9 +506,6 @@ public class OfferController {
     		
     		return "/offer/addOffer";
     	}
-    	
-    	// tfs返回ID
-    	futuresOfferVo.setContractAffixPath(msg.getMsg());
     	
     	futuresOfferVo.setCompanyId(1);
     	
@@ -525,10 +528,14 @@ public class OfferController {
     
     /**
      * 报盘页面上传附件保存 tfs
+     * @param file
      * @param multipartFile
+     * @param futuresOfferVo
+     * @param affixType
      * @return
      */
-    private StatusMSGVo getTfsFileName(MultipartFile file, String affixName) {
+    private StatusMSGVo getTfsFileName(MultipartFile file, String affixName, 
+    		int affixType, IronOfferBaseVo offerVo) {
     	if (file == null) {
     		return null;
     	}
@@ -557,10 +564,16 @@ public class OfferController {
 	    
 	    try {
 	    	String tfsFileName = tfsManager.saveFile(file.getBytes(), null, fileType);
-			
-			vo.setStatus(0);
-	    	vo.setMsg(tfsFileName);
 	    	
+	    	vo.setStatus(0);
+	    	vo.setMsg(affixName + "保存成功！");
+	    	
+	    	// 记录 tfs返回ID
+	    	OfferAffixVo contractAffixVo = new OfferAffixVo();
+	    	contractAffixVo.setAffixType(affixType);
+	    	contractAffixVo.setAffixPath(tfsFileName);
+	    	
+	    	offerVo.getOfferAffixList().add(contractAffixVo);
 		} catch (IOException e) {
 			e.printStackTrace();
 			
