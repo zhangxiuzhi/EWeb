@@ -32,7 +32,7 @@ public class IndexController {
     @ResponseBody
     public List<ProvinceVo>  index(){
 
-//        indexService.tfsTest();
+        indexService.tfsTest();
 
         List<ProvinceVo> ports = indexService.getPort(1);
 

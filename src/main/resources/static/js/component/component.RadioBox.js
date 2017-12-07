@@ -20,26 +20,16 @@ class ComponentRadioBox extends React.Component{
 					{id: "tradeType-pricing", text: "点价", value: "pricing",name:"tradeType"}
 			]
 		}
-
-		this.customChange = this.customChange.bind(this);
 	}
 
-	customChange(value,label){
-		if(this.props.onChange){
-			this.props.onChange(value,label);
-		}
+	onChange(value,label){
+
 	}
 
 	render(){
 		const datas = this.props.data;
 
-		return React.createElement(RadioBoxGroup,{
-			data:datas,
-			className:this.props.className,
-			value:this.props.value,
-			name:this.props.name,
-			onChange:this.customChange
-		});
+		return React.createElement(RadioBox,{data:datas,className:this.props.className, value:this.props.value, onChange:this.onChange});
 
 	}
 }

@@ -16,21 +16,20 @@
 
         <!--内容-->
         <div class="content">
-            <div class="userContent">
 
+            <div class="userContent">
                 <!--分类-->
                 <div class="type-title">
                     <div class="t-title" id="router-linkNode">
-                        <a href="#/headSet" linkNode="headSet" class="selected">头像设置</a>
+                        <a href="#/userInfo" linkNode="userInfo" class="selected">基本信息</a>
+                        <a href="#/portrait" linkNode="portrait">头像编辑</a>
                     </div>
                 </div>
-
                 <!--分类页面-->
-                <div id="router-pageCotainer" class="padding-left-10 padding-right-10 padding-bottom-10">
-                   
-                </div>
-
+                <div id="router-pageCotainer" class="padding-left-10 padding-right-10 padding-bottom-10"></div>
             </div>
+
+
         </div>
     </div>
 </div>
@@ -39,10 +38,8 @@
 <div th:replace="fragments/foot::footer"></div>
 
 <!--控制-->
-<script th:src="@{/js/module/member/member.headSet.js}"></script>
-
+<script th:src="@{/js/module/member/member.userInfo.js}"></script>
 
 </body>
+
 </html>
-
-
