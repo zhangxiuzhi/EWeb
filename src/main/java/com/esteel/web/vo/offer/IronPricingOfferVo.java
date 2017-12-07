@@ -173,12 +173,6 @@ public class IronPricingOfferVo extends IronOfferBaseVo implements Serializable 
 	public void setOfferAttachCode(String offerAttachCode) {
 		this.offerAttachCode = offerAttachCode;
 	}
-	public long getOfferId() {
-		return offerId;
-	}
-	public void setOfferId(long offerId) {
-		this.offerId = offerId;
-	}
 	public BigDecimal getOfferQuantity() {
 		return offerQuantity;
 	}

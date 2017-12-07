@@ -18,7 +18,8 @@ import feign.hystrix.FallbackFactory;
  * @date 2017年12月4日 下午2:55:06
  *
  */
-@FeignClient(name = "Offer", fallback = OfferClientCallback.class, path = "offer")
+@FeignClient(name = "Offer",url = "http://127.0.0.1:8880",fallback = OfferClientCallback.class ,path = "offer")
+//@FeignClient(name = "Offer", fallback = OfferClientCallback.class, path = "offer")
 public interface OfferClient {
 	@RequestMapping(value = "/saveOffer", method = RequestMethod.POST)
 	public IronOfferBaseVo saveOffer(@RequestBody IronOfferBaseVo ironOfferVo);

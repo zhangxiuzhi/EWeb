@@ -309,12 +309,6 @@ public class OfferController {
     	/* 页面数据组装 结束 */
     	
     	/* 页面数据传输 开始 */
-    	// 计量方式列表
-    	model.addAttribute("measureMethodList", measureMethods);
-    	// 计价方式列表
-    	model.addAttribute("pricingMethodList", pricingMethods);
-    	model.addAttribute("pricingMethodListJson", JSONArray.toJSONString(pricingMethods));
-    	
     	// 品名列表Json
     	model.addAttribute("ironCommodityJson", JSONArray.toJSONString(ironCommodityList));
     	// 铁矿品名属性值联动列表Json
@@ -421,7 +415,7 @@ public class OfferController {
     	inStockOfferVo.setCompanyId(1);
     	
     	try {
-//    		offerClient.saveOffer(offerVo);
+    		offerClient.saveOffer(inStockOfferVo);
     	} catch (Exception e) {
 			e.printStackTrace();
 			

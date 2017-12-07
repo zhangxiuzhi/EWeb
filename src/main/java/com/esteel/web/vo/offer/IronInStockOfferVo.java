@@ -75,10 +75,6 @@ public class IronInStockOfferVo extends IronOfferBaseVo implements Serializable 
 	 */
 	private String offerAttachCode;
 	/**
-	 * 铁矿报盘ID
-	 */
-	private long offerId;
-	/**
 	 * 报盘重量
 	 */
 	private BigDecimal offerQuantity;
@@ -220,12 +216,6 @@ public class IronInStockOfferVo extends IronOfferBaseVo implements Serializable 
 	}
 	public void setOfferAttachCode(String offerAttachCode) {
 		this.offerAttachCode = offerAttachCode;
-	}
-	public long getOfferId() {
-		return offerId;
-	}
-	public void setOfferId(long offerId) {
-		this.offerId = offerId;
 	}
 	public BigDecimal getOfferQuantity() {
 		return offerQuantity;

@@ -19,7 +19,7 @@ public class IronOfferBaseVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 铁矿报盘ID
 	 */
-	private long offerId;
+	private String offerId="444";
 	/**
 	 * 交货结算条款模版ID
 	 */
@@ -182,10 +182,10 @@ public class IronOfferBaseVo extends StatusMSGVo implements Serializable {
 	public void setArr(String[] arr) {
 		this.arr = arr;
 	}
-	public long getOfferId() {
+	public String getOfferId() {
 		return offerId;
 	}
-	public void setOfferId(long offerId) {
+	public void setOfferId(String offerId) {
 		this.offerId = offerId;
 	}
 	public long getClauseTemplateId() {
