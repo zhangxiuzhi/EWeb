@@ -55,7 +55,7 @@ public class IronInStockOfferVo extends IronOfferBaseVo implements Serializable 
 	 */
 	private int isBondedArea = 1;
 	/**
-	 * 化学元素指标 Fe
+	 * 化学元素指标 LOI
 	 */
 	private BigDecimal LOI;
 	/**
@@ -130,21 +130,6 @@ public class IronInStockOfferVo extends IronOfferBaseVo implements Serializable 
 	 * 已售重量
 	 */
 	private BigDecimal soldQuantity;
-	/**
-	 * 品名ID
-	 * 扩展字段
-	 */
-	private long commodityIdStr;
-	/**
-	 * 港口ID
-	 * 扩展字段
-	 */
-	private long portIdStr;
-	/**
-	 * 指标类型ID
-	 * 扩展字段
-	 */
-	private String indicatorTypeIdStr;
 	
 	public long getOfferAttachId() {
 		return offerAttachId;
@@ -319,23 +304,5 @@ public class IronInStockOfferVo extends IronOfferBaseVo implements Serializable 
 	}
 	public void setSoldQuantity(BigDecimal soldQuantity) {
 		this.soldQuantity = soldQuantity;
-	}
-	public long getCommodityIdStr() {
-		return commodityIdStr;
-	}
-	public void setCommodityIdStr(long commodityIdStr) {
-		this.commodityIdStr = commodityIdStr;
-	}
-	public long getPortIdStr() {
-		return portIdStr;
-	}
-	public void setPortIdStr(long portIdStr) {
-		this.portIdStr = portIdStr;
-	}
-	public String getIndicatorTypeIdStr() {
-		return indicatorTypeIdStr;
-	}
-	public void setIndicatorTypeIdStr(String indicatorTypeIdStr) {
-		this.indicatorTypeIdStr = indicatorTypeIdStr;
 	}
 }

@@ -1,8 +1,12 @@
 package com.esteel.web.vo.offer;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.BeanUtils;
 
@@ -78,7 +82,7 @@ public class IronFuturesOfferVo extends IronOfferBaseVo implements Serializable 
 	 */
 	private String loadingPortName;
 	/**
-	 * 化学元素指标 Fe
+	 * 化学元素指标 LOI
 	 */
 	private BigDecimal LOI;
 	/**
@@ -178,13 +182,45 @@ public class IronFuturesOfferVo extends IronOfferBaseVo implements Serializable 
 	 */
 	private String transportDescription;
 	
-	public IronFuturesOfferVo getIronFuturesOfferVo(int index) {
-		IronFuturesOfferVo one = new IronFuturesOfferVo();
+/*	public IronFuturesOfferVo getOneCargoOfferVo(int index) {
+		index = index > 1 ? 1 : index;
 		
+		IronFuturesOfferVo one = new IronFuturesOfferVo();
 		BeanUtils.copyProperties(this, one);
 		
+		// 货物字段
+		Set<String> cargoAttrSet = new HashSet<>();
+		cargoAttrSet.addAll(
+				Arrays.asList("al2o3", "chemicalIndicators", "commodityIdStr", "commodityName", "fe", "h2o",
+						"indicatorTypeIdStr", "indicatorTypeName", "LOI", "mn", "moreOrLess", "offerQuantityStr",
+						"p", "priceDescription", "priceModel", "priceTerm", "priceTermPortId", "priceTermPortName", 
+						"priceValue", "s", "sio2", "", "sizeIndicators"));
+		
+		Field[] fields = one.getClass().getFields();
+		for (int j = 0; j < fields.length; j++) {
+			Field f = fields[j];
+			f.setAccessible(true); // 设置些属性是可以访问的
+			
+			if (cargoAttrSet.contains(f.getName())) {
+				try {
+					String value = (String) f.get(this);
+					
+					f.set(one, f.get(f.getName()));
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					continue;
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					continue;
+				}
+			}
+		}
+		
+		
 		return one;
-	}
+	}*/
 	
 	public long getOfferAttachId() {
 		return offerAttachId;

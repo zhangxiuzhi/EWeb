@@ -99,7 +99,7 @@ public class IronOfferBaseVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 交易方向 0:销售, 1:采购
 	 */
-	private int tradeDirection;
+	private int tradeDirection = 0;
 	/**
 	 * 交易方式 1:现货, 2:点价, 3:远期
 	 */
@@ -148,7 +148,7 @@ public class IronOfferBaseVo extends StatusMSGVo implements Serializable {
 	 * 指定对手
 	 * 扩展字段
 	 */
-	private String counterpartyIds;
+	private String counterpartyIdStr;
 	/**
 	 * 报盘附件
 	 * 扩展字段
@@ -159,7 +159,29 @@ public class IronOfferBaseVo extends StatusMSGVo implements Serializable {
 	 * 扩展字段
 	 */
 	private String contractAffixPath;
+	/**
+	 * 品名ID
+	 * 扩展字段
+	 */
+	private String commodityIdStr;
+	/**
+	 * 港口ID
+	 * 扩展字段
+	 */
+	private String portIdStr;
+	/**
+	 * 指标类型ID
+	 * 扩展字段
+	 */
+	private String indicatorTypeIdStr;
+	private String[] arr;
 	
+	public String[] getArr() {
+		return arr;
+	}
+	public void setArr(String[] arr) {
+		this.arr = arr;
+	}
 	public long getOfferId() {
 		return offerId;
 	}
@@ -346,11 +368,11 @@ public class IronOfferBaseVo extends StatusMSGVo implements Serializable {
 	public void setValidTimeStr(String validTimeStr) {
 		this.validTimeStr = validTimeStr;
 	}
-	public String getCounterpartyIds() {
-		return counterpartyIds;
+	public String getCounterpartyIdStr() {
+		return counterpartyIdStr;
 	}
-	public void setCounterpartyIds(String counterpartyIds) {
-		this.counterpartyIds = counterpartyIds;
+	public void setCounterpartyIdStr(String counterpartyIdStr) {
+		this.counterpartyIdStr = counterpartyIdStr;
 	}
 	public String getOfferAffixPath() {
 		return offerAffixPath;
@@ -363,5 +385,23 @@ public class IronOfferBaseVo extends StatusMSGVo implements Serializable {
 	}
 	public void setContractAffixPath(String contractAffixPath) {
 		this.contractAffixPath = contractAffixPath;
+	}
+	public String getCommodityIdStr() {
+		return commodityIdStr;
+	}
+	public void setCommodityIdStr(String commodityIdStr) {
+		this.commodityIdStr = commodityIdStr;
+	}
+	public String getPortIdStr() {
+		return portIdStr;
+	}
+	public void setPortIdStr(String portIdStr) {
+		this.portIdStr = portIdStr;
+	}
+	public String getIndicatorTypeIdStr() {
+		return indicatorTypeIdStr;
+	}
+	public void setIndicatorTypeIdStr(String indicatorTypeIdStr) {
+		this.indicatorTypeIdStr = indicatorTypeIdStr;
 	}
 }
