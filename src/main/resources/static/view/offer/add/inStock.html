@@ -11,7 +11,7 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">*品名</label>
             <div class="col-sm-4">
-                <div id="component-selectBox-ItemName" inputName="commodityId" data-validetta="required"></div>
+                <div id="component-selectBox-ItemName" inputName="commodityId" inputValue="2010002" data-validetta="required"></div>
             </div>
             <label class="col-sm-2 control-label">*港口</label>
             <div class="col-sm-4">
@@ -34,19 +34,27 @@
                         <th>Fe</th><th>SiO2</th><th>A12O3</th><th>Mn</th><th>LOI</th>
                     </tr>
                     <tr>
+<<<<<<< HEAD
                         <td><input type="text" class="form-control mask-number" name="arr[0]" data-validetta="required"/></td>
                         <td><input type="text" class="form-control" name="arr[1]"/></td>
                         <td><input type="text" class="form-control" name="al2o3"/></td>
                         <td><input type="text" class="form-control" name="mn"/></td>
                         <td><input type="text" class="form-control" name="LOI"/></td>
+=======
+                        <td><input type="text" class="form-control mask-number" name="fe" data-validetta="required"/></td>
+                        <td><input type="text" class="form-control" name="sio2" id="indicator-SIO2"/></td>
+                        <td><input type="text" class="form-control" name="al2o3" id="indicator-AL2O3"/></td>
+                        <td><input type="text" class="form-control" name="mn" id="indicator-MN"/></td>
+                        <td><input type="text" class="form-control" name="LOI" id="indicator-LOI"/></td>
+>>>>>>> branch 'master' of ssh://wangyanfei@10.0.1.234:29418/Web.git
                     </tr>
                     <tr>
                         <th>P</th><th>S</th><th>H20</th><th>&nbsp;</th><th>&nbsp;</th>
                     </tr>
                     <tr>
-                        <td><input type="text" class="form-control" name="p"/></td>
-                        <td><input type="text" class="form-control" name="s"/></td>
-                        <td><input type="text" class="form-control" name="h2o"/></td>
+                        <td><input type="text" class="form-control" name="p" id="indicator-P"/></td>
+                        <td><input type="text" class="form-control" name="s" id="indicator-S"/></td>
+                        <td><input type="text" class="form-control" name="h2o" id="indicator-H2O"/></td>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                     </tr>
@@ -147,7 +155,7 @@
             <label class="col-sm-2 control-label">交货方式</label>
             <div class="col-sm-10">
                 <input class="offer-rule-f-c" id="offer-rules-port1" name="Delivery_Method_port"/>（港口）
-                <select class="form-control" name="Pricing_method">
+				<select class="form-control" name="Pricing_method">
                     <option th:each="tmp:${pricingMethodList}" th:value="${tmp.optionId}"  th:text="${tmp.optionValue}"></option>
                 </select>（计价方式）交货
                 
