@@ -152,7 +152,9 @@
             <label class="col-sm-2 control-label">交货方式</label>
             <div class="col-sm-10">
                 <input class="offer-rule-f-c" id="offer-rules-port1" name="Delivery_Method_port"/>（港口）
-				<select class="form-control" name="Pricing_method" id="select-Pricing_method"></select>（计价方式）交货
+				<select class="form-control" name="Pricing_method" id="select-Pricing_method">
+                    <option value=""></option>
+                </select>（计价方式）交货
                 
                 <div th:text="${pricingMethodListJson}" ></div>
             </div>
@@ -161,22 +163,16 @@
             <label class="col-sm-2 control-label">交货数量标准</label>
             <div class="col-sm-10">
                 以<input class="offer-rule-f-c" id="offer-rules-port2" name="Delivery_quantity_port"/>（港口）
-                <select class="form-control" name="measure_method" data-validetta="true">
+                <select class="form-control" name="measure_method" data-validetta="true" id="select-measure_method">
                     <option value=""></option>
-                    <option value="0">过磅</option>
-                    <option value="1">港航交接</option>
-                    <option value="2">轨道衡</option>
-                    <option value="3">皮带秤</option>
                 </select>（计量方式）数量为准
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">货物规格标准</label>
             <div class="col-sm-10">
-                以<select class="form-control" name="trader_type" data-validetta="true">
+                以<select class="form-control" name="trader_type" data-validetta="true" id="select-trader_type">
                     <option value=""></option>
-                    <option value="0">卖方</option>
-                    <option value="1">买方</option>
                 </select>检测结果作为结算依据。
             </div>
         </div>

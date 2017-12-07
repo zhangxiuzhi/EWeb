@@ -119,12 +119,27 @@ function JBSFrame_addOffer() {
 		}
 
 		//计价方式
-		var $opt=null;
 		var pricingMethod = JSON.parse($("#pricingMethodJson").html());
 		for(var i=0;i<pricingMethod.length;i++){
 			$opt = $("<option></option>").text(pricingMethod[i].text).val(pricingMethod[i].value);
 			$("#select-Pricing_method").append($opt);
 		}
+
+		//
+		var measureMethod = JSON.parse($("#measureMethodJson").html());
+		for(var i=0;i<measureMethod.length;i++){
+			var $opt = $("<option></option>").text(measureMethod[i].text).val(measureMethod[i].value);
+			$("#select-measure_method").append($opt);
+		}
+
+		//交易方式
+		var tradeMode = JSON.parse($("#tradeModeJson").html());
+		for(var i=0;i<tradeMode.length;i++){
+			var $opt = $("<option></option>").text(tradeMode[i].text).val(tradeMode[i].value);
+			$("#select-trader_type").append($opt);
+		}
+
+
 
 		this.renderDatetimepicker();
 		this.renderNumberMask();
