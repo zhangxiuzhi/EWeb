@@ -7,13 +7,17 @@ class ComponentSelectBox extends React.Component {
 		super(props);
 
 		this.state = {
-			data: []
+			data: [],
+			node:""
 		};
 
 		this.customChange = this.customChange.bind(this);
 	}
 
 	customChange(node) {
+		this.setState({
+			node:node
+		})
 		if(this.props.onChange){
 			this.props.onChange(node);
 		}

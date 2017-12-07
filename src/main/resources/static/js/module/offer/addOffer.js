@@ -67,10 +67,10 @@ function JBSFrame_addOffer() {
 				data: JSON.parse($("#indicatorTypeJson").html()),
 				value: "26",
 				className: "TagStyle offerKpi",
-				name:$kpiType.attr("inputName")
+				name:$kpiType.attr("inputName"),
+				onChange:changeIndicatorValue //指标类型选择，改变指标值
 			}), $kpiType[0]);
 		}
-		ironAttributeLinkJson
 
 		//是否拆分
 		var $Split = $("#component-toggle-split");
@@ -99,7 +99,7 @@ function JBSFrame_addOffer() {
 			this.selectBox_ItemName1 = ReactDOM.render(React.createElement(ComponentSelectBox,{
 				inputName:$ItemName1.attr("inputName"),
 				data:JSON.parse($("#ironCommodityJson").html()),
-				onChange:changeIronAttributeLink_1
+				onChange:changeIronAttributeLink_1 //期货商品1联动指标
 			}), $ItemName1[0]);
 		}
 		//商品2品名下拉
@@ -108,7 +108,7 @@ function JBSFrame_addOffer() {
 			this.selectBox_ItemName2 = ReactDOM.render(React.createElement(ComponentSelectBox,{
 				inputName:$ItemName2.attr("inputName"),
 				data:JSON.parse($("#ironCommodityJson").html()),
-				onChange:changeIronAttributeLink_2
+				onChange:changeIronAttributeLink_2 //期货商品2联动指标
 			}), $ItemName2[0]);
 		}
 		//报税区
@@ -285,8 +285,11 @@ function submit_offer(){
 //品名切换改变指标值
 function changeIronAttributeLink(node){
 	//典型值
-	if($("input[name='indicatorTypeName']").val() == "26"){
+	if($("input[name='indicatorTypeName']:checked").val() == "26"){
 		changeIronCommodityIndicator(node,'');
+	}else{
+		//清空指标值
+		$(".offer-kip-table input.form-control").val("");
 	}
 }
 //期货商品1联动指标
@@ -307,6 +310,17 @@ function changeIronCommodityIndicator(node,index){
 				$("#indicator"+index+"-"+iron[i].text).val(iron[i].value);
 			}
 		}
+	}
+}
+
+//指标类型选择，改变指标值
+function changeIndicatorValue(value,label){
+	if(value == "26" && label =="典型值"){
+		//品名切换改变指标值
+		changeIronCommodityIndicator(esteel_addOffer.selectBox_ItemName.state.node,'');
+	}else{
+		//清空指标值
+		$(".offer-kip-table input.form-control").val("");
 	}
 }
 
