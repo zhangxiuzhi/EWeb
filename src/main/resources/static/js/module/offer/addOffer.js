@@ -120,11 +120,11 @@ function JBSFrame_addOffer() {
 
 		//计价方式
 		var $opt=null;
-		var pricingMethod = $("#pricingMethodJson").html();
-		for(pm in pricingMethod){
-
+		var pricingMethod = JSON.parse($("#pricingMethodJson").html());
+		for(var i=0;i<pricingMethod.length;i++){
+			$opt = $("<option></option>").text(pricingMethod[i].text).val(pricingMethod[i].value);
+			$("#select-Pricing_method").append($opt);
 		}
-		$("select-Pricing_method").push($opt)
 
 		this.renderDatetimepicker();
 		this.renderNumberMask();
