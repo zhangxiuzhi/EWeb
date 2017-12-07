@@ -57,6 +57,7 @@ function JBSFrame_addOffer() {
 			this.selectBox_Port = ReactDOM.render(React.createElement(ComponentSelectBox, {
 				data:JSON.parse($("#portJson").html()),
 				inputName: $Port.attr("inputName"),
+				inputValue:$Port.attr("inputValue"),
 				validetta:$Port.data("validetta")
 			}), $Port[0]);
 		}
@@ -117,6 +118,13 @@ function JBSFrame_addOffer() {
 			this.toggle_bondedAreas = ReactDOM.render(React.createElement(ComponentToggle,{inputName:$bondedAreas.attr("inputName")}), $bondedAreas[0]);
 		}
 
+		//计价方式
+		var $opt=null;
+		var pricingMethod = $("#pricingMethodJson").html();
+		for(pm in pricingMethod){
+
+		}
+		$("select-Pricing_method").push($opt)
 
 		this.renderDatetimepicker();
 		this.renderNumberMask();

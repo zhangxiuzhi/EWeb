@@ -1,3 +1,8 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="./fragments/frontCode" />
+
 <form id="form-offer" action="/offer/saveInStockOffer" enctype="multipart/form-data" method="post" onsubmit="return false">
 <!--商品信息-->
     <div class="form-horizontal">
@@ -11,11 +16,11 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">*品名</label>
             <div class="col-sm-4">
-                <div id="component-selectBox-ItemName" inputName="commodityId" data-validetta="required"></div>
+                <div id="component-selectBox-ItemName" inputName="commodityId" data-validetta="required" inputValue="2010003"></div>
             </div>
             <label class="col-sm-2 control-label">*港口</label>
             <div class="col-sm-4">
-                <div id="component-selectBox-Port" inputName="portName" data-validetta="required"></div>
+                <div id="component-selectBox-Port" inputName="portName" data-validetta="required" inputValue="11"></div>
             </div>
         </div>
 
@@ -147,9 +152,7 @@
             <label class="col-sm-2 control-label">交货方式</label>
             <div class="col-sm-10">
                 <input class="offer-rule-f-c" id="offer-rules-port1" name="Delivery_Method_port"/>（港口）
-				<select class="form-control" name="Pricing_method">
-                    <option th:each="tmp:${pricingMethodList}" th:value="${tmp.optionId}"  th:text="${tmp.optionValue}"></option>
-                </select>（计价方式）交货
+				<select class="form-control" name="Pricing_method" id="select-Pricing_method"></select>（计价方式）交货
                 
                 <div th:text="${pricingMethodListJson}" ></div>
             </div>
