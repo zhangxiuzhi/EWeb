@@ -308,7 +308,31 @@ public class OfferController {
     	isAnonymousList.add(noMap);
     	/* 页面数据组装 结束 */
     	
+    	List<Map<String, String>> counterpartyList = new ArrayList<Map<String, String>>();
+    	
+    	Map<String, String> counterpartyMap = new HashMap<>();
+    	counterpartyList.add(counterpartyMap);
+    	counterpartyMap.put("text", "测试1");
+    	counterpartyMap.put("value", "1");
+    	counterpartyMap.put("key", "测试1,one");
+    	
+    	counterpartyMap = new HashMap<>();
+     	counterpartyList.add(counterpartyMap);
+     	counterpartyMap.put("text", "测试2");
+     	counterpartyMap.put("value", "2");
+     	counterpartyMap.put("key", "测试2,two");
+     	
+     	counterpartyMap = new HashMap<>();
+     	counterpartyList.add(counterpartyMap);
+     	counterpartyMap.put("text", "测试3");
+     	counterpartyMap.put("value", "3");
+     	counterpartyMap.put("key", "测试3,three");
+    	
+    	
     	/* 页面数据传输 开始 */
+     	// 公司白名单列表Json
+     	model.addAttribute("companyWhitelistJson", JSONArray.toJSONString(counterpartyList));
+     	
     	// 品名列表Json
     	model.addAttribute("ironCommodityJson", JSONArray.toJSONString(ironCommodityList));
     	// 铁矿品名属性值联动列表Json

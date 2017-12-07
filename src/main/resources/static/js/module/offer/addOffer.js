@@ -57,6 +57,7 @@ function JBSFrame_addOffer() {
 			this.selectBox_Port = ReactDOM.render(React.createElement(ComponentSelectBox, {
 				data:JSON.parse($("#portJson").html()),
 				inputName: $Port.attr("inputName"),
+				inputValue:$Port.attr("inputValue"),
 				validetta:$Port.data("validetta")
 			}), $Port[0]);
 		}
@@ -67,10 +68,10 @@ function JBSFrame_addOffer() {
 				data: JSON.parse($("#indicatorTypeJson").html()),
 				value: "26",
 				className: "TagStyle offerKpi",
-				name:$kpiType.attr("inputName")
+				name:$kpiType.attr("inputName"),
+				onChange:changeIndicatorValue //指标类型选择，改变指标值
 			}), $kpiType[0]);
 		}
-		ironAttributeLinkJson
 
 		//是否拆分
 		var $Split = $("#component-toggle-split");
@@ -99,7 +100,7 @@ function JBSFrame_addOffer() {
 			this.selectBox_ItemName1 = ReactDOM.render(React.createElement(ComponentSelectBox,{
 				inputName:$ItemName1.attr("inputName"),
 				data:JSON.parse($("#ironCommodityJson").html()),
-				onChange:changeIronAttributeLink_1
+				onChange:changeIronAttributeLink_1 //期货商品1联动指标
 			}), $ItemName1[0]);
 		}
 		//商品2品名下拉
@@ -108,7 +109,7 @@ function JBSFrame_addOffer() {
 			this.selectBox_ItemName2 = ReactDOM.render(React.createElement(ComponentSelectBox,{
 				inputName:$ItemName2.attr("inputName"),
 				data:JSON.parse($("#ironCommodityJson").html()),
-				onChange:changeIronAttributeLink_2
+				onChange:changeIronAttributeLink_2 //期货商品2联动指标
 			}), $ItemName2[0]);
 		}
 		//报税区
@@ -117,6 +118,19 @@ function JBSFrame_addOffer() {
 			this.toggle_bondedAreas = ReactDOM.render(React.createElement(ComponentToggle,{inputName:$bondedAreas.attr("inputName")}), $bondedAreas[0]);
 		}
 
+		//计价方式
+		var pricingMethod = JSON.parse($("#pricingMethodJson").html());
+		for(var i=0;i<pricingMethod.length;i++){
+			$opt = $("<option></option>").text(pricingMethod[i].text).val(pricingMethod[i].value);
+			$("#select-Pricing_method").append($opt);
+		}
+
+		//计量方式
+		var measureMethod = JSON.parse($("#measureMethodJson").html());
+		for(var i=0;i<measureMethod.length;i++){
+			var $opt = $("<option></option>").text(measureMethod[i].text).val(measureMethod[i].value);
+			$("#select-measure_method").append($opt);
+		}
 
 		this.renderDatetimepicker();
 		this.renderNumberMask();
@@ -266,13 +280,12 @@ $(document).ready(function (e) {
 
 //保存报盘
 function save_offer(){
-/*	if(validateOfferInfo()){
+	if(validateOfferInfo()){
 		esteel_addOffer.confirm(null,"该报盘将作为草稿保存到我的报盘记录",function(){
 		});
 		
-		$("#form-offer").submit();
-	}*/
-	$("#form-offer")[0].submit();
+		$("#form-offer")[0].submit();
+	}
 }
 
 //提交报盘
@@ -285,8 +298,11 @@ function submit_offer(){
 //品名切换改变指标值
 function changeIronAttributeLink(node){
 	//典型值
-	if($("input[name='indicatorTypeName']").val() == "26"){
+	if($("input[name='indicatorTypeId']:checked").val() == "26"){
 		changeIronCommodityIndicator(node,'');
+	}else{
+		//清空指标值
+		$(".offer-kip-table input.form-control").val("");
 	}
 }
 //期货商品1联动指标
@@ -307,6 +323,17 @@ function changeIronCommodityIndicator(node,index){
 				$("#indicator"+index+"-"+iron[i].text).val(iron[i].value);
 			}
 		}
+	}
+}
+
+//指标类型选择，改变指标值
+function changeIndicatorValue(value,label){
+	if(value == "26" && label =="典型值"){
+		//品名切换改变指标值
+		changeIronCommodityIndicator(esteel_addOffer.selectBox_ItemName.state.node,'');
+	}else{
+		//清空指标值
+		$(".offer-kip-table input.form-control").val("");
 	}
 }
 

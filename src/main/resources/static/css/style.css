@@ -886,7 +886,7 @@ body.member {
   .offer-kip-table th {
     font-weight: normal;
     text-align: center;
-    color: #787878; }
+    color: #999999; }
   .offer-kip-table td {
     padding: 0 2px; }
   .offer-kip-table td > input[type=text] {

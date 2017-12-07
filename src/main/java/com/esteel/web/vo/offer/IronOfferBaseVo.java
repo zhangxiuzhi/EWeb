@@ -19,7 +19,7 @@ public class IronOfferBaseVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 铁矿报盘ID
 	 */
-	private String offerId="444";
+	private long offerId;
 	/**
 	 * 交货结算条款模版ID
 	 */
@@ -51,7 +51,7 @@ public class IronOfferBaseVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 是否匿名 0:否, 1:是
 	 */
-	private int isAnonymous = 1;
+	private String isAnonymous = "1";
 	/**
 	 * 是否指定 0:否, 1:是
 	 */
@@ -63,11 +63,11 @@ public class IronOfferBaseVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 是否一船多货 0:否, 1:是
 	 */
-	private int isMultiCargo = 0;
+	private String isMultiCargo = "0";
 	/**
 	 * 是否拆分 0:否, 1:是
 	 */
-	private int isSplit = 0;
+	private String isSplit = "0";
 	/**
 	 * 铁矿报盘编码
 	 */
@@ -125,67 +125,30 @@ public class IronOfferBaseVo extends StatusMSGVo implements Serializable {
 	 */
 	private int version;
 	/**
-	 * 是否拆分 0:否, 1:是
+	 * 有效日期(yyyy-MM-dd HH:mm:ss)
 	 * 扩展字段
 	 */
-	private String isSplitStr = "0";
+	private String validTimestamp;
 	/**
-	 * 是否一船多货 0:否, 1:是
+	 * 指定对手(多选值)
 	 * 扩展字段
 	 */
-	private String isMultiCargoStr = "0";
+	private String counterpartyIdMulti;
 	/**
-	 * 是否匿名 0:否, 1:是
-	 * 扩展字段
-	 */
-	private String isAnonymousStr = "1";
-	/**
-	 * 有效日期
-	 * 扩展字段
-	 */
-	private String validTimeStr;
-	/**
-	 * 指定对手
-	 * 扩展字段
-	 */
-	private String counterpartyIdStr;
-	/**
-	 * 报盘附件
+	 * 报盘附件(tfs返回ID)
 	 * 扩展字段
 	 */
 	private String offerAffixPath;
 	/**
-	 * 合同附件
+	 * 合同附件(tfs返回ID)
 	 * 扩展字段
 	 */
 	private String contractAffixPath;
-	/**
-	 * 品名ID
-	 * 扩展字段
-	 */
-	private String commodityIdStr;
-	/**
-	 * 港口ID
-	 * 扩展字段
-	 */
-	private String portIdStr;
-	/**
-	 * 指标类型ID
-	 * 扩展字段
-	 */
-	private String indicatorTypeIdStr;
-	private String[] arr;
 	
-	public String[] getArr() {
-		return arr;
-	}
-	public void setArr(String[] arr) {
-		this.arr = arr;
-	}
-	public String getOfferId() {
+	public long getOfferId() {
 		return offerId;
 	}
-	public void setOfferId(String offerId) {
+	public void setOfferId(long offerId) {
 		this.offerId = offerId;
 	}
 	public long getClauseTemplateId() {
@@ -230,10 +193,10 @@ public class IronOfferBaseVo extends StatusMSGVo implements Serializable {
 	public void setCreateUserId(long createUserId) {
 		this.createUserId = createUserId;
 	}
-	public int getIsAnonymous() {
+	public String getIsAnonymous() {
 		return isAnonymous;
 	}
-	public void setIsAnonymous(int isAnonymous) {
+	public void setIsAnonymous(String isAnonymous) {
 		this.isAnonymous = isAnonymous;
 	}
 	public int getIsDesignation() {
@@ -248,16 +211,16 @@ public class IronOfferBaseVo extends StatusMSGVo implements Serializable {
 	public void setIsDiscussPrice(int isDiscussPrice) {
 		this.isDiscussPrice = isDiscussPrice;
 	}
-	public int getIsMultiCargo() {
+	public String getIsMultiCargo() {
 		return isMultiCargo;
 	}
-	public void setIsMultiCargo(int isMultiCargo) {
+	public void setIsMultiCargo(String isMultiCargo) {
 		this.isMultiCargo = isMultiCargo;
 	}
-	public int getIsSplit() {
+	public String getIsSplit() {
 		return isSplit;
 	}
-	public void setIsSplit(int isSplit) {
+	public void setIsSplit(String isSplit) {
 		this.isSplit = isSplit;
 	}
 	public String getOfferCode() {
@@ -344,35 +307,17 @@ public class IronOfferBaseVo extends StatusMSGVo implements Serializable {
 	public void setVersion(int version) {
 		this.version = version;
 	}
-	public String getIsSplitStr() {
-		return isSplitStr;
+	public String getValidTimestamp() {
+		return validTimestamp;
 	}
-	public void setIsSplitStr(String isSplitStr) {
-		this.isSplitStr = isSplitStr;
+	public void setValidTimestamp(String validTimestamp) {
+		this.validTimestamp = validTimestamp;
 	}
-	public String getIsMultiCargoStr() {
-		return isMultiCargoStr;
+	public String getCounterpartyIdMulti() {
+		return counterpartyIdMulti;
 	}
-	public void setIsMultiCargoStr(String isMultiCargoStr) {
-		this.isMultiCargoStr = isMultiCargoStr;
-	}
-	public String getIsAnonymousStr() {
-		return isAnonymousStr;
-	}
-	public void setIsAnonymousStr(String isAnonymousStr) {
-		this.isAnonymousStr = isAnonymousStr;
-	}
-	public String getValidTimeStr() {
-		return validTimeStr;
-	}
-	public void setValidTimeStr(String validTimeStr) {
-		this.validTimeStr = validTimeStr;
-	}
-	public String getCounterpartyIdStr() {
-		return counterpartyIdStr;
-	}
-	public void setCounterpartyIdStr(String counterpartyIdStr) {
-		this.counterpartyIdStr = counterpartyIdStr;
+	public void setCounterpartyIdMulti(String counterpartyIdMulti) {
+		this.counterpartyIdMulti = counterpartyIdMulti;
 	}
 	public String getOfferAffixPath() {
 		return offerAffixPath;
@@ -385,23 +330,5 @@ public class IronOfferBaseVo extends StatusMSGVo implements Serializable {
 	}
 	public void setContractAffixPath(String contractAffixPath) {
 		this.contractAffixPath = contractAffixPath;
-	}
-	public String getCommodityIdStr() {
-		return commodityIdStr;
-	}
-	public void setCommodityIdStr(String commodityIdStr) {
-		this.commodityIdStr = commodityIdStr;
-	}
-	public String getPortIdStr() {
-		return portIdStr;
-	}
-	public void setPortIdStr(String portIdStr) {
-		this.portIdStr = portIdStr;
-	}
-	public String getIndicatorTypeIdStr() {
-		return indicatorTypeIdStr;
-	}
-	public void setIndicatorTypeIdStr(String indicatorTypeIdStr) {
-		this.indicatorTypeIdStr = indicatorTypeIdStr;
 	}
 }

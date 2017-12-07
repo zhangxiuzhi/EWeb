@@ -35,6 +35,10 @@
             </div>
 
 			<div style="display:none">
+			
+				<!-- 公司白名单列表Json:[{"text":"counterpartyName","value":"counterpartyId","key":"counterpartyAlias"},...] -->
+				<div id="companyWhitelistJson" th:text="${companyWhitelistJson}"></div>
+
 				<!-- 品名列表 格式:[{"text":"commodityName","value":"commodityId","key":"commodityAlias"},...] -->
 				<div id="ironCommodityJson" th:text="${ironCommodityJson}"></div>
 				

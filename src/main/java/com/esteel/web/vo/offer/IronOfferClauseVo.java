@@ -37,15 +37,15 @@ public class IronOfferClauseVo implements Serializable {
 	/**
 	 * 交货港口 数据范围:port
 	 */
-	private String Delivery_Method_port;
+	private String delivery_Method_port;
 	/**
 	 * 计价方式 数据范围:option
 	 */
-	private String Pricing_method;
+	private String pricing_method;
 	/**
 	 * 交货数量标准港口 数据范围:port
 	 */
-	private String Delivery_quantity_port;
+	private String delivery_quantity_port;
 	/**
 	 * 计量方式 数据范围:option
 	 */
@@ -86,7 +86,6 @@ public class IronOfferClauseVo implements Serializable {
 	 * 发票条款
 	 */
 	private String invoice_terms;
-	
 	public String getSettlement_method() {
 		return settlement_method;
 	}
@@ -118,22 +117,22 @@ public class IronOfferClauseVo implements Serializable {
 		this.after_pay_off_several_working_days = after_pay_off_several_working_days;
 	}
 	public String getDelivery_Method_port() {
-		return Delivery_Method_port;
+		return delivery_Method_port;
 	}
 	public void setDelivery_Method_port(String delivery_Method_port) {
-		Delivery_Method_port = delivery_Method_port;
+		this.delivery_Method_port = delivery_Method_port;
 	}
 	public String getPricing_method() {
-		return Pricing_method;
+		return pricing_method;
 	}
 	public void setPricing_method(String pricing_method) {
-		Pricing_method = pricing_method;
+		this.pricing_method = pricing_method;
 	}
 	public String getDelivery_quantity_port() {
-		return Delivery_quantity_port;
+		return delivery_quantity_port;
 	}
 	public void setDelivery_quantity_port(String delivery_quantity_port) {
-		Delivery_quantity_port = delivery_quantity_port;
+		this.delivery_quantity_port = delivery_quantity_port;
 	}
 	public String getMeasure_method() {
 		return measure_method;
