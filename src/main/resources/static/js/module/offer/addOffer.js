@@ -43,6 +43,7 @@ function JBSFrame_addOffer() {
 		//品名下拉
 		var $ItemName = $("#component-selectBox-ItemName");
 		if($ItemName.length>0){
+			console.log(JSON.parse("'"+$("#offer-json-ironCommodity").html())+"'")
 			this.selectBox_ItemName = ReactDOM.render(React.createElement(ComponentSelectBox,{
 				data:[{value:'1',text:"1"},{value:'2',text:"2"}],
 				inputName:$ItemName.attr("inputName"),
