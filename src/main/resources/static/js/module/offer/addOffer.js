@@ -46,6 +46,7 @@ function JBSFrame_addOffer() {
 			this.selectBox_ItemName = ReactDOM.render(React.createElement(ComponentSelectBox,{
 				data:JSON.parse($("#ironCommodityJson").html()),
 				inputName:$ItemName.attr("inputName"),
+				inputValue:$ItemName.attr("inputValue"),
 				validetta:$ItemName.data("validetta"),
 				onChange:changeIronAttributeLink
 			}), $ItemName[0]);
