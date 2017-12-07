@@ -1,12 +1,14 @@
 package com.esteel.web.web;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +26,7 @@ import com.esteel.web.vo.base.CommodityVo;
 import com.esteel.web.vo.base.PortVo;
 import com.esteel.web.vo.config.AttributeValueOptionVo;
 import com.esteel.web.vo.config.IronAttributeLinkVo;
+import com.esteel.web.vo.offer.IronFuturesOfferVo;
 import com.esteel.web.vo.offer.IronInStockOfferVo;
 import com.esteel.web.vo.offer.IronOfferBaseVo;
 import com.esteel.web.vo.offer.IronOfferClauseVo;
@@ -424,6 +427,74 @@ public class OfferController {
 			model.addAttribute("msg", "新增失败");
 			
 			model.addAttribute("offerVo", inStockOfferVo);
+		    
+		    return "/offer/addOffer";
+		}
+    	
+    	model.addAttribute("msg", "新增成功");
+    	
+        return "redirect:/offer/myOffer";
+    }
+    
+    @RequestMapping(value = "/saveFuturesOffer", method = RequestMethod.POST)
+    public String saveFuturesOffer(IronFuturesOfferVo futuresOfferVo, @RequestParam("offerAffix") MultipartFile offerAffix, 
+    		IronOfferClauseVo offerClauseVo, @RequestParam("contractAffix") MultipartFile contractAffix, Model model){
+    	if (futuresOfferVo == null) {
+    		model.addAttribute("msg", "提交失败！");
+			
+			model.addAttribute("offerClauseVo", offerClauseVo);
+		    
+		    return "/offer/addOffer";
+    	}
+    	
+    	if (offerClauseVo == null) {
+    		model.addAttribute("msg", "提交失败！");
+			
+			model.addAttribute("offerVo", futuresOfferVo);
+		    
+		    return "/offer/addOffer";
+    	}
+    	
+    	// 报盘附件保存 tfs
+    	StatusMSGVo msg = getTfsFileName(offerAffix, "报盘附件");
+    	
+    	if (msg != null && msg.getStatus() != 0) {
+    		model.addAttribute("msg", msg.getMsg());
+    		
+    		model.addAttribute("offerVo", futuresOfferVo);
+    		model.addAttribute("offerClauseVo", offerClauseVo);
+    		
+    		return "/offer/addOffer";
+    	}
+    	
+    	// tfs返回ID
+    	futuresOfferVo.setOfferAffixPath(msg.getMsg());
+    	
+    	// 合同附件保存 tfs
+    	msg = getTfsFileName(contractAffix, "合同附件");
+    	
+    	if (msg != null && msg.getStatus() != 0) {
+    		model.addAttribute("msg", msg.getMsg());
+    		
+    		model.addAttribute("offerVo", futuresOfferVo);
+    		model.addAttribute("offerClauseVo", offerClauseVo);
+    		
+    		return "/offer/addOffer";
+    	}
+    	
+    	// tfs返回ID
+    	futuresOfferVo.setContractAffixPath(msg.getMsg());
+    	
+    	futuresOfferVo.setCompanyId(1);
+    	
+    	try {
+//    		offerClient.saveOffer(offerVo);
+    	} catch (Exception e) {
+			e.printStackTrace();
+			
+			model.addAttribute("msg", "新增失败");
+			
+			model.addAttribute("offerVo", futuresOfferVo);
 		    
 		    return "/offer/addOffer";
 		}
