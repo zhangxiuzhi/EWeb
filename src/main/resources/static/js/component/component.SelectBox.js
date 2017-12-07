@@ -14,7 +14,9 @@ class ComponentSelectBox extends React.Component {
 	}
 
 	customChange(node) {
-		console.log(node);
+		if(this.props.onChange){
+			this.props.onChange(node);
+		}
 	}
 
 	render() {;
