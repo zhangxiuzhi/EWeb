@@ -2,7 +2,7 @@
  * Created by wzj on 2017/11/14.
  */
 
-class RadioBox extends React.Component {
+class Radio extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -31,13 +31,12 @@ class RadioBox extends React.Component {
 
 		return React.createElement(
 			"div",
-			{ className: classes, key: radio.id },
+			{ className: classes, key: radio.id || index },
 			React.createElement("input", { className: "react-radioBox-screenreader-only", type: "radio",
 				onChange: this.props.onChange,
 				checked: this.props.isChecked == radio.value ? true : false,
 				id: inputId,
-				name: radio.name || this.props.name,
-				value: radio.value,
+				name: radio.name, value: radio.value,
 				label: radio.text,
 				ref: "radio" }),
 			React.createElement(

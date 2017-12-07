@@ -1,5 +1,11 @@
 package com.esteel.web.service;
 
+import com.esteel.common.vo.BaseQueryVo;
+import com.esteel.common.vo.SimpePageImpl;
+import com.esteel.web.vo.CityVo;
+import com.esteel.web.vo.DistrictVo;
+import com.esteel.web.vo.ProvinceVo;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.esteel.common.vo.BaseQueryVo;
 import com.esteel.common.vo.SimpePageImpl;
@@ -32,12 +39,31 @@ import feign.hystrix.FallbackFactory;
 @FeignClient(name = "Base",url = "http://10.0.1.214:9920",fallback = BaseClientCallback.class ,path = "cn")
 public interface BaseClient {
 
+    @RequestMapping(value = "/port", method = RequestMethod.POST)
+    public String getPort(@RequestParam("portId") long portId);
+    
+    @RequestMapping(value = "/allProvince", method = RequestMethod.POST)
+    public List<ProvinceVo> findAllPro();
     @RequestMapping(value = "/province", method = RequestMethod.POST)
+
     public List<ProvinceVo> findAll();
 
     @RequestMapping(value = "/findProvince", method = RequestMethod.POST)
     public SimpePageImpl<ProvinceVo> findProvince(@RequestBody BaseQueryVo vo);
-    
+    /**
+     * 获取所有的城市
+     * @param provinceId
+     * @return
+     */
+    @RequestMapping(value = "/findCity", method = RequestMethod.POST)
+    public List<CityVo> findAllCity(int provinceId);
+    /**
+     * 获取所有的区县
+     * @param cityId
+     * @return
+     */
+    @RequestMapping(value = "/findDistrict", method = RequestMethod.POST)
+    public List<DistrictVo> findAllDistrict(int cityId);
     /**
      * 港口
      * @param port
@@ -151,6 +177,17 @@ class BaseClientCallback implements BaseClient {
     }
 
 	@Override
+	public List<CityVo> findAllCity(int provinceId) {
+		return null;
+	}
+
+	@Override
+	public List<DistrictVo> findAllDistrict(int cityId) {
+		return null;
+	}
+
+
+	@Override
 	public List<PortVo> findPortListForOffer() {
 		ArrayList<PortVo> vos = new ArrayList<>();
 		return vos;
@@ -220,6 +257,18 @@ class BaseClientCallback implements BaseClient {
 	public List<CommodityVo> findCommodityListByIron() {
 		ArrayList<CommodityVo> vos = new ArrayList<>();
 		return vos;
+	}
+
+	@Override
+	public String getPort(long portId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ProvinceVo> findAllPro() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
@@ -302,6 +351,28 @@ class BaseClientFallbackFactory implements FallbackFactory<BaseClient>{
 				return null;
 			}
         	
+
+			@Override
+			public List<CityVo> findAllCity(int provinceId) {
+				return null;
+			}
+
+			@Override
+			public List<DistrictVo> findAllDistrict(int cityId) {
+				return null;
+			}
+
+			@Override
+			public String getPort(long portId) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public List<ProvinceVo> findAllPro() {
+				// TODO Auto-generated method stub
+				return null;
+			}
         };
     }
 }

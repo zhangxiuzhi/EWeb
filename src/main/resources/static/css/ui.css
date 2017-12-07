@@ -16,9 +16,9 @@ body {
 超链接
 -----------------------------------------*/
 a {
-  color: #20b0de;
+  color: #4B4C4D;
   text-decoration: none; }
-  a:hover {
+  a :hover {
     color: #f1280f; }
 
 /*--------------------------------
@@ -217,11 +217,6 @@ a {
   .form-group .form-control:focus,
   .form-group .form-control-static:focus {
     border-color: #aaa; }
-.form-group .form-control-static {
-  border: none;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none; }
 .form-group select.form-control {
   height: 40px; }
 .form-group.form-group-btns .btn {
@@ -270,7 +265,7 @@ a {
 .input-group .input-group-btn .btn {
   padding: 6px 22px;
   line-height: 1.42857143;
-  height: 42px; }
+  height: 32px; }
 
 /*标签嵌入输入框*/
 .form-subline {
@@ -735,41 +730,5 @@ hr
     top: 15px;
     text-align: center;
     font-size: 12px; }
-
-/*--------------------------------
-内部信息提示，html
- -----------------------------------------*/
-.ui-infoTip {
-  position: relative;
-  padding: 5px 70px 5px 63px;
-  border-bottom: 1px solid #e4e4e4;
-  background-color: #fcfcfe;
-  color: #959ca9; }
-  .ui-infoTip .ui-infoTip-icon {
-    background-position: 0 -159px;
-    height: 33px;
-    width: 14px;
-    position: absolute;
-    top: 9px;
-    left: 39px;
-    color: #f1280f; }
-  .ui-infoTip .ui-infoTip-close {
-    background-position: 0 -98px;
-    height: 24px;
-    width: 24px;
-    position: absolute;
-    top: 5px;
-    right: 40px;
-    color: #c9c9c9;
-    cursor: pointer; }
-    .ui-infoTip .ui-infoTip-close:hover {
-      color: #666; }
-  .ui-infoTip .ui-infoTip-box {
-    height: 23px;
-    overflow: hidden;
-    line-height: 23px;
-    font-size: 12px; }
-  .ui-infoTip .ui-infoTip-link {
-    margin-left: 5px; }
 
 /*# sourceMappingURL=ui.css.map */

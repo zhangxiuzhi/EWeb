@@ -230,12 +230,6 @@ function JBSFrame() {
 
 
 	//系统提示框
-	this.alertInfo = function(msg){
-		$.growl({ message: msg,location:"top",size:"middle",style:"default",
-			delayOnHover:false,fixed:true});
-	}
-
-	//系统提示框
 	this.alert = function(msg,callback_confirm){
 		if(window.document.body.scrollTop == 0){
 			$.growl({ message: msg,location:"top top115",size:"large",style:"default",
