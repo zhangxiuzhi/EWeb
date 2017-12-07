@@ -112,6 +112,18 @@ function JBSFrame_addOffer() {
 				onChange:changeIronAttributeLink_2 //期货商品2联动指标
 			}), $ItemName2[0]);
 		}
+		//装货港
+
+		var $loadingPort = $("#component-selectBox-loadingPort")
+		if($loadingPort.length>0) {
+			this.selectBox_Port = ReactDOM.render(React.createElement(ComponentSelectBox, {
+				data:[] || JSON.parse($("#ironLoadingPortJson").html()),
+				inputName: $loadingPort.attr("inputName"),
+				inputValue:$loadingPort.attr("inputValue"),
+				validetta:$loadingPort.data("validetta")
+			}), $loadingPort[0]);
+		}
+
 		//报税区
 		var $bondedAreas = $("#component-radioBoxGroup-bondedAreas");
 		if($bondedAreas.length>0){
