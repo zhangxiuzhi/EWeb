@@ -50,7 +50,7 @@ body{
 a {
   color: $color-text;
   text-decoration: none;
-  &:hover{
+  :hover{
     color: $color-theme-response;
   }
 }
@@ -291,12 +291,6 @@ a {
       border-color:$color-border-light;
     }
   }
-  .form-control-static{
-    border:none;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-  }
   select.form-control{
     height:40px;
   }
@@ -367,7 +361,7 @@ a {
   .input-group-btn .btn {
     padding: 6px 22px;
     line-height: 1.42857143;
-    height: 42px;
+    height: 32px;
   }
 }
 
@@ -957,5 +951,3 @@ hr
     margin-left: 5px;
   }
 }
-
-

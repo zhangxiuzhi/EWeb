@@ -1,9 +1,9 @@
 package com.esteel.web.vo.offer;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.math.BigDecimal;
 
-import com.esteel.common.vo.StatusMSGVo;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * 
@@ -13,21 +13,18 @@ import com.esteel.common.vo.StatusMSGVo;
  * @date 2017年12月6日 下午1:28:25 
  *
  */
-public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
+public class IronInStockOfferVo extends IronOfferBaseVo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	/**
 	 * 铁矿报盘附表ID
 	 */
-	private String offerAttachId;
+	private long offerAttachId;
 	/**
 	 * 化学元素指标 Al2O3
 	 */
+	@NotBlank
 	private String al2o3;
-	/**
-	 * 基差
-	 */
-	private String baseDifference;
 	/**
 	 * 其他化学元素指标 Json数据
 	 */
@@ -40,22 +37,6 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	 * 品名名称
 	 */
 	private String commodityName;
-	/**
-	 * 点价期截止
-	 */
-	private Date deliveryTimeEnd;
-	/**
-	 * 交货期起始
-	 */
-	private Date deliveryTimeStart;
-	/**
-	 * 目的港ID
-	 */
-	private String dischargePortId;
-	/**
-	 * 目的港
-	 */
-	private String dischargePortName;
 	/**
 	 * 化学元素指标 Fe
 	 */
@@ -73,25 +54,9 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	 */
 	private String indicatorTypeName;
 	/**
-	 * 连铁合约
-	 */
-	private String ironContract;
-	/**
 	 * 是否在保税区 0:否, 1:是
 	 */
-	private String isBondedArea;
-	/**
-	 * 信用证交单期
-	 */
-	private Date lcTime;
-	/**
-	 * 装货港ID
-	 */
-	private String loadingPortId;
-	/**
-	 * 装货港
-	 */
-	private String loadingPortName;
+	private String isBondedArea = "1";
 	/**
 	 * 化学元素指标 LOI
 	 */
@@ -113,25 +78,13 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	 */
 	private String offerAttachCode;
 	/**
-	 * 铁矿报盘ID
-	 */
-	private String offerId;
-	/**
 	 * 报盘重量
 	 */
 	private String offerQuantity;
 	/**
-	 * 化学元素指标 P
+	 *  化学元素指标 P
 	 */
 	private String p;
-	/**
-	 * 点价期截止
-	 */
-	private Date pricingPeriodEnd;
-	/**
-	 * 点价期起始
-	 */
-	private Date pricingPeriodStart;
 	/**
 	 * 港口ID
 	 */
@@ -141,25 +94,9 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	 */
 	private String portName;
 	/**
-	 * 价格描述
-	 */
-	private String priceDescription;
-	/**
 	 * 价格模式 0:固定价, 1:浮动价
 	 */
-	private String priceModel;
-	/**
-	 * 价格术语
-	 */
-	private String priceTerm;
-	/**
-	 * 价格术语基于港ID
-	 */
-	private String priceTermPortId;
-	/**
-	 * 价格术语基于港
-	 */
-	private String priceTermPortName;
+	private String priceModel = "0";
 	/**
 	 * 价格单位ID
 	 */
@@ -191,16 +128,12 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 已售重量
 	 */
-	private String soldQuantity;
-	/**
-	 * 运输状态 Json数据
-	 */
-	private String transportDescription;
+	private BigDecimal soldQuantity;
 	
-	public String getOfferAttachId() {
+	public long getOfferAttachId() {
 		return offerAttachId;
 	}
-	public void setOfferAttachId(String offerAttachId) {
+	public void setOfferAttachId(long offerAttachId) {
 		this.offerAttachId = offerAttachId;
 	}
 	public String getAl2o3() {
@@ -208,12 +141,6 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	}
 	public void setAl2o3(String al2o3) {
 		this.al2o3 = al2o3;
-	}
-	public String getBaseDifference() {
-		return baseDifference;
-	}
-	public void setBaseDifference(String baseDifference) {
-		this.baseDifference = baseDifference;
 	}
 	public String getChemicalIndicators() {
 		return chemicalIndicators;
@@ -232,30 +159,6 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	}
 	public void setCommodityName(String commodityName) {
 		this.commodityName = commodityName;
-	}
-	public Date getDeliveryTimeEnd() {
-		return deliveryTimeEnd;
-	}
-	public void setDeliveryTimeEnd(Date deliveryTimeEnd) {
-		this.deliveryTimeEnd = deliveryTimeEnd;
-	}
-	public Date getDeliveryTimeStart() {
-		return deliveryTimeStart;
-	}
-	public void setDeliveryTimeStart(Date deliveryTimeStart) {
-		this.deliveryTimeStart = deliveryTimeStart;
-	}
-	public String getDischargePortId() {
-		return dischargePortId;
-	}
-	public void setDischargePortId(String dischargePortId) {
-		this.dischargePortId = dischargePortId;
-	}
-	public String getDischargePortName() {
-		return dischargePortName;
-	}
-	public void setDischargePortName(String dischargePortName) {
-		this.dischargePortName = dischargePortName;
 	}
 	public String getFe() {
 		return fe;
@@ -281,35 +184,11 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	public void setIndicatorTypeName(String indicatorTypeName) {
 		this.indicatorTypeName = indicatorTypeName;
 	}
-	public String getIronContract() {
-		return ironContract;
-	}
-	public void setIronContract(String ironContract) {
-		this.ironContract = ironContract;
-	}
 	public String getIsBondedArea() {
 		return isBondedArea;
 	}
 	public void setIsBondedArea(String isBondedArea) {
 		this.isBondedArea = isBondedArea;
-	}
-	public Date getLcTime() {
-		return lcTime;
-	}
-	public void setLcTime(Date lcTime) {
-		this.lcTime = lcTime;
-	}
-	public String getLoadingPortId() {
-		return loadingPortId;
-	}
-	public void setLoadingPortId(String loadingPortId) {
-		this.loadingPortId = loadingPortId;
-	}
-	public String getLoadingPortName() {
-		return loadingPortName;
-	}
-	public void setLoadingPortName(String loadingPortName) {
-		this.loadingPortName = loadingPortName;
 	}
 	public String getLOI() {
 		return LOI;
@@ -341,12 +220,6 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	public void setOfferAttachCode(String offerAttachCode) {
 		this.offerAttachCode = offerAttachCode;
 	}
-	public String getOfferId() {
-		return offerId;
-	}
-	public void setOfferId(String offerId) {
-		this.offerId = offerId;
-	}
 	public String getOfferQuantity() {
 		return offerQuantity;
 	}
@@ -358,18 +231,6 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	}
 	public void setP(String p) {
 		this.p = p;
-	}
-	public Date getPricingPeriodEnd() {
-		return pricingPeriodEnd;
-	}
-	public void setPricingPeriodEnd(Date pricingPeriodEnd) {
-		this.pricingPeriodEnd = pricingPeriodEnd;
-	}
-	public Date getPricingPeriodStart() {
-		return pricingPeriodStart;
-	}
-	public void setPricingPeriodStart(Date pricingPeriodStart) {
-		this.pricingPeriodStart = pricingPeriodStart;
 	}
 	public String getPortId() {
 		return portId;
@@ -383,35 +244,11 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	public void setPortName(String portName) {
 		this.portName = portName;
 	}
-	public String getPriceDescription() {
-		return priceDescription;
-	}
-	public void setPriceDescription(String priceDescription) {
-		this.priceDescription = priceDescription;
-	}
 	public String getPriceModel() {
 		return priceModel;
 	}
 	public void setPriceModel(String priceModel) {
 		this.priceModel = priceModel;
-	}
-	public String getPriceTerm() {
-		return priceTerm;
-	}
-	public void setPriceTerm(String priceTerm) {
-		this.priceTerm = priceTerm;
-	}
-	public String getPriceTermPortId() {
-		return priceTermPortId;
-	}
-	public void setPriceTermPortId(String priceTermPortId) {
-		this.priceTermPortId = priceTermPortId;
-	}
-	public String getPriceTermPortName() {
-		return priceTermPortName;
-	}
-	public void setPriceTermPortName(String priceTermPortName) {
-		this.priceTermPortName = priceTermPortName;
 	}
 	public String getPriceUnitId() {
 		return priceUnitId;
@@ -455,16 +292,10 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	public void setSizeIndicators(String sizeIndicators) {
 		this.sizeIndicators = sizeIndicators;
 	}
-	public String getSoldQuantity() {
+	public BigDecimal getSoldQuantity() {
 		return soldQuantity;
 	}
-	public void setSoldQuantity(String soldQuantity) {
+	public void setSoldQuantity(BigDecimal soldQuantity) {
 		this.soldQuantity = soldQuantity;
-	}
-	public String getTransportDescription() {
-		return transportDescription;
-	}
-	public void setTransportDescription(String transportDescription) {
-		this.transportDescription = transportDescription;
 	}
 }

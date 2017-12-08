@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,16 +25,15 @@ import com.esteel.web.vo.base.CommodityVo;
 import com.esteel.web.vo.base.PortVo;
 import com.esteel.web.vo.config.AttributeValueOptionVo;
 import com.esteel.web.vo.config.IronAttributeLinkVo;
-import com.esteel.web.vo.offer.IronFuturesOfferRequest;
-import com.esteel.web.vo.offer.IronInStockOfferRequest;
+import com.esteel.web.vo.offer.IronFuturesOfferVo;
+import com.esteel.web.vo.offer.IronInStockOfferVo;
+import com.esteel.web.vo.offer.IronOfferBaseVo;
 import com.esteel.web.vo.offer.IronOfferClauseVo;
-import com.esteel.web.vo.offer.IronOfferMainVo;
-import com.esteel.web.vo.offer.IronPricingOfferRequest;
 import com.esteel.web.vo.offer.OfferAffixVo;
-import com.esteel.web.vo.offer.OfferIronAttachVo;
 import com.taobao.common.tfs.TfsManager;
-import com.taobao.tair.json.JSONArray;
 import com.taobao.tair.json.JSONObject;
+
+import net.minidev.json.JSONArray;
 
 /**
  * ESTeel
@@ -369,7 +367,7 @@ public class OfferController {
     	
         return "/offer/addOffer";
     }
-/*    
+    
     @RequestMapping(value = "/saveOffer", method = RequestMethod.POST)
     public String saveOffer(IronOfferBaseVo offerVo, Model model){
     	try {
@@ -388,166 +386,73 @@ public class OfferController {
     	
         return "redirect:/offer/myOffer";
     }
-*/    
-    /**
-     * 现货报盘保存
-     * @param inStockOfferRequest
-     * @param offerAffix
-     * @param offerClauseVo
-     * @param contractAffix
-     * @param model
-     * @return
-     */
-    @RequestMapping(value = "/saveInStockOffer", method = RequestMethod.POST)
-    public String saveInStockOffer(@Validated IronInStockOfferRequest inStockOfferRequest, @RequestParam("offerAffix") MultipartFile offerAffix, 
-    		IronOfferClauseVo offerClauseVo, @RequestParam("contractAffix") MultipartFile contractAffix, Model model){
-    	if (inStockOfferRequest == null) {
-    		model.addAttribute("msg", "提交失败！");
-		    
-		    return "/offer/addOffer";
-    	}
-    	
-    	if (offerClauseVo == null) {
-    		model.addAttribute("msg", "提交失败！");
-		    
-		    return "/offer/addOffer";
-    	}
-    	
-    	IronOfferMainVo offerMainVo = new IronOfferMainVo();
-    	// 将request 复制到 offerMainVo
-    	BeanUtils.copyProperties(inStockOfferRequest, offerMainVo);
-    	
-    	OfferIronAttachVo offerAttachVo = new OfferIronAttachVo();
-    	// 将request 复制到 offerAttachVo
-    	BeanUtils.copyProperties(inStockOfferRequest, offerAttachVo);
-    	
-    	offerMainVo.addOfferIronAttach(offerAttachVo);
-    	
-    	// 初始化
-    	// 交易方式 1:现货
-    	offerMainVo.setTradeMode(EsteelConstant.TRADE_MODE_INSTOCK);
-   	
-    	offerMainVo.setCompanyId(1);
-    	offerMainVo.setCreateUser("王雁飞测试");
-    	offerMainVo.setUpdateUser("王雁飞测试");
-    	offerMainVo.setPublishUser("王雁飞测试");
-    	
-    	// 保存附件
-    	// tfs 报盘附件
-    	StatusMSGVo msg = getTfsFileName(offerAffix, "报盘备注附件", 
-    			EsteelConstant.AFFIX_TYPE_OFFER_REMARKS, offerMainVo);
-    	if (msg != null && msg.getStatus() != 0) {
-    		model.addAttribute("msg", msg.getMsg());
-    		
-    		return "/offer/addOffer";
-    	}
-    	
-    	// tfs 合同附件
-    	msg = getTfsFileName(contractAffix, "报盘合同附件", 
-    			EsteelConstant.AFFIX_TYPE_OFFER_CONTRACT, offerMainVo);
-    	if (msg != null && msg.getStatus() != 0) {
-    		model.addAttribute("msg", msg.getMsg());
-    		
-    		return "/offer/addOffer";
-    	}
-    	
-    	// 交货结算条款Json
-//    	offerMainVo.setClauseTemplateJson(JSONObject.fromObject(offerClauseVo));
-
-//    	
-    	// 有效日期
-//    	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//    	inStockOfferVo.setValidTime(dateFormat.parse(inStockOfferVo.getValidTimestamp(), new ParsePosition(0)));
-    	
-    	try {
-    		// 保存
-    		offerClient.saveOffer(offerMainVo);
-    	} catch (Exception e) {
-			e.printStackTrace();
-			
-			model.addAttribute("msg", "新增失败");
-			
-		    return "/offer/addOffer";
-		}
-    	
-    	model.addAttribute("msg", "新增成功");
-    	
-        return "redirect:/offer/myOffer";
-    }
     
-    /**
-     * 远期报盘保存
-     * @param futuresOfferRequest
-     * @param offerAffix
-     * @param offerClauseVo
-     * @param contractAffix
-     * @param model
-     * @return
-     */
-    @RequestMapping(value = "/saveFuturesOffer", method = RequestMethod.POST)
-    public String saveFuturesOffer(IronFuturesOfferRequest futuresOfferRequest, @RequestParam("offerAffix") MultipartFile offerAffix, 
+    @RequestMapping(value = "/saveInStockOffer", method = RequestMethod.POST)
+    public String saveInStockOffer(@Validated IronInStockOfferVo inStockOfferVo, @RequestParam("offerAffix") MultipartFile offerAffix, 
     		IronOfferClauseVo offerClauseVo, @RequestParam("contractAffix") MultipartFile contractAffix, Model model){
-    	if (futuresOfferRequest == null) {
+    	if (inStockOfferVo == null) {
     		model.addAttribute("msg", "提交失败！");
+			
+			model.addAttribute("offerClauseVo", offerClauseVo);
 		    
 		    return "/offer/addOffer";
     	}
     	
     	if (offerClauseVo == null) {
     		model.addAttribute("msg", "提交失败！");
+			
+			model.addAttribute("offerVo", inStockOfferVo);
 		    
 		    return "/offer/addOffer";
     	}
-    	
-    	IronOfferMainVo offerMainVo = new IronOfferMainVo();
-    	// 将request 复制到 offerMainVo
-    	BeanUtils.copyProperties(futuresOfferRequest, offerMainVo);
-    	
-    	OfferIronAttachVo offerFirstVo = new OfferIronAttachVo();
-    	// 将第一个货物报盘 复制到 offerAttachVo
-    	BeanUtils.copyProperties(futuresOfferRequest.getOneOffer(0), offerFirstVo);
-    	
-    	// 一船两货
-    	if (futuresOfferRequest.getIsMultiCargo().equals(EsteelConstant.YES + "")) {
-    		OfferIronAttachVo offerSecondVo = new OfferIronAttachVo();
-    		// 将第二个货物报盘 复制到 offerAttachVo
-    		BeanUtils.copyProperties(futuresOfferRequest.getOneOffer(1), offerSecondVo);
-    	}
-    	
-    	// 初始化
-    	// 交易方式 3:远期
-    	offerMainVo.setTradeMode(EsteelConstant.TRADE_MODE_FUTURES);
-   	
-    	offerMainVo.setCompanyId(1);
-    	offerMainVo.setCreateUser("王雁飞测试");
-    	offerMainVo.setUpdateUser("王雁飞测试");
-    	offerMainVo.setPublishUser("王雁飞测试");
     	
     	// 报盘附件保存 tfs
     	StatusMSGVo msg = getTfsFileName(offerAffix, "报盘备注附件", 
-    			EsteelConstant.AFFIX_TYPE_OFFER_REMARKS, offerMainVo);
+    			EsteelConstant.AFFIX_TYPE_OFFER_REMARKS, inStockOfferVo);
+    	
     	if (msg != null && msg.getStatus() != 0) {
     		model.addAttribute("msg", msg.getMsg());
+    		
+    		model.addAttribute("offerVo", inStockOfferVo);
+    		model.addAttribute("offerClauseVo", offerClauseVo);
     		
     		return "/offer/addOffer";
     	}
     	
     	// 合同附件保存 tfs
     	msg = getTfsFileName(contractAffix, "报盘合同附件", 
-    			EsteelConstant.AFFIX_TYPE_OFFER_CONTRACT, offerMainVo);
+    			EsteelConstant.AFFIX_TYPE_OFFER_CONTRACT, inStockOfferVo);
+    	
     	if (msg != null && msg.getStatus() != 0) {
     		model.addAttribute("msg", msg.getMsg());
+    		
+    		model.addAttribute("offerVo", inStockOfferVo);
+    		model.addAttribute("offerClauseVo", offerClauseVo);
     		
     		return "/offer/addOffer";
     	}
     	
+    	// 初始化
+    	// 交易方式 1:现货
+    	inStockOfferVo.setTradeMode(EsteelConstant.TRADE_MODE_INSTOCK);
+    	
+    	inStockOfferVo.setCompanyId(1);
+    	inStockOfferVo.setCreateUser("王雁飞测试");
+    	inStockOfferVo.setUpdateUser("王雁飞测试");
+    	inStockOfferVo.setPublishUser("王雁飞测试");
+    	
+    	// 有效日期
+//    	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//    	inStockOfferVo.setValidTime(dateFormat.parse(inStockOfferVo.getValidTimestamp(), new ParsePosition(0)));
+    	
     	try {
-    		// 保存
-    		offerClient.saveOffer(offerMainVo);
+    		offerClient.saveOffer(inStockOfferVo);
     	} catch (Exception e) {
 			e.printStackTrace();
 			
 			model.addAttribute("msg", "新增失败");
+			
+			model.addAttribute("offerVo", inStockOfferVo);
 		    
 		    return "/offer/addOffer";
 		}
@@ -557,84 +462,62 @@ public class OfferController {
         return "redirect:/offer/myOffer";
     }
     
-    /**
-     * 点价报盘保存
-     * @param pricingOfferRequest
-     * @param offerAffix
-     * @param offerClauseVo
-     * @param contractAffix
-     * @param model
-     * @return
-     */
-    @RequestMapping(value = "/savePricingOffer", method = RequestMethod.POST)
-    public String savePricingOffer(@Validated IronPricingOfferRequest pricingOfferRequest, @RequestParam("offerAffix") MultipartFile offerAffix, 
+    @RequestMapping(value = "/saveFuturesOffer", method = RequestMethod.POST)
+    public String saveFuturesOffer(IronFuturesOfferVo futuresOfferVo, @RequestParam("offerAffix") MultipartFile offerAffix, 
     		IronOfferClauseVo offerClauseVo, @RequestParam("contractAffix") MultipartFile contractAffix, Model model){
-    	if (pricingOfferRequest == null) {
+    	if (futuresOfferVo == null) {
     		model.addAttribute("msg", "提交失败！");
+			
+			model.addAttribute("offerClauseVo", offerClauseVo);
 		    
 		    return "/offer/addOffer";
     	}
     	
     	if (offerClauseVo == null) {
     		model.addAttribute("msg", "提交失败！");
+			
+			model.addAttribute("offerVo", futuresOfferVo);
 		    
 		    return "/offer/addOffer";
     	}
     	
-    	IronOfferMainVo offerMainVo = new IronOfferMainVo();
-    	// 将request 复制到 offerMainVo
-    	BeanUtils.copyProperties(pricingOfferRequest, offerMainVo);
-    	
-    	OfferIronAttachVo offerAttachVo = new OfferIronAttachVo();
-    	// 将request 复制到 offerAttachVo
-    	BeanUtils.copyProperties(pricingOfferRequest, offerAttachVo);
-    	
-    	offerMainVo.addOfferIronAttach(offerAttachVo);
-    	
-    	// 初始化
-    	// 交易方式 2:点价
-    	offerMainVo.setTradeMode(EsteelConstant.TRADE_MODE_PRICING);
-   	
-    	offerMainVo.setCompanyId(1);
-    	offerMainVo.setCreateUser("王雁飞测试");
-    	offerMainVo.setUpdateUser("王雁飞测试");
-    	offerMainVo.setPublishUser("王雁飞测试");
-    	
-    	// 保存附件
-    	// tfs 报盘附件
+    	// 报盘附件保存 tfs
     	StatusMSGVo msg = getTfsFileName(offerAffix, "报盘备注附件", 
-    			EsteelConstant.AFFIX_TYPE_OFFER_REMARKS, offerMainVo);
+    			EsteelConstant.AFFIX_TYPE_OFFER_REMARKS, futuresOfferVo);
+    	
     	if (msg != null && msg.getStatus() != 0) {
     		model.addAttribute("msg", msg.getMsg());
+    		
+    		model.addAttribute("offerVo", futuresOfferVo);
+    		model.addAttribute("offerClauseVo", offerClauseVo);
     		
     		return "/offer/addOffer";
     	}
     	
-    	// tfs 合同附件
+    	// 合同附件保存 tfs
     	msg = getTfsFileName(contractAffix, "报盘合同附件", 
-    			EsteelConstant.AFFIX_TYPE_OFFER_CONTRACT, offerMainVo);
+    			EsteelConstant.AFFIX_TYPE_OFFER_CONTRACT, futuresOfferVo);
+    	
     	if (msg != null && msg.getStatus() != 0) {
     		model.addAttribute("msg", msg.getMsg());
+    		
+    		model.addAttribute("offerVo", futuresOfferVo);
+    		model.addAttribute("offerClauseVo", offerClauseVo);
     		
     		return "/offer/addOffer";
     	}
     	
-    	// 交货结算条款Json
-//    	offerMainVo.setClauseTemplateJson(JSONObject.fromObject(offerClauseVo));
-
-//    	
-    	// 有效日期
-//    	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//    	inStockOfferVo.setValidTime(dateFormat.parse(inStockOfferVo.getValidTimestamp(), new ParsePosition(0)));
+    	futuresOfferVo.setCompanyId(1);
     	
     	try {
-    		// 保存
-    		offerClient.saveOffer(offerMainVo);
+//    		offerClient.saveOffer(offerVo);
     	} catch (Exception e) {
 			e.printStackTrace();
 			
 			model.addAttribute("msg", "新增失败");
 			
+			model.addAttribute("offerVo", futuresOfferVo);
+		    
 		    return "/offer/addOffer";
 		}
     	
@@ -652,7 +535,7 @@ public class OfferController {
      * @return
      */
     private StatusMSGVo getTfsFileName(MultipartFile file, String affixName, 
-    		int affixType, IronOfferMainVo  offerMainVo) {
+    		int affixType, IronOfferBaseVo offerVo) {
     	if (file == null) {
     		return null;
     	}
@@ -686,11 +569,11 @@ public class OfferController {
 	    	vo.setMsg(affixName + "保存成功！");
 	    	
 	    	// 记录 tfs返回ID
-	    	OfferAffixVo offerAffix = new OfferAffixVo();
-	    	offerAffix.setAffixType(affixType);
-	    	offerAffix.setAffixPath(tfsFileName);
+	    	OfferAffixVo contractAffixVo = new OfferAffixVo();
+	    	contractAffixVo.setAffixType(affixType);
+	    	contractAffixVo.setAffixPath(tfsFileName);
 	    	
-	    	offerMainVo.addOfferAffix(offerAffix);
+	    	offerVo.getOfferAffixList().add(contractAffixVo);
 		} catch (IOException e) {
 			e.printStackTrace();
 			

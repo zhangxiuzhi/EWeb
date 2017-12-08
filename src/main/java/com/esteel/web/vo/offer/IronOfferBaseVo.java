@@ -5,27 +5,32 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.esteel.common.vo.StatusMSGVo;
 
 /**
  * 
- * @ClassName: IronOfferMainVo
+ * @ClassName: IronOfferVo
  * @Description: 铁矿报盘主表DTO
  * @author wyf
  * @date 2017年12月4日 下午3:46:41 
  *
  */
-public class IronOfferMainVo extends StatusMSGVo implements Serializable {
+public class IronOfferBaseVo extends StatusMSGVo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	/**
 	 * 铁矿报盘ID
 	 */
-	private String offerId;
+	private long offerId;
 	/**
 	 * 交货结算条款模版ID
 	 */
-	private String clauseTemplateId;
+	private long clauseTemplateId;
 	/**
 	 * 交货结算条款Json
 	 */
@@ -37,7 +42,7 @@ public class IronOfferMainVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 合同模版ID
 	 */
-	private String contractTemplateId;
+	private long contractTemplateId;
 	/**
 	 * 创建时间
 	 */
@@ -53,23 +58,26 @@ public class IronOfferMainVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 是否匿名 0:否, 1:是
 	 */
-	private String isAnonymous;
+//	@NotBlank
+	private String isAnonymous = "1";
 	/**
 	 * 是否指定 0:否, 1:是
 	 */
-	private String isDesignation;
+	private int isDesignation = 0;
 	/**
 	 * 是否议价 0:否, 1:是
 	 */
-	private String isDiscussPrice;
+	private int isDiscussPrice = 0;
 	/**
 	 * 是否一船多货 0:否, 1:是
 	 */
-	private String isMultiCargo;
+//	@NotBlank
+	private String isMultiCargo = "0";
 	/**
 	 * 是否拆分 0:否, 1:是
 	 */
-	private String isSplit;
+//	@NotBlank
+	private String isSplit = "0";
 	/**
 	 * 铁矿报盘编码
 	 */
@@ -77,11 +85,11 @@ public class IronOfferMainVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 铁矿报盘状态 0:草稿, 100:在售, 200:成交, 300:下架, 999:作废
 	 */
-	private String offerStatus;
+	private int offerStatus = 0;
 	/**
 	 * 报盘类型 0:普通报盘,1:保证金报盘,2:信誉报盘
 	 */
-	private String offerType;
+	private int offerType = 0;
 	/**
 	 * 发布时间
 	 */
@@ -101,7 +109,7 @@ public class IronOfferMainVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 交易方向 0:销售, 1:采购
 	 */
-	private String tradeDirection;
+	private int tradeDirection = 0;
 	/**
 	 * 交易方式 1:现货, 2:点价, 3:远期
 	 */
@@ -121,11 +129,19 @@ public class IronOfferMainVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 有效日期
 	 */
+	@NotNull
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date validTime;
 	/**
 	 * 版本号
 	 */
 	private int version = 1;
+	/**
+	 * 有效日期(yyyy-MM-dd HH:mm:ss)
+	 * 扩展字段
+	 */
+//	@NotBlank
+	private String validTimestamp;
 	/**
 	 * 指定对手(多选值)
 	 * 扩展字段
@@ -136,70 +152,17 @@ public class IronOfferMainVo extends StatusMSGVo implements Serializable {
 	 * 扩展属性
 	 */
 	private List<OfferAffixVo> offerAffixList = new ArrayList<>();
-	/**
-	 * 报盘附表List 
-	 * 报盘扩展属性
-	 */
-	private List<OfferIronAttachVo> offerAttachList = new ArrayList<>();
 	
-	public void addOfferAffix(OfferAffixVo offerAffix) {
-		if (offerAffix == null) {
-			return ;
-		}
-		
-		String affixPath = offerAffix.getAffixPath() == null ? "" : offerAffix.getAffixPath().trim();
-		
-		if (offerAffix.getAffixId() > 0 || !affixPath.equals("")) {
-			offerAffix.setAffixPath(affixPath);
-			
-			this.offerAffixList.add(offerAffix);
-		}
-	}
-	
-	public void removeOfferAffix(OfferAffixVo offerAffix) {
-		for (int i = 0; i < offerAffixList.size(); i ++) {
-			OfferAffixVo tmp = offerAffixList.get(i);
-			
-			if (offerAffix.getAffixId() ==  tmp.getAffixId()) {
-				offerAffixList.remove(i);
-				break;
-			}
-		}
-	}
-	
-	public void clearOfferAffixList() {
-		this.offerAffixList.clear();
-	}
-	
-	public void addOfferIronAttach(OfferIronAttachVo offerAttach) {
-		this.offerAttachList.add(offerAttach);
-	}
-	
-	public void removeOfferAttach(OfferIronAttachVo offerAttach) {
-		for (int i = 0; i < offerAttachList.size(); i ++) {
-			OfferIronAttachVo tmp = offerAttachList.get(i);
-			
-			if (offerAttach.getOfferAttachId() ==  tmp.getOfferAttachId()) {
-				offerAttachList.remove(i);
-				break;
-			}
-		}
-	}
-	
-	public void clearOfferAttachList() {
-		this.offerAttachList.clear();
-	}
-	
-	public String getOfferId() {
+	public long getOfferId() {
 		return offerId;
 	}
-	public void setOfferId(String offerId) {
+	public void setOfferId(long offerId) {
 		this.offerId = offerId;
 	}
-	public String getClauseTemplateId() {
+	public long getClauseTemplateId() {
 		return clauseTemplateId;
 	}
-	public void setClauseTemplateId(String clauseTemplateId) {
+	public void setClauseTemplateId(long clauseTemplateId) {
 		this.clauseTemplateId = clauseTemplateId;
 	}
 	public String getClauseTemplateJson() {
@@ -214,10 +177,10 @@ public class IronOfferMainVo extends StatusMSGVo implements Serializable {
 	public void setCompanyId(long companyId) {
 		this.companyId = companyId;
 	}
-	public String getContractTemplateId() {
+	public long getContractTemplateId() {
 		return contractTemplateId;
 	}
-	public void setContractTemplateId(String contractTemplateId) {
+	public void setContractTemplateId(long contractTemplateId) {
 		this.contractTemplateId = contractTemplateId;
 	}
 	public Date getCreateTime() {
@@ -244,16 +207,16 @@ public class IronOfferMainVo extends StatusMSGVo implements Serializable {
 	public void setIsAnonymous(String isAnonymous) {
 		this.isAnonymous = isAnonymous;
 	}
-	public String getIsDesignation() {
+	public int getIsDesignation() {
 		return isDesignation;
 	}
-	public void setIsDesignation(String isDesignation) {
+	public void setIsDesignation(int isDesignation) {
 		this.isDesignation = isDesignation;
 	}
-	public String getIsDiscussPrice() {
+	public int getIsDiscussPrice() {
 		return isDiscussPrice;
 	}
-	public void setIsDiscussPrice(String isDiscussPrice) {
+	public void setIsDiscussPrice(int isDiscussPrice) {
 		this.isDiscussPrice = isDiscussPrice;
 	}
 	public String getIsMultiCargo() {
@@ -274,16 +237,16 @@ public class IronOfferMainVo extends StatusMSGVo implements Serializable {
 	public void setOfferCode(String offerCode) {
 		this.offerCode = offerCode;
 	}
-	public String getOfferStatus() {
+	public int getOfferStatus() {
 		return offerStatus;
 	}
-	public void setOfferStatus(String offerStatus) {
+	public void setOfferStatus(int offerStatus) {
 		this.offerStatus = offerStatus;
 	}
-	public String getOfferType() {
+	public int getOfferType() {
 		return offerType;
 	}
-	public void setOfferType(String offerType) {
+	public void setOfferType(int offerType) {
 		this.offerType = offerType;
 	}
 	public Date getPublishTime() {
@@ -310,10 +273,10 @@ public class IronOfferMainVo extends StatusMSGVo implements Serializable {
 	public void setOfferRemarks(String offerRemarks) {
 		this.offerRemarks = offerRemarks;
 	}
-	public String getTradeDirection() {
+	public int getTradeDirection() {
 		return tradeDirection;
 	}
-	public void setTradeDirection(String tradeDirection) {
+	public void setTradeDirection(int tradeDirection) {
 		this.tradeDirection = tradeDirection;
 	}
 	public int getTradeMode() {
@@ -352,6 +315,12 @@ public class IronOfferMainVo extends StatusMSGVo implements Serializable {
 	public void setVersion(int version) {
 		this.version = version;
 	}
+	public String getValidTimestamp() {
+		return validTimestamp;
+	}
+	public void setValidTimestamp(String validTimestamp) {
+		this.validTimestamp = validTimestamp;
+	}
 	public String getCounterpartyIdMulti() {
 		return counterpartyIdMulti;
 	}
@@ -363,11 +332,5 @@ public class IronOfferMainVo extends StatusMSGVo implements Serializable {
 	}
 	public void setOfferAffixList(List<OfferAffixVo> offerAffixList) {
 		this.offerAffixList = offerAffixList;
-	}
-	public List<OfferIronAttachVo> getOfferAttachList() {
-		return offerAttachList;
-	}
-	public void setOfferAttachList(List<OfferIronAttachVo> offerAttachList) {
-		this.offerAttachList = offerAttachList;
 	}
 }

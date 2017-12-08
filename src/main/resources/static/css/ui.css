@@ -18,7 +18,7 @@ body {
 a {
   color: #4B4C4D;
   text-decoration: none; }
-  a:hover {
+  a :hover {
     color: #f1280f; }
 
 /*--------------------------------
@@ -217,11 +217,6 @@ a {
   .form-group .form-control:focus,
   .form-group .form-control-static:focus {
     border-color: #aaa; }
-.form-group .form-control-static {
-  border: none;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none; }
 .form-group select.form-control {
   height: 40px; }
 .form-group.form-group-btns .btn {
@@ -270,7 +265,7 @@ a {
 .input-group .input-group-btn .btn {
   padding: 6px 22px;
   line-height: 1.42857143;
-  height: 42px; }
+  height: 32px; }
 
 /*标签嵌入输入框*/
 .form-subline {
