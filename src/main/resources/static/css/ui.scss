@@ -50,7 +50,7 @@ body{
 a {
   color: $color-text;
   text-decoration: none;
-  :hover{
+  &:hover{
     color: $color-theme-response;
   }
 }
@@ -291,6 +291,12 @@ a {
       border-color:$color-border-light;
     }
   }
+  .form-control-static{
+    border:none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+  }
   select.form-control{
     height:40px;
   }
@@ -361,7 +367,7 @@ a {
   .input-group-btn .btn {
     padding: 6px 22px;
     line-height: 1.42857143;
-    height: 32px;
+    height: 42px;
   }
 }
 
@@ -952,38 +958,4 @@ hr
   }
 }
 
-/*--------------------------------
-图像上传按钮
- -----------------------------------------*/
-.img-uploadPhoto{
-  width: 200px;
-  height: 140px;
-  border:1px solid $color-border;
-  text-align: center;
-  margin-right: 10px;
-  float: left;
-  position: relative;
-  color:$color-gray-2;
-  &:before{
-    content:"\f067";
-    font-family: FontAwesome;
-    position: absolute;
-    left:50%;
-    top:50px;
-    width: 20px;
-    height:20px;
-    margin-left: -10px;
-  }
 
-  a.btn-file{
-    display: block;
-    padding: 30px 0 0;
-    line-height: 110px;
-    color:$color-gray-2;
-  }
-  a.btn-file > input{
-    transform: translate(0) scale(1);
-    width: 100%;
-  }
-
-}

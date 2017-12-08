@@ -18,7 +18,7 @@ body {
 a {
   color: #4B4C4D;
   text-decoration: none; }
-  a :hover {
+  a:hover {
     color: #f1280f; }
 
 /*--------------------------------
@@ -217,6 +217,11 @@ a {
   .form-group .form-control:focus,
   .form-group .form-control-static:focus {
     border-color: #aaa; }
+.form-group .form-control-static {
+  border: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none; }
 .form-group select.form-control {
   height: 40px; }
 .form-group.form-group-btns .btn {
@@ -265,7 +270,7 @@ a {
 .input-group .input-group-btn .btn {
   padding: 6px 22px;
   line-height: 1.42857143;
-  height: 32px; }
+  height: 42px; }
 
 /*标签嵌入输入框*/
 .form-subline {
@@ -766,35 +771,5 @@ hr
     font-size: 12px; }
   .ui-infoTip .ui-infoTip-link {
     margin-left: 5px; }
-
-/*--------------------------------
-图像上传按钮
- -----------------------------------------*/
-.img-uploadPhoto {
-  width: 200px;
-  height: 140px;
-  border: 1px solid #e4e4e4;
-  text-align: center;
-  margin-right: 10px;
-  float: left;
-  position: relative;
-  color: #999999; }
-  .img-uploadPhoto:before {
-    content: "\f067";
-    font-family: FontAwesome;
-    position: absolute;
-    left: 50%;
-    top: 50px;
-    width: 20px;
-    height: 20px;
-    margin-left: -10px; }
-  .img-uploadPhoto a.btn-file {
-    display: block;
-    padding: 30px 0 0;
-    line-height: 110px;
-    color: #999999; }
-  .img-uploadPhoto a.btn-file > input {
-    transform: translate(0) scale(1);
-    width: 100%; }
 
 /*# sourceMappingURL=ui.css.map */
