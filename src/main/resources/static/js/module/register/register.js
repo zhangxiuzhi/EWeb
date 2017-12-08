@@ -16,6 +16,18 @@ function JBSFrame_register() {
 				$("#register-submit").removeClass("disabled");
 			}
 		});
+
+		$('#form-register').validetta({
+			validators: {
+
+			},
+			onValid : function( event ) {
+				event.preventDefault();
+			},
+			onError : function( event ){
+			}
+		});
+
 	}
 
 }

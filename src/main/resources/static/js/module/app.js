@@ -524,6 +524,51 @@ function JBSFrame() {
 			}
 		}.bind(this))
 	}
+
+	//插入错误提示气泡
+	this.insertErrorBubble = function(elementId,errorText){
+		var $element = $("#"+elementId);
+		$element.next(".validetta-bubble").remove();
+
+		var pos, W = 0, H = 0;
+		var $bubble = $("<div class='validetta-bubble validetta-bubble--bottom'></div>");
+		$bubble.html(errorText);
+
+		//组件下拉
+		if($element.parents(".react-selectbox").length>0) {
+
+		}
+		else if($element.hasClass("uploadFile")) {
+			pos = $element.parent(".btn.btn-file").position();
+			H = $element.parent(".btn.btn-file")[0].offsetHeight;
+			$bubble.css({
+				top:pos.top + H + 0,
+				left:pos.left + W + 15
+			});
+			$element.parent(".btn.btn-file").after($bubble);
+		}else{
+			pos = $element.position();
+			H = $element[0].offsetHeight;
+			$bubble.css({
+				top:pos.top + H + 0,
+				left:pos.left + W + 15
+			});
+			$element.after($bubble);
+		}
+		$element.on("change",function(e){
+			if(e.target.value!=""){
+				$element.next(".validetta-bubble").remove();
+				$element.parent(".btn.btn-file").next(".validetta-bubble").remove();
+			}
+		});
+		if($element.hasClass("datetimepicker")){
+			$element.on("dp.change", function (evt) {
+				$(evt.currentTarget).parent(".input-group").removeClass("validetta-error");
+				$(evt.currentTarget).siblings(".validetta-bubble").remove();
+			});
+		}
+
+	}
 }
 
 
