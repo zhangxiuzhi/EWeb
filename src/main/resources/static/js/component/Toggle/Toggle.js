@@ -9,7 +9,7 @@ class Toggle extends React.PureComponent {
 
 		this.state = {
 			//checked: !!(props.checked || props.defaultChecked)
-			checked:props.defaultChecked
+			checked:props.defaultChecked,
 		};
 
 		this.handleClick = this.handleClick.bind(this);
@@ -47,14 +47,16 @@ class Toggle extends React.PureComponent {
 			React.createElement('input', {
 				id: id,
 				name: name,
+				value:this.state.checked == true ? "1" : "0",
 				defaultChecked:defaultChecked,
 				onChange:onChange,
 				ref: ref => {
-				this.input = ref;
-	},
-		className: 'react-toggle-screenreader-only',
-			type: 'checkbox' })
-	);
+					this.input = ref;
+				},
+				className: 'react-toggle-screenreader-only',
+				type: 'checkbox'
+			})
+		);
 	}
 }
 

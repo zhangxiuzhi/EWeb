@@ -2,11 +2,11 @@
  * Created by wzj on 2017/11/14.
  */
 
-class RadioBox extends React.Component {
+class RadioBoxGroup extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.id = RadioBox.generateId();
+		this.id = RadioBoxGroup.generateId();
 
 		this.state = {
 			currentValue: props.value
@@ -37,13 +37,15 @@ class RadioBox extends React.Component {
 		return React.createElement(
 			"div",
 			{ className: classes },
-			data.map((radio, index) => React.createElement(Radio, { data: radio, key: radio.id || index,
+			data.map((radio, index) => React.createElement(RadioBox, {
+				data: radio, key: radio.id || index,
 				groupId: groupId,
+				name:name,
 				onChange: this.handleChange,
 				isChecked: this.state.currentValue }))
 	);
 	}
 }
 
-RadioBox.idGenerator = 1;
-RadioBox.generateId = () => RadioBox.idGenerator++;
+RadioBoxGroup.idGenerator = 1;
+RadioBoxGroup.generateId = () => RadioBoxGroup.idGenerator++;
