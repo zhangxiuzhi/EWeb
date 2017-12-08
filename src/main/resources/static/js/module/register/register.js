@@ -146,7 +146,7 @@ function register() {
 	if(pass&&status){
 		
 		// alert(phone+"---"+codes+pwd)
-		$.post("http://localhost:8888/user/register", {
+		/*$.post("http://localhost:8888/user/register", {
 			mobile :phone,
 			code : codes,
 			password : pwd
@@ -158,7 +158,7 @@ function register() {
 				alert(data.msg);
 				// alert("发送失败");
 			}
-		});
+		});*/
 	}else{
 		if(phone==""){
 			alert("号码不能为空");
