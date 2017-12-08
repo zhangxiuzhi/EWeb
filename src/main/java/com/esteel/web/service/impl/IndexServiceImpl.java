@@ -117,7 +117,7 @@ public class IndexServiceImpl implements IndexService {
 
 
 
-        tfsManager.fetchFile("T13RZTB5xT1RXrhCrK","jpg","e:\\1111.jpg");
+//        tfsManager.fetchFile("T13RZTB5xT1RXrhCrK","jpg","e:\\1111.jpg");
 
     }
 }

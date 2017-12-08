@@ -12,3 +12,18 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://user:8888@10.0.1.234:8761/eureka/
+security:
+  oauth2:
+    client:
+      clientId: acme
+      clientSecret: acmesecret
+      accessTokenUri: http://127.0.0.1:9900/auth/oauth/token
+      grant-type: authorization_code
+      scope: webshop
+      user-authorization-uri: http://127.0.0.1:9900/auth/oauth/authorize
+    resource:
+      jwt:
+        key-value:  |
+                  -----BEGIN PUBLIC KEY-----
+                  MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgfPvPKzlAoyf/OG/sf+/eMpf8ggbKH4ArOjD09ep7a/C7Uu2j3NUv+MSCmJPkwY9suXzkD6vpJVcXKc5uh/ytfLOinBE5FcWAou3rRBEhSQDdzoqJ1BqMMWWhrxGhshSuhYf8f5rRHMN2IVq0QBm6HGfp3N/qkurpz+qcTtahFKG9K4KPM5/bLvJ75c6GvaO//xLSjyB37s9EMtBcj6azQt3qwdEJDuupmKNjgDexzF/UrY22+UbTFOWqufmz9Qa6nNmIIOSfEYpKgFa0HRX379RgFL8Uu+i0IJPNDqxjLef9rxYAgoYv2sKMI5MJMKuX8DxfTN31LvCXQLtcVXgNQIDAQAB
+                  -----END PUBLIC KEY-----
