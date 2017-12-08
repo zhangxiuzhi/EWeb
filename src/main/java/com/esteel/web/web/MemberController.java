@@ -31,5 +31,10 @@ public class MemberController {
     public String headUpload(Model model){
         return "/member/headUpload";
     }
+    
+    @RequestMapping("/subAccount")
+    public String subAccount(Model model){
+        return "/member/subAccount";
+    }
 
 }

@@ -2,13 +2,6 @@
  * Created by wzj on 2017/5/4.
  */
 
-//import PaginationList from 'pagination/PaginationList.js';
-
-import React from 'react';
-import ReactDOM from 'react-dom';
-
-import PaginationList from './pagination/PaginationList';
-
 /*--------------------------------------------------------------------------------------------*/
 //表格头单元格组件Th
 class JTh extends React.Component {
@@ -152,7 +145,7 @@ class JTbody extends React.Component {
 }
 /*--------------------------------------------------------------------------------------------*/
 //表格组件Table
-export default class JTable extends React.Component {
+class JTable extends React.Component {
 	constructor(props) {
 		super(props);
 

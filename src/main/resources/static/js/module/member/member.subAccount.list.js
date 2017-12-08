@@ -1,84 +1,72 @@
 /**
- * 会员中心-子账号管理
+ * 会员中心-子账号管理-列表配置
  * Created by wzj on 2017/12/8.
  */
 
-function JBSFrame_member_subAccount() {
+class SubAccountList extends React.Component{
 
-	JBSFrame.call(this);
+	constructor(props) {
+		super(props);
 
-
-	//初始化UI
-	this.initUI = function () {
-		//主菜单栏
-		//当前选中发布报盘
-		this.sidebar = ReactDOM.render(React.createElement(ComponentMemberSidebar,{focusNode:{name:"subAccount",text:"子账号管理"}}), document.getElementById("component-sidebar"));
-
-
+		this.thead = [
+			{ dataField: "indexId", dataName: "序号",width: 60 },
+			{ dataField: "account", dataName: "账号", width: 160, dataFormat: format_subAccount },
+			{ dataField: "name", dataName: "姓名", width: 160 },
+			{ dataField: "department", dataName: "部门",  },
+			{ dataField: "job", dataName: "职务",  },
+			{ dataField: "email", dataName: "邮箱",  },
+			{ dataField: "indexId", dataName: "操作", width: 120 , dataFormat: format_operation}
+		];
+		this.state = {
+			data:[
+				{indexId:"1",account:"100.00",name:"王震甲",department:"技术",job:"UI",email:""},
+				{indexId:"2",account:"100.00",name:"",department:"",job:"",email:""},
+				{indexId:"3",account:"100.00",name:"",department:"",job:"",email:""},
+				{indexId:"4",account:"100.00",name:"",department:"",job:"",email:""},
+				{indexId:"5",account:"100.00",name:"",department:"",job:"",email:""},
+				{indexId:"6",account:"100.00",name:"",department:"",job:"",email:""},
+				{indexId:"7",account:"100.00",name:"",department:"",job:"",email:""}
+			]
+		}
 	}
 
-	//渲染表单元素
-	this.renderFormElement = function(){
 
-		this.table = ReactDOM.render(React.createElement(ComponentJTable,{
-			thead;[]
-		}), document.getElementById("component-table-subAccount"));
-
+	render() {
+		var datas = this.state.data;
+		var options = {
+			url:"",
+			thead: this.thead,
+			status: this.props.status,
+			page: 1,
+			sizePerPage: 10,
+			nodata: {text: "没有子账号信息"},
+			//loadingText:{dataFormat:listLoadingIconFormat},	//自定义列表加载动画
+		};
+		return React.createElement(ComponentJTable, {options: options, datas: datas, ref: "jtable"});
 	}
+}
 
-	/*---------------------------------------------------------------------------------------------------------------------------*/
+//格式化账号
+function format_subAccount(cell,row){
 
-	//初始化路由
-	this.initRouter = function () {
+	return cell;
+}
 
-		//页面路由，在页面设置
-		var offerRoutes = {}
-		$("#component-sidebar .nav-list a").each(function(idx,elem){
-			var href = elem.getAttribute("href");
-			var rr = elem.getAttribute("name");
-			offerRoutes[rr] = self.loadRouter
-		})
-		$("#router-linkNode a").each(function(idx,elem){
-			var rr = elem.getAttribute("linkNode")
-			offerRoutes[rr] = self.loadRouter
-		})
-		console.log(offerRoutes)
-		var router = Router(offerRoutes);
-		router.configure({
-			on: self.selectTypeTab	//切换路由后设置高亮标签
-		});
-		router.init('/'+$("#router-linkNode >a.selected").attr("linkNode"));//初始化页面
-	}
-
-	this.loadRouter = function(){
-		var path = window.location.hash.slice(2);
-		$("#router-pageCotainer").load('/view/member/'+path+".html", function(){
-			self.renderFormElement();//渲染表单元素
-		});	//加载静态文件
-	}
-
-	//切换路由后设置高亮标签
-	this.selectTypeTab = function(){
-		var path = window.location.hash.slice(2);
-		$("#router-linkNode >a").removeClass("selected");
-		$("#router-linkNode >a[linkNode='"+path+"']").addClass("selected");
-	}
-
-	/*---------------------------------------------------------------------------------------------------------------------------*/
-	var self = this;
+//格式化操作
+function format_operation(cell,row){
+	//if (row.status == 0) {
+		return "<a class='text-info' onclick=show_subAccountEditModal('"+JSON.stringify(row)+"')>编辑</a>";
+	//}
 
 }
 
-
-/*
- //body load
- --------------------------------------------------------------------*/
-var esteel_member_account;
-$(document).ready(function (e) {
-	esteel_member_account = new JBSFrame_member_subAccount();
-	//初始化UI
-	esteel_member_account.initUI();
-	//初始化路由
-	esteel_member_account.initRouter();
-});
+//显示子账号编辑窗口
+function show_subAccountEditModal(rowData){
+	var data = JSON.parse(rowData);
+	$("#subaccoumt-edit-modal").modal("show");
+	//显示当前值
+	$("#subAccount-name").val(data.name);
+	$("#subAccount-department").val(data.department);
+	$("#subAccount-job").val(data.job);
+}
 
