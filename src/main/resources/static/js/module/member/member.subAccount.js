@@ -1,18 +1,9 @@
 /**
- * 会员中心
- * Created by wzj on 2017/11/30.
+ * 会员中心-子账号管理
+ * Created by wzj on 2017/12/8.
  */
-var memberSidebarData = [
-	{name:"userInfo", text:"个人资料", url:"/member/userInfo"},
-	{ name: "sale", text: "账号安全", url:""},
-	{ name: "bind", text: "账号绑定", url:""},
-	{ name: "sub", text: "子账号管理", url:""},
-	{ name: "funds", text: "资金管理", url:""},
-	{ name: "message", text: "消息中心", url:""},
-	{ name: "note", text: "短信订阅", url:""}
-]
 
-function JBSFrame_member_userInfo() {
+function JBSFrame_member_subAccount() {
 
 	JBSFrame.call(this);
 
@@ -21,8 +12,16 @@ function JBSFrame_member_userInfo() {
 	this.initUI = function () {
 		//主菜单栏
 		//当前选中发布报盘
-		this.sidebar = ReactDOM.render(React.createElement(ComponentSidebar,{data:memberSidebarData, focusNode:{name:"userInfo",text:"个人资料"}}), document.getElementById("component-sidebar"));
+		this.sidebar = ReactDOM.render(React.createElement(ComponentMemberSidebar,{focusNode:{name:"subAccount",text:"子账号管理"}}), document.getElementById("component-sidebar"));
 
+
+	}
+
+	//渲染表单元素
+	this.renderFormElement = function(){
+
+		//表格
+		this.table = ReactDOM.render(React.createElement(SubAccountList), document.getElementById("component-table-subAccount"));
 
 	}
 
@@ -53,7 +52,7 @@ function JBSFrame_member_userInfo() {
 	this.loadRouter = function(){
 		var path = window.location.hash.slice(2);
 		$("#router-pageCotainer").load('/view/member/'+path+".html", function(){
-
+			self.renderFormElement();//渲染表单元素
 		});	//加载静态文件
 	}
 
@@ -73,12 +72,21 @@ function JBSFrame_member_userInfo() {
 /*
  //body load
  --------------------------------------------------------------------*/
-var esteel_member_userInfo;
+var esteel_member_account;
 $(document).ready(function (e) {
-	esteel_member_userInfo = new JBSFrame_member_userInfo();
+	esteel_member_account = new JBSFrame_member_subAccount();
 	//初始化UI
-	esteel_member_userInfo.initUI();
+	esteel_member_account.initUI();
 	//初始化路由
-	esteel_member_userInfo.initRouter();
+	esteel_member_account.initRouter();
 });
 
+//添加子账号
+function add_subAccount(){
+	$("#subaccoumt-add-modal").modal("hide");
+}
+
+//更新子账号
+function update_subAccount(){
+	$("#subaccoumt-edit-modal").modal("hide");
+}

@@ -59,10 +59,9 @@ public class MemberCompanyController {
 	 */
 	@RequestMapping("/company")
 	public String findAddress(Model model) {
-		List<ProvinceVo> list = baseClient.findAll();
+		List<ProvinceVo> province  = baseClient.findAll();
+		model.addAttribute("list", province);
 		
-		
-		model.addAttribute("list", list);
 		return "/member/approve";
 	}
 

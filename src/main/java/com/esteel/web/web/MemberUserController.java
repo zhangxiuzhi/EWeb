@@ -39,14 +39,15 @@ public class MemberUserController {
 
 	@Autowired
 	TfsManager tfsManager;
-
+	
+	
 	/**
 	 * 注册页面
 	 * 
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping("/register")
+	@RequestMapping("/registerPage")
 	public String addUI(Model model) {
 		return "/register/register";
 	}
@@ -141,9 +142,6 @@ public class MemberUserController {
 				long newTime = new Date().getTime(); // 当前时间
 				long start = codeVo.getSendTime().getTime(); // 发送时间
 				long end = codeVo.getValidTime().getTime(); // 有效时间
-				System.out.println("MemberUserController.register()"+newTime);
-				System.out.println("MemberUserController.register()"+start);
-				System.out.println("MemberUserController.register()"+end);
 				if (newTime > start && newTime < end) {
 					String pwd = Encrypt.EncoderByMd5(password); // 密码加密
 					MemberUserVo user = new MemberUserVo();
@@ -155,7 +153,6 @@ public class MemberUserController {
 					user.setLastLoginTime(new Timestamp(System.currentTimeMillis()));
 					// 调用保存
 					MemberUserVo userVo = memberUserClient.registerUser(user);
-					System.out.println("MemberUserController.register()" +"//////////////"+ userVo);
 					if (userVo != null) {
 						// 验证成功修改状态为验证通过1
 						codeVo.setVerifyStatus(1);
@@ -165,8 +162,8 @@ public class MemberUserController {
 						session.setAttribute("userVo", userVo);
 					} else {
 						// 验证成功修改状态为验证通过2,验证未通过
-						codeVo.setVerifyStatus(2);
-						logVerityCodeClient.saveLog(codeVo);
+						/*codeVo.setVerifyStatus(2);
+						logVerityCodeClient.saveLog(codeVo);*/
 						webRetMsg = new WebReturnMessage(false, "注册失败");
 					}
 				} else {

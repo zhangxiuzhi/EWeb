@@ -35,7 +35,7 @@ import feign.hystrix.FallbackFactory;
  * Time: 14:55
  *
  */
-//@FeignClient(name = "Base",url = "http://127.0.0.1:9920",fallback = BaseClientCallback.class ,path = "cn")
+//@FeignClient(name = "Base",url = "http://127.0.0.1:9930",fallback = BaseClientCallback.class)
 @FeignClient(name = "Base",url = "http://10.0.1.214:9920",fallback = BaseClientCallback.class ,path = "cn")
 public interface BaseClient {
 
