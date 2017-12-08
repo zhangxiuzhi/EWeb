@@ -908,3 +908,46 @@ hr
     font-size: 12px;
   }
 }
+
+
+/*--------------------------------
+内部信息提示，html
+ -----------------------------------------*/
+.ui-infoTip{
+  position: relative;
+  padding: 5px 70px 5px 63px;
+  border-bottom: 1px solid $color-border;
+  background-color: #fcfcfe;
+  color: #959ca9;
+  .ui-infoTip-icon {
+    background-position: 0 -159px;
+    height: 33px;
+    width: 14px;
+    position: absolute;
+    top: 9px;
+    left: 39px;
+    color: $color-theme-response;
+  }
+  .ui-infoTip-close {
+    background-position: 0 -98px;
+    height: 24px;
+    width: 24px;
+    position: absolute;
+    top: 5px;
+    right: 40px;
+    color:#c9c9c9;
+    cursor: pointer;
+    &:hover{
+      color:#666;
+    }
+  }
+  .ui-infoTip-box{
+    height: 23px;
+    overflow: hidden;
+    line-height: 23px;
+    font-size: 12px;
+  }
+  .ui-infoTip-link{
+    margin-left: 5px;
+  }
+}
