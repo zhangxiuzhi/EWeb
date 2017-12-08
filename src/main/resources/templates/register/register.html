@@ -15,15 +15,10 @@
 
 <div class=" container">
     <form id="form-register" class="form-register">
-    	<div>
-    		<input type="hidden" id="phoneStatus" value=""/>	
-    		<input type="hidden" id="pwd" value=""/>
-    		<input type="hidden" id="123" value=""/>
-    	</div>
         <div class="form-group">
             <div class="input-group">
                 <div class="input-group-addon">手机号码</div>
-                <input type="text" id="mobile" class="form-control" placeholder="请输入手机号码"  onblur="checkMobile(this.value)"/>
+                <input type="text" id="mobile" class="form-control" placeholder="请输入手机号码"/>
             </div>
         </div>
         <div class="form-group">
@@ -33,23 +28,23 @@
             <div class="input-group">
                 <div class="input-group-addon">验证码</div>
                 <input type="text" class="form-control" id="code" placeholder="请输入短信验证码"/>
-                <div class="input-group-btn"><button id="register-btn-getValidateCode" class="btn btn-primary disabled" onclick="sendSms()">获取验证码</button></div>
+                <div class="input-group-btn" id=""><button id="register-btn-getValidateCode" class="btn btn-primary disabled" type="button" onclick="sendSms()">获取验证码</button></div>
             </div>
         </div>
         <div class="form-group">
             <div class="input-group">
                 <div class="input-group-addon">设置密码</div>
-                <input type="password" class="form-control" placeholder="请输入6-20位密码（支持数字、字母输入）" id="password" onblur="firmLength()"/>
+                <input type="password" class="form-control" placeholder="请输入6-20位密码（支持数字、字母输入）" id="password"/>
             </div>
         </div>
         <div class="form-group">
             <div class="input-group">
                 <div class="input-group-addon">确认密码</div>
-                <input type="password" class="form-control" placeholder="请再次输入密码" id="firmPwd" onblur="confirm()"/>
+                <input type="password" class="form-control" placeholder="请再次输入密码" id="firmPwd"/>
             </div>
         </div>
         <div class="form-group">
-            <button class="btn btn-primary btn-block disabled" id="register-submit" onclick="register()">注册</button>
+            <button class="btn btn-primary btn-block disabled" id="register-submit" onclick="register()" type="button">注册</button>
             <p class="text-center margin-top-20">
                 <div class="checkbox">
                     <label>

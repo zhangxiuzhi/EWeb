@@ -19,7 +19,7 @@
         <div class="level">您当前的会员等级为：个人会员</div>
         <div class="description">您当前只有浏览和发布意向的权限（<a class="text-info">参考会员等级说明</a>），您如果想进行有安全保障的线上交易和公平公正的招投标，请认证个人和企业信息。认证后您将升级为企业会员，获得更多权利！</div>
         <div class="form-group">
-            <button class="btn btn-primary btn-block" id="register-toVerify">前往认证</button>
+            <button class="btn btn-primary btn-block" id="register-toVerify" onclick="gotoRetest()">前往认证</button>
             <p class="margin-top-20"><a class="text-info" th:href="@{/}">返回首页</a></p>
         </div>
     </div>
@@ -33,5 +33,10 @@
 <link rel="stylesheet" th:href="@{/jq/dragValidate/dragValidate.css}"/>
 <script th:src="@{/jq/dragValidate/dragValidate.js}"></script>
 <script th:src="@{/js/module/register/member.userInfo.js}"></script>
+<script type="text/javascript">
+	function gotoRetest(){
+		window.location.href="http://localhost:8888/company/company";
+	}
+</script>
 </body>
 </html>
