@@ -55,7 +55,8 @@ function confirmRegisterRule(ckb) {
 // 手机验证
 function checkMobile(mobile) {
 	if (mobile.length == 0) {
-		alert("请输入手机号");
+		//alert("请输入手机号");
+		esteel_register.insertErrorBubble("mobile","验证码不能为空");
 	} else {
 		if (mobile.length == 11) {
 			// 正则验证
@@ -138,7 +139,8 @@ function register() {
 	var codes = $("#code").val();
 	var pwd = $("#firmPwd").val();
 	if(codes==""){
-		alert("验证码不能为空");
+	//alert("验证码不能为空");
+		esteel_register.insertErrorBubble("code","验证码不能为空");
 		return;
 	}
 	if(pass&&status){
