@@ -1,218 +1,540 @@
 package com.esteel.web.vo.offer;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
+import java.lang.reflect.Field;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.validation.constraints.NotNull;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * 
- * @ClassName: IronFuturesOfferVo
- * @Description: 铁矿远期现货报盘DTO
+ * @ClassName: IronFuturesOfferRequest
+ * @Description: 铁矿远期现货报盘Request
  * @author wyf
  * @date 2017年12月6日 下午1:28:25 
  *
  */
-public class IronFuturesOfferRequest extends IronOfferBaseVo implements Serializable {
+public class IronFuturesOfferRequest extends OfferIronAttachVo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * 铁矿报盘附表ID
-	 */
-	private long[] offerAttachId;
-	/**
-	 * 化学元素指标 Al2O3
-	 */
-	private BigDecimal[] al2o3;
-	/**
-	 * 其他化学元素指标 Json数据
-	 */
-	private String[] chemicalIndicators;
-	/**
-	 * 品名ID
-	 */
-	private long[] commodityId;
-	/**
-	 * 品名名称
-	 */
-	private String[] commodityName;
-	/**
-	 * 目的港ID
-	 */
-	private long dischargePortId;
-	/**
-	 * 目的港
-	 */
-	private String dischargePortName;
-	/**
-	 * 化学元素指标 Fe
-	 */
-	private BigDecimal[] fe;
-	/**
-	 * 化学元素指标 H2O
-	 */
-	private BigDecimal[] h2o;
-	/**
-	 * 指标类型ID
-	 */
-	private long[] indicatorTypeId;
-	/**
-	 * 指标类型
-	 */
-	private String[] indicatorTypeName;
-	/**
-	 * 是否在保税区 0:否, 1:是
-	 */
-	private int isBondedArea = 0;
-	/**
-	 * 信用证交单期
-	 */
-	private Date lcTime;
-	/**
-	 * 装货港ID
-	 */
-	private long loadingPortId;
-	/**
-	 * 装货港
-	 */
-	private String loadingPortName;
-	/**
-	 * 化学元素指标 LOI
-	 */
-	private BigDecimal[] LOI;
-	/**
-	 * 起订量
-	 */
-	private BigDecimal minQuantity;
-	/**
-	 * 化学元素指标 Mn
-	 */
-	private BigDecimal[] mn;
-	/**
-	 * 溢短装
-	 */
-	private BigDecimal[] moreOrLess;
-	/**
-	 * 铁矿报盘附表编码
-	 */
-	private String[] offerAttachCode;
-	/**
 	 * 铁矿报盘ID
 	 */
-	private long offerId;
+	private String offerId;
 	/**
-	 * 报盘重量
+	 * 交货结算条款模版ID
 	 */
-	private BigDecimal[] offerQuantity;
+	private String clauseTemplateId;
 	/**
-	 *  化学元素指标 P
+	 * 交货结算条款Json
 	 */
-	private BigDecimal[] p;
+	private String clauseTemplateJson;
 	/**
-	 * 保税区港口ID
+	 * 合同模版ID
 	 */
-	private long portId;
+	private String contractTemplateId;
 	/**
-	 * 保税区港口
+	 * 是否匿名 0:否, 1:是
 	 */
-	private String portName;
+//	@NotBlank
+	private String isAnonymous = "1";
 	/**
-	 * 价格基数 铁
+	 * 是否指定 0:否, 1:是
 	 */
-	private BigDecimal[] priceBasisFe;
+	private String isDesignation = "0";
 	/**
-	 * 价格描述
+	 * 是否议价 0:否, 1:是
 	 */
-	private String []priceDescription;
+	private String isDiscussPrice = "0";
 	/**
-	 * 价格模式 0:固定价, 1:浮动价
+	 * 是否一船多货 0:否, 1:是
 	 */
-	private int[] priceModel = new int[]{1, 1};
+//	@NotBlank
+	private String isMultiCargo = "0";
 	/**
-	 * 价格术语
+	 * 是否拆分 0:否, 1:是
 	 */
-	private String priceTerm1;
+//	@NotBlank
+	private String isSplit = "0";
 	/**
-	 * 价格术语基于港ID
+	 * 铁矿报盘状态 0:草稿, 100:在售, 200:成交, 300:下架, 999:作废
 	 */
-	private long[] priceTermPortId;
+	private String offerStatus = "0";
 	/**
-	 * 价格术语基于港
+	 * 报盘类型 0:普通报盘,1:保证金报盘,2:信誉报盘
 	 */
-	private String[] priceTermPortName;
-	/**
-	 * 价格单位ID
-	 */
-	private long priceUnitId;
-	/**
-	 * 价格数值
-	 */
-	private BigDecimal[] priceValue;
-	/**
-	 * 重量单位ID
-	 */
-	private long quantityUnitId;
+	private String offerType = "0";
 	/**
 	 * 备注
 	 */
-	private String offerAttachRemarks;
+	private String offerRemarks;
 	/**
-	 * 化学元素指标 S
+	 * 交易方向 0:销售, 1:采购
 	 */
-	private BigDecimal[] s;
+	private String tradeDirection = "0";
 	/**
-	 * 化学元素指标 SiO2
+	 * 交易方式 1:现货, 2:点价, 3:远期
 	 */
-	private BigDecimal[] sio2;
+	private int tradeMode = 1;
 	/**
-	 * 粒度指标
+	 * 有效日期
 	 */
-	private String[] sizeIndicators;
+	@NotNull
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date validTime;
 	/**
-	 * 已售重量
+	 * 有效日期(yyyy-MM-dd HH:mm:ss)
+	 * 扩展字段
 	 */
-	private BigDecimal soldQuantity;
+	private String validTimestamp;
 	/**
-	 * 运输状态 Json数据
+	 * 铁矿报盘附表ID 数组
+	 * 扩展字段
 	 */
-	private String transportDescription;
+	private String[] offerAttachIdArr;
+	/**
+	 * 化学元素指标 Al2O3 数组
+	 * 扩展字段
+	 */
+	private String[] al2o3Arr;
+	/**
+	 * 其他化学元素指标 Json数据 数组
+	 * 扩展字段
+	 */
+	private String[] chemicalIndicatorsArr;
+	/**
+	 * 品名ID 数组
+	 * 扩展字段
+	 */
+	private String[] commodityIdArr;
+	/**
+	 * 品名名称 数组
+	 * 扩展字段
+	 */
+	private String[] commodityNameArr;
+	/**
+	 * 化学元素指标 Fe 数组
+	 * 扩展字段
+	 */
+	private String[] feArr;
+	/**
+	 * 化学元素指标 H2O 数组
+	 * 扩展字段
+	 */
+	private String[] h2oArr;
+	/**
+	 * 指标类型ID 数组
+	 * 扩展字段
+	 */
+	private String[] indicatorTypeIdArr;
+	/**
+	 * 指标类型 数组
+	 * 扩展字段
+	 */
+	private String[] indicatorTypeNameArr;
+	/**
+	 * 化学元素指标 LOI 数组
+	 * 扩展字段
+	 */
+	private String[] LOIArr;
+	/**
+	 * 化学元素指标 Mn 数组
+	 * 扩展字段
+	 */
+	private String[] mnArr;
+	/**
+	 * 溢短装 数组
+	 * 扩展字段
+	 */
+	private String[] moreOrLessArr;
+	/**
+	 * 铁矿报盘附表编码 数组
+	 * 扩展字段
+	 */
+	private String[] offerAttachCodeArr;
+	/**
+	 * 报盘重量 数组
+	 * 扩展字段
+	 */
+	private String[] offerQuantityArr;
+	/**
+	 *  化学元素指标 P 数组
+	 *  扩展字段
+	 */
+	private String[] pArr;
+	/**
+	 * 价格基数 铁 数组
+	 * 扩展字段
+	 */
+	private String[] priceBasisFeArr;
+	/**
+	 * 价格描述 数组
+	 * 扩展字段
+	 */
+	private String []priceDescriptionArr;
+	/**
+	 * 价格模式  数组 0:固定价, 1:浮动价
+	 * 扩展字段
+	 */
+	private String[] priceModelArr = new String[]{"1", "1"};
+	/**
+	 * 价格术语 数组
+	 * 扩展字段
+	 */
+	private String[] priceTermArr;
+	/**
+	 * 价格术语基于港ID 数组
+	 * 扩展字段
+	 */
+	private String[] priceTermPortIdArr;
+	/**
+	 * 价格术语基于港 数组
+	 * 扩展字段
+	 */
+	private String[] priceTermPortNameArr;
+	/**
+	 * 价格数值 数组
+	 * 扩展字段
+	 */
+	private String[] priceValueArr;
+	/**
+	 * 化学元素指标 S 数组
+	 * 扩展字段
+	 */
+	private String[] sArr;
+	/**
+	 * 化学元素指标 SiO2 数组
+	 * 扩展字段
+	 */
+	private String[] sio2Arr;
+	/**
+	 * 粒度指标 数组
+	 * 扩展字段
+	 */
+	private String[] sizeIndicatorsArr;
 	
-/*	public IronFuturesOfferVo getOneCargoOfferVo(int index) {
-		index = index > 1 ? 1 : index;
+	public IronFuturesOfferRequest() {
+		// 默认:不在保税区
+		super.setIsBondedArea("0");
+		// 默认:浮动价模式 
+		super.setPriceModel("1");
+	}
+	
+	/**
+	 * 根据下标获取货物
+	 * @param index
+	 * @return
+	 */
+	public IronFuturesOfferRequest getOneOffer(int index) {
+		if (index < 0) {
+			index = 0;
+		}
 		
-		IronFuturesOfferVo one = new IronFuturesOfferVo();
+		if (index > 1) {
+			index = 1;
+		}
+		
+		IronFuturesOfferRequest one = new IronFuturesOfferRequest();
 		BeanUtils.copyProperties(this, one);
 		
-		// 货物字段
-		Set<String> cargoAttrSet = new HashSet<>();
-		cargoAttrSet.addAll(
-				Arrays.asList("al2o3", "chemicalIndicators", "commodityIdStr", "commodityName", "fe", "h2o",
-						"indicatorTypeIdStr", "indicatorTypeName", "LOI", "mn", "moreOrLess", "offerQuantityStr",
-						"p", "priceDescription", "priceModel", "priceTerm", "priceTermPortId", "priceTermPortName", 
-						"priceValue", "s", "sio2", "", "sizeIndicators"));
+		Map<String, String[]> valueMap = new HashMap<>();
 		
 		Field[] fields = one.getClass().getFields();
 		for (int j = 0; j < fields.length; j++) {
 			Field f = fields[j];
-			f.setAccessible(true); // 设置些属性是可以访问的
+			f.setAccessible(true);// 设置些属性是可以访问的
 			
-			if (cargoAttrSet.contains(f.getName())) {
+			String name = f.getName();
+			Object value;
+			try {
+				value = f.get(one);
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+				
+				continue;
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+				
+				continue;
+			}
+			
+			if (name.matches("Arr$") 
+					&& value != null && value instanceof String[]) {
+				valueMap.put(name.substring(0, name.length() - 3), (String[]) value);
+			}
+		}
+		
+		for (int j = 0; j < fields.length; j++) {
+			Field f = fields[j];
+			
+			String[] valueArr = valueMap.get(f.getName());
+			if (valueArr != null && valueArr.length > index) {
 				try {
-					String value = (String) f.get(this);
-					
-					f.set(one, f.get(f.getName()));
+					f.set(one, valueArr[index]);
 				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
+					
 					continue;
 				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
+					
 					continue;
 				}
 			}
 		}
 		
-		
 		return one;
-	}*/
+	}
+	
+	public String getOfferId() {
+		return offerId;
+	}
+	public void setOfferId(String offerId) {
+		this.offerId = offerId;
+	}
+	public String getClauseTemplateId() {
+		return clauseTemplateId;
+	}
+	public void setClauseTemplateId(String clauseTemplateId) {
+		this.clauseTemplateId = clauseTemplateId;
+	}
+	public String getClauseTemplateJson() {
+		return clauseTemplateJson;
+	}
+	public void setClauseTemplateJson(String clauseTemplateJson) {
+		this.clauseTemplateJson = clauseTemplateJson;
+	}
+	public String getContractTemplateId() {
+		return contractTemplateId;
+	}
+	public void setContractTemplateId(String contractTemplateId) {
+		this.contractTemplateId = contractTemplateId;
+	}
+	public String getIsAnonymous() {
+		return isAnonymous;
+	}
+	public void setIsAnonymous(String isAnonymous) {
+		this.isAnonymous = isAnonymous;
+	}
+	public String getIsDesignation() {
+		return isDesignation;
+	}
+	public void setIsDesignation(String isDesignation) {
+		this.isDesignation = isDesignation;
+	}
+	public String getIsDiscussPrice() {
+		return isDiscussPrice;
+	}
+	public void setIsDiscussPrice(String isDiscussPrice) {
+		this.isDiscussPrice = isDiscussPrice;
+	}
+	public String getIsMultiCargo() {
+		return isMultiCargo;
+	}
+	public void setIsMultiCargo(String isMultiCargo) {
+		this.isMultiCargo = isMultiCargo;
+	}
+	public String getIsSplit() {
+		return isSplit;
+	}
+	public void setIsSplit(String isSplit) {
+		this.isSplit = isSplit;
+	}
+	public String getOfferStatus() {
+		return offerStatus;
+	}
+	public void setOfferStatus(String offerStatus) {
+		this.offerStatus = offerStatus;
+	}
+	public String getOfferType() {
+		return offerType;
+	}
+	public void setOfferType(String offerType) {
+		this.offerType = offerType;
+	}
+	public String getOfferRemarks() {
+		return offerRemarks;
+	}
+	public void setOfferRemarks(String offerRemarks) {
+		this.offerRemarks = offerRemarks;
+	}
+	public String getTradeDirection() {
+		return tradeDirection;
+	}
+	public void setTradeDirection(String tradeDirection) {
+		this.tradeDirection = tradeDirection;
+	}
+	public int getTradeMode() {
+		return tradeMode;
+	}
+	public void setTradeMode(int tradeMode) {
+		this.tradeMode = tradeMode;
+	}
+	public Date getValidTime() {
+		return validTime;
+	}
+	public void setValidTime(Date validTime) {
+		this.validTime = validTime;
+	}
+	public String getValidTimestamp() {
+		return validTimestamp;
+	}
+	public void setValidTimestamp(String validTimestamp) {
+		this.validTimestamp = validTimestamp;
+	}
+	public String[] getOfferAttachIdArr() {
+		return offerAttachIdArr;
+	}
+	public void setOfferAttachIdArr(String[] offerAttachIdArr) {
+		this.offerAttachIdArr = offerAttachIdArr;
+	}
+	public String[] getAl2o3Arr() {
+		return al2o3Arr;
+	}
+	public void setAl2o3Arr(String[] al2o3Arr) {
+		this.al2o3Arr = al2o3Arr;
+	}
+	public String[] getChemicalIndicatorsArr() {
+		return chemicalIndicatorsArr;
+	}
+	public void setChemicalIndicatorsArr(String[] chemicalIndicatorsArr) {
+		this.chemicalIndicatorsArr = chemicalIndicatorsArr;
+	}
+	public String[] getCommodityIdArr() {
+		return commodityIdArr;
+	}
+	public void setCommodityIdArr(String[] commodityIdArr) {
+		this.commodityIdArr = commodityIdArr;
+	}
+	public String[] getCommodityNameArr() {
+		return commodityNameArr;
+	}
+	public void setCommodityNameArr(String[] commodityNameArr) {
+		this.commodityNameArr = commodityNameArr;
+	}
+	public String[] getFeArr() {
+		return feArr;
+	}
+	public void setFeArr(String[] feArr) {
+		this.feArr = feArr;
+	}
+	public String[] getH2oArr() {
+		return h2oArr;
+	}
+	public void setH2oArr(String[] h2oArr) {
+		this.h2oArr = h2oArr;
+	}
+	public String[] getIndicatorTypeIdArr() {
+		return indicatorTypeIdArr;
+	}
+	public void setIndicatorTypeIdArr(String[] indicatorTypeIdArr) {
+		this.indicatorTypeIdArr = indicatorTypeIdArr;
+	}
+	public String[] getIndicatorTypeNameArr() {
+		return indicatorTypeNameArr;
+	}
+	public void setIndicatorTypeNameArr(String[] indicatorTypeNameArr) {
+		this.indicatorTypeNameArr = indicatorTypeNameArr;
+	}
+	public String[] getLOIArr() {
+		return LOIArr;
+	}
+	public void setLOIArr(String[] lOIArr) {
+		LOIArr = lOIArr;
+	}
+	public String[] getMnArr() {
+		return mnArr;
+	}
+	public void setMnArr(String[] mnArr) {
+		this.mnArr = mnArr;
+	}
+	public String[] getMoreOrLessArr() {
+		return moreOrLessArr;
+	}
+	public void setMoreOrLessArr(String[] moreOrLessArr) {
+		this.moreOrLessArr = moreOrLessArr;
+	}
+	public String[] getOfferAttachCodeArr() {
+		return offerAttachCodeArr;
+	}
+	public void setOfferAttachCodeArr(String[] offerAttachCodeArr) {
+		this.offerAttachCodeArr = offerAttachCodeArr;
+	}
+	public String[] getOfferQuantityArr() {
+		return offerQuantityArr;
+	}
+	public void setOfferQuantityArr(String[] offerQuantityArr) {
+		this.offerQuantityArr = offerQuantityArr;
+	}
+	public String[] getpArr() {
+		return pArr;
+	}
+	public void setpArr(String[] pArr) {
+		this.pArr = pArr;
+	}
+	public String[] getPriceBasisFeArr() {
+		return priceBasisFeArr;
+	}
+	public void setPriceBasisFeArr(String[] priceBasisFeArr) {
+		this.priceBasisFeArr = priceBasisFeArr;
+	}
+	public String[] getPriceDescriptionArr() {
+		return priceDescriptionArr;
+	}
+	public void setPriceDescriptionArr(String[] priceDescriptionArr) {
+		this.priceDescriptionArr = priceDescriptionArr;
+	}
+	public String[] getPriceModelArr() {
+		return priceModelArr;
+	}
+	public void setPriceModelArr(String[] priceModelArr) {
+		this.priceModelArr = priceModelArr;
+	}
+	public String[] getPriceTermArr() {
+		return priceTermArr;
+	}
+	public void setPriceTermArr(String[] priceTermArr) {
+		this.priceTermArr = priceTermArr;
+	}
+	public String[] getPriceTermPortIdArr() {
+		return priceTermPortIdArr;
+	}
+	public void setPriceTermPortIdArr(String[] priceTermPortIdArr) {
+		this.priceTermPortIdArr = priceTermPortIdArr;
+	}
+	public String[] getPriceTermPortNameArr() {
+		return priceTermPortNameArr;
+	}
+	public void setPriceTermPortNameArr(String[] priceTermPortNameArr) {
+		this.priceTermPortNameArr = priceTermPortNameArr;
+	}
+	public String[] getPriceValueArr() {
+		return priceValueArr;
+	}
+	public void setPriceValueArr(String[] priceValueArr) {
+		this.priceValueArr = priceValueArr;
+	}
+	public String[] getsArr() {
+		return sArr;
+	}
+	public void setsArr(String[] sArr) {
+		this.sArr = sArr;
+	}
+	public String[] getSio2Arr() {
+		return sio2Arr;
+	}
+	public void setSio2Arr(String[] sio2Arr) {
+		this.sio2Arr = sio2Arr;
+	}
+	public String[] getSizeIndicatorsArr() {
+		return sizeIndicatorsArr;
+	}
+	public void setSizeIndicatorsArr(String[] sizeIndicatorsArr) {
+		this.sizeIndicatorsArr = sizeIndicatorsArr;
+	}
 }
