@@ -61,7 +61,7 @@
             success: function (data) {
                 var status=data.status;
                 var message=data.message;
-                if("success"==status){
+                if(status){
                     window.location.href = "/member/headCut.htm?imgUrl="+message;
                 }else{
                     alert("上传失败");

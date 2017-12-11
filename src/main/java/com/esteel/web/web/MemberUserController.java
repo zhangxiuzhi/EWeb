@@ -414,6 +414,7 @@ public class MemberUserController {
 	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
 	@ResponseBody
 	public WebReturnMessage uploadFile(MultipartFile file) {
+		System.out.println("123456789");
 		WebReturnMessage webRetMesage = null;
 		if (file != null && !file.isEmpty()) {
 			// 获取文件后缀

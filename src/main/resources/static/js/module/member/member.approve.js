@@ -135,3 +135,18 @@ $(document).ready(function (e) {
 	esteel_member_approve.initRouter();
 });
 
+//文件上传
+function upload(id){
+	//alert(id);
+    $.ajaxFileUpload({
+        url:'http://localhost:8888/user/uploadFile',
+        secureuri:false,
+        fileElementId:id,//file标签的id
+        dataType: 'json',
+        success: function (data) {
+            alert(123);
+        }
+    });
+}
+
+
