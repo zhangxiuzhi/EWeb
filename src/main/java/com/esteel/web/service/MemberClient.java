@@ -58,7 +58,7 @@ public interface MemberClient {
 	 * 保存企业附表信息
 	 */
 	@RequestMapping(value = "/saveCompanyAtt", method = RequestMethod.POST)
-	public MemberCompanyAttachVo saveComAtt(MemberCompanyAttachVo comAtt);
+	public MemberCompanyAttachVo saveComAtt(@RequestBody MemberCompanyAttachVo comAtt);
 	/**
 	 * 根据企业id获取企业信息
 	 * @param comanyId

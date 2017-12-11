@@ -170,10 +170,10 @@ public class MemberUserController {
 					// 验证成功修改状态为验证通过2,验证未通过
 					codeVo.setVerifyStatus(2);
 					logVerityCodeClient.saveLog(codeVo);
-					webRetMsg = new WebReturnMessage(false, "验证码已失效");
+					webRetMsg = new WebReturnMessage(false, "注册失败,验证码已失效");
 				}
 			} else {
-				webRetMsg = new WebReturnMessage(false, "验证码错误");
+				webRetMsg = new WebReturnMessage(false, "注册失败,验证码错误");
 			}
 		} catch (Exception e) {
 			// 验证成功修改状态为验证通过2

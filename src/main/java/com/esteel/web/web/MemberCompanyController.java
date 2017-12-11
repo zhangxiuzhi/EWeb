@@ -1,12 +1,14 @@
 package com.esteel.web.web;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.websocket.Session;
 
+import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,12 @@ import com.esteel.web.vo.MemberCompanyAttachVo;
 import com.esteel.web.vo.MemberCompanyVo;
 import com.esteel.web.vo.MemberUserVo;
 import com.esteel.web.vo.ProvinceVo;
+import com.esteel.web.vo.ResultJson;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.taobao.common.tfs.TfsManager;
+import com.taobao.tair.json.Json;
 
 @Controller
 @RequestMapping("/company")
@@ -59,9 +66,22 @@ public class MemberCompanyController {
 	 */
 	@RequestMapping("/company")
 	public String findAddress(Model model) {
-		List<ProvinceVo> province  = baseClient.findAll();
-		model.addAttribute("list", province);
-		
+		// 所有身份信息
+		List<ProvinceVo> province = baseClient.findAllPro();
+		System.out.println(province);
+		// 存放封装数据
+		List<ResultJson> result = new ArrayList<>();
+		ResultJson state = new ResultJson();
+		for (ProvinceVo provinceVo : province) {
+			// 取出省份的名称和id
+			state.setText(provinceVo.getProvinceName());
+			state.setValue(provinceVo.getProvinceId());
+			state.setKey(provinceVo.getProvinceName());
+			result.add(state);
+		}
+		Gson gson = new Gson();
+		String jsonProvince = gson.toJson(result);
+		model.addAttribute("list", jsonProvince);
 		return "/member/approve";
 	}
 
@@ -73,8 +93,19 @@ public class MemberCompanyController {
 	 */
 	@RequestMapping("/findCity")
 	@ResponseBody
-	public List<CityVo> findCity(int provinceId) {
-		return baseClient.findAllCity(provinceId);
+	public String findCity(int provinceId) {
+		List<CityVo> Cities = baseClient.findAllCity(provinceId);
+		// 存放封装数据
+		List<ResultJson> city = new ArrayList<>();
+		ResultJson state = null;
+		for (CityVo cityVo : Cities) {
+			state = new ResultJson();
+			state.setText(cityVo.getCityName());
+			state.setValue(cityVo.getCityId());
+			state.setKey(cityVo.getCityName());
+			city.add(state);
+		}
+		return new Gson().toJson(city);
 	}
 
 	/**
@@ -85,14 +116,24 @@ public class MemberCompanyController {
 	 */
 	@RequestMapping("/findDistrict")
 	@ResponseBody
-	public List<DistrictVo> findDistrict(int cityId) {
-		return baseClient.findAllDistrict(cityId);
+	public String findDistrict(int cityId) {
 
+		List<DistrictVo> dists = baseClient.findAllDistrict(cityId);
+		// 存放封装数据
+		List<ResultJson> city = new ArrayList<>();
+		ResultJson state =null;
+		for (DistrictVo districtVo : dists) {
+			state = new ResultJson();
+			state.setText(districtVo.getDistrictName());
+			state.setValue(districtVo.getCityId());
+			state.setKey(districtVo.getDistrictName());
+			city.add(state);
+		}
+		return new Gson().toJson(city);
 	}
 
 	/**
 	 * 企业认证
-	 * 
 	 * @return
 	 */
 	@RequestMapping("/attest")
@@ -210,8 +251,10 @@ public class MemberCompanyController {
 		}
 		return webRetMesage;
 	}
+
 	/**
 	 * 根据企业id获取企业下属子账号
+	 * 
 	 * @return
 	 */
 	@RequestMapping(value = "/findMembers", method = RequestMethod.GET)
@@ -222,8 +265,10 @@ public class MemberCompanyController {
 		List<MemberUserVo> members = memberClient.findmembers(companyId);
 		return members;
 	}
+
 	/**
-	 * 添加企业子账号 
+	 * 添加企业子账号
+	 * 
 	 * @param mobile
 	 * @param username
 	 * @param session
@@ -231,31 +276,33 @@ public class MemberCompanyController {
 	 */
 	@RequestMapping(value = "/addMember", method = RequestMethod.GET)
 	@ResponseBody
-	public WebReturnMessage addMember(String mobile,String username,HttpSession session) {
+	public WebReturnMessage addMember(String mobile, String username, HttpSession session) {
 		WebReturnMessage webRetMesage = null;
-		//获取企业id
+		// 获取企业id
 		MemberUserVo userVo = (MemberUserVo) session.getAttribute("userVo");
 		Integer companyId = userVo.getCompanyId();
-		//创建保存信息
+		// 创建保存信息
 		MemberUserVo user = new MemberUserVo();
-		user.setAccount("E0000062");//设置帐号
-		user.setMobile(mobile);//手机号
+		user.setAccount("E0000062");// 设置帐号
+		user.setMobile(mobile);// 手机号
 		String str = Encrypt.EncoderByMd5("123456");
-		user.setPassword(str); //设置密码
-		user.setUserStatus(1); //认证
-		user.setCompanyId(companyId);//企业id
-		user.setUserGrade(2);//设置子账号权级 2 普通企业会员
-		//保存子账号信息
+		user.setPassword(str); // 设置密码
+		user.setUserStatus(1); // 认证
+		user.setCompanyId(companyId);// 企业id
+		user.setUserGrade(2);// 设置子账号权级 2 普通企业会员
+		// 保存子账号信息
 		MemberUserVo registerUser = memberClient.registerUser(user);
-		if(registerUser!=null) {
+		if (registerUser != null) {
 			webRetMesage = new WebReturnMessage(true, "添加成功");
-		}else {
+		} else {
 			webRetMesage = new WebReturnMessage(false, "添加失败");
 		}
 		return webRetMesage;
 	}
+
 	/**
 	 * 移除企业子账号
+	 * 
 	 * @param userId
 	 * @return
 	 */
@@ -264,48 +311,57 @@ public class MemberCompanyController {
 	public WebReturnMessage removeMember(Long userId) {
 		WebReturnMessage webRetMesage = null;
 		MemberUserVo member = memberClient.findUser(userId);
-		if(member!=null) {
-			member.setCompanyId(null);//设置企业号为null
+		if (member != null) {
+			member.setCompanyId(null);// 设置企业号为null
 			MemberUserVo memuser = memberClient.registerUser(member);
-			if(memuser!=null) {
+			if (memuser != null) {
 				webRetMesage = new WebReturnMessage(true, "移除成功");
-			}else {
+			} else {
 				webRetMesage = new WebReturnMessage(false, "保存失败");
 			}
-		}else {
+		} else {
 			webRetMesage = new WebReturnMessage(false, "获取子账号信息失败");
 		}
 		return webRetMesage;
 	}
+
 	/**
 	 * 修改子账号信息
-	 * @param userId 子账号id	
-	 * @param mobile	手机
-	 * @param userName 姓名
-	 * @param dept	部门
-	 * @param position 职位
-	 * @param email 邮箱
+	 * 
+	 * @param userId
+	 *            子账号id
+	 * @param mobile
+	 *            手机
+	 * @param userName
+	 *            姓名
+	 * @param dept
+	 *            部门
+	 * @param position
+	 *            职位
+	 * @param email
+	 *            邮箱
 	 * @return
 	 */
 	@RequestMapping(value = "/Member", method = RequestMethod.GET)
 	@ResponseBody
-	public WebReturnMessage editMember(Long userId,String mobile,String userName,String dept,String position,String email) {
+	public WebReturnMessage editMember(Long userId, String mobile, String userName, String dept, String position,
+			String email) {
 		WebReturnMessage webRetMesage = null;
-		//获取子账号对象
+		// 获取子账号对象
 		MemberUserVo member = memberClient.findUser(userId);
-		if(member!=null) {
-			//更改信息
+		if (member != null) {
+			// 更改信息
 			member.setMobile(mobile);
 			member.setUserName(userName);
 			member.setEmail(email);
-			//更新用户信息
+			// 更新用户信息
 			MemberUserVo user = memberClient.registerUser(member);
-			if(user!=null) {
+			if (user != null) {
 				webRetMesage = new WebReturnMessage(true, "更改成功");
-			}else {
+			} else {
 				webRetMesage = new WebReturnMessage(false, "更改失败");
 			}
-		}else{
+		} else {
 			webRetMesage = new WebReturnMessage(false, "无此帐号");
 		}
 		return webRetMesage;
