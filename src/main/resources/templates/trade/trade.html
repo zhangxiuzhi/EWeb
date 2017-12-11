@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="./fragments/frontCode" />
+<head th:replace="/fragments/frontCode::frontCode" />
 <body>
 
 <!--页头，菜单-->
-<div th:replace="fragments/head::header"></div>
+<div th:replace="/fragments/head::header"></div>
 
 
 <!--展示内容-->
@@ -46,7 +46,7 @@
 
 
 <!--页脚，链接-->
-<div th:replace="fragments/foot::footer"></div>
+<div th:replace="/fragments/foot::footer"></div>
 
 <!--组件：排序-->
 <link rel="stylesheet" th:href="@{/js/component/SortGroupButton/SortGroupButton.css}"/>
