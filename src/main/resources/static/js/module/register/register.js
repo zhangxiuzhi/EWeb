@@ -57,15 +57,19 @@ function confirmRegisterRule(ckb) {
 // 发送验证码
 function sendSms() {
 	var phone = $("#mobile").val();
+	var vcsrf = $("#_csrf").val();
 	if (phone.length == 0) {
 		//alert("请输入手机号");
 		esteel_register.insertErrorBubble("mobile","请先输入手机号");
 		return;
 	}
-	$.post("http://localhost:8888/user/sendSms", {mobile :phone}, function(result) {
-		if (result.success == true) {
-			alert("已发送");
-		}
+	// $.post("http://localhost:8888/user/sendSms", {mobile :phone}, function(result) {
+	// 	if (result.success == true) {
+	// 		alert("已发送");
+	// 	}
+	// });
+    esteel_register.ajaxRequest({url:"/user/sendSms",data:{mobile :phone,_csrf:vcsrf}},function(result){
+    		alert("已发送");
 	});
 }
 
