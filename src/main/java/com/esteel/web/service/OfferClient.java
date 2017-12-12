@@ -30,13 +30,13 @@ class OfferClientCallback implements OfferClient {
 
 	@Override
 	public IronOfferMainVo saveOffer(IronOfferMainVo ironOfferVo) {
-//		if (vo.getOfferStatus() == EsteelConstant.OFFER_STATUS_In_SALE) {
-//			return "发布失败";
-//		}
-//
-//		return "保存草稿失败";
+		IronOfferMainVo offer = new IronOfferMainVo();
+
+		offer.setStatus(1);
+		offer.setMsg("保存失败!");
+		offer.setMsgEn("Save failed.");
 		
-		return null;
+		return offer;
 	}
 }
 

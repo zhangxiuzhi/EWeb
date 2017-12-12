@@ -1,11 +1,5 @@
 package com.esteel.web.service;
 
-import com.esteel.common.vo.BaseQueryVo;
-import com.esteel.common.vo.SimpePageImpl;
-import com.esteel.web.vo.CityVo;
-import com.esteel.web.vo.DistrictVo;
-import com.esteel.web.vo.ProvinceVo;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.esteel.common.vo.BaseQueryVo;
 import com.esteel.common.vo.SimpePageImpl;
+import com.esteel.web.vo.CityVo;
+import com.esteel.web.vo.DistrictVo;
 import com.esteel.web.vo.ProvinceVo;
 import com.esteel.web.vo.base.CommodityCategoryVo;
 import com.esteel.web.vo.base.CommodityVo;
@@ -35,8 +31,8 @@ import feign.hystrix.FallbackFactory;
  * Time: 14:55
  *
  */
-@FeignClient(name = "Base",url = "http://127.0.0.1:9920",fallback = BaseClientCallback.class)
-//@FeignClient(name = "Base",url = "http://10.0.1.214:9920",fallback = BaseClientCallback.class ,path = "cn")
+//@FeignClient(name = "Base",url = "http://127.0.0.1:9920",fallback = BaseClientCallback.class)
+@FeignClient(name = "Base",url = "http://10.0.1.214:9920",fallback = BaseClientCallback.class ,path = "cn")
 public interface BaseClient {
 
     @RequestMapping(value = "/port", method = RequestMethod.POST)

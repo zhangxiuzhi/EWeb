@@ -88,6 +88,11 @@ public class IronPricingOfferRequest extends OfferIronAttachVo implements Serial
 	 * 扩展字段
 	 */
 	private String validTimestamp;
+	/**
+	 * 指定对手(多选值)
+	 * 报盘扩展字段
+	 */
+	private String counterpartyIdMulti;
 	
 	public IronPricingOfferRequest() {
 		// 默认:在保税区
@@ -222,5 +227,13 @@ public class IronPricingOfferRequest extends OfferIronAttachVo implements Serial
 
 	public void setValidTimestamp(String validTimestamp) {
 		this.validTimestamp = validTimestamp;
+	}
+
+	public String getCounterpartyIdMulti() {
+		return counterpartyIdMulti;
+	}
+
+	public void setCounterpartyIdMulti(String counterpartyIdMulti) {
+		this.counterpartyIdMulti = counterpartyIdMulti;
 	}
 }
