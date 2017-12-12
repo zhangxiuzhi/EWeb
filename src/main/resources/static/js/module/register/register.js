@@ -68,7 +68,7 @@ function sendSms() {
 	// 		alert("已发送");
 	// 	}
 	// });
-    esteel_register.ajaxRequest({url:"/user/sendSms",data:{mobile :phone,_csrf:vcsrf}},function(result){
+    esteel_register.ajaxRequest({url:"/user/sendSms",data:{mobile :phone}},function(result){
     		alert("已发送");
 	});
 }
