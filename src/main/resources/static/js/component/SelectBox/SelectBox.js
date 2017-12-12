@@ -1,13 +1,13 @@
 /**
  * Created by wzj on 2017/9/12.
  */
-
+/*
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Protypes from 'prop-types';
 import classNames from 'classnames';
 
-import "./SelectBox.scss";
+import "./SelectBox.scss";*/
 
 var idInc = 0;
 
