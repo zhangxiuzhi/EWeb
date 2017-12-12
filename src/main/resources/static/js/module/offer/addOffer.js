@@ -364,7 +364,8 @@ function show2goods(checked){
  
 //显示浮动价
 function showFloatPrice(evt){
-    if(evt.selectedOptions[0].value == "float"){
+	// 价格模式 0:固定价, 1:浮动价
+    if(evt.selectedOptions[0].value == "1"){
         $("#offer-floatPrice-desc").show();
         $("#offer-floatPrice-desc").attr("data-validetta","required");
     }else{
