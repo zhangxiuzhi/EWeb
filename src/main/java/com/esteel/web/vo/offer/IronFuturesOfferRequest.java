@@ -93,6 +93,11 @@ public class IronFuturesOfferRequest extends OfferIronAttachVo implements Serial
 	 */
 	private String validTimestamp;
 	/**
+	 * 指定对手(多选值)
+	 * 报盘扩展字段
+	 */
+	private String counterpartyIdMulti;
+	/**
 	 * 铁矿报盘附表ID 数组
 	 * 扩展字段
 	 */
@@ -536,5 +541,13 @@ public class IronFuturesOfferRequest extends OfferIronAttachVo implements Serial
 	}
 	public void setSizeIndicatorsArr(String[] sizeIndicatorsArr) {
 		this.sizeIndicatorsArr = sizeIndicatorsArr;
+	}
+
+	public String getCounterpartyIdMulti() {
+		return counterpartyIdMulti;
+	}
+
+	public void setCounterpartyIdMulti(String counterpartyIdMulti) {
+		this.counterpartyIdMulti = counterpartyIdMulti;
 	}
 }

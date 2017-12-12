@@ -53,23 +53,23 @@ public class IronOfferMainVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 是否匿名 0:否, 1:是
 	 */
-	private String isAnonymous;
+	private String isAnonymous = "1";
 	/**
 	 * 是否指定 0:否, 1:是
 	 */
-	private String isDesignation;
+	private String isDesignation = "0";
 	/**
 	 * 是否议价 0:否, 1:是
 	 */
-	private String isDiscussPrice;
+	private String isDiscussPrice = "0";
 	/**
 	 * 是否一船多货 0:否, 1:是
 	 */
-	private String isMultiCargo;
+	private String isMultiCargo = "0";
 	/**
 	 * 是否拆分 0:否, 1:是
 	 */
-	private String isSplit;
+	private String isSplit = "0";
 	/**
 	 * 铁矿报盘编码
 	 */
@@ -127,10 +127,10 @@ public class IronOfferMainVo extends StatusMSGVo implements Serializable {
 	 */
 	private int version = 1;
 	/**
-	 * 指定对手(多选值)
-	 * 扩展字段
+	 * 指定对手IDList
+	 * 报盘扩展字段
 	 */
-	private String counterpartyIdMulti;
+	private List<Long> counterpartyIdList;
 	/**
 	 * 附件List
 	 * 扩展属性
@@ -352,11 +352,11 @@ public class IronOfferMainVo extends StatusMSGVo implements Serializable {
 	public void setVersion(int version) {
 		this.version = version;
 	}
-	public String getCounterpartyIdMulti() {
-		return counterpartyIdMulti;
+	public List<Long> getCounterpartyIdList() {
+		return counterpartyIdList;
 	}
-	public void setCounterpartyIdMulti(String counterpartyIdMulti) {
-		this.counterpartyIdMulti = counterpartyIdMulti;
+	public void setCounterpartyIdList(List<Long> counterpartyIdList) {
+		this.counterpartyIdList = counterpartyIdList;
 	}
 	public List<OfferAffixVo> getOfferAffixList() {
 		return offerAffixList;

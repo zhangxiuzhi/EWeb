@@ -6,9 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
 
-import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.esteel.common.controller.WebReturnMessage;
 import com.esteel.web.service.BaseClient;
-import com.esteel.web.service.ContactClient;
-import com.esteel.web.service.LogVerityCodeClient;
 import com.esteel.web.service.MemberClient;
 import com.esteel.web.vo.CityVo;
 import com.esteel.web.vo.DistrictVo;
@@ -32,10 +28,6 @@ import com.esteel.web.vo.MemberUserVo;
 import com.esteel.web.vo.ProvinceVo;
 import com.esteel.web.vo.ResultJson;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.taobao.common.tfs.TfsManager;
-import com.taobao.tair.json.Json;
 
 @Controller
 @RequestMapping("/company")
@@ -138,7 +130,7 @@ public class MemberCompanyController {
 	 */
 	@RequestMapping("/attest")
 	@ResponseBody
-	public WebReturnMessage companyAttest(
+	public String companyAttest(
 
 			String companyName, // 企业名称
 			String regProvince, // 注册省份
@@ -163,11 +155,13 @@ public class MemberCompanyController {
 			String socialCode, // 社会信用代码
 			String organizationCode, // 组织结构代码
 			String taxationCode, // 税务登记号
+			
 			String licenseImg, // 营业执照
 			String organizationImg, // 组织机构
 			String taxationImg // 税务登记证
 
 	) {
+		System.out.println("*********************************************************");
 		// 设置企业基本信息
 		MemberCompanyVo company = new MemberCompanyVo();
 		company.setCountryCode("China"); // 国家编码
@@ -215,7 +209,7 @@ public class MemberCompanyController {
 		} else {
 			webRetMesage = new WebReturnMessage(false, "提交失败");
 		}
-		return webRetMesage;
+		return "/member/approve";
 
 	}
 

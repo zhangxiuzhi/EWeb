@@ -1,8 +1,11 @@
 package com.esteel.web.web;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -411,9 +414,9 @@ public class MemberUserController {
 	 * @param file
 	 * @return
 	 */
-	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
+	@RequestMapping(value = "/uploadFile")
 	@ResponseBody
-	public WebReturnMessage uploadFile(MultipartFile file) {
+	public WebReturnMessage uploadFile(MultipartFile file,HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("123456789");
 		WebReturnMessage webRetMesage = null;
 		if (file != null && !file.isEmpty()) {
@@ -437,7 +440,17 @@ public class MemberUserController {
 		return webRetMesage;
 
 	}
-
+	/**
+	 * 图片回显
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/showPic")
+	public void showPic(String path, HttpServletResponse response) throws IOException {
+		//String path = request.getParameter("path");
+        tfsManager.fetchFile(path, "", response.getOutputStream());
+	}
 	/**
 	 * 文件下载
 	 * 

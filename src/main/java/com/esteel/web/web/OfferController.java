@@ -2,10 +2,12 @@ package com.esteel.web.web;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -400,7 +402,7 @@ public class OfferController {
      */
     @RequestMapping(value = "/saveInStockOffer", method = RequestMethod.POST)
     public String saveInStockOffer(@Validated IronInStockOfferRequest inStockOfferRequest, @RequestParam("offerAffix") MultipartFile offerAffix, 
-    		IronOfferClauseVo offerClauseVo, @RequestParam("contractAffix") MultipartFile contractAffix, Model model){
+    		IronOfferClauseVo offerClauseVo, @RequestParam("contractAffix") MultipartFile contractAffix, Model model) {
     	if (inStockOfferRequest == null) {
     		model.addAttribute("msg", "提交失败！");
 		    
@@ -417,6 +419,23 @@ public class OfferController {
     	// 将request 复制到 offerMainVo
     	BeanUtils.copyProperties(inStockOfferRequest, offerMainVo);
     	
+    	// 指定对手(多选值)
+    	List<Long> counterpartyIdList = null;
+    	if (inStockOfferRequest.getCounterpartyIdMulti() != null && !inStockOfferRequest.getCounterpartyIdMulti().trim().equals("")) {
+    		String[] counterpartyIdArr = inStockOfferRequest.getCounterpartyIdMulti().split(",");
+    		
+    		counterpartyIdList = 
+    				Arrays.asList(counterpartyIdArr).stream()
+    				.filter(counterpartyId -> counterpartyId != null && counterpartyId.trim().matches("^\\d+$"))
+    				.map(counterpartyId -> Long.parseLong(counterpartyId.trim())).collect(Collectors.toList()); 
+    	}
+    	
+    	if (counterpartyIdList != null && !counterpartyIdList.isEmpty()) {
+    		// 是否指定 0:否, 1:是
+    		offerMainVo.setIsDesignation("1");
+    		offerMainVo.setCounterpartyIdList(counterpartyIdList);
+    	}
+    	
     	OfferIronAttachVo offerAttachVo = new OfferIronAttachVo();
     	// 将request 复制到 offerAttachVo
     	BeanUtils.copyProperties(inStockOfferRequest, offerAttachVo);
@@ -426,6 +445,8 @@ public class OfferController {
     	// 初始化
     	// 交易方式 1:现货
     	offerMainVo.setTradeMode(EsteelConstant.TRADE_MODE_INSTOCK);
+    	// 铁矿报盘状态 :草稿
+    	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_DRAFT + "");
    	
     	offerMainVo.setCompanyId(1);
     	offerMainVo.setCreateUser("王雁飞测试");
@@ -459,9 +480,10 @@ public class OfferController {
 //    	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //    	inStockOfferVo.setValidTime(dateFormat.parse(inStockOfferVo.getValidTimestamp(), new ParsePosition(0)));
     	
+    	IronOfferMainVo offer = null;
     	try {
     		// 保存
-    		offerClient.saveOffer(offerMainVo);
+    		offer = offerClient.saveOffer(offerMainVo);
     	} catch (Exception e) {
 			e.printStackTrace();
 			
@@ -471,8 +493,27 @@ public class OfferController {
 		}
     	
     	model.addAttribute("msg", "新增成功");
+    	if (offer.getStatus() != 0) {
+    		model.addAttribute("msg", offer.getMsg());
+    	}
     	
         return "redirect:/offer/myOffer";
+    }
+    
+    /**
+     * 现货报盘保存
+     * @param inStockOfferRequest
+     * @param offerAffix
+     * @param offerClauseVo
+     * @param contractAffix
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/publishInStockOffer", method = RequestMethod.POST)
+    public String publishInStockOffer(@Validated IronInStockOfferRequest inStockOfferRequest, @RequestParam("offerAffix") MultipartFile offerAffix, 
+    		IronOfferClauseVo offerClauseVo, @RequestParam("contractAffix") MultipartFile contractAffix, Model model) {
+    	
+    	return "redirect:/offer/myOffer";
     }
     
     /**
@@ -502,6 +543,23 @@ public class OfferController {
     	IronOfferMainVo offerMainVo = new IronOfferMainVo();
     	// 将request 复制到 offerMainVo
     	BeanUtils.copyProperties(futuresOfferRequest, offerMainVo);
+    	
+    	// 指定对手(多选值)
+    	List<Long> counterpartyIdList = null;
+    	if (futuresOfferRequest.getCounterpartyIdMulti() != null && !futuresOfferRequest.getCounterpartyIdMulti().trim().equals("")) {
+    		String[] counterpartyIdArr = futuresOfferRequest.getCounterpartyIdMulti().split(",");
+    		
+    		counterpartyIdList = 
+    				Arrays.asList(counterpartyIdArr).stream()
+    				.filter(counterpartyId -> counterpartyId != null && counterpartyId.trim().matches("^\\d+$"))
+    				.map(counterpartyId -> Long.parseLong(counterpartyId.trim())).collect(Collectors.toList()); 
+    	}
+    	
+    	if (counterpartyIdList != null && !counterpartyIdList.isEmpty()) {
+    		// 是否指定 0:否, 1:是
+    		offerMainVo.setIsDesignation("1");
+    		offerMainVo.setCounterpartyIdList(counterpartyIdList);
+    	}
     	
     	OfferIronAttachVo offerFirstVo = new OfferIronAttachVo();
     	// 将第一个货物报盘 复制到 offerAttachVo
@@ -584,6 +642,23 @@ public class OfferController {
     	IronOfferMainVo offerMainVo = new IronOfferMainVo();
     	// 将request 复制到 offerMainVo
     	BeanUtils.copyProperties(pricingOfferRequest, offerMainVo);
+    	
+    	// 指定对手(多选值)
+    	List<Long> counterpartyIdList = null;
+    	if (pricingOfferRequest.getCounterpartyIdMulti() != null && !pricingOfferRequest.getCounterpartyIdMulti().trim().equals("")) {
+    		String[] counterpartyIdArr = pricingOfferRequest.getCounterpartyIdMulti().split(",");
+    		
+    		counterpartyIdList = 
+    				Arrays.asList(counterpartyIdArr).stream()
+    				.filter(counterpartyId -> counterpartyId != null && counterpartyId.trim().matches("^\\d+$"))
+    				.map(counterpartyId -> Long.parseLong(counterpartyId.trim())).collect(Collectors.toList()); 
+    	}
+    	
+    	if (counterpartyIdList != null && !counterpartyIdList.isEmpty()) {
+    		// 是否指定 0:否, 1:是
+    		offerMainVo.setIsDesignation("1");
+    		offerMainVo.setCounterpartyIdList(counterpartyIdList);
+    	}
     	
     	OfferIronAttachVo offerAttachVo = new OfferIronAttachVo();
     	// 将request 复制到 offerAttachVo
@@ -699,5 +774,13 @@ public class OfferController {
 		}
 	    
     	return vo;
+    }
+    
+    public static void main(String[] args) {
+    	List<String> l = Arrays.asList(new String[] { "1", "2", "a", null }).stream()
+    			.filter(a -> a != null && a.trim().matches("^\\d+$")).collect(Collectors.toList()); 
+    	l.forEach(i -> System.out.println(i
+                ));
+    	 
     }
 }
