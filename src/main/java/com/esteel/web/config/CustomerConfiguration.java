@@ -14,10 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * ESTeel
@@ -27,7 +24,8 @@ import java.util.Map;
  * Time: 22:28
  */
 @Configuration
-@EnableConfigurationProperties(CacheExpireProperties.class)
+@AutoConfigureAfter(RedisAutoConfiguration.class)
+@EnableConfigurationProperties({CacheExpireProperties.class,CacheProperties.class})
 public class CustomerConfiguration {
 
         /**
@@ -38,14 +36,16 @@ public class CustomerConfiguration {
     @Bean("tmpCacheManager")
     @ConfigurationProperties(CacheExpireProperties.PREFIX)
 
-    public CacheManager tmpCacheManager(RedisTemplate<Object, Object> redisTemplate,CacheExpireProperties cacheExpireProperties){
+    public CacheManager tmpCacheManager(RedisTemplate<Object, Object> redisTemplate,CacheExpireProperties cacheExpireProperties,CacheProperties cacheProperties){
         RedisCacheManager cacheManager = new RedisCacheManager(redisTemplate);
         cacheManager.setUsePrefix(true);
 
         Map<String,Long> expires = cacheExpireProperties.getExpires();
 
+        List<String> names = cacheProperties.getCacheNames();
         Collection<String> cacheNames = cacheExpireProperties.getExpires().keySet();
-        cacheManager.setCacheNames(cacheNames);
+        names.addAll(cacheNames);
+        cacheManager.setCacheNames(names);
         cacheManager.setExpires(expires);
 
         return cacheManager;
