@@ -24,7 +24,7 @@ class ComponentSelectBox extends React.Component {
     }
  
     render() {;
-        var data = this.props.data ? this.props.data : this.state.data
+        const data = this.props.data.length>0 ? this.props.data : this.state.data
         return React.createElement(SelectBox, {
             label: "",
             name:this.props.inputName,
