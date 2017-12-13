@@ -33,10 +33,9 @@ public class CustomerConfiguration {
      * @param redisTemplate
      * @return
      */
-    @Bean("tmpCacheManager")
     @ConfigurationProperties(CacheExpireProperties.PREFIX)
-
-    public CacheManager tmpCacheManager(RedisTemplate<Object, Object> redisTemplate,CacheExpireProperties cacheExpireProperties,CacheProperties cacheProperties){
+    @Bean
+    public CacheManager cacheManager(RedisTemplate<Object, Object> redisTemplate,CacheExpireProperties cacheExpireProperties,CacheProperties cacheProperties){
         RedisCacheManager cacheManager = new RedisCacheManager(redisTemplate);
         cacheManager.setUsePrefix(true);
 
