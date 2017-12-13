@@ -4,9 +4,10 @@
 <head th:fragment="frontCode">
     <meta charset="UTF-8" />
 
-    <meta name="_csrf_parameter" th:content="${_csrf.parameterName}"/>
-    <meta name="_csrf_header" content="X-CSRF-TOKEN"/>
-    <meta name="_csrf" th:content="${_csrf.token}"/>
+
+    <meta name="_csrf_parameter" th:content="${_csrf.parameterName}" th:if="${_csrf != null}"/>
+    <meta name="_csrf_header" content="X-CSRF-TOKEN" th:if="${_csrf != null}"/>
+    <meta name="_csrf" th:content="${_csrf.token}" th:if="${_csrf != null}"/>
 
     <title>Esteel电商2.0</title>
     <link rel="stylesheet" th:href="@{/bootstrap/bootstrap.min.css}"/>
