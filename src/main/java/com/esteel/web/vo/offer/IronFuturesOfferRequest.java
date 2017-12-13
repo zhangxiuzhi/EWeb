@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.BeanUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -116,6 +117,7 @@ public class IronFuturesOfferRequest extends OfferIronAttachVo implements Serial
 	 * 品名ID 数组
 	 * 扩展字段
 	 */
+	@NotEmpty(message = "请选择品名", groups = {IronFuturesOffer.class})
 	private String[] commodityIdArr;
 	/**
 	 * 品名名称 数组
@@ -126,6 +128,7 @@ public class IronFuturesOfferRequest extends OfferIronAttachVo implements Serial
 	 * 化学元素指标 Fe 数组
 	 * 扩展字段
 	 */
+	@NotEmpty(message = "请填写Fe指标", groups = {IronFuturesOffer.class})
 	private String[] feArr;
 	/**
 	 * 化学元素指标 H2O 数组
@@ -156,6 +159,7 @@ public class IronFuturesOfferRequest extends OfferIronAttachVo implements Serial
 	 * 溢短装 数组
 	 * 扩展字段
 	 */
+	@NotEmpty(message = "请填写溢短装", groups = {IronFuturesOffer.class})
 	private String[] moreOrLessArr;
 	/**
 	 * 铁矿报盘附表编码 数组
@@ -166,6 +170,7 @@ public class IronFuturesOfferRequest extends OfferIronAttachVo implements Serial
 	 * 报盘重量 数组
 	 * 扩展字段
 	 */
+	@NotEmpty(message = "请填写数量", groups = {IronFuturesOffer.class})
 	private String[] offerQuantityArr;
 	/**
 	 *  化学元素指标 P 数组
@@ -176,37 +181,22 @@ public class IronFuturesOfferRequest extends OfferIronAttachVo implements Serial
 	 * 价格基数 铁 数组
 	 * 扩展字段
 	 */
-	private String[] priceBasisFeArr;
+//	private String[] priceBasisFeArr;
 	/**
 	 * 价格描述 数组
 	 * 扩展字段
 	 */
-	private String []priceDescriptionArr;
+//	private String []priceDescriptionArr;
 	/**
 	 * 价格模式  数组 0:固定价, 1:浮动价
 	 * 扩展字段
 	 */
-	private String[] priceModelArr = new String[]{"1", "1"};
-	/**
-	 * 价格术语 数组
-	 * 扩展字段
-	 */
-	private String[] priceTermArr;
-	/**
-	 * 价格术语基于港ID 数组
-	 * 扩展字段
-	 */
-	private String[] priceTermPortIdArr;
-	/**
-	 * 价格术语基于港 数组
-	 * 扩展字段
-	 */
-	private String[] priceTermPortNameArr;
+//	private String[] priceModelArr = new String[]{"1", "1"};
 	/**
 	 * 价格数值 数组
 	 * 扩展字段
 	 */
-	private String[] priceValueArr;
+//	private String[] priceValueArr;
 	/**
 	 * 化学元素指标 S 数组
 	 * 扩展字段
@@ -223,77 +213,42 @@ public class IronFuturesOfferRequest extends OfferIronAttachVo implements Serial
 	 */
 	private String[] sizeIndicatorsArr;
 	
+	/**
+	 * 运输信息
+	 * 装船期
+	 */
+	private String transport_load;
+	/**
+	 * 运输信息
+	 * 提单日
+	 */
+	private String transport_bill;
+	/**
+	 * 运输信息
+	 * 到港月
+	 */
+	private String transport_arrive;
+	/**
+	 * 运输信息
+	 * ETA新加坡
+	 */
+	private String transport_etaxjb;
+	/**
+	 * 运输信息
+	 * ETA青岛港
+	 */
+	private String transport_etaqdg;
+	/**
+	 * 运输信息
+	 * 其他
+	 */
+	private String transport_remark;
+	
 	public IronFuturesOfferRequest() {
 		// 默认:不在保税区
 		super.setIsBondedArea("0");
 		// 默认:浮动价模式 
 		super.setPriceModel("1");
-	}
-	
-	/**
-	 * 根据下标获取货物
-	 * @param index
-	 * @return
-	 */
-	public IronFuturesOfferRequest getOneOffer(int index) {
-		if (index < 0) {
-			index = 0;
-		}
-		
-		if (index > 1) {
-			index = 1;
-		}
-		
-		IronFuturesOfferRequest one = new IronFuturesOfferRequest();
-		BeanUtils.copyProperties(this, one);
-		
-		Map<String, String[]> valueMap = new HashMap<>();
-		
-		Field[] fields = one.getClass().getFields();
-		for (int j = 0; j < fields.length; j++) {
-			Field f = fields[j];
-			f.setAccessible(true);// 设置些属性是可以访问的
-			
-			String name = f.getName();
-			Object value;
-			try {
-				value = f.get(one);
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-				
-				continue;
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-				
-				continue;
-			}
-			
-			if (name.matches("Arr$") 
-					&& value != null && value instanceof String[]) {
-				valueMap.put(name.substring(0, name.length() - 3), (String[]) value);
-			}
-		}
-		
-		for (int j = 0; j < fields.length; j++) {
-			Field f = fields[j];
-			
-			String[] valueArr = valueMap.get(f.getName());
-			if (valueArr != null && valueArr.length > index) {
-				try {
-					f.set(one, valueArr[index]);
-				} catch (IllegalArgumentException e) {
-					e.printStackTrace();
-					
-					continue;
-				} catch (IllegalAccessException e) {
-					e.printStackTrace();
-					
-					continue;
-				}
-			}
-		}
-		
-		return one;
 	}
 	
 	public String getOfferId() {
@@ -482,48 +437,6 @@ public class IronFuturesOfferRequest extends OfferIronAttachVo implements Serial
 	public void setpArr(String[] pArr) {
 		this.pArr = pArr;
 	}
-	public String[] getPriceBasisFeArr() {
-		return priceBasisFeArr;
-	}
-	public void setPriceBasisFeArr(String[] priceBasisFeArr) {
-		this.priceBasisFeArr = priceBasisFeArr;
-	}
-	public String[] getPriceDescriptionArr() {
-		return priceDescriptionArr;
-	}
-	public void setPriceDescriptionArr(String[] priceDescriptionArr) {
-		this.priceDescriptionArr = priceDescriptionArr;
-	}
-	public String[] getPriceModelArr() {
-		return priceModelArr;
-	}
-	public void setPriceModelArr(String[] priceModelArr) {
-		this.priceModelArr = priceModelArr;
-	}
-	public String[] getPriceTermArr() {
-		return priceTermArr;
-	}
-	public void setPriceTermArr(String[] priceTermArr) {
-		this.priceTermArr = priceTermArr;
-	}
-	public String[] getPriceTermPortIdArr() {
-		return priceTermPortIdArr;
-	}
-	public void setPriceTermPortIdArr(String[] priceTermPortIdArr) {
-		this.priceTermPortIdArr = priceTermPortIdArr;
-	}
-	public String[] getPriceTermPortNameArr() {
-		return priceTermPortNameArr;
-	}
-	public void setPriceTermPortNameArr(String[] priceTermPortNameArr) {
-		this.priceTermPortNameArr = priceTermPortNameArr;
-	}
-	public String[] getPriceValueArr() {
-		return priceValueArr;
-	}
-	public void setPriceValueArr(String[] priceValueArr) {
-		this.priceValueArr = priceValueArr;
-	}
 	public String[] getsArr() {
 		return sArr;
 	}
@@ -549,5 +462,53 @@ public class IronFuturesOfferRequest extends OfferIronAttachVo implements Serial
 
 	public void setCounterpartyIdMulti(String counterpartyIdMulti) {
 		this.counterpartyIdMulti = counterpartyIdMulti;
+	}
+
+	public String getTransport_load() {
+		return transport_load;
+	}
+
+	public void setTransport_load(String transport_load) {
+		this.transport_load = transport_load;
+	}
+
+	public String getTransport_bill() {
+		return transport_bill;
+	}
+
+	public void setTransport_bill(String transport_bill) {
+		this.transport_bill = transport_bill;
+	}
+
+	public String getTransport_arrive() {
+		return transport_arrive;
+	}
+
+	public void setTransport_arrive(String transport_arrive) {
+		this.transport_arrive = transport_arrive;
+	}
+
+	public String getTransport_etaxjb() {
+		return transport_etaxjb;
+	}
+
+	public void setTransport_etaxjb(String transport_etaxjb) {
+		this.transport_etaxjb = transport_etaxjb;
+	}
+
+	public String getTransport_etaqdg() {
+		return transport_etaqdg;
+	}
+
+	public void setTransport_etaqdg(String transport_etaqdg) {
+		this.transport_etaqdg = transport_etaqdg;
+	}
+
+	public String getTransport_remark() {
+		return transport_remark;
+	}
+
+	public void setTransport_remark(String transport_remark) {
+		this.transport_remark = transport_remark;
 	}
 }

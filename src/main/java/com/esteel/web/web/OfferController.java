@@ -1,8 +1,11 @@
 package com.esteel.web.web;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +42,9 @@ import com.esteel.web.vo.offer.IronOfferMainVo;
 import com.esteel.web.vo.offer.IronPricingOfferRequest;
 import com.esteel.web.vo.offer.OfferAffixVo;
 import com.esteel.web.vo.offer.OfferIronAttachVo;
+import com.esteel.web.vo.offer.OfferIronAttachVo.IronFuturesOffer;
+import com.esteel.web.vo.offer.OfferIronAttachVo.IronInStockOffer;
+import com.esteel.web.vo.offer.OfferIronAttachVo.IronPricingOffer;
 import com.taobao.common.tfs.TfsManager;
 import com.taobao.tair.json.JSONArray;
 import com.taobao.tair.json.JSONObject;
@@ -314,6 +320,24 @@ public class OfferController {
     	List<Map<String, String>> isAnonymousList = new ArrayList<Map<String, String>>();
     	isAnonymousList.add(yesMap);
     	isAnonymousList.add(noMap);
+    	
+    	/**
+    	 * 连铁合约
+    	 */
+    	List<Map<String, String>> ironContractList = new ArrayList<Map<String, String>>();
+    	
+    	Calendar calendar = Calendar.getInstance();
+    	SimpleDateFormat dateFormat = new SimpleDateFormat("yyMM");
+    	for (int i = 0; i < 12; i ++) {
+    		map = new HashMap<>();
+    		ironContractList.add(map);
+        	map.put("text", "i" + dateFormat.format(calendar.getTime()));
+        	map.put("value", "i" + dateFormat.format(calendar.getTime()));
+        	map.put("key", "i" + dateFormat.format(calendar.getTime()));
+        	
+        	calendar.add(Calendar.MONTH, 1);
+    	}
+    	
     	/* 页面数据组装 结束 */
     	
     	List<Map<String, String>> counterpartyList = new ArrayList<Map<String, String>>();
@@ -371,30 +395,13 @@ public class OfferController {
     	model.addAttribute("priceModelJson", JSONArray.toJSONString(priceModelList));
     	// 是否匿名Json
     	model.addAttribute("isAnonymousJson", JSONArray.toJSONString(isAnonymousList));
+    	// 连铁合约Json
+    	model.addAttribute("ironContractJson", JSONArray.toJSONString(ironContractList));
     	/* 页面数据传输 结束 */
     	
         return "/offer/addOffer";
     }
-/*    
-    @RequestMapping(value = "/saveOffer", method = RequestMethod.POST)
-    public String saveOffer(IronOfferBaseVo offerVo, Model model){
-    	try {
-    		offerClient.saveOffer(offerVo);
-    	} catch (Exception e) {
-			e.printStackTrace();
-			
-			model.addAttribute("msg", "新增失败");
-			
-			model.addAttribute("offerVo", offerVo);
-		    
-		    return "/offer/addOffer";
-		}
-    	
-    	model.addAttribute("msg", "新增成功");
-    	
-        return "redirect:/offer/myOffer";
-    }
-*/    
+
     /**
      * 现货报盘保存
      * @param inStockOfferRequest
@@ -405,7 +412,7 @@ public class OfferController {
      * @return
      */
     @RequestMapping(value = "/saveInStockOffer", method = RequestMethod.POST)
-    public String saveInStockOffer(@Validated IronInStockOfferRequest inStockOfferRequest, BindingResult offerResult, 
+    public String saveInStockOffer(@Validated(IronInStockOffer.class) IronInStockOfferRequest inStockOfferRequest, BindingResult offerResult, 
     		@RequestParam("offerAffix") MultipartFile offerAffix,  IronOfferClauseVo offerClauseVo, 
     		@RequestParam("contractAffix") MultipartFile contractAffix, Model model) {
     	if (inStockOfferRequest == null) {
@@ -425,10 +432,11 @@ public class OfferController {
 			StringBuilder sb = new StringBuilder();
 			List<ObjectError> errors = offerResult.getAllErrors();
 			for (ObjectError err : errors) {
-				sb.append(err.getDefaultMessage()+";  ");
+				sb.append(err.getDefaultMessage()+";");
 			}
 			
 			model.addAttribute("msg", sb.toString());
+			System.out.println(sb.toString());
 		    
 		    return "/offer/addOffer";
 		}
@@ -524,24 +532,18 @@ public class OfferController {
 //    	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //    	inStockOfferVo.setValidTime(dateFormat.parse(inStockOfferVo.getValidTimestamp(), new ParsePosition(0)));
     	
-    	IronOfferMainVo offer = null;
-    	try {
-    		System.out.println(JsonUtils.toJsonString(offerMainVo));
-    		
-    		// 保存
-    		offer = offerClient.saveOffer(offerMainVo);
-    	} catch (Exception e) {
-			e.printStackTrace();
-			
-			model.addAttribute("msg", "新增失败");
-			
-		    return "/offer/addOffer";
-		}
+    	System.out.println(JsonUtils.toJsonString(offerMainVo));
+		
+		// 保存
+		IronOfferMainVo offer = offerClient.saveIronOffer(offerMainVo);
     	
-    	model.addAttribute("msg", "新增成功");
-    	if (offer.getStatus() != 0) {
-    		model.addAttribute("msg", offer.getMsg());
+    	model.addAttribute("msg", "新增成功!");
+    	if (offer == null) {
+    		model.addAttribute("msg",  "新增失败!");
+    		System.out.println("新增失败!");
     	}
+    	
+    	System.out.println("新增成功!");
     	
         return "redirect:/offer/myOffer";
     }
@@ -572,20 +574,28 @@ public class OfferController {
      * @return
      */
     @RequestMapping(value = "/saveFuturesOffer", method = RequestMethod.POST)
-    public String saveFuturesOffer(IronFuturesOfferRequest futuresOfferRequest, @RequestParam("offerAffix") MultipartFile offerAffix, 
-    		IronOfferClauseVo offerClauseVo, @RequestParam("contractAffix") MultipartFile contractAffix, Model model){
+    public String saveFuturesOffer(@Validated(IronFuturesOffer.class)IronFuturesOfferRequest futuresOfferRequest, BindingResult offerResult, 
+    		@RequestParam("offerAffix") MultipartFile offerAffix, Model model){
     	if (futuresOfferRequest == null) {
     		model.addAttribute("msg", "提交失败！");
 		    
 		    return "/offer/addOffer";
     	}
     	
-    	if (offerClauseVo == null) {
-    		model.addAttribute("msg", "提交失败！");
+    	// 页面验证
+/*		if(offerResult.hasErrors()) {
+			StringBuilder sb = new StringBuilder();
+			List<ObjectError> errors = offerResult.getAllErrors();
+			for (ObjectError err : errors) {
+				sb.append(err.getDefaultMessage()+";");
+			}
+			
+			model.addAttribute("msg", sb.toString());
+			System.out.println(sb.toString());
 		    
 		    return "/offer/addOffer";
-    	}
-    	
+		}
+*/    	
     	IronOfferMainVo offerMainVo = new IronOfferMainVo();
     	// 将request 复制到 offerMainVo
     	BeanUtils.copyProperties(futuresOfferRequest, offerMainVo);
@@ -607,15 +617,15 @@ public class OfferController {
     		offerMainVo.setCounterpartyIdList(counterpartyIdList);
     	}
     	
-    	OfferIronAttachVo offerFirstVo = new OfferIronAttachVo();
-    	// 将第一个货物报盘 复制到 offerAttachVo
-    	BeanUtils.copyProperties(futuresOfferRequest.getOneOffer(0), offerFirstVo);
+    	// 第一个货物报盘
+    	OfferIronAttachVo firstCargo = getOne(futuresOfferRequest, 0);
+    	offerMainVo.addOfferIronAttach(firstCargo);
     	
     	// 一船两货
     	if (futuresOfferRequest.getIsMultiCargo().equals(EsteelConstant.YES + "")) {
-    		OfferIronAttachVo offerSecondVo = new OfferIronAttachVo();
-    		// 将第二个货物报盘 复制到 offerAttachVo
-    		BeanUtils.copyProperties(futuresOfferRequest.getOneOffer(1), offerSecondVo);
+    		// 第二个货物报盘
+    		OfferIronAttachVo secondCargo = getOne(futuresOfferRequest, 1);
+    		offerMainVo.addOfferIronAttach(secondCargo);
     	}
     	
     	// 初始化
@@ -636,30 +646,16 @@ public class OfferController {
     		return "/offer/addOffer";
     	}
     	
-    	// 合同附件保存 tfs
-    	msg = getTfsFileName(contractAffix, "报盘合同附件", 
-    			EsteelConstant.AFFIX_TYPE_OFFER_CONTRACT, offerMainVo);
-    	if (msg != null && msg.getStatus() != 0) {
-    		model.addAttribute("msg", msg.getMsg());
-    		
-    		return "/offer/addOffer";
+    	// 保存
+		IronOfferMainVo offer = offerClient.saveIronOffer(offerMainVo);
+    	
+    	model.addAttribute("msg", "新增成功!");
+    	if (offer == null) {
+    		model.addAttribute("msg",  "新增失败!");
+    		System.out.println("新增失败!");
     	}
     	
-    	// 交货结算条款Json
-    	offerMainVo.setClauseTemplateJson(JsonUtils.toJsonString(offerClauseVo));
-    	
-    	try {
-    		// 保存
-    		offerClient.saveOffer(offerMainVo);
-    	} catch (Exception e) {
-			e.printStackTrace();
-			
-			model.addAttribute("msg", "新增失败");
-		    
-		    return "/offer/addOffer";
-		}
-    	
-    	model.addAttribute("msg", "新增成功");
+    	System.out.println("新增成功!");
     	
         return "redirect:/offer/myOffer";
     }
@@ -674,8 +670,9 @@ public class OfferController {
      * @return
      */
     @RequestMapping(value = "/savePricingOffer", method = RequestMethod.POST)
-    public String savePricingOffer(@Validated IronPricingOfferRequest pricingOfferRequest, @RequestParam("offerAffix") MultipartFile offerAffix, 
-    		IronOfferClauseVo offerClauseVo, @RequestParam("contractAffix") MultipartFile contractAffix, Model model){
+    public String savePricingOffer(@Validated(IronPricingOffer.class) IronPricingOfferRequest pricingOfferRequest, BindingResult offerResult, 
+    		@RequestParam("offerAffix") MultipartFile offerAffix, IronOfferClauseVo offerClauseVo, 
+    		@RequestParam("contractAffix") MultipartFile contractAffix, Model model){
     	if (pricingOfferRequest == null) {
     		model.addAttribute("msg", "提交失败！");
 		    
@@ -687,6 +684,20 @@ public class OfferController {
 		    
 		    return "/offer/addOffer";
     	}
+    	
+    	// 页面验证
+		if(offerResult.hasErrors()) {
+			StringBuilder sb = new StringBuilder();
+			List<ObjectError> errors = offerResult.getAllErrors();
+			for (ObjectError err : errors) {
+				sb.append(err.getDefaultMessage()+";");
+			}
+			
+			model.addAttribute("msg", sb.toString());
+			System.out.println(sb.toString());
+		    
+		    return "/offer/addOffer";
+		}
     	
     	IronOfferMainVo offerMainVo = new IronOfferMainVo();
     	// 将request 复制到 offerMainVo
@@ -750,18 +761,16 @@ public class OfferController {
 //    	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //    	inStockOfferVo.setValidTime(dateFormat.parse(inStockOfferVo.getValidTimestamp(), new ParsePosition(0)));
     	
-    	try {
-    		// 保存
-    		offerClient.saveOffer(offerMainVo);
-    	} catch (Exception e) {
-			e.printStackTrace();
-			
-			model.addAttribute("msg", "新增失败");
-			
-		    return "/offer/addOffer";
-		}
+    	// 保存
+		IronOfferMainVo offer = offerClient.saveIronOffer(offerMainVo);
     	
-    	model.addAttribute("msg", "新增成功");
+    	model.addAttribute("msg", "新增成功!");
+    	if (offer == null) {
+    		model.addAttribute("msg",  "新增失败!");
+    		System.out.println("新增失败!");
+    	}
+    	
+    	System.out.println("新增成功!");
     	
         return "redirect:/offer/myOffer";
     }
@@ -823,12 +832,77 @@ public class OfferController {
 	    
     	return vo;
     }
-    
-    public static void main(String[] args) {
-    	List<String> l = Arrays.asList(new String[] { "1", "2", "a", null }).stream()
-    			.filter(a -> a != null && a.trim().matches("^\\d+$")).collect(Collectors.toList()); 
-    	l.forEach(i -> System.out.println(i
-                ));
-    	 
-    }
+
+    /**
+	 * 根据下标获取货物
+	 * @param index
+	 * @return
+	 */
+	private OfferIronAttachVo getOne(IronFuturesOfferRequest futuresOfferRequest, int index) {
+		if (futuresOfferRequest == null) {
+			return null;
+		}
+		
+		if (index < 0) {
+			index = 0;
+		}
+		
+		if (index > 1) {
+			index = 1;
+		}
+		
+		Map<String, String[]> valueMap = new HashMap<>();
+		
+		Field[] fields = futuresOfferRequest.getClass().getDeclaredFields();
+		for (int j = 0; j < fields.length; j++) {
+			Field f = fields[j];
+			f.setAccessible(true);// 设置些属性是可以访问的
+			
+			String name = f.getName();
+			Object value;
+			try {
+				value = f.get(futuresOfferRequest);
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+				
+				continue;
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+				
+				continue;
+			}
+			
+			if (name.matches("^[a-zA-Z0-9_]+Arr$") 
+					&& value != null && value instanceof String[]) {
+				valueMap.put(name.substring(0, name.length() - 3), (String[]) value);
+			}
+		}
+		
+		OfferIronAttachVo attach = new OfferIronAttachVo();
+		BeanUtils.copyProperties(futuresOfferRequest, attach);
+		
+		fields = attach.getClass().getDeclaredFields();
+		for (int j = 0; j < fields.length; j++) {
+			Field f = fields[j];
+			f.setAccessible(true);// 设置些属性是可以访问的
+			
+			String[] valueArr = valueMap.get(f.getName());
+			if (valueArr != null && valueArr.length > index) {
+				try {
+					f.set(attach, valueArr[index]);
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+					
+					continue;
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+					
+					continue;
+				}
+			}
+		}
+		
+		return attach;
+	}
 }
+

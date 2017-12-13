@@ -31,8 +31,8 @@ import feign.hystrix.FallbackFactory;
  * Time: 14:55
  *
  */
-//@FeignClient(name = "Base",url = "http://127.0.0.1:9920",fallback = BaseClientCallback.class)
-@FeignClient(name = "Base",url = "http://10.0.1.214:9920",fallback = BaseClientCallback.class ,path = "cn")
+//@FeignClient(name = "Base",url = "http://127.0.0.1:9920", fallbackFactory = BaseClientFallbackFactory.class, path = "cn")
+@FeignClient(name = "Base",url = "http://10.0.1.214:9920", fallbackFactory = BaseClientFallbackFactory.class, path = "cn")
 public interface BaseClient {
 
     @RequestMapping(value = "/port", method = RequestMethod.POST)
@@ -95,7 +95,7 @@ public interface BaseClient {
 	 * @param commodityCategoryVo
 	 * @return
 	 */
-	@RequestMapping("/commodityCategory")
+	@RequestMapping(value = "/commodityCategory", method = RequestMethod.POST)
 	public CommodityCategoryVo getCommodityCategory(@RequestBody CommodityCategoryVo commodityCategoryVo);
 	
 	/**
@@ -103,7 +103,7 @@ public interface BaseClient {
 	 * @param commodityVo
 	 * @return
 	 */
-	@RequestMapping("/commodity")
+	@RequestMapping(value = "/commodity", method = RequestMethod.POST)
 	public CommodityVo getCommodity(@RequestBody CommodityVo commodityVo);
     
     /**
@@ -147,22 +147,12 @@ public interface BaseClient {
     
 }
 
-@Component
+/*@Component
 class BaseClientCallback implements BaseClient {
 
     @Override
     public PortVo getPort(PortVo vo){
-    	if (vo == null) {
-    		vo = new PortVo();
-    	}
-		
-		vo.setPortId(-1);;
-		
-		vo.setStatus(99);
-		vo.setMsg("根据属性编码查询失败！");
-		vo.setMsg("");
-		
-		return vo;
+		return null;
     }
 
     @Override
@@ -229,47 +219,17 @@ class BaseClientCallback implements BaseClient {
 
 	@Override
 	public AttributeValueOptionVo getAttributeValueOption(AttributeValueOptionVo vo) {
-		if (vo == null) {
-			vo = new AttributeValueOptionVo();
-		}
-		
-		vo.setOptionId(-1);
-		
-		vo.setStatus(99);
-		vo.setMsg("根据属性编码查询失败！");
-		vo.setMsg("");
-		
-		return vo;
+		return null;
 	}
 
 	@Override
 	public CommodityCategoryVo getCommodityCategory(CommodityCategoryVo vo) {
-		if (vo == null) {
-			vo = new CommodityCategoryVo();
-		}
-		
-		vo.setCategoryId(-1);
-		
-		vo.setStatus(99);
-		vo.setMsg("");
-		vo.setMsg("");
-		
-		return vo;
+		return null;
 	}
 	
 	@Override
 	public CommodityVo getCommodity(CommodityVo vo) {
-		if (vo == null) {
-			vo = new CommodityVo();
-		}
-		
-		vo.setCommodityId(-1);
-		
-		vo.setStatus(99);
-		vo.setMsg("");
-		vo.setMsg("");
-		
-		return vo;
+		return null;
 	}
 
 	@Override
@@ -290,7 +250,7 @@ class BaseClientCallback implements BaseClient {
 		return null;
 	}
 
-}
+}*/
 @Component
 class BaseClientFallbackFactory implements FallbackFactory<BaseClient>{
 
@@ -300,102 +260,125 @@ class BaseClientFallbackFactory implements FallbackFactory<BaseClient>{
 
 			@Override
 			public List<ProvinceVo> findAll() {
-				// TODO Auto-generated method stub
-				return null;
+				cause.printStackTrace();
+				
+				ArrayList<ProvinceVo> vos = new ArrayList<>();
+				return vos;
 			}
 
 			@Override
 			public SimpePageImpl<ProvinceVo> findProvince(BaseQueryVo vo) {
-				// TODO Auto-generated method stub
-				return null;
+				cause.printStackTrace();
+				
+				if (vo == null) {
+		    		vo = new BaseQueryVo();
+		    	}
+		    	
+				return new SimpePageImpl<>(new ArrayList<>(), vo.getPageable(), 0);
 			}
 
 			@Override
 			public PortVo getPort(PortVo vo) {
-				// TODO Auto-generated method stub
+				cause.printStackTrace();
 				return null;
 			}
 
 			@Override
 			public List<PortVo> findPortListForOffer() {
-				// TODO Auto-generated method stub
-				return null;
+				cause.printStackTrace();
+				
+				ArrayList<PortVo> vos = new ArrayList<>();
+				return vos;
 			}
 
 			@Override
 			public List<PortVo> findBondedAreaPortListForOffer() {
-				// TODO Auto-generated method stub
-				return null;
+				cause.printStackTrace();
+
+				ArrayList<PortVo> vos = new ArrayList<>();
+				return vos;
 			}
 
 			@Override
 			public List<PortVo> findLoadingPortListForOffer(CommodityVo commodityVo) {
-				// TODO Auto-generated method stub
-				return null;
+				cause.printStackTrace();
+
+				ArrayList<PortVo> vos = new ArrayList<>();
+				return vos;
 			}
 
 			@Override
 			public CommodityCategoryVo getCommodityCategory(CommodityCategoryVo commodityCategoryVo) {
-				// TODO Auto-generated method stub
+				cause.printStackTrace();
 				return null;
 			}
 
 			@Override
 			public List<CommodityVo> findCommodityListByName(CommodityVo commodityVo) {
-				// TODO Auto-generated method stub
-				return null;
+				cause.printStackTrace();
+				
+				ArrayList<CommodityVo> vos = new ArrayList<>();
+				return vos;
 			}
 
 			@Override
 			public List<IronAttributeLinkVo> findAttributeListByIron(CommodityVo commodityVo) {
-				// TODO Auto-generated method stub
-				return null;
+				cause.printStackTrace();
+				
+				ArrayList<IronAttributeLinkVo> vos = new ArrayList<>();
+				return vos;
 			}
 
 			@Override
 			public List<CommodityVo> findCommodityListByIron() {
-				// TODO Auto-generated method stub
-				return null;
+				cause.printStackTrace();
+				
+				ArrayList<CommodityVo> vos = new ArrayList<>();
+				return vos;
 			}
 
 			@Override
 			public List<AttributeValueOptionVo> findAttributeValueOptionListByAttributeCode(AttributeValueOptionVo attributeValueOptionVo) {
-				// TODO Auto-generated method stub
-				return null;
+				cause.printStackTrace();
+				
+				ArrayList<AttributeValueOptionVo> vos = new ArrayList<>();
+				return vos;
 			}
 
 			@Override
 			public AttributeValueOptionVo getAttributeValueOption(AttributeValueOptionVo queryVo) {
-				// TODO Auto-generated method stub
+				cause.printStackTrace();
 				return null;
 			}
         	
 
 			@Override
 			public List<CityVo> findAllCity(int provinceId) {
+				cause.printStackTrace();
 				return null;
 			}
 
 			@Override
 			public List<DistrictVo> findAllDistrict(int cityId) {
+				cause.printStackTrace();
 				return null;
 			}
 
 			@Override
 			public String getPort(long portId) {
-				// TODO Auto-generated method stub
+				cause.printStackTrace();
 				return null;
 			}
 
 			@Override
 			public List<ProvinceVo> findAllPro() {
-				// TODO Auto-generated method stub
+				cause.printStackTrace();
 				return null;
 			}
 
 			@Override
 			public CommodityVo getCommodity(CommodityVo commodityVo) {
-				// TODO Auto-generated method stub
+				cause.printStackTrace();
 				return null;
 			}
         };
