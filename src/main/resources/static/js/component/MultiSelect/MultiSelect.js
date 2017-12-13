@@ -181,7 +181,8 @@ class MultiSelect extends React.Component {
 					{ className: 'react-ms-right' },
 					React.createElement(
 						'select',
-						{ multiple: true, ref: 'MSR', className: 'react-msr', id: 'msr' },
+						{ multiple: true, ref: 'MSR', className: 'react-msr', id: 'msr',
+							name:this.props.name,},
 						msrData
 					)
 				)
