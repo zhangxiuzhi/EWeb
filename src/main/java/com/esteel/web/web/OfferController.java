@@ -13,6 +13,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,12 +22,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.esteel.common.util.EsteelConstant;
+import com.esteel.common.util.JsonUtils;
 import com.esteel.common.vo.StatusMSGVo;
 import com.esteel.web.service.BaseClient;
 import com.esteel.web.service.OfferClient;
 import com.esteel.web.vo.base.CommodityCategoryEnum;
 import com.esteel.web.vo.base.CommodityVo;
 import com.esteel.web.vo.base.PortVo;
+import com.esteel.web.vo.config.AttributeValueOptionEnum;
 import com.esteel.web.vo.config.AttributeValueOptionVo;
 import com.esteel.web.vo.config.IronAttributeLinkVo;
 import com.esteel.web.vo.offer.IronFuturesOfferRequest;
@@ -401,8 +405,9 @@ public class OfferController {
      * @return
      */
     @RequestMapping(value = "/saveInStockOffer", method = RequestMethod.POST)
-    public String saveInStockOffer(@Validated IronInStockOfferRequest inStockOfferRequest, @RequestParam("offerAffix") MultipartFile offerAffix, 
-    		IronOfferClauseVo offerClauseVo, @RequestParam("contractAffix") MultipartFile contractAffix, Model model) {
+    public String saveInStockOffer(@Validated IronInStockOfferRequest inStockOfferRequest, BindingResult offerResult, 
+    		@RequestParam("offerAffix") MultipartFile offerAffix,  IronOfferClauseVo offerClauseVo, 
+    		@RequestParam("contractAffix") MultipartFile contractAffix, Model model) {
     	if (inStockOfferRequest == null) {
     		model.addAttribute("msg", "提交失败！");
 		    
@@ -414,6 +419,19 @@ public class OfferController {
 		    
 		    return "/offer/addOffer";
     	}
+    	
+    	// 页面验证
+		if(offerResult.hasErrors()) {
+			StringBuilder sb = new StringBuilder();
+			List<ObjectError> errors = offerResult.getAllErrors();
+			for (ObjectError err : errors) {
+				sb.append(err.getDefaultMessage()+";  ");
+			}
+			
+			model.addAttribute("msg", sb.toString());
+		    
+		    return "/offer/addOffer";
+		}
     	
     	IronOfferMainVo offerMainVo = new IronOfferMainVo();
     	// 将request 复制到 offerMainVo
@@ -439,6 +457,33 @@ public class OfferController {
     	OfferIronAttachVo offerAttachVo = new OfferIronAttachVo();
     	// 将request 复制到 offerAttachVo
     	BeanUtils.copyProperties(inStockOfferRequest, offerAttachVo);
+    	
+    	// 品名
+    	CommodityVo commodity = new CommodityVo();
+    	commodity.setCommodityId(Long.parseLong(inStockOfferRequest.getCommodityId()));
+    	
+    	CommodityVo commodityVo = baseClient.getCommodity(commodity);
+    	if (commodityVo != null) {
+    		offerAttachVo.setCommodityName(commodityVo.getCommodityName());
+    	} else {
+    		offerAttachVo.setCommodityName("");
+    	}
+    	
+    	// 港口
+    	PortVo port = new PortVo();
+    	port.setPortId(Long.parseLong(inStockOfferRequest.getPortId()));
+    	
+    	PortVo portVo = baseClient.getPort(port);
+    	if (portVo != null) {
+    		offerAttachVo.setPortName(portVo.getPortName());
+    	} else {
+    		offerAttachVo.setPortName("");
+    	}
+    	
+    	// 重量单位 湿吨
+    	offerAttachVo.setQuantityUnitId(AttributeValueOptionEnum.getInstance().WMT.getId() + "");
+    	// 价格单位 人民币/湿吨
+    	offerAttachVo.setPriceUnitId(AttributeValueOptionEnum.getInstance().CNY_WMT.getId() + "");
     	
     	offerMainVo.addOfferIronAttach(offerAttachVo);
     	
@@ -473,15 +518,16 @@ public class OfferController {
     	}
     	
     	// 交货结算条款Json
-//    	offerMainVo.setClauseTemplateJson(JSONObject.fromObject(offerClauseVo));
+    	offerMainVo.setClauseTemplateJson(JsonUtils.toJsonString(offerClauseVo));
 
-//    	
     	// 有效日期
 //    	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //    	inStockOfferVo.setValidTime(dateFormat.parse(inStockOfferVo.getValidTimestamp(), new ParsePosition(0)));
     	
     	IronOfferMainVo offer = null;
     	try {
+    		System.out.println(JsonUtils.toJsonString(offerMainVo));
+    		
     		// 保存
     		offer = offerClient.saveOffer(offerMainVo);
     	} catch (Exception e) {
@@ -599,6 +645,9 @@ public class OfferController {
     		return "/offer/addOffer";
     	}
     	
+    	// 交货结算条款Json
+    	offerMainVo.setClauseTemplateJson(JsonUtils.toJsonString(offerClauseVo));
+    	
     	try {
     		// 保存
     		offerClient.saveOffer(offerMainVo);
@@ -695,9 +744,8 @@ public class OfferController {
     	}
     	
     	// 交货结算条款Json
-//    	offerMainVo.setClauseTemplateJson(JSONObject.fromObject(offerClauseVo));
-
-//    	
+    	offerMainVo.setClauseTemplateJson(JsonUtils.toJsonString(offerClauseVo));
+    	
     	// 有效日期
 //    	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //    	inStockOfferVo.setValidTime(dateFormat.parse(inStockOfferVo.getValidTimestamp(), new ParsePosition(0)));

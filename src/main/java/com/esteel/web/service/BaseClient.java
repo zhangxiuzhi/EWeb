@@ -97,6 +97,14 @@ public interface BaseClient {
 	 */
 	@RequestMapping("/commodityCategory")
 	public CommodityCategoryVo getCommodityCategory(@RequestBody CommodityCategoryVo commodityCategoryVo);
+	
+	/**
+	 * 品名
+	 * @param commodityVo
+	 * @return
+	 */
+	@RequestMapping("/commodity")
+	public CommodityVo getCommodity(@RequestBody CommodityVo commodityVo);
     
     /**
 	 * 品名查询:根据名称模糊查询
@@ -248,6 +256,21 @@ class BaseClientCallback implements BaseClient {
 		
 		return vo;
 	}
+	
+	@Override
+	public CommodityVo getCommodity(CommodityVo vo) {
+		if (vo == null) {
+			vo = new CommodityVo();
+		}
+		
+		vo.setCommodityId(-1);
+		
+		vo.setStatus(99);
+		vo.setMsg("");
+		vo.setMsg("");
+		
+		return vo;
+	}
 
 	@Override
 	public List<CommodityVo> findCommodityListByIron() {
@@ -366,6 +389,12 @@ class BaseClientFallbackFactory implements FallbackFactory<BaseClient>{
 
 			@Override
 			public List<ProvinceVo> findAllPro() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public CommodityVo getCommodity(CommodityVo commodityVo) {
 				// TODO Auto-generated method stub
 				return null;
 			}

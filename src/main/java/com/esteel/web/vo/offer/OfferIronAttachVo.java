@@ -3,6 +3,12 @@ package com.esteel.web.vo.offer;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.esteel.common.vo.StatusMSGVo;
 
 /**
@@ -15,6 +21,16 @@ import com.esteel.common.vo.StatusMSGVo;
  */
 public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
+	/* 验证组 */
+	public interface IronInStockOffer {  
+	}  
+	  
+	public interface IronFuturesOffer {  
+	} 
+	
+	public interface IronPricingOffer {  
+	} 
 	
 	/**
 	 * 铁矿报盘附表ID
@@ -35,18 +51,24 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 品名ID
 	 */
+	@NotBlank(message = "请选择品名")
+	@Pattern(regexp = "\\d+", message = "请选择品名")
 	private String commodityId;
 	/**
 	 * 品名名称
 	 */
 	private String commodityName;
 	/**
-	 * 点价期截止
+	 * 交货期截止
 	 */
+	@NotNull(message = "请填写交货期截止时间", groups = {IronPricingOffer.class })
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date deliveryTimeEnd;
 	/**
 	 * 交货期起始
 	 */
+	@NotNull(message = "请填写交货期起始时间", groups = {IronPricingOffer.class })
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date deliveryTimeStart;
 	/**
 	 * 目的港ID
@@ -59,6 +81,7 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 化学元素指标 Fe
 	 */
+	@Pattern(regexp = "^[+-]?(((\\d+)?\\.\\d+)|((\\d+([,，]|\\s+))*\\d+(\\s+)?(\\.\\d*)?))$", message = "请填写有效数字")
 	private String fe;
 	/**
 	 * 化学元素指标 H2O
@@ -67,6 +90,8 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 指标类型ID
 	 */
+	@NotBlank(message = "请选择指标", groups = {IronInStockOffer.class, IronFuturesOffer.class})
+	@Pattern(regexp = "\\d+", message = "请选择指标")
 	private String indicatorTypeId;
 	/**
 	 * 指标类型
@@ -87,6 +112,8 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 装货港ID
 	 */
+	@NotBlank(message = "请选择装货港", groups = {IronFuturesOffer.class})
+	@Pattern(regexp = "\\d+", message = "请选择装货港")
 	private String loadingPortId;
 	/**
 	 * 装货港
@@ -127,14 +154,20 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 点价期截止
 	 */
+	@NotNull(message = "请填写点价期截止时间", groups = {IronPricingOffer.class })
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date pricingPeriodEnd;
 	/**
 	 * 点价期起始
 	 */
+	@NotNull(message = "请填写点价期起始时间", groups = {IronPricingOffer.class })
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date pricingPeriodStart;
 	/**
 	 * 港口ID
 	 */
+	@NotBlank(message = "请选择港口", groups = {IronInStockOffer.class, IronPricingOffer.class})
+	@Pattern(regexp = "\\d+", message = "请选择港口")
 	private String portId;
 	/**
 	 * 港口
@@ -151,10 +184,13 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 价格术语
 	 */
+	@NotBlank(message = "请填写价格术语", groups = {IronFuturesOffer.class})
 	private String priceTerm;
 	/**
 	 * 价格术语基于港ID
 	 */
+	@NotBlank(message = "价格术语 请选择港口", groups = {IronFuturesOffer.class})
+	@Pattern(regexp = "\\d+", message = "请选择港口")
 	private String priceTermPortId;
 	/**
 	 * 价格术语基于港
@@ -167,6 +203,7 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 价格数值
 	 */
+	@Pattern(regexp = "^[+-]?(((\\d+)?\\.\\d+)|((\\d+([,，]|\\s+))*\\d+(\\s+)?(\\.\\d*)?))$", message = "请填写有效数字")
 	private String priceValue;
 	/**
 	 * 重量单位ID

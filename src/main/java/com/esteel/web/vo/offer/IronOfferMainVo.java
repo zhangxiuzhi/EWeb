@@ -125,7 +125,7 @@ public class IronOfferMainVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 版本号
 	 */
-	private int version = 1;
+	private int versionId = 1;
 	/**
 	 * 指定对手IDList
 	 * 报盘扩展字段
@@ -346,12 +346,14 @@ public class IronOfferMainVo extends StatusMSGVo implements Serializable {
 	public void setValidTime(Date validTime) {
 		this.validTime = validTime;
 	}
-	public int getVersion() {
-		return version;
+	public int getVersionId() {
+		return versionId;
 	}
-	public void setVersion(int version) {
-		this.version = version;
+
+	public void setVersionId(int versionId) {
+		this.versionId = versionId;
 	}
+
 	public List<Long> getCounterpartyIdList() {
 		return counterpartyIdList;
 	}
