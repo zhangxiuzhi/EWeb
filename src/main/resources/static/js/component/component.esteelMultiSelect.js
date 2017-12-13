@@ -26,7 +26,11 @@ class ComponentEsteelMultiSelect extends React.Component {
 
 	render() {
 		const data = this.props.data;
-		return React.createElement(MultiSelect, {data: data, onChange: this.onChange });//React.createElement(MultiSelect, { onChange: this.onChange });
+		return React.createElement(MultiSelect, {
+			data: data,
+			name:this.props.inputName,
+			onChange: this.onChange
+		});//React.createElement(MultiSelect, { onChange: this.onChange });
 
 	}
 
