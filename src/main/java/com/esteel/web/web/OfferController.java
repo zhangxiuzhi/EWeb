@@ -87,12 +87,6 @@ public class OfferController {
     	 */
     	Map<String, List<Map<String, String>>> ironAttributeLinkMap = new HashMap<>();
     	
-    	/**
-    	 * 铁矿品名装货港联动列表
-    	 * 格式:{"commodityName":[{"text":"portName","value":"portId","key":"portName,portNameEn"},...],...}
-    	 */
-    	Map<String, List<Map<String, String>>> ironLoadingPortMap = new HashMap<>();
-    	
     	CommodityVo queryVo = new CommodityVo();
     	queryVo.setCategoryId(CommodityCategoryEnum.getInstance().IRON.getId());
     	
@@ -121,22 +115,6 @@ public class OfferController {
     			ironAttributeMap.put("value", attribute.getAttributeValue());
     			ironAttributeMap.put("key", attribute.getAttributeCode());
     		});
-    		
-    		/**
-        	 * 某品名装货港集合
-        	 * 格式:[{"text":"portName","value":"portId","key":"portName,portNameEn"},...]
-        	 */
-    		List<Map<String, String>> loadingPorts = new ArrayList<Map<String, String>>();
-    		ironLoadingPortMap.put(commodityVo.getCommodityName(), loadingPorts);
-    		
-    		List<PortVo> loadingPortList = baseClient.findLoadingPortListForOffer(queryVo);
-    		loadingPortList.forEach(port -> {
-    			Map<String, String> loadingPortMap = new HashMap<>();
-    			loadingPorts.add(loadingPortMap);
-    			loadingPortMap.put("text", port.getPortName());
-    			loadingPortMap.put("value", port.getPortId() + "");
-    			loadingPortMap.put("key", port.getPortName() + "," + port.getPortNameEn());
-        	});
     	}
     	
     	/**
@@ -145,10 +123,7 @@ public class OfferController {
     	 */
     	List<Map<String, String>> loadingPortList = new ArrayList<Map<String, String>>();
     	
-    	queryVo = new CommodityVo();
-    	queryVo.setCategoryId(CommodityCategoryEnum.getInstance().IRON.getId());
-    	
-		List<PortVo> loadingPorts = baseClient.findLoadingPortListForOffer(queryVo);
+		List<PortVo> loadingPorts = baseClient.findLoadingPortListForOffer();
 		loadingPorts.forEach(port -> {
 			Map<String, String> loadingPortMap = new HashMap<>();
 			loadingPortList.add(loadingPortMap);
@@ -404,7 +379,6 @@ public class OfferController {
     	// 铁矿品名属性值联动列表Json
     	model.addAttribute("ironAttributeLinkJson", JSONObject.toJSONString(ironAttributeLinkMap));
     	// 铁矿品名装货港联动列表Json
-    	model.addAttribute("ironLoadingPortJson", JSONObject.toJSONString(ironLoadingPortMap));
     	// 装货港列表Json
     	model.addAttribute("loadingPortJson", JSONArray.toJSONString(loadingPortList));
     	// 港口列表Json
@@ -536,8 +510,14 @@ public class OfferController {
     	// 初始化
     	// 交易方式 1:现货
     	offerMainVo.setTradeMode(EsteelConstant.TRADE_MODE_INSTOCK);
-    	// 铁矿报盘状态 :草稿
-    	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_DRAFT + "");
+    	
+    	if (inStockOfferRequest.getOfferStatus().equals("draft")) {
+    		// 铁矿报盘状态 :草稿
+        	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_DRAFT + "");
+    	} else {
+    		// 铁矿报盘状态 :草稿
+        	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_In_SALE + "");
+    	}
    	
     	offerMainVo.setCompanyId(1);
     	offerMainVo.setCreateUser("王雁飞测试");
@@ -566,10 +546,6 @@ public class OfferController {
     	// 交货结算条款Json
     	offerMainVo.setClauseTemplateJson(JsonUtils.toJsonString(offerClauseVo));
 
-    	// 有效日期
-//    	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//    	inStockOfferVo.setValidTime(dateFormat.parse(inStockOfferVo.getValidTimestamp(), new ParsePosition(0)));
-    	
     	System.out.println(JsonUtils.toJsonString(offerMainVo));
 		
 		// 保存
@@ -587,22 +563,6 @@ public class OfferController {
     }
     
     /**
-     * 现货报盘保存
-     * @param inStockOfferRequest
-     * @param offerAffix
-     * @param offerClauseVo
-     * @param contractAffix
-     * @param model
-     * @return
-     */
-    @RequestMapping(value = "/publishInStockOffer", method = RequestMethod.POST)
-    public String publishInStockOffer(@Validated IronInStockOfferRequest inStockOfferRequest, @RequestParam("offerAffix") MultipartFile offerAffix, 
-    		IronOfferClauseVo offerClauseVo, @RequestParam("contractAffix") MultipartFile contractAffix, Model model) {
-    	
-    	return "redirect:/offer/myOffer";
-    }
-    
-    /**
      * 远期报盘保存
      * @param futuresOfferRequest
      * @param offerAffix
@@ -615,6 +575,12 @@ public class OfferController {
     public String saveFuturesOffer(@Validated(IronFuturesOffer.class) IronFuturesOfferRequest futuresOfferRequest, BindingResult offerResult, 
     		@RequestParam("offerAffix") MultipartFile offerAffix, IronFuturesTransportDescription transportDescription, Model model){
     	if (futuresOfferRequest == null) {
+    		model.addAttribute("msg", "提交失败！");
+		    
+		    return "/offer/addOffer";
+    	}
+    	
+    	if (transportDescription == null) {
     		model.addAttribute("msg", "提交失败！");
 		    
 		    return "/offer/addOffer";
@@ -679,6 +645,14 @@ public class OfferController {
     	// 初始化
     	// 交易方式 3:远期
     	offerMainVo.setTradeMode(EsteelConstant.TRADE_MODE_FUTURES);
+    	
+    	if (futuresOfferRequest.getOfferStatus().equals("draft")) {
+    		// 铁矿报盘状态 :草稿
+        	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_DRAFT + "");
+    	} else {
+    		// 铁矿报盘状态 :草稿
+        	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_In_SALE + "");
+    	}
    	
     	offerMainVo.setCompanyId(1);
     	offerMainVo.setCreateUser("王雁飞测试");
@@ -693,6 +667,8 @@ public class OfferController {
     		
     		return "/offer/addOffer";
     	}
+    	
+    	System.out.println(JsonUtils.toJsonString(offerMainVo));
     	
     	// 保存
 		IronOfferMainVo offer = offerClient.saveIronOffer(offerMainVo);
@@ -777,6 +753,14 @@ public class OfferController {
     	// 初始化
     	// 交易方式 2:点价
     	offerMainVo.setTradeMode(EsteelConstant.TRADE_MODE_PRICING);
+    	
+    	if (pricingOfferRequest.getOfferStatus().equals("draft")) {
+    		// 铁矿报盘状态 :草稿
+        	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_DRAFT + "");
+    	} else {
+    		// 铁矿报盘状态 :草稿
+        	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_In_SALE + "");
+    	}
    	
     	offerMainVo.setCompanyId(1);
     	offerMainVo.setCreateUser("王雁飞测试");
@@ -805,9 +789,7 @@ public class OfferController {
     	// 交货结算条款Json
     	offerMainVo.setClauseTemplateJson(JsonUtils.toJsonString(offerClauseVo));
     	
-    	// 有效日期
-//    	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//    	inStockOfferVo.setValidTime(dateFormat.parse(inStockOfferVo.getValidTimestamp(), new ParsePosition(0)));
+    	System.out.println(JsonUtils.toJsonString(offerMainVo));
     	
     	// 保存
 		IronOfferMainVo offer = offerClient.saveIronOffer(offerMainVo);

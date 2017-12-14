@@ -95,7 +95,7 @@ public interface BaseClient {
      * @return
      */
     @RequestMapping(value = "/loadingPortListForOffer", method = RequestMethod.POST)
-    public List<PortVo> findLoadingPortListForOffer(@RequestBody CommodityVo commodityVo);
+    public List<PortVo> findLoadingPortListForOffer();
     
     /**
 	 * 品名大类
@@ -307,7 +307,7 @@ class BaseClientFallbackFactory implements FallbackFactory<BaseClient>{
 			}
 
 			@Override
-			public List<PortVo> findLoadingPortListForOffer(CommodityVo commodityVo) {
+			public List<PortVo> findLoadingPortListForOffer() {
 				cause.printStackTrace();
 
 				ArrayList<PortVo> vos = new ArrayList<>();
