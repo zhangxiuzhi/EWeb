@@ -3,6 +3,13 @@ package com.esteel.web.vo.offer;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.esteel.common.vo.StatusMSGVo;
 
 /**
@@ -16,6 +23,16 @@ import com.esteel.common.vo.StatusMSGVo;
 public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	/* 验证组 */
+	public interface IronInStockOffer {  
+	}  
+	  
+	public interface IronFuturesOffer {  
+	} 
+	
+	public interface IronPricingOffer {  
+	} 
+	
 	/**
 	 * 铁矿报盘附表ID
 	 */
@@ -23,10 +40,13 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 化学元素指标 Al2O3
 	 */
+	@Pattern(regexp = "^((\\d{0,2}\\.\\d{1,3})|(\\d{1,2}(\\.\\d{0,3})?))$", message = "Al2O3指标：请填写有效数字。小数位支持1-3位。")
 	private String al2o3;
 	/**
 	 * 基差
 	 */
+	@NotBlank(message = "请填写基差", groups = {IronPricingOffer.class})
+	@Pattern(regexp = "^[+-]((\\d{0,2}\\.\\d{1,2})|(\\d{1,2}(\\.\\d{0,2})?))$", message = "基差：请填写有效数字。首位必须为正负号，小数位支持1-2位。")
 	private String baseDifference;
 	/**
 	 * 其他化学元素指标 Json数据
@@ -35,18 +55,24 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 品名ID
 	 */
+	@NotBlank(message = "请选择品名", groups = {IronInStockOffer.class, IronPricingOffer.class})
+	@Pattern(regexp = "^\\d+$", message = "请选择品名")
 	private String commodityId;
 	/**
 	 * 品名名称
 	 */
 	private String commodityName;
 	/**
-	 * 点价期截止
+	 * 交货期截止
 	 */
+	@NotNull(message = "请填写交货期截止时间", groups = {IronPricingOffer.class })
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date deliveryTimeEnd;
 	/**
 	 * 交货期起始
 	 */
+	@NotNull(message = "请填写交货期起始时间", groups = {IronPricingOffer.class })
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date deliveryTimeStart;
 	/**
 	 * 目的港ID
@@ -59,14 +85,19 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 化学元素指标 Fe
 	 */
+	@NotBlank(message = "请填写Fe指标", groups = {IronInStockOffer.class})
+	@Pattern(regexp = "^((\\d{0,2}\\.\\d{1,3})|(\\d{1,2}(\\.\\d{0,3})?))$", message = "Fe指标：请填写有效数字。小数位支持1-3位。")
 	private String fe;
 	/**
 	 * 化学元素指标 H2O
 	 */
+	@Pattern(regexp = "^((\\d{0,2}\\.\\d{1,3})|(\\d{1,2}(\\.\\d{0,3})?))$", message = "H2O指标：请填写有效数字。小数位支持1-3位。")
 	private String h2o;
 	/**
 	 * 指标类型ID
 	 */
+	@NotBlank(message = "请选择指标", groups = {IronInStockOffer.class, IronFuturesOffer.class})
+	@Pattern(regexp = "^\\d+$", message = "请选择指标")
 	private String indicatorTypeId;
 	/**
 	 * 指标类型
@@ -75,6 +106,7 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 连铁合约
 	 */
+	@NotBlank(message = "请选择连铁合约", groups = {IronPricingOffer.class})
 	private String ironContract;
 	/**
 	 * 是否在保税区 0:否, 1:是
@@ -83,10 +115,14 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 信用证交单期
 	 */
-	private Date lcTime;
+	@NotNull(message = "请填写信用证交单期", groups = {IronFuturesOffer.class})
+	@Pattern(regexp = "^\\d{1,3}$", message = "信用证交单期：必须为整数。")
+	private String lcPresentationPeriod;
 	/**
 	 * 装货港ID
 	 */
+	@NotBlank(message = "请选择装货港", groups = {IronFuturesOffer.class})
+	@Pattern(regexp = "^\\d+$", message = "请选择装货港")
 	private String loadingPortId;
 	/**
 	 * 装货港
@@ -95,23 +131,33 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 化学元素指标 LOI
 	 */
+	@Pattern(regexp = "^((\\d{0,2}\\.\\d{1,3})|(\\d{1,2}(\\.\\d{0,3})?))$", message = "LOI指标：请填写有效数字。小数位支持1-3位。")
 	private String LOI;
 	/**
 	 * 起订量
 	 */
+	@Pattern(regexp = "^\\d{1,7}$", message = "起订量：必须为整数。")
 	private String minQuantity;
 	/**
 	 * 化学元素指标 Mn
 	 */
+	@Pattern(regexp = "^((\\d{0,2}\\.\\d{1,3})|(\\d{1,2}(\\.\\d{0,3})?))$", message = "Mn指标：请填写有效数字。小数位支持1-3位。")
 	private String mn;
 	/**
 	 * 溢短装
 	 */
+	@NotBlank(message = "请填写溢短装", groups = {IronInStockOffer.class, IronPricingOffer.class})
+	@Pattern(regexp = "^((\\d{0,2}\\.\\d)|(\\d{1,2}(\\.\\d)?))$", message = "溢短装：请填写有效数字。小数位支持1位。")
 	private String moreOrLess;
 	/**
 	 * 铁矿报盘附表编码
 	 */
 	private String offerAttachCode;
+	/**
+	 * 备注
+	 */
+	@Length(min=0, max=128, message="商品备注:128字符以内") 
+	private String offerAttachRemarks;
 	/**
 	 * 铁矿报盘ID
 	 */
@@ -119,27 +165,41 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 报盘重量
 	 */
+	@NotBlank(message = "请填写数量", groups = {IronInStockOffer.class, IronPricingOffer.class})
+	@Pattern(regexp = "^\\d{1,6}00$", message = "数量：必须为100的正整数倍。")
 	private String offerQuantity;
 	/**
 	 * 化学元素指标 P
 	 */
+	@Pattern(regexp = "^((\\d{0,2}\\.\\d{1,3})|(\\d{1,2}(\\.\\d{0,3})?))$", message = "P指标：请填写有效数字。小数位支持1-3位。")
 	private String p;
 	/**
 	 * 点价期截止
 	 */
+	@NotNull(message = "请填写点价期截止时间", groups = {IronPricingOffer.class })
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date pricingPeriodEnd;
 	/**
 	 * 点价期起始
 	 */
+	@NotNull(message = "请填写点价期起始时间", groups = {IronPricingOffer.class })
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date pricingPeriodStart;
 	/**
 	 * 港口ID
 	 */
+	@NotBlank(message = "请选择港口", groups = {IronInStockOffer.class, IronPricingOffer.class})
+	@Pattern(regexp = "^\\d+$", message = "请选择港口")
 	private String portId;
 	/**
 	 * 港口
 	 */
 	private String portName;
+	/**
+	 * 价格基数 铁
+	 */
+	@Pattern(regexp = "^(((\\d+)?\\.\\d+)|((\\d+([,，]|\\s+))*\\d+(\\s+)?(\\.\\d*)?))$", message = "请填写有效数字")
+	private String priceBasisFe;
 	/**
 	 * 价格描述
 	 */
@@ -147,14 +207,17 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 价格模式 0:固定价, 1:浮动价
 	 */
-	private String priceModel;
+	private String priceModel = "1";
 	/**
 	 * 价格术语
 	 */
+	@NotBlank(message = "请填写价格术语", groups = {IronFuturesOffer.class})
 	private String priceTerm;
 	/**
 	 * 价格术语基于港ID
 	 */
+	@NotBlank(message = "价格术语 请选择港口", groups = {IronFuturesOffer.class})
+	@Pattern(regexp = "^\\d+$", message = "请选择港口")
 	private String priceTermPortId;
 	/**
 	 * 价格术语基于港
@@ -167,26 +230,27 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 价格数值
 	 */
+	@NotBlank(message = "请填写价格", groups = {IronInStockOffer.class})
+	@Pattern(regexp = "^((\\d{0,4}\\.\\d)|(\\d{1,4}(\\.\\d)?))$", message = "价格：请填写有效数字。小数位支持1位。")
 	private String priceValue;
 	/**
 	 * 重量单位ID
 	 */
 	private String quantityUnitId;
 	/**
-	 * 备注
-	 */
-	private String offerAttachRemarks;
-	/**
 	 * 化学元素指标 S
 	 */
+	@Pattern(regexp = "^((\\d{0,2}\\.\\d{1,3})|(\\d{1,2}(\\.\\d{0,3})?))$", message = "S指标：请填写有效数字。小数位支持1-3位。")
 	private String s;
 	/**
 	 * 化学元素指标 SiO2
 	 */
+	@Pattern(regexp = "^((\\d{0,2}\\.\\d{1,3})|(\\d{1,2}(\\.\\d{0,3})?))$", message = "SiO2指标：请填写有效数字。小数位支持1-3位。")
 	private String sio2;
 	/**
 	 * 粒度指标
 	 */
+	@Length(min=0, max=32, message="粒度指标:32字符以内")
 	private String sizeIndicators;
 	/**
 	 * 已售重量
@@ -293,11 +357,11 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	public void setIsBondedArea(String isBondedArea) {
 		this.isBondedArea = isBondedArea;
 	}
-	public Date getLcTime() {
-		return lcTime;
+	public String getLcPresentationPeriod() {
+		return lcPresentationPeriod;
 	}
-	public void setLcTime(Date lcTime) {
-		this.lcTime = lcTime;
+	public void setLcPresentationPeriod(String lcPresentationPeriod) {
+		this.lcPresentationPeriod = lcPresentationPeriod;
 	}
 	public String getLoadingPortId() {
 		return loadingPortId;
@@ -466,5 +530,11 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	}
 	public void setTransportDescription(String transportDescription) {
 		this.transportDescription = transportDescription;
+	}
+	public String getPriceBasisFe() {
+		return priceBasisFe;
+	}
+	public void setPriceBasisFe(String priceBasisFe) {
+		this.priceBasisFe = priceBasisFe;
 	}
 }

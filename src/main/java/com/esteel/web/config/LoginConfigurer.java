@@ -35,6 +35,8 @@ public class LoginConfigurer extends WebSecurityConfigurerAdapter {
     public void init(WebSecurity web) {
         web.ignoring().antMatchers("/")
                 .and().ignoring().antMatchers("/trade/**")
+                .and().ignoring().antMatchers("/offer/**")
+                .and().ignoring().antMatchers("/fragments/**")
                 .and().ignoring().antMatchers("/bootstrap/**")
                 .and().ignoring().antMatchers("/css/**")
                 .and().ignoring().antMatchers("/fonts/**")
