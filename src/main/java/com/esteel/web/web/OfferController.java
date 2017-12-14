@@ -139,6 +139,24 @@ public class OfferController {
     	}
     	
     	/**
+    	 * 装货港列表
+    	 * 格式:[{"text":"portName","value":"portId","key":"portName,portNameEn"},...]
+    	 */
+    	List<Map<String, String>> loadingPortList = new ArrayList<Map<String, String>>();
+    	
+    	queryVo = new CommodityVo();
+    	queryVo.setCategoryId(CommodityCategoryEnum.getInstance().IRON.getId());
+    	
+		List<PortVo> loadingPorts = baseClient.findLoadingPortListForOffer(queryVo);
+		loadingPorts.forEach(port -> {
+			Map<String, String> loadingPortMap = new HashMap<>();
+			loadingPortList.add(loadingPortMap);
+			loadingPortMap.put("text", port.getPortName());
+			loadingPortMap.put("value", port.getPortId() + "");
+			loadingPortMap.put("key", port.getPortName() + "," + port.getPortNameEn());
+    	});
+		
+    	/**
     	 * 港口列表
     	 * 格式:[{"text":"portName","value":"portId","key":"portName,portNameEn"},...]
     	 */
@@ -151,6 +169,21 @@ public class OfferController {
     		portMap.put("text", port.getPortName());
     		portMap.put("value", port.getPortId() + "");
     		portMap.put("key", port.getPortName() + "," + port.getPortNameEn());
+    	});
+    	
+    	/**
+    	 * 点价交易港口列表
+    	 * 格式:[{"text":"portName","value":"portId","key":"portName,portNameEn"},...]
+    	 */
+    	List<Map<String, String>> pricingPortList = new ArrayList<Map<String, String>>();
+		
+    	List<PortVo> pricingPorts = baseClient.findPortListForPricingOffer();
+    	pricingPorts.forEach(port -> {
+    		Map<String, String> pricingPortMap = new HashMap<>();
+    		pricingPortList.add(pricingPortMap);
+    		pricingPortMap.put("text", port.getPortName());
+    		pricingPortMap.put("value", port.getPortId() + "");
+    		pricingPortMap.put("key", port.getPortName() + "," + port.getPortNameEn());
     	});
     	
     	/**
@@ -371,10 +404,14 @@ public class OfferController {
     	model.addAttribute("ironAttributeLinkJson", JSONObject.toJSONString(ironAttributeLinkMap));
     	// 铁矿品名装货港联动列表Json
     	model.addAttribute("ironLoadingPortJson", JSONObject.toJSONString(ironLoadingPortMap));
+    	// 装货港列表Json
+    	model.addAttribute("loadingPortJson", JSONArray.toJSONString(loadingPortList));
     	// 港口列表Json
     	model.addAttribute("portJson", JSONArray.toJSONString(portList));
     	// 保税区港口列表Json
     	model.addAttribute("bondedAreaPortJson", JSONArray.toJSONString(bondedAreaPortList));
+    	// 点价交易港口列表Json
+    	model.addAttribute("pricingPortJson", JSONArray.toJSONString(pricingPortList));
     	// 指标类型列表Json
     	model.addAttribute("indicatorTypeJson", JSONArray.toJSONString(indicatorTypeList));
     	// 价格术语列表Json
@@ -535,7 +572,7 @@ public class OfferController {
     	System.out.println(JsonUtils.toJsonString(offerMainVo));
 		
 		// 保存
-		IronOfferMainVo offer = offerClient.saveIronOffer(offerMainVo);
+		IronOfferMainVo offer = null; // offerClient.saveIronOffer(offerMainVo);
     	
     	model.addAttribute("msg", "新增成功!");
     	if (offer == null) {

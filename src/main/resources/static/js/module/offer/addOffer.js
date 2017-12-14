@@ -52,6 +52,16 @@ function JBSFrame_addOffer() {
                 validetta:$Port.data("validetta")
             }), $Port[0]);
         }
+      //点价交易港口
+        var $Port = $("#component-selectBox-Port-Pricing")
+        if($Port.length>0) {
+            this.selectBox_Port = ReactDOM.render(React.createElement(ComponentSelectBox, {
+                data:JSON.parse($("#pricingPortJson").html()),
+                inputName: $Port.attr("inputName"),
+                inputValue:$Port.attr("inputValue"),
+                validetta:$Port.data("validetta")
+            }), $Port[0]);
+        }
         //指标类型
         var $kpiType = $("#component-radioBoxGroup-kpiType");
         if($kpiType.length>0) {
@@ -130,7 +140,7 @@ function JBSFrame_addOffer() {
             }), $kpiType2[0]);
         }
         //装货港
-        var loadingPort = JSON.parse($("#portJson").html());
+        var loadingPort = JSON.parse($("#loadingPortJson").html());
         for(var i=0;i<loadingPort.length;i++){
             $opt = $("<option></option>").text(loadingPort[i].text).val(loadingPort[i].value);
             $("#select-loadingPort").append($opt);
@@ -353,6 +363,8 @@ function save_offer(){
         
         $("#form-offer")[0].submit();
     }
+    
+    $("#form-offer")[0].submit();
 }
  
 //提交报盘

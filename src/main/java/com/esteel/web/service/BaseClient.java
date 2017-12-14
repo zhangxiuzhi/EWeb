@@ -76,11 +76,18 @@ public interface BaseClient {
     public List<PortVo> findPortListForOffer();
 
     /**
-     * 报盘模块 保税区装货港列表
+     * 报盘模块 保税区港口港列表
      * @return
      */
     @RequestMapping(value = "/bondedAreaPortListForOffer", method = RequestMethod.POST)
     public List<PortVo> findBondedAreaPortListForOffer();
+    
+    /**
+     * 报盘模块 点价交易港口列表
+     * @return
+     */
+    @RequestMapping(value = "/portListForPricingOffer", method = RequestMethod.POST)
+    public List<PortVo> findPortListForPricingOffer();
     
     /**
      * 报盘模块 装货港查询
@@ -380,6 +387,14 @@ class BaseClientFallbackFactory implements FallbackFactory<BaseClient>{
 			public CommodityVo getCommodity(CommodityVo commodityVo) {
 				cause.printStackTrace();
 				return null;
+			}
+
+			@Override
+			public List<PortVo> findPortListForPricingOffer() {
+				cause.printStackTrace();
+				
+				ArrayList<PortVo> vos = new ArrayList<>();
+				return vos;
 			}
         };
     }
