@@ -25,6 +25,7 @@ import com.esteel.web.vo.Encrypt;
 import com.esteel.web.vo.LogVerifyCodeVo;
 import com.esteel.web.vo.MemberUserVo;
 import com.taobao.common.tfs.TfsManager;
+import reactor.core.support.Assert;
 
 @Controller
 @RequestMapping("/user")
@@ -76,13 +77,15 @@ public class MemberUserController {
 	@ResponseBody
 	public WebReturnMessage checkNo(String mobile) {
 		MemberUserVo checkNo = memberUserClient.checkNo(mobile);
-		WebReturnMessage webRetMesage = null;
-		if (checkNo != null) {
-			webRetMesage = new WebReturnMessage(true, "该号码已注册");
-		} else {
-			webRetMesage = new WebReturnMessage(false, "该号码可注册");
-		}
-		return webRetMesage;
+
+		Assert.isNull(checkNo,"该号码已注册");
+//		WebReturnMessage webRetMesage = null;
+//		if (checkNo != null) {
+//			webRetMesage = new WebReturnMessage(true, "该号码已注册");
+//		} else {
+//			webRetMesage = new WebReturnMessage(false, "该号码可注册");
+//		}
+		return WebReturnMessage.sucess;
 
 	}
 
