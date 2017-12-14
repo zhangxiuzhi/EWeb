@@ -5,8 +5,8 @@ import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -116,8 +116,8 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	 * 信用证交单期
 	 */
 	@NotNull(message = "请填写信用证交单期", groups = {IronFuturesOffer.class})
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date lcTime;
+	@Pattern(regexp = "^\\d{1,3}$", message = "信用证交单期：必须为整数。")
+	private String lcPresentationPeriod;
 	/**
 	 * 装货港ID
 	 */
@@ -156,7 +156,7 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 备注
 	 */
-	@Size(min=0, max=128, message="商品备注:128字符以内") 
+	@Length(min=0, max=128, message="商品备注:128字符以内") 
 	private String offerAttachRemarks;
 	/**
 	 * 铁矿报盘ID
@@ -250,7 +250,7 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 粒度指标
 	 */
-	@Size(min=0, max=32, message="粒度指标:32字符以内")
+	@Length(min=0, max=32, message="粒度指标:32字符以内")
 	private String sizeIndicators;
 	/**
 	 * 已售重量
@@ -357,11 +357,11 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	public void setIsBondedArea(String isBondedArea) {
 		this.isBondedArea = isBondedArea;
 	}
-	public Date getLcTime() {
-		return lcTime;
+	public String getLcPresentationPeriod() {
+		return lcPresentationPeriod;
 	}
-	public void setLcTime(Date lcTime) {
-		this.lcTime = lcTime;
+	public void setLcPresentationPeriod(String lcPresentationPeriod) {
+		this.lcPresentationPeriod = lcPresentationPeriod;
 	}
 	public String getLoadingPortId() {
 		return loadingPortId;

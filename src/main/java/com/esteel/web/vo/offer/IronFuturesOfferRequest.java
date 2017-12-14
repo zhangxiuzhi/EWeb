@@ -1,15 +1,14 @@
 package com.esteel.web.vo.offer;
 
 import java.io.Serializable;
-import java.lang.reflect.Field;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.beans.BeanUtils;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -107,6 +106,8 @@ public class IronFuturesOfferRequest extends OfferIronAttachVo implements Serial
 	 * 化学元素指标 Al2O3 数组
 	 * 扩展字段
 	 */
+	@Valid
+	@Pattern(regexp = "^((\\d{0,2}\\.\\d{1,3})|(\\d{1,2}(\\.\\d{0,3})?))$", message = "Al2O3指标：请填写有效数字。小数位支持1-3位。")
 	private String[] al2o3Arr;
 	/**
 	 * 其他化学元素指标 Json数据 数组
@@ -117,7 +118,9 @@ public class IronFuturesOfferRequest extends OfferIronAttachVo implements Serial
 	 * 品名ID 数组
 	 * 扩展字段
 	 */
-	@NotEmpty(message = "请选择品名", groups = {IronFuturesOffer.class})
+	@Size(min=1, max=2, message = "请选择品名")
+	@Valid
+	@Pattern(regexp = "^\\d+$", message = "请选择品名")
 	private String[] commodityIdArr;
 	/**
 	 * 品名名称 数组
@@ -128,12 +131,16 @@ public class IronFuturesOfferRequest extends OfferIronAttachVo implements Serial
 	 * 化学元素指标 Fe 数组
 	 * 扩展字段
 	 */
-	@NotEmpty(message = "请填写Fe指标", groups = {IronFuturesOffer.class})
+	@Size(min=1, max=2, message = "请填写Fe指标")
+	@Valid
+	@Pattern(regexp = "^((\\d{0,2}\\.\\d{1,3})|(\\d{1,2}(\\.\\d{0,3})?))$", message = "Fe指标：请填写有效数字。小数位支持1-3位。")
 	private String[] feArr;
 	/**
 	 * 化学元素指标 H2O 数组
 	 * 扩展字段
 	 */
+	@Valid
+	@Pattern(regexp = "^((\\d{0,2}\\.\\d{1,3})|(\\d{1,2}(\\.\\d{0,3})?))$", message = "H2O指标：请填写有效数字。小数位支持1-3位。")
 	private String[] h2oArr;
 	/**
 	 * 指标类型ID 数组
@@ -149,17 +156,23 @@ public class IronFuturesOfferRequest extends OfferIronAttachVo implements Serial
 	 * 化学元素指标 LOI 数组
 	 * 扩展字段
 	 */
+	@Valid
+	@Pattern(regexp = "^((\\d{0,2}\\.\\d{1,3})|(\\d{1,2}(\\.\\d{0,3})?))$", message = "LOI指标：请填写有效数字。小数位支持1-3位。")
 	private String[] LOIArr;
 	/**
 	 * 化学元素指标 Mn 数组
 	 * 扩展字段
 	 */
+	@Valid
+	@Pattern(regexp = "^((\\d{0,2}\\.\\d{1,3})|(\\d{1,2}(\\.\\d{0,3})?))$", message = "Mn指标：请填写有效数字。小数位支持1-3位。")
 	private String[] mnArr;
 	/**
 	 * 溢短装 数组
 	 * 扩展字段
 	 */
-	@NotEmpty(message = "请填写溢短装", groups = {IronFuturesOffer.class})
+	@Size(min=1, max=2, message = "请填写溢短装")
+	@Valid
+	@Pattern(regexp = "^((\\d{0,2}\\.\\d)|(\\d{1,2}(\\.\\d)?))$", message = "溢短装：请填写有效数字。小数位支持1位。")
 	private String[] moreOrLessArr;
 	/**
 	 * 铁矿报盘附表编码 数组
@@ -170,18 +183,22 @@ public class IronFuturesOfferRequest extends OfferIronAttachVo implements Serial
 	 * 报盘重量 数组
 	 * 扩展字段
 	 */
-	@NotEmpty(message = "请填写数量", groups = {IronFuturesOffer.class})
+	@Size(min=1, max=2, message = "请填写溢短装")
+	@Valid
+	@Pattern(regexp = "^\\d{1,6}00$", message = "数量：必须为100的正整数倍。")
 	private String[] offerQuantityArr;
 	/**
 	 *  化学元素指标 P 数组
 	 *  扩展字段
 	 */
+	@Valid
+	@Pattern(regexp = "^((\\d{0,2}\\.\\d{1,3})|(\\d{1,2}(\\.\\d{0,3})?))$", message = "P指标：请填写有效数字。小数位支持1-3位。")
 	private String[] pArr;
 	/**
 	 * 价格基数 铁 数组
 	 * 扩展字段
 	 */
-//	private String[] priceBasisFeArr;
+	private String[] priceBasisFeArr;
 	/**
 	 * 价格描述 数组
 	 * 扩展字段
@@ -196,54 +213,29 @@ public class IronFuturesOfferRequest extends OfferIronAttachVo implements Serial
 	 * 价格数值 数组
 	 * 扩展字段
 	 */
-//	private String[] priceValueArr;
+	private String[] priceValueArr;
 	/**
 	 * 化学元素指标 S 数组
 	 * 扩展字段
 	 */
+	@Valid
+	@Pattern(regexp = "^((\\d{0,2}\\.\\d{1,3})|(\\d{1,2}(\\.\\d{0,3})?))$", message = "S指标：请填写有效数字。小数位支持1-3位。")
 	private String[] sArr;
 	/**
 	 * 化学元素指标 SiO2 数组
 	 * 扩展字段
 	 */
+	@Valid
+	@Pattern(regexp = "^((\\d{0,2}\\.\\d{1,3})|(\\d{1,2}(\\.\\d{0,3})?))$", message = "SiO2指标：请填写有效数字。小数位支持1-3位。")
 	private String[] sio2Arr;
 	/**
 	 * 粒度指标 数组
 	 * 扩展字段
 	 */
+	@Valid
+	@Length(min=0, max=32, message="粒度指标:32字符以内")
 	private String[] sizeIndicatorsArr;
-	
-	/**
-	 * 运输信息
-	 * 装船期
-	 */
-	private String transport_load;
-	/**
-	 * 运输信息
-	 * 提单日
-	 */
-	private String transport_bill;
-	/**
-	 * 运输信息
-	 * 到港月
-	 */
-	private String transport_arrive;
-	/**
-	 * 运输信息
-	 * ETA新加坡
-	 */
-	private String transport_etaxjb;
-	/**
-	 * 运输信息
-	 * ETA青岛港
-	 */
-	private String transport_etaqdg;
-	/**
-	 * 运输信息
-	 * 其他
-	 */
-	private String transport_remark;
-	
+
 	public IronFuturesOfferRequest() {
 		// 默认:不在保税区
 		super.setIsBondedArea("0");
@@ -464,51 +456,19 @@ public class IronFuturesOfferRequest extends OfferIronAttachVo implements Serial
 		this.counterpartyIdMulti = counterpartyIdMulti;
 	}
 
-	public String getTransport_load() {
-		return transport_load;
+	public String[] getPriceBasisFeArr() {
+		return priceBasisFeArr;
 	}
 
-	public void setTransport_load(String transport_load) {
-		this.transport_load = transport_load;
+	public void setPriceBasisFeArr(String[] priceBasisFeArr) {
+		this.priceBasisFeArr = priceBasisFeArr;
 	}
 
-	public String getTransport_bill() {
-		return transport_bill;
+	public String[] getPriceValueArr() {
+		return priceValueArr;
 	}
 
-	public void setTransport_bill(String transport_bill) {
-		this.transport_bill = transport_bill;
-	}
-
-	public String getTransport_arrive() {
-		return transport_arrive;
-	}
-
-	public void setTransport_arrive(String transport_arrive) {
-		this.transport_arrive = transport_arrive;
-	}
-
-	public String getTransport_etaxjb() {
-		return transport_etaxjb;
-	}
-
-	public void setTransport_etaxjb(String transport_etaxjb) {
-		this.transport_etaxjb = transport_etaxjb;
-	}
-
-	public String getTransport_etaqdg() {
-		return transport_etaqdg;
-	}
-
-	public void setTransport_etaqdg(String transport_etaqdg) {
-		this.transport_etaqdg = transport_etaqdg;
-	}
-
-	public String getTransport_remark() {
-		return transport_remark;
-	}
-
-	public void setTransport_remark(String transport_remark) {
-		this.transport_remark = transport_remark;
+	public void setPriceValueArr(String[] priceValueArr) {
+		this.priceValueArr = priceValueArr;
 	}
 }

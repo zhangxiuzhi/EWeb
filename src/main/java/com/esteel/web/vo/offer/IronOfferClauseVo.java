@@ -2,6 +2,8 @@ package com.esteel.web.vo.offer;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Pattern;
+
 /**
  * 
  * @ClassName: IronOfferClauseVo
@@ -25,6 +27,7 @@ public class IronOfferClauseVo implements Serializable {
 	/**
 	 * 合同款的百分比 数据范围:0 - 100
 	 */
+	@Pattern(regexp = "^((\\d{0,2}\\.\\d{1,2})|(\\d{1,2}(\\.\\d{0,2})?))$", message = "合同款的百分比：请填写有效数字。小数位支持1-2位。")
 	private String contract_funds_percentage;
 	/**
 	 * 剩余货款在几个工作日内结清
@@ -75,8 +78,9 @@ public class IronOfferClauseVo implements Serializable {
 	 */
 	private String weighing_fee_bearer;
 	/**
-	 * 买方享有几天免堆期 数据范围:0, 1, 2, ...
+	 * 免堆期 数据范围:0, 1, 2, ...
 	 */
+	@Pattern(regexp = "^\\d{1,3}$", message = "免堆期：必须为整数。")
 	private String free_storage_several_days;
 	/**
 	 * 超期产生的堆存费承担方

@@ -210,7 +210,7 @@
 
             <label class="col-sm-2 control-label">*信用证交单期</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control datetimepicker notime" name="lcTime" data-validetta="required">
+                <input type="text" class="form-control mask-number" name="lcPresentationPeriod" data-validetta="required">
             </div>
         </div>
 
@@ -249,7 +249,9 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">到港月</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control " name="transport_arrive">
+                <input type="text" class="form-control " name="transport_arrive_month">
+                 <input type="radio" value="0" name="transport_half_month" checked/>上半月
+                <input type="radio" value="1" name="transport_half_month"/>下半月
             </div>
 
             <label class="col-sm-2 control-label">其他</label>

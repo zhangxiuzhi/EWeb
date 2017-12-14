@@ -36,6 +36,7 @@ import com.esteel.web.vo.config.AttributeValueOptionEnum;
 import com.esteel.web.vo.config.AttributeValueOptionVo;
 import com.esteel.web.vo.config.IronAttributeLinkVo;
 import com.esteel.web.vo.offer.IronFuturesOfferRequest;
+import com.esteel.web.vo.offer.IronFuturesTransportDescription;
 import com.esteel.web.vo.offer.IronInStockOfferRequest;
 import com.esteel.web.vo.offer.IronOfferClauseVo;
 import com.esteel.web.vo.offer.IronOfferMainVo;
@@ -572,7 +573,7 @@ public class OfferController {
     	System.out.println(JsonUtils.toJsonString(offerMainVo));
 		
 		// 保存
-		IronOfferMainVo offer = null; // offerClient.saveIronOffer(offerMainVo);
+		IronOfferMainVo offer = offerClient.saveIronOffer(offerMainVo);
     	
     	model.addAttribute("msg", "新增成功!");
     	if (offer == null) {
@@ -611,8 +612,8 @@ public class OfferController {
      * @return
      */
     @RequestMapping(value = "/saveFuturesOffer", method = RequestMethod.POST)
-    public String saveFuturesOffer(@Validated(IronFuturesOffer.class)IronFuturesOfferRequest futuresOfferRequest, BindingResult offerResult, 
-    		@RequestParam("offerAffix") MultipartFile offerAffix, Model model){
+    public String saveFuturesOffer(@Validated(IronFuturesOffer.class) IronFuturesOfferRequest futuresOfferRequest, BindingResult offerResult, 
+    		@RequestParam("offerAffix") MultipartFile offerAffix, IronFuturesTransportDescription transportDescription, Model model){
     	if (futuresOfferRequest == null) {
     		model.addAttribute("msg", "提交失败！");
 		    
@@ -620,7 +621,7 @@ public class OfferController {
     	}
     	
     	// 页面验证
-/*		if(offerResult.hasErrors()) {
+		if(offerResult.hasErrors()) {
 			StringBuilder sb = new StringBuilder();
 			List<ObjectError> errors = offerResult.getAllErrors();
 			for (ObjectError err : errors) {
@@ -632,7 +633,9 @@ public class OfferController {
 		    
 		    return "/offer/addOffer";
 		}
-*/    	
+    	
+    	
+    	
     	IronOfferMainVo offerMainVo = new IronOfferMainVo();
     	// 将request 复制到 offerMainVo
     	BeanUtils.copyProperties(futuresOfferRequest, offerMainVo);
@@ -656,12 +659,20 @@ public class OfferController {
     	
     	// 第一个货物报盘
     	OfferIronAttachVo firstCargo = getOne(futuresOfferRequest, 0);
+    	firstCargo.setPriceModel(futuresOfferRequest.getPriceModel());
+    	firstCargo.setPriceDescription(futuresOfferRequest.getPriceDescription());
+    	firstCargo.setTransportDescription(JsonUtils.toJsonString(transportDescription));
+    	
     	offerMainVo.addOfferIronAttach(firstCargo);
     	
     	// 一船两货
     	if (futuresOfferRequest.getIsMultiCargo().equals(EsteelConstant.YES + "")) {
     		// 第二个货物报盘
     		OfferIronAttachVo secondCargo = getOne(futuresOfferRequest, 1);
+    		secondCargo.setPriceModel(futuresOfferRequest.getPriceModel());
+    		secondCargo.setPriceDescription(futuresOfferRequest.getPriceDescription());
+    		secondCargo.setTransportDescription(JsonUtils.toJsonString(transportDescription));
+    		
     		offerMainVo.addOfferIronAttach(secondCargo);
     	}
     	
