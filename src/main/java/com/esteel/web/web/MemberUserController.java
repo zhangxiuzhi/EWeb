@@ -77,15 +77,7 @@ public class MemberUserController {
 	public WebReturnMessage checkNo(String mobile) {
 		MemberUserVo checkNo = memberUserClient.checkNo(mobile);
 		Assert.isNull(checkNo,"该号码已注册");
-		/*List<Object> result = new ArrayList<>();
-		if (checkNo != null) {
-			result.add(1);
-			webRetMesage = new WebReturnMessage(true, "该号码已注册",result);
-		} else {
-			result.add(0);
-			webRetMesage = new WebReturnMessage(true, "该号码未被注册",result);
-		}*/
-		return new WebReturnMessage(true, "该号码未被注册");
+		return WebReturnMessage.sucess;
 
 	}
 
