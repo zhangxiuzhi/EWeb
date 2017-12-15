@@ -359,9 +359,17 @@ $(document).ready(function (e) {
 function save_offer(){
     if(validateOfferInfo()){
         esteel_addOffer.confirm(null,"该报盘将作为草稿保存到我的报盘记录",function(){
+        	 esteel_addOffer.ajaxRequest({
+     	    	url:"/offer/validatedInStockOffer",
+     	        data:$('#form-offer').serialize()
+     	    },  function (result) {
+     	    	if (result.success) {
+     	    		$("#form-offer")[0].submit();
+     	    	} else {
+     	    		alert(result.msg);
+     	    	}
+     	    });
         });
-        
-        $("#form-offer")[0].submit();
     }
 }
  
@@ -369,10 +377,18 @@ function save_offer(){
 function submit_offer(){
 	if(validateOfferInfo()){
 		esteel_addOffer.confirm(null,"确定要发布吗",function(){
+			esteel_addOffer.ajaxRequest({
+     	    	url:"/offer/validatedInStockOffer",
+     	        data:$('#form-offer').serialize()
+     	    },  function (result) {
+     	    	if (result.success) {
+     	    		("#offerStatus").val("publish");
+     	    		$("#form-offer")[0].submit();
+     	    	} else {
+     	    		alert(result.msg);
+     	    	}
+     	    });
 	    });
-	    
-		("#offerStatus").val("publish");
-	    $("#form-offer")[0].submit();
     }
 }
  

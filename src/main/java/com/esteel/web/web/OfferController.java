@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,13 +18,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.esteel.common.controller.WebReturnMessage;
 import com.esteel.common.util.EsteelConstant;
 import com.esteel.common.util.JsonUtils;
 import com.esteel.common.vo.StatusMSGVo;
@@ -49,6 +53,8 @@ import com.esteel.web.vo.offer.OfferIronAttachVo.IronPricingOffer;
 import com.taobao.common.tfs.TfsManager;
 import com.taobao.tair.json.JSONArray;
 import com.taobao.tair.json.JSONObject;
+
+import reactor.core.support.Assert;
 
 /**
  * ESTeel
@@ -413,6 +419,45 @@ public class OfferController {
     	
         return "/offer/addOffer";
     }
+    
+    /**
+     * 现货报盘验证
+     * @param inStockOfferRequest
+     * @param offerResult
+     * @param offerClauseVo
+     * @param clauseResult
+     * @return
+     */
+    @RequestMapping(value = "/validatedInStockOffer", method = RequestMethod.POST)
+    @ResponseBody
+    public WebReturnMessage validatedInStockOffer(
+    		@Validated(IronInStockOffer.class) IronInStockOfferRequest inStockOfferRequest, BindingResult offerResult, 
+    		@Validated IronOfferClauseVo offerClauseVo, BindingResult clauseResult) {
+    	WebReturnMessage webRetMesage = new WebReturnMessage(false, "提交失败！");
+    	
+    	Assert.notNull(inStockOfferRequest, "提交失败！");
+    	
+    	Assert.notNull(offerClauseVo, "提交失败！");
+    	
+    	StringBuilder msgSB = new StringBuilder();
+		if(offerResult.hasErrors()) {
+			offerResult.getFieldErrors().forEach(fieldError -> msgSB.append(fieldError.getDefaultMessage()));
+		}
+		
+		if(clauseResult.hasErrors()) {
+			clauseResult.getFieldErrors().forEach(fieldError -> msgSB.append(fieldError.getDefaultMessage()));
+		}
+		
+		if (msgSB.length() > 0) {
+			webRetMesage.setMsg(msgSB.toString());
+			
+		    return webRetMesage;
+		}
+		
+		webRetMesage = new WebReturnMessage(true, "success");
+		
+		return webRetMesage;
+    }
 
     /**
      * 现货报盘保存
@@ -424,35 +469,13 @@ public class OfferController {
      * @return
      */
     @RequestMapping(value = "/saveInStockOffer", method = RequestMethod.POST)
-    public String saveInStockOffer(@Validated(IronInStockOffer.class) IronInStockOfferRequest inStockOfferRequest, BindingResult offerResult, 
+    public String saveInStockOffer(IronInStockOfferRequest inStockOfferRequest, 
     		@RequestParam("offerAffix") MultipartFile offerAffix,  IronOfferClauseVo offerClauseVo, 
     		@RequestParam("contractAffix") MultipartFile contractAffix, Model model) {
-    	if (inStockOfferRequest == null) {
-    		model.addAttribute("msg", "提交失败！");
-		    
-		    return "/offer/addOffer";
-    	}
+    	Assert.notNull(inStockOfferRequest, "提交失败！");
     	
-    	if (offerClauseVo == null) {
-    		model.addAttribute("msg", "提交失败！");
-		    
-		    return "/offer/addOffer";
-    	}
-    	
-    	// 页面验证
-		if(offerResult.hasErrors()) {
-			StringBuilder sb = new StringBuilder();
-			List<ObjectError> errors = offerResult.getAllErrors();
-			for (ObjectError err : errors) {
-				sb.append(err.getDefaultMessage()+";");
-			}
-			
-			model.addAttribute("msg", sb.toString());
-			System.out.println(sb.toString());
-		    
-		    return "/offer/addOffer";
-		}
-    	
+    	Assert.notNull(offerClauseVo, "提交失败！");
+
     	IronOfferMainVo offerMainVo = new IronOfferMainVo();
     	// 将request 复制到 offerMainVo
     	BeanUtils.copyProperties(inStockOfferRequest, offerMainVo);
@@ -478,6 +501,8 @@ public class OfferController {
     	// 将request 复制到 offerAttachVo
     	BeanUtils.copyProperties(inStockOfferRequest, offerAttachVo);
     	
+    	offerMainVo.addOfferIronAttach(offerAttachVo);
+    	
     	// 品名
     	CommodityVo commodity = new CommodityVo();
     	commodity.setCommodityId(Long.parseLong(inStockOfferRequest.getCommodityId()));
@@ -485,8 +510,6 @@ public class OfferController {
     	CommodityVo commodityVo = baseClient.getCommodity(commodity);
     	if (commodityVo != null) {
     		offerAttachVo.setCommodityName(commodityVo.getCommodityName());
-    	} else {
-    		offerAttachVo.setCommodityName("");
     	}
     	
     	// 港口
@@ -496,16 +519,12 @@ public class OfferController {
     	PortVo portVo = baseClient.getPort(port);
     	if (portVo != null) {
     		offerAttachVo.setPortName(portVo.getPortName());
-    	} else {
-    		offerAttachVo.setPortName("");
     	}
     	
     	// 重量单位 湿吨
     	offerAttachVo.setQuantityUnitId(AttributeValueOptionEnum.getInstance().WMT.getId() + "");
     	// 价格单位 人民币/湿吨
     	offerAttachVo.setPriceUnitId(AttributeValueOptionEnum.getInstance().CNY_WMT.getId() + "");
-    	
-    	offerMainVo.addOfferIronAttach(offerAttachVo);
     	
     	// 初始化
     	// 交易方式 1:现货
@@ -515,14 +534,15 @@ public class OfferController {
     		// 铁矿报盘状态 :草稿
         	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_DRAFT + "");
     	} else {
-    		// 铁矿报盘状态 :草稿
+    		// 铁矿报盘状态 :发布
         	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_In_SALE + "");
+        	offerMainVo.setPublishTime(new Date());
+        	offerMainVo.setPublishUser("王雁飞测试");
     	}
    	
     	offerMainVo.setCompanyId(1);
     	offerMainVo.setCreateUser("王雁飞测试");
     	offerMainVo.setUpdateUser("王雁飞测试");
-    	offerMainVo.setPublishUser("王雁飞测试");
     	
     	// 保存附件
     	// tfs 报盘附件
@@ -551,13 +571,13 @@ public class OfferController {
 		// 保存
 		IronOfferMainVo offer = offerClient.saveIronOffer(offerMainVo);
     	
-    	model.addAttribute("msg", "新增成功!");
-    	if (offer == null) {
-    		model.addAttribute("msg",  "新增失败!");
-    		System.out.println("新增失败!");
+		if (inStockOfferRequest.getOfferStatus().equals("draft")) {
+    		// 铁矿报盘状态 :草稿
+			Assert.notNull(offer, "新增失败！");
+    	} else {
+    		// 铁矿报盘状态 :草稿
+    		Assert.notNull(offer, "发布失败！");
     	}
-    	
-    	System.out.println("新增成功!");
     	
         return "redirect:/offer/myOffer";
     }
@@ -574,17 +594,9 @@ public class OfferController {
     @RequestMapping(value = "/saveFuturesOffer", method = RequestMethod.POST)
     public String saveFuturesOffer(@Validated(IronFuturesOffer.class) IronFuturesOfferRequest futuresOfferRequest, BindingResult offerResult, 
     		@RequestParam("offerAffix") MultipartFile offerAffix, IronFuturesTransportDescription transportDescription, Model model){
-    	if (futuresOfferRequest == null) {
-    		model.addAttribute("msg", "提交失败！");
-		    
-		    return "/offer/addOffer";
-    	}
+    	Assert.notNull(futuresOfferRequest, "提交失败！");
     	
-    	if (transportDescription == null) {
-    		model.addAttribute("msg", "提交失败！");
-		    
-		    return "/offer/addOffer";
-    	}
+    	Assert.notNull(transportDescription, "提交失败！");
     	
     	// 页面验证
 		if(offerResult.hasErrors()) {
@@ -599,8 +611,7 @@ public class OfferController {
 		    
 		    return "/offer/addOffer";
 		}
-    	
-    	
+		
     	
     	IronOfferMainVo offerMainVo = new IronOfferMainVo();
     	// 将request 复制到 offerMainVo
@@ -625,21 +636,69 @@ public class OfferController {
     	
     	// 第一个货物报盘
     	OfferIronAttachVo firstCargo = getOne(futuresOfferRequest, 0);
+    	
+    	offerMainVo.addOfferIronAttach(firstCargo);
+    	
+    	// 品名
+    	CommodityVo commodity = new CommodityVo();
+    	commodity.setCommodityId(Long.parseLong(firstCargo.getCommodityId()));
+    	CommodityVo commodityVo = baseClient.getCommodity(commodity);
+    	if (commodityVo != null) {
+    		firstCargo.setCommodityName(commodityVo.getCommodityName());
+    	}
+    	
+    	// 港口
+    	PortVo port = new PortVo();
+    	port.setPortId(Long.parseLong(firstCargo.getPortId()));
+    	
+    	PortVo portVo = baseClient.getPort(port);
+    	if (portVo != null) {
+    		firstCargo.setPortName(portVo.getPortName());
+    	}
+    	
+    	// 重量单位 湿吨
+    	firstCargo.setQuantityUnitId(AttributeValueOptionEnum.getInstance().WMT.getId() + "");
+    	// 价格单位 人民币/湿吨
+    	firstCargo.setPriceUnitId(AttributeValueOptionEnum.getInstance().CNY_WMT.getId() + "");
+    	
     	firstCargo.setPriceModel(futuresOfferRequest.getPriceModel());
     	firstCargo.setPriceDescription(futuresOfferRequest.getPriceDescription());
     	firstCargo.setTransportDescription(JsonUtils.toJsonString(transportDescription));
     	
-    	offerMainVo.addOfferIronAttach(firstCargo);
+    	
     	
     	// 一船两货
     	if (futuresOfferRequest.getIsMultiCargo().equals(EsteelConstant.YES + "")) {
     		// 第二个货物报盘
     		OfferIronAttachVo secondCargo = getOne(futuresOfferRequest, 1);
+    		
+    		offerMainVo.addOfferIronAttach(secondCargo);
+    		
+    		// 品名
+        	commodity = new CommodityVo();
+        	commodity.setCommodityId(Long.parseLong(secondCargo.getCommodityId()));
+        	commodityVo = baseClient.getCommodity(commodity);
+        	if (commodityVo != null) {
+        		secondCargo.setCommodityName(commodityVo.getCommodityName());
+        	}
+        	
+        	// 港口
+        	port = new PortVo();
+        	port.setPortId(Long.parseLong(secondCargo.getPortId()));
+        	
+        	portVo = baseClient.getPort(port);
+        	if (portVo != null) {
+        		secondCargo.setPortName(portVo.getPortName());
+        	}
+        	
+        	// 重量单位 湿吨
+        	secondCargo.setQuantityUnitId(AttributeValueOptionEnum.getInstance().WMT.getId() + "");
+        	// 价格单位 人民币/湿吨
+        	secondCargo.setPriceUnitId(AttributeValueOptionEnum.getInstance().CNY_WMT.getId() + "");
+        	
     		secondCargo.setPriceModel(futuresOfferRequest.getPriceModel());
     		secondCargo.setPriceDescription(futuresOfferRequest.getPriceDescription());
     		secondCargo.setTransportDescription(JsonUtils.toJsonString(transportDescription));
-    		
-    		offerMainVo.addOfferIronAttach(secondCargo);
     	}
     	
     	// 初始化
@@ -673,13 +732,13 @@ public class OfferController {
     	// 保存
 		IronOfferMainVo offer = offerClient.saveIronOffer(offerMainVo);
     	
-    	model.addAttribute("msg", "新增成功!");
-    	if (offer == null) {
-    		model.addAttribute("msg",  "新增失败!");
-    		System.out.println("新增失败!");
+		if (futuresOfferRequest.getOfferStatus().equals("draft")) {
+    		// 铁矿报盘状态 :草稿
+			Assert.notNull(offer, "新增失败！");
+    	} else {
+    		// 铁矿报盘状态 :草稿
+    		Assert.notNull(offer, "发布失败！");
     	}
-    	
-    	System.out.println("新增成功!");
     	
         return "redirect:/offer/myOffer";
     }
@@ -697,17 +756,9 @@ public class OfferController {
     public String savePricingOffer(@Validated(IronPricingOffer.class) IronPricingOfferRequest pricingOfferRequest, BindingResult offerResult, 
     		@RequestParam("offerAffix") MultipartFile offerAffix, IronOfferClauseVo offerClauseVo, 
     		@RequestParam("contractAffix") MultipartFile contractAffix, Model model){
-    	if (pricingOfferRequest == null) {
-    		model.addAttribute("msg", "提交失败！");
-		    
-		    return "/offer/addOffer";
-    	}
+    	Assert.notNull(pricingOfferRequest, "提交失败！");
     	
-    	if (offerClauseVo == null) {
-    		model.addAttribute("msg", "提交失败！");
-		    
-		    return "/offer/addOffer";
-    	}
+    	Assert.notNull(offerClauseVo, "提交失败！");
     	
     	// 页面验证
 		if(offerResult.hasErrors()) {
@@ -749,6 +800,28 @@ public class OfferController {
     	BeanUtils.copyProperties(pricingOfferRequest, offerAttachVo);
     	
     	offerMainVo.addOfferIronAttach(offerAttachVo);
+    	
+    	// 品名
+    	CommodityVo commodity = new CommodityVo();
+    	commodity.setCommodityId(Long.parseLong(pricingOfferRequest.getCommodityId()));
+    	CommodityVo commodityVo = baseClient.getCommodity(commodity);
+    	if (commodityVo != null) {
+    		offerAttachVo.setCommodityName(commodityVo.getCommodityName());
+    	}
+    	
+    	// 港口
+    	PortVo port = new PortVo();
+    	port.setPortId(Long.parseLong(pricingOfferRequest.getPortId()));
+    	
+    	PortVo portVo = baseClient.getPort(port);
+    	if (portVo != null) {
+    		offerAttachVo.setPortName(portVo.getPortName());
+    	}
+    	
+    	// 重量单位 湿吨
+    	offerAttachVo.setQuantityUnitId(AttributeValueOptionEnum.getInstance().WMT.getId() + "");
+    	// 价格单位 人民币/湿吨
+    	offerAttachVo.setPriceUnitId(AttributeValueOptionEnum.getInstance().CNY_WMT.getId() + "");
     	
     	// 初始化
     	// 交易方式 2:点价
@@ -794,13 +867,13 @@ public class OfferController {
     	// 保存
 		IronOfferMainVo offer = offerClient.saveIronOffer(offerMainVo);
     	
-    	model.addAttribute("msg", "新增成功!");
-    	if (offer == null) {
-    		model.addAttribute("msg",  "新增失败!");
-    		System.out.println("新增失败!");
+		if (pricingOfferRequest.getOfferStatus().equals("draft")) {
+    		// 铁矿报盘状态 :草稿
+			Assert.notNull(offer, "新增失败！");
+    	} else {
+    		// 铁矿报盘状态 :草稿
+    		Assert.notNull(offer, "发布失败！");
     	}
-    	
-    	System.out.println("新增成功!");
     	
         return "redirect:/offer/myOffer";
     }
