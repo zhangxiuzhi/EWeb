@@ -48,12 +48,22 @@ public class MemberUserVo implements Serializable {
 	private String userPicture;
 
 	private Integer userStatus;
-
+	
+	private String memberName;
+	
 	public MemberUserVo() {
 	}
 
 	public long getUserId() {
 		return this.userId;
+	}
+	
+	public String getMemberName() {
+		return memberName;
+	}
+
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
 	}
 
 	public void setUserId(long userId) {
@@ -350,13 +360,14 @@ public class MemberUserVo implements Serializable {
 
 	@Override
 	public String toString() {
-		return "MemberUserEntity [userId=" + userId + ", account=" + account + ", companyId=" + companyId + ", email="
+		return "MemberUserVo [userId=" + userId + ", account=" + account + ", companyId=" + companyId + ", email="
 				+ email + ", gender=" + gender + ", userGrade=" + userGrade + ", lastLoginIp=" + lastLoginIp
 				+ ", lastLoginTime=" + lastLoginTime + ", memberGrade=" + memberGrade + ", memberIntegration="
 				+ memberIntegration + ", mobile=" + mobile + ", password=" + password + ", registeredTime="
 				+ registeredTime + ", remarks=" + remarks + ", securitySetting=" + securitySetting + ", tradeCurrency="
 				+ tradeCurrency + ", tradeVarietie=" + tradeVarietie + ", userName=" + userName + ", userPicture="
-				+ userPicture + ", userStatus=" + userStatus + "]";
+				+ userPicture + ", userStatus=" + userStatus + ", memberName=" + memberName + "]";
 	}
+	
 	
 }

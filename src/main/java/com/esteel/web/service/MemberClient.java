@@ -33,7 +33,7 @@ public interface MemberClient {
 	@RequestMapping(value = "/checkNo", method = RequestMethod.POST)
 	public MemberUserVo checkNo(@RequestParam("mobile") String mobile);
 	/**
-	 * 注册用户
+	 * 注册用户和保存用户信息共用
 	 * @param user
 	 */
 	@RequestMapping(value = "/registerUser", method = RequestMethod.POST)
@@ -67,15 +67,41 @@ public interface MemberClient {
 	@RequestMapping(value = "/findCompanyById", method = RequestMethod.POST)
 	public MemberCompanyVo findCompany(long comanyId);
 	/**
-	 * 
+	 * 根据企业id获取企业信息
 	 * @param companyId
 	 * @return
 	 */
 	@RequestMapping(value = "/findMembers", method = RequestMethod.POST)
 	public List<MemberUserVo> findmembers(int companyId);
-	
+	/**
+	 * 根据用户的id获取用户对象
+	 * @param userId
+	 * @return
+	 */
 	@RequestMapping(value = "/findUser", method = RequestMethod.POST)
-	public MemberUserVo findUser(long userId);
+	public MemberUserVo findUser(@RequestParam("userId") long userId);
+	/**
+	 * 根据用户的帐号获取用户对象
+	 * @param account
+	 * @return
+	 */
+	@RequestMapping(value = "/findByAccount", method = RequestMethod.POST)
+	public MemberUserVo findByAccount(@RequestParam("account") String account);
+	
+	/**
+	 * 根据用户的帐号获取用户对象
+	 * @param username
+	 * @return
+	 */
+	@RequestMapping(value = "/findByUserName", method = RequestMethod.POST)
+	public MemberUserVo findByUserName(@RequestParam("userName") String userName);
+	/**
+	 * 根据用户名查找对象
+	 * @param memberName
+	 * @return
+	 */
+	@RequestMapping(value = "/findByMemberName", method = RequestMethod.POST)
+	public MemberUserVo findByMemberName(@RequestParam("userId") int userId,@RequestParam("memberName") String memberName);
 }
 
 /**
@@ -144,6 +170,27 @@ class MemberUserClientCallback implements MemberClient {
 	 */
 	@Override
 	public MemberUserVo findUser(long userId) {
+		return null;
+	}
+	/**
+	 * 根据用户帐号获取用户信息失败返回null
+	 */
+	@Override
+	public MemberUserVo findByAccount(String account) {
+		return null;
+	}
+	/**
+	 * 失败返回执行
+	 */
+	@Override
+	public MemberUserVo findByUserName(String userName) {
+		return null;
+	}
+	/**
+	 * 根据用户名查找失败
+	 */
+	@Override
+	public MemberUserVo findByMemberName(int userId,String memberName) {
 		return null;
 	}
 

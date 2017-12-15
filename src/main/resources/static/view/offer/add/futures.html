@@ -1,4 +1,4 @@
-<form id="form-offer" onsubmit="return false">
+<form id="form-offer" action="/offer/saveFuturesOffer" enctype="multipart/form-data" method="post" onsubmit="return false">
     <!--商品信息-->
     <div class="form-horizontal">
         <div class="form-group">
@@ -24,10 +24,17 @@
             <div class="box-container-title">商品1 <span class="fa fa-caret-down text-danger" ></span></div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">*品名</label>
-                <div class="col-sm-8">
+                <div class="col-sm-4">
                     <div id="component-selectBox-ItemName-1" inputName="commodityIdArr" data-validetta="required"></div>
                 </div>
             </div>
+            
+            <div class="form-group">
+	            <label class="col-sm-2 control-label">指标类型</label>
+	            <div class="col-sm-8">
+	                <div id="component-radioBoxGroup-kpiType-1" inputName="indicatorTypeIdArr"></div>
+	            </div>
+	        </div>
 
             <div class="form-group">
                 <label class="col-sm-2 control-label">指标</label>
@@ -37,19 +44,19 @@
                             <th>Fe</th><th>SiO2</th><th>A12O3</th><th>Mn</th><th>LOI</th>
                         </tr>
                         <tr>
-                            <td><input type="text" class="form-control" name="feArr" id="indicator-FE" data-validetta="required"/></td>
-                            <td><input type="text" class="form-control" name="sio2Arr" id="indicator-SIO2"/></td>
-                            <td><input type="text" class="form-control" name="al2o3Arr" id="indicator-AL2O3"//></td>
-                            <td><input type="text" class="form-control" name="mnArr" id="indicator-MN"/></td>
-                            <td><input type="text" class="form-control" name="LOIArr" id="indicator-LOI"/></td>
+                            <td><input type="text" class="form-control" name="feArr" id="indicator-FE-1" data-validetta="required"/></td>
+                            <td><input type="text" class="form-control" name="sio2Arr" id="indicator-SIO2-1"/></td>
+                            <td><input type="text" class="form-control" name="al2o3Arr" id="indicator-AL2O3-1"/></td>
+                            <td><input type="text" class="form-control" name="mnArr" id="indicator-MN-1"/></td>
+                            <td><input type="text" class="form-control" name="LOIArr" id="indicator-LOI-1"/></td>
                         </tr>
                         <tr>
                             <th>P</th><th>S</th><th>H20</th><th>&nbsp;</th><th>&nbsp;</th>
                         </tr>
                         <tr>
-                            <td><input type="text" class="form-control" name="pArr" id="indicator-P"/></td>
-                            <td><input type="text" class="form-control" name="sArr" id="indicator-S"/></td>
-                            <td><input type="text" class="form-control" name="h2oArr" id="indicator-H2O"/></td>
+                            <td><input type="text" class="form-control" name="pArr" id="indicator-P-1"/></td>
+                            <td><input type="text" class="form-control" name="sArr" id="indicator-S-1"/></td>
+                            <td><input type="text" class="form-control" name="h2oArr" id="indicator-H2O-1"/></td>
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
                         </tr>
@@ -82,10 +89,17 @@
             <div class="box-container-title">商品2 <span class="fa fa-caret-down text-danger"></span></div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">*品名</label>
-                <div class="col-sm-8">
+                <div class="col-sm-4">
                     <div id="component-selectBox-ItemName-2" inputName="commodityIdArr" data-validetta="required"></div>
                 </div>
             </div>
+            
+             <div class="form-group">
+	            <label class="col-sm-2 control-label">指标类型</label>
+	            <div class="col-sm-8">
+	                <div id="component-radioBoxGroup-kpiType-2" inputName="indicatorTypeIdArr"></div>
+	            </div>
+	        </div>
 
             <div class="form-group">
                 <label class="col-sm-2 control-label">指标</label>
@@ -95,19 +109,19 @@
                             <th>Fe</th><th>SiO2</th><th>A12O3</th><th>Mn</th><th>LOI</th>
                         </tr>
                         <tr>
-                            <td><input type="text" class="form-control" name="feArr" id="indicator-FE" data-validetta="required"/></td>
-                            <td><input type="text" class="form-control" name="sio2Arr" id="indicator-SIO2"/></td>
-                            <td><input type="text" class="form-control" name="al2o3Arr" id="indicator-AL2O3"//></td>
-                            <td><input type="text" class="form-control" name="mnArr" id="indicator-MN"/></td>
-                            <td><input type="text" class="form-control" name="LOIArr" id="indicator-LOI"/></td>
+                            <td><input type="text" class="form-control" name="feArr" id="indicator-FE-2" data-validetta="required"/></td>
+                            <td><input type="text" class="form-control" name="sio2Arr" id="indicator-SIO2-2"/></td>
+                            <td><input type="text" class="form-control" name="al2o3Arr" id="indicator-AL2O3-2"/></td>
+                            <td><input type="text" class="form-control" name="mnArr" id="indicator-MN-2"/></td>
+                            <td><input type="text" class="form-control" name="LOIArr" id="indicator-LOI-2"/></td>
                         </tr>
                         <tr>
                             <th>P</th><th>S</th><th>H20</th><th>&nbsp;</th><th>&nbsp;</th>
                         </tr>
                         <tr>
-                            <td><input type="text" class="form-control" name="pArr" id="indicator-P"/></td>
-                            <td><input type="text" class="form-control" name="sArr" id="indicator-S"/></td>
-                            <td><input type="text" class="form-control" name="h2oArr" id="indicator-H2O"/></td>
+                            <td><input type="text" class="form-control" name="pArr" id="indicator-P-2"/></td>
+                            <td><input type="text" class="form-control" name="sArr" id="indicator-S-2"/></td>
+                            <td><input type="text" class="form-control" name="h2oArr" id="indicator-H2O-2"/></td>
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
                         </tr>
@@ -144,17 +158,19 @@
                 </select>
             </div>
             <div class="col-sm-4">
-                <textarea class="form-control" id="offer-floatPrice-desc" placeholder="请输入价格描述" data-validetta="required" name="priceDescription"></textarea>
+                <textarea class="form-control" id="offer-floatPrice-desc" placeholder="请输入价格描述" name="priceDescription"></textarea>
             </div>
             <div class="col-sm-4">
-                <input type="text" class="form-control mask-number" id="offer-fixPrice-value" data-validetta="required" name="priceValue"></input>
+                <input type="text" class="form-control mask-number" id="offer-fixPrice-value" name="priceValue"></input>
+                基于Fe%：<input type="text" class="form-control mask-number" id="offer-fixPrice-value" name="priceBasisFe"></input>
             </div>
         </div>
 
         <div class="form-group">
             <label class="col-sm-2 control-label">*装货港</label>
             <div class="col-sm-3">
-                <select class="form-control">
+                <select class="form-control" data-validetta="required" id="select-loadingPort" name="loadingPortId">
+                	<option value=""></option>
                 </select>
             </div>
         </div>
@@ -169,29 +185,32 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">*价格术语</label>
             <div class="col-sm-2">
-                <select class="form-control">
+                <select class="form-control" data-validetta="required" id="select-priceTerm" name="priceTerm">
+                	<option value=""></option>
                 </select>
             </div>
             <div class="col-sm-3">
-                <select class="form-control">
-                    <option>输入港口</option>
+                <select class="form-control" data-validetta="required" id="select-priceTermPort" name="priceTermPortId">
+                	<option value=""></option>
                 </select>
             </div>
             <label class="col-sm-2 control-label">目的港</label>
             <div class="col-sm-3">
-                <input type="text" class="form-control">
+                <select class="form-control" id="select-dischargePort" name="dischargePortId">
+                	<option value=""></option>
+                </select>
             </div>
         </div>
 
         <div class="form-group">
             <label class="col-sm-2 control-label">*报盘有效期</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control datetimepicker">
+                <input type="text" class="form-control datetimepicker" name="validTime" data-validetta="required"/>
             </div>
 
             <label class="col-sm-2 control-label">*信用证交单期</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control datetimepicker">
+                <input type="text" class="form-control mask-number" name="lcPresentationPeriod" data-validetta="required">
             </div>
         </div>
 
@@ -203,39 +222,41 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">装船期</label>
             <div class="col-sm-2">
-                <input type="text" class="form-control datetimepicker">
+                <input type="text" class="form-control datetimepicker" name="transport_load" >
             </div>
             <div class="col-sm-2">
-                <input type="text" class="form-control datetimepicker">
+                <input type="text" class="form-control datetimepicker" name="transport_load">
             </div>
 
             <label class="col-sm-2 control-label">提单日</label>
             <div class="col-sm-3">
-                <input type="text" class="form-control datetimepicker">
+                <input type="text" class="form-control datetimepicker" name="transport_bill">
             </div>
         </div>
 
         <div class="form-group">
             <label class="col-sm-2 control-label">ETA新加坡</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" name="transport_etaxjb">
             </div>
 
             <label class="col-sm-2 control-label">ETA青岛港</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" name="transport_etaqdg">
             </div>
         </div>
 
         <div class="form-group">
             <label class="col-sm-2 control-label">到港月</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control ">
+                <input type="text" class="form-control " name="transport_arrive_month">
+                 <input type="radio" value="0" name="transport_half_month" checked/>上半月
+                <input type="radio" value="1" name="transport_half_month"/>下半月
             </div>
 
             <label class="col-sm-2 control-label">其他</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" name="transport_remark">
             </div>
         </div>
 
@@ -244,30 +265,30 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">商品备注</label>
             <div class="col-sm-10">
-                <textarea class="form-control"></textarea>
+                <textarea type="text" class="form-control" maxlength="128" name="offerAttachRemarks"></textarea>
             </div>
         </div>
-
+ 
         <div class="form-group">
-                <label class="col-sm-2 control-label">上传附件</label>
-                <div class="col-sm-10">
-                    <div id=""></div>
-                    <span class="fileupload fileupload-new" data-provides="fileupload">
+            <label class="col-sm-2 control-label">上传附件</label>
+            <div class="col-sm-10">
+                <div id=""></div>
+                <span class="fileupload fileupload-new" data-provides="fileupload">
                     <span class="btn btn-default btn-file btn-ghost">
                         <span class="fileupload-new"><i class="fa fa-folder-open-o"></i> 选择文件</span>
                         <span class="fileupload-exists"><i class="fa fa-folder-open-o"></i> 替换文件</span>
-                        <input type="file" name="ccFile" class="form-control  uploadFile" accept=".zip,.rar,.doc,.docx,.pdf,.jpg,.png"/>
+                        <input type="file" name="offerAffix" class="form-control uploadFile" accept=".doc,.docx,.xls,.xlsx,.pdf,.zip,.rar,.7z"/>
                     </span>
                     <span class="fileupload-preview"></span>
                     <a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none">×</a>
                 </span>
-                </div>
+            </div>
         </div>
 
         <div class="form-group">
             <label class="col-sm-2 control-label">匿名发布</label>
             <div class="col-sm-10">
-                <div id="component-toggle-anonym" inputName="anonym"></div>
+                <div id="component-toggle-anonym" inputName="isAnonymousStr" inputValue="1"></div>
             </div>
         </div>
 

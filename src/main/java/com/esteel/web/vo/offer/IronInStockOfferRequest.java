@@ -80,7 +80,7 @@ public class IronInStockOfferRequest extends OfferIronAttachVo implements Serial
 	/**
 	 * 有效日期
 	 */
-	@NotNull
+	@NotNull(message = "请填写有效日期")
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date validTime;
 	/**

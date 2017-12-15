@@ -6,32 +6,41 @@
 <body class="member">
 
 <!--页头，菜�?-->
-<div th:replace="fragments/head::header"></div>
+<div th:replace="./fragments/head::header"></div>
 
 <!--内容-->
 <div class="main">
     <div class="container">
         <!--侧栏-->
-        <div th:replace="fragments/sidebar::sidebar"></div>
+        <div th:replace="./fragments/sidebar::sidebar"></div>
 
         <!--内容-->
         <div class="content">
-            <!--认证提示-->
-            <div class="ui-infoTip collapse in" id="ui-tip-approve">
-                <em class="ui-infoTip-icon fa fa-volume-up "></em>
-                <div class="ui-infoTip-close"><em class="fa fa-close" data-toggle="collapse" data-target="#ui-tip-approve"></em></div>
-                <div class="ui-infoTip-box">
-                    您还没有认证成为企业会员<a class="ui-infoTip-link" href="/member/approve">立即认证</a>
-                </div>
-            </div>
-            <div class="ui-infoTip collapse in" id="ui-tip-subAccount">
-                <em class="ui-infoTip-icon  fa fa-volume-up "></em>
-                <div class="ui-infoTip-close"><em class="fa fa-close" data-toggle="collapse" data-target="#ui-tip-subAccount"></em></div>
-                <div class="ui-infoTip-box">
-                    您还可以申请成为企业会员子账号<a href="javascript:void(0)" class="ui-infoTip-link" data-toggle="modal" data-target="#subMember-modal" >申请</a>
-                </div>
-            </div>
-
+            <!--认证提示，根据用户的userGrade权级来判断显示-->
+            	
+		            <div th:if="${userVo.companyId} == null" class="ui-infoTip collapse in" id="ui-tip-approve" >
+		                <em class="ui-infoTip-icon fa fa-volume-up "></em>
+		                <div class="ui-infoTip-close"><em class="fa fa-close" data-toggle="collapse" data-target="#ui-tip-approve"></em></div>
+		               <!--  <div  th:case="0" class="ui-infoTip-box">
+		                    	您还没有认证成为企业会员<span class="ui-infoTip-link">已提交审核</span>
+		                </div>
+		                <div  th:case="1" class="ui-infoTip-box">
+		                    	您还没有认证成为企业会员<a class="ui-infoTip-link" href="/member/approve">立即认证</a>
+		                </div> -->
+		                <div  class="ui-infoTip-box">
+		                    	您还没有认证成为企业会员<a class="ui-infoTip-link" href="/member/approve">立即认证</a>
+		                </div>
+		            </div>
+            <!--申请成为企业会员提示，根据用户企业id来判断显示  -->
+            	<div >
+		            <div  th:if="${userVo.companyId} == null" class="ui-infoTip collapse in" id="ui-tip-subAccount" >
+		                <em class="ui-infoTip-icon  fa fa-volume-up "></em>
+		                <div class="ui-infoTip-close"><em class="fa fa-close" data-toggle="collapse" data-target="#ui-tip-subAccount"></em></div>
+		                <div  class="ui-infoTip-box">
+		                    	您还可以申请成为企业会员子账号<a href="javascript:void(0)" class="ui-infoTip-link" data-toggle="modal" data-target="#subMember-modal" >申请</a>
+		                </div>
+		            </div>
+	            </div>
             <div class="userContent">
 
                 <!--分类-->
@@ -42,7 +51,55 @@
                 </div>
 
                 <!--分类页面-->
-                <div id="router-pageCotainer" class="padding-left-10 padding-right-10 padding-bottom-10">
+                <div  class="padding-left-10 padding-right-10 padding-bottom-10">
+					<!--基本信息action="/member/updMemberName"checkForm() th:action="@{/member/membername}"-->
+					
+					<form id="form-userInfo" onsubmit="return checkForm()" action="/member/updMemberName" method="post">
+					    <!--基本信息-->
+					    <div class="form-horizontal">
+					        <div class="form-group">
+					            <label class="col-sm-2 control-label">头像</label>
+					            <div class="col-sm-3">
+					                <div class="thumbnail">
+					                    <img src="/images/member-portrait.png" alt=""/>
+					                    <div class="caption text-center">
+					                        <a href="/member/headSet" class="btn btn-default" role="button">编辑</a>
+					                    </div>
+					                </div>
+					            </div>
+					        </div>
+					        <div class="form-group">
+					            <label class="col-sm-2 control-label">用户名</label>
+					            <div class="col-sm-8">
+					           		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+					           		<input type="hidden" id="userId" name="userId" th:value="${userVo.userId}"/>
+					                <input type="text" id="username" name="memberName" class="form-control" th:value="${userVo.memberName}"/>
+					            </div>
+					        </div>
+					        <div class="form-group">
+					            <label class="col-sm-2 control-label">性别</label>
+					            <div class="col-sm-8">
+					                <input type="text" id="gender" name="gender" class="form-control" th:value="${userVo.gender}"/>
+					            </div>
+					        </div>
+					        <div class="form-group">
+					            <label class="col-sm-2 control-label">手机号</label>
+					            <div class="col-sm-8">
+					            <input type="text" id="" class="form-control" th:value="${userVo.mobile}"/>
+					            </div>
+					        </div>
+					        <div class="form-group">
+					            <label class="col-sm-2 control-label">电子邮箱</label>
+					            <div class="col-sm-8" th:attrappend="class=${' ' + cssStyle}">
+					               <input type="text" class="form-control" th:value="${userVo.email}"/>
+					            </div>
+					        </div>
+					        <div class="form-group text-center form-group-btns">
+					            <button class="btn btn-primary" type="submit">提交</button>
+					        </div>
+					    </div>
+					</form>
+
 
                 </div>
 
@@ -89,7 +146,7 @@
 </div>
 
 <!--页脚，链接-->
-<div th:replace="fragments/foot::footer"></div>
+<div th:replace="./fragments/foot::footer"></div>
 
 <!--控制-->
 <script th:src="@{/js/module/member/member.userInfo.js}"></script>
