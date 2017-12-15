@@ -130,7 +130,7 @@ function JBSFrame() {
 	this.renderDatetimepicker =  function(){
 		$(".datetimepicker").each(function(index,element){
 			var _format = $(element).hasClass("notime")? 'YYYY-MM-DD':'YYYY-MM-DD HH:mm:ss';
-
+			_format = $(element).hasClass("noday")? 'YYYY-MM':'YYYY-MM-DD';
 
 			$(element).datetimepicker({
 				locale: 'zh-cn',

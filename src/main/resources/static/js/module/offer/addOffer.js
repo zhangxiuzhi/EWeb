@@ -156,7 +156,10 @@ function JBSFrame_addOffer() {
         //报税区
         var $bondedAreas = $("#component-radioBoxGroup-bondedAreas");
         if($bondedAreas.length>0){
-            this.toggle_bondedAreas = ReactDOM.render(React.createElement(ComponentToggle,{inputName:$bondedAreas.attr("inputName")}), $bondedAreas[0]);
+            this.toggle_bondedAreas = ReactDOM.render(React.createElement(ComponentToggle,{
+                inputName:$bondedAreas.attr("inputName"),
+                onChange:changeBondedArea //指标类型选择，改变指标值
+            }), $bondedAreas[0]);
         }
         
         var bondedAreaPort = JSON.parse($("#bondedAreaPortJson").html());
@@ -476,8 +479,10 @@ function showQDL(checked){
 function show2goods(checked){
     if(checked){
         $("#offer-goods-2").show();
+        $("#offer-fixedPrice-goods-2").show();
     }else{
         $("#offer-goods-2").hide();
+        $("#offer-fixedPrice-goods-2").hide();
     }
 }
  
@@ -485,10 +490,23 @@ function show2goods(checked){
 function showFloatPrice(evt){
 	// 价格模式 0:固定价, 1:浮动价
     if(evt.selectedOptions[0].value == "1"){
-        $("#offer-floatPrice-desc").show();
+        $("#offer-fixedPrice-box").hide();
+        $("#offer-floatPrice-box").show();
         $("#offer-floatPrice-desc").attr("data-validetta","required");
     }else{
-        $("#offer-floatPrice-desc").hide();
+        $("#offer-fixedPrice-box").show();
+        $("#offer-floatPrice-box").hide();
         $("#offer-floatPrice-desc").removeAttr("data-validetta");
+    }
+}
+
+//保税区,选“是”不显示“价格术语”、“目的港”、“运输状态”
+function changeBondedArea(checked){
+    if(checked){
+        $("#offer-priceTerm-box").hide();
+        $("#offer-transportStatus-box").hide();
+    }else{
+        $("#offer-priceTerm-box").show();
+        $("#offer-transportStatus-box").show();
     }
 }
