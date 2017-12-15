@@ -60,11 +60,11 @@ public class MemberCompanyController {
 	public String findAddress(Model model) {
 		// 所有身份信息
 		List<ProvinceVo> province = baseClient.findAllPro();
-		System.out.println(province);
 		// 存放封装数据
 		List<ResultJson> result = new ArrayList<>();
-		ResultJson state = new ResultJson();
+		ResultJson state = null;
 		for (ProvinceVo provinceVo : province) {
+			state = new ResultJson();
 			// 取出省份的名称和id
 			state.setText(provinceVo.getProvinceName());
 			state.setValue(provinceVo.getProvinceId());
@@ -73,7 +73,7 @@ public class MemberCompanyController {
 		}
 		Gson gson = new Gson();
 		String jsonProvince = gson.toJson(result);
-		model.addAttribute("list", jsonProvince);
+		model.addAttribute("provinces", jsonProvince);
 		return "/member/approve";
 	}
 
@@ -85,10 +85,11 @@ public class MemberCompanyController {
 	 */
 	@RequestMapping("/findCity")
 	@ResponseBody
-	public String findCity(int provinceId) {
+	public WebReturnMessage findCity(int provinceId) {
 		List<CityVo> Cities = baseClient.findAllCity(provinceId);
 		// 存放封装数据
 		List<ResultJson> city = new ArrayList<>();
+		List<String> data = new ArrayList<>();
 		ResultJson state = null;
 		for (CityVo cityVo : Cities) {
 			state = new ResultJson();
@@ -97,7 +98,8 @@ public class MemberCompanyController {
 			state.setKey(cityVo.getCityName());
 			city.add(state);
 		}
-		return new Gson().toJson(city);
+		data.add(new Gson().toJson(city));
+		return new WebReturnMessage(true, "", data);
 	}
 
 	/**
@@ -108,12 +110,12 @@ public class MemberCompanyController {
 	 */
 	@RequestMapping("/findDistrict")
 	@ResponseBody
-	public String findDistrict(int cityId) {
-
+	public WebReturnMessage findDistrict(int cityId) {
 		List<DistrictVo> dists = baseClient.findAllDistrict(cityId);
 		// 存放封装数据
 		List<ResultJson> city = new ArrayList<>();
-		ResultJson state =null;
+		List<String> data = new ArrayList<>();
+		ResultJson state = null;
 		for (DistrictVo districtVo : dists) {
 			state = new ResultJson();
 			state.setText(districtVo.getDistrictName());
@@ -121,11 +123,13 @@ public class MemberCompanyController {
 			state.setKey(districtVo.getDistrictName());
 			city.add(state);
 		}
-		return new Gson().toJson(city);
+		data.add(new Gson().toJson(city));
+		return new WebReturnMessage(true, "", data);
 	}
 
 	/**
 	 * 企业认证
+	 * 
 	 * @return
 	 */
 	@RequestMapping("/attest")
@@ -155,13 +159,14 @@ public class MemberCompanyController {
 			String socialCode, // 社会信用代码
 			String organizationCode, // 组织结构代码
 			String taxationCode, // 税务登记号
-			
+
 			String licenseImg, // 营业执照
 			String organizationImg, // 组织机构
 			String taxationImg // 税务登记证
 
 	) {
 		System.out.println("*********************************************************");
+		System.out.println(companyName);
 		// 设置企业基本信息
 		MemberCompanyVo company = new MemberCompanyVo();
 		company.setCountryCode("China"); // 国家编码

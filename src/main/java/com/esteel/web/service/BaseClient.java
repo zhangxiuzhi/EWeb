@@ -31,14 +31,14 @@ import feign.hystrix.FallbackFactory;
  * Time: 14:55
  *
  */
-//@FeignClient(name = "Base",url = "http://127.0.0.1:9920", fallbackFactory = BaseClientFallbackFactory.class, path = "cn")
+//@FeignClient(name = "Base",url = "http://127.0.0.1:9920", fallbackFactory = BaseClientFallbackFactory.class,path = "cn")
 @FeignClient(name = "Base",url = "http://10.0.1.214:9920", fallbackFactory = BaseClientFallbackFactory.class, path = "cn")
 public interface BaseClient {
 
     @RequestMapping(value = "/port", method = RequestMethod.POST)
     public String getPort(@RequestParam("portId") long portId);
     
-    @RequestMapping(value = "/cn/allProvince", method = RequestMethod.POST)
+    @RequestMapping(value = "/allProvince", method = RequestMethod.POST)
     public List<ProvinceVo> findAllPro();
     
     @RequestMapping(value = "/province", method = RequestMethod.POST)
@@ -51,14 +51,14 @@ public interface BaseClient {
      * @param provinceId
      * @return
      */
-    @RequestMapping(value = "/cn/findAllCity",method= RequestMethod.POST)
+    @RequestMapping(value = "/findAllCity",method= RequestMethod.POST)
     public List<CityVo> findAllCity(@RequestParam("provinceId") int provinceId);
     /**
      * 获取所有的区县
      * @param cityId
      * @return
      */
-    @RequestMapping(value = "/cn/findAllDistrict", method = RequestMethod.POST)
+    @RequestMapping(value = "/findAllDistrict", method = RequestMethod.POST)
     public List<DistrictVo> findAllDistrict(@RequestParam("cityId") int cityId);
     /**
      * 港口

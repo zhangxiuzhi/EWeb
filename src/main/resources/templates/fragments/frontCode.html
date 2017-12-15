@@ -4,7 +4,7 @@
 <head th:fragment="frontCode">
     <meta charset="UTF-8" />
 
-
+	<meta http-equiv="X-Frame-Options" content="ALLOW-FROM"/>
     <meta name="_csrf_parameter" th:content="${_csrf.parameterName}" th:if="${_csrf != null}"/>
     <meta name="_csrf_header" content="X-CSRF-TOKEN" th:if="${_csrf != null}"/>
     <meta name="_csrf" th:content="${_csrf.token}" th:if="${_csrf != null}"/>

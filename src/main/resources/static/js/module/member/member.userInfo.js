@@ -1,67 +1,92 @@
 /**
- * 会员中心
- * Created by wzj on 2017/11/30.
+ * 会员中心 Created by wzj on 2017/11/30.
  */
-var memberSidebarData = [
-	{name:"userInfo", text:"个人资料", url:"/member/userInfo"},
-	{ name: "sale", text: "账号安全", url:""},
-	{ name: "bind", text: "账号绑定", url:""},
-	{ name: "sub", text: "子账号管理", url:""},
-	{ name: "funds", text: "资金管理", url:""},
-	{ name: "message", text: "消息中心", url:""},
-	{ name: "note", text: "短信订阅", url:""}
-]
+var memberSidebarData = [ {
+	name : "userInfo",
+	text : "个人资料",
+	url : "/member/userInfo"
+}, {
+	name : "sale",
+	text : "账号安全",
+	url : ""
+}, {
+	name : "bind",
+	text : "账号绑定",
+	url : ""
+}, {
+	name : "sub",
+	text : "子账号管理",
+	url : ""
+}, {
+	name : "funds",
+	text : "资金管理",
+	url : ""
+}, {
+	name : "message",
+	text : "消息中心",
+	url : ""
+}, {
+	name : "note",
+	text : "短信订阅",
+	url : ""
+} ]
 
 function JBSFrame_member_userInfo() {
 
 	JBSFrame.call(this);
 
-
-	//初始化UI
-	this.initUI = function () {
-		//主菜单栏
-		//当前选中发布报盘
-		this.sidebar = ReactDOM.render(React.createElement(ComponentSidebar,{data:memberSidebarData, focusNode:{name:"userInfo",text:"个人资料"}}), document.getElementById("component-sidebar"));
-
+	// 初始化UI
+	this.initUI = function() {
+		// 主菜单栏
+		// 当前选中发布报盘
+		this.sidebar = ReactDOM.render(React.createElement(ComponentSidebar, {
+			data : memberSidebarData,
+			focusNode : {
+				name : "userInfo",
+				text : "个人资料"
+			}
+		}), document.getElementById("component-sidebar"));
 
 	}
 
 	/*---------------------------------------------------------------------------------------------------------------------------*/
 
-	//初始化路由
-	this.initRouter = function () {
+	// 初始化路由
+	this.initRouter = function() {
 
-		//页面路由，在页面设置
+		// 页面路由，在页面设置
 		var offerRoutes = {}
-		$("#component-sidebar .nav-list a").each(function(idx,elem){
+		$("#component-sidebar .nav-list a").each(function(idx, elem) {
 			var href = elem.getAttribute("href");
 			var rr = elem.getAttribute("name");
 			offerRoutes[rr] = self.loadRouter
 		})
-		$("#router-linkNode a").each(function(idx,elem){
+		$("#router-linkNode a").each(function(idx, elem) {
 			var rr = elem.getAttribute("linkNode")
 			offerRoutes[rr] = self.loadRouter
 		})
 		console.log(offerRoutes)
 		var router = Router(offerRoutes);
 		router.configure({
-			on: self.selectTypeTab	//切换路由后设置高亮标签
+			on : self.selectTypeTab
+		// 切换路由后设置高亮标签
 		});
-		router.init('/'+$("#router-linkNode >a.selected").attr("linkNode"));//初始化页面
+		router.init('/' + $("#router-linkNode >a.selected").attr("linkNode"));// 初始化页面
 	}
 
-	this.loadRouter = function(){
+	this.loadRouter = function() {
 		var path = window.location.hash.slice(2);
-		$("#router-pageCotainer").load('/view/member/'+path+".html", function(){
+		$("#router-pageCotainer").load('/view/member/' + path + ".html",
+				function() {
 
-		});	//加载静态文件
+				}); // 加载静态文件
 	}
 
-	//切换路由后设置高亮标签
-	this.selectTypeTab = function(){
+	// 切换路由后设置高亮标签
+	this.selectTypeTab = function() {
 		var path = window.location.hash.slice(2);
 		$("#router-linkNode >a").removeClass("selected");
-		$("#router-linkNode >a[linkNode='"+path+"']").addClass("selected");
+		$("#router-linkNode >a[linkNode='" + path + "']").addClass("selected");
 	}
 
 	/*---------------------------------------------------------------------------------------------------------------------------*/
@@ -69,16 +94,33 @@ function JBSFrame_member_userInfo() {
 
 }
 
-
 /*
- //body load
- --------------------------------------------------------------------*/
+ * //body load
+ * --------------------------------------------------------------------
+ */
 var esteel_member_userInfo;
-$(document).ready(function (e) {
+$(document).ready(function(e) {
 	esteel_member_userInfo = new JBSFrame_member_userInfo();
-	//初始化UI
+	// 初始化UI
 	esteel_member_userInfo.initUI();
-	//初始化路由
+	// 初始化路由
 	esteel_member_userInfo.initRouter();
 });
 
+// 修改帐号信息，用户名验证userId
+function checkForm() {
+	alert(12346);
+	var username = $("#username").val();
+	var userid = $("#userId").val();
+	esteel_member_userInfo.ajaxRequest({
+		type : 'post',
+		url : "/member/membername",
+		data : {
+			userId : userid,
+			memberName : username
+		}
+	}, function(data, msg) {
+		
+	});
+
+}

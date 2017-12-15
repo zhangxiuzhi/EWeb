@@ -2,9 +2,10 @@ package com.esteel.web.web;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,7 +27,6 @@ import com.esteel.web.vo.Encrypt;
 import com.esteel.web.vo.LogVerifyCodeVo;
 import com.esteel.web.vo.MemberUserVo;
 import com.taobao.common.tfs.TfsManager;
-import reactor.core.support.Assert;
 
 @Controller
 @RequestMapping("/user")
@@ -43,11 +44,9 @@ public class MemberUserController {
 
 	@Autowired
 	TfsManager tfsManager;
-	
-	
+
 	/**
 	 * 注册页面
-	 * 
 	 * @param model
 	 * @return
 	 */
@@ -73,18 +72,11 @@ public class MemberUserController {
 	 * @param mobile
 	 * @return
 	 */
-	@RequestMapping(value = "/checkNo", method = RequestMethod.POST)
+	@RequestMapping(value = "/checkNo")
 	@ResponseBody
 	public WebReturnMessage checkNo(String mobile) {
 		MemberUserVo checkNo = memberUserClient.checkNo(mobile);
-
 		Assert.isNull(checkNo,"该号码已注册");
-//		WebReturnMessage webRetMesage = null;
-//		if (checkNo != null) {
-//			webRetMesage = new WebReturnMessage(true, "该号码已注册");
-//		} else {
-//			webRetMesage = new WebReturnMessage(false, "该号码可注册");
-//		}
 		return WebReturnMessage.sucess;
 
 	}
@@ -107,7 +99,7 @@ public class MemberUserController {
 		code.setVerifyStatus(0); // 初始为0，未验证
 		long time = new Date().getTime();
 		code.setSendTime(new Timestamp(time)); // 时间
-		code.setValidTime(new Timestamp(time + 3 * 60 * 1000));// 有效时间3分钟
+		code.setValidTime(new Timestamp(time + 10 * 60 * 1000));// 有效时间3分钟
 		// 返回结果
 		WebReturnMessage webRetMesage = null;
 		try {
@@ -118,7 +110,7 @@ public class MemberUserController {
 			if (sendSms) {
 				webRetMesage = new WebReturnMessage(true, "验证码已发送");
 			} else {
-				webRetMesage = new WebReturnMessage(false, "验证码发送失败");
+				webRetMesage = new WebReturnMessage(true, "验证码发送失败");
 			}
 		} catch (Exception e) {
 			// e.printStackTrace();
@@ -138,11 +130,11 @@ public class MemberUserController {
 	 */
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	@ResponseBody
-	public WebReturnMessage register(String mobile, String code, String password, HttpSession session, Model model) {
-		System.out.println(mobile+"///"+code+"///"+password+"///");
+	public WebReturnMessage register(String mobile, String code, String password, Model model) {
 		WebReturnMessage webRetMsg = null;
+		List<Object> result = new ArrayList<>();
+		//验证码验证
 		LogVerifyCodeVo codeVo = logVerityCodeClient.checkCode(code, mobile);
-		System.out.println("MemberUserController.register()"+"*****"+codeVo);
 		try {
 			if (codeVo != null) {
 				long newTime = new Date().getTime(); // 当前时间
@@ -152,9 +144,11 @@ public class MemberUserController {
 					String pwd = Encrypt.EncoderByMd5(password); // 密码加密
 					MemberUserVo user = new MemberUserVo();
 					user.setAccount("E"); // 帐号
+					user.setMemberName(mobile);; // 帐号
 					user.setMobile(mobile); // 手机
 					user.setPassword(pwd); // 密码
 					user.setUserStatus(0); // 状态，初始为0
+					user.setUserGrade(0); //用户权级，默认普通会员 0
 					user.setRegisteredTime(new Timestamp(System.currentTimeMillis())); // 注册时间
 					user.setLastLoginTime(new Timestamp(System.currentTimeMillis()));
 					// 调用保存
@@ -162,24 +156,27 @@ public class MemberUserController {
 					if (userVo != null) {
 						// 验证成功修改状态为验证通过1
 						codeVo.setVerifyStatus(1);
-						logVerityCodeClient.saveLog(codeVo);
-						webRetMsg = new WebReturnMessage(true, "注册成功");
+						//logVerityCodeClient.saveLog(codeVo);
+						result.add(0);
+						webRetMsg = new WebReturnMessage(true, "注册成功",result);
 						// 注册成功，把对象存session作用域来模拟登录状态
-						session.setAttribute("userVo", userVo);
 					} else {
 						// 验证成功修改状态为验证通过2,验证未通过
-						/*codeVo.setVerifyStatus(2);
-						logVerityCodeClient.saveLog(codeVo);*/
-						webRetMsg = new WebReturnMessage(false, "注册失败");
+						 codeVo.setVerifyStatus(2);
+						 logVerityCodeClient.saveLog(codeVo);
+						 result.add(1);
+						webRetMsg = new WebReturnMessage(true, "注册失败",result);
 					}
 				} else {
 					// 验证成功修改状态为验证通过2,验证未通过
-					codeVo.setVerifyStatus(2);
-					logVerityCodeClient.saveLog(codeVo);
-					webRetMsg = new WebReturnMessage(false, "注册失败,验证码已失效");
+					//codeVo.setVerifyStatus(2);
+					//logVerityCodeClient.saveLog(codeVo);
+					result.add(1);
+					webRetMsg = new WebReturnMessage(true, "注册失败,验证码已失效",result);
 				}
 			} else {
-				webRetMsg = new WebReturnMessage(false, "注册失败,验证码错误");
+				result.add(1);
+				webRetMsg = new WebReturnMessage(true, "注册失败,验证码错误",result);
 			}
 		} catch (Exception e) {
 			// 验证成功修改状态为验证通过2
@@ -372,8 +369,10 @@ public class MemberUserController {
 		return webRetMesage;
 
 	}
+
 	/**
 	 * 修改手机号
+	 * 
 	 * @param phone
 	 * @param code
 	 * @param mobile
@@ -417,10 +416,10 @@ public class MemberUserController {
 	 * @param file
 	 * @return
 	 */
-	@RequestMapping(value = "/uploadFile")
+	@RequestMapping(value = "/uploadFile", method = RequestMethod.GET)
 	@ResponseBody
-	public WebReturnMessage uploadFile(MultipartFile file,HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("123456789");
+	public WebReturnMessage uploadFile(MultipartFile file) {
+		System.out.println("进入控制器");
 		WebReturnMessage webRetMesage = null;
 		if (file != null && !file.isEmpty()) {
 			// 获取文件后缀
@@ -443,17 +442,20 @@ public class MemberUserController {
 		return webRetMesage;
 
 	}
+
 	/**
 	 * 图片回显
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/showPic")
 	public void showPic(String path, HttpServletResponse response) throws IOException {
-		//String path = request.getParameter("path");
-        tfsManager.fetchFile(path, "", response.getOutputStream());
+		// String path = request.getParameter("path");
+		tfsManager.fetchFile(path, "", response.getOutputStream());
 	}
+
 	/**
 	 * 文件下载
 	 * 
