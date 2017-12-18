@@ -2,7 +2,14 @@ package com.esteel.web.vo.offer;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Length;
+
+import com.esteel.web.vo.offer.validator.IronOfferClause;
+import com.esteel.web.vo.offer.validator.DigitsHasEmpty;
+import com.esteel.web.vo.offer.validator.PatternHasEmpty;
 
 /**
  * 
@@ -12,6 +19,7 @@ import javax.validation.constraints.Pattern;
  * @date 2017年12月4日 下午3:46:41 
  *
  */
+@IronOfferClause()
 public class IronOfferClauseVo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -23,59 +31,72 @@ public class IronOfferClauseVo implements Serializable {
 	/**
 	 * 签订合同后几个工作日 数据范围:0, 1, 2, ...
 	 */
+	@PatternHasEmpty(regexp = "^\\d{1,3}$", message = "工作日：必须为整数。")
 	private String after_sign_several_working_days;
 	/**
 	 * 合同款的百分比 数据范围:0 - 100
 	 */
-	@Pattern(regexp = "^((\\d{0,2}\\.\\d{1,2})|(\\d{1,2}(\\.\\d{0,2})?))$", message = "合同款的百分比：请填写有效数字。小数位支持1-2位。")
+	@DigitsHasEmpty(integer = 2, fraction = 2, message = "合同款的百分比：请填写有效数字。小数位支持1-2位。")
 	private String contract_funds_percentage;
 	/**
 	 * 剩余货款在几个工作日内结清
 	 */
+	@PatternHasEmpty(regexp = "^\\d{1,3}$", message = "付款期限： 必须为整数。")
 	private String clear_within_several_working_days;
 	/**
 	 * 付全款后几个工作日
 	 */
+	@Pattern(regexp = "^\\d{1,3}$", message = "请填完 交收期。")
 	private String after_pay_off_several_working_days;
 	/**
 	 * 交货港口 数据范围:port
 	 */
+	@Digits(integer = 10, fraction = 0, message = "请填完 交货方式")
 	private String delivery_Method_port;
 	/**
 	 * 计价方式 数据范围:option
 	 */
+	@Digits(integer = 10, fraction = 0, message = "请填完 交货方式")
 	private String pricing_method;
 	/**
 	 * 交货数量标准港口 数据范围:port
 	 */
+	@Digits(integer = 10, fraction = 0, message = "请填完 交货数量标准")
 	private String delivery_quantity_port;
 	/**
 	 * 计量方式 数据范围:option
 	 */
+	@Digits(integer = 10, fraction = 0, message = "请填完 交货数量标准")
 	private String measure_method;
 	/**
 	 * 交易者类型 0:卖方, 1:买方
 	 */
+	@Digits(integer = 10, fraction = 0, message = "请填完 货物规格标准")
 	private String trader_type;
 	/**
 	 * 运输费承担方
 	 */
+	@Digits(integer = 10, fraction = 0, message = "请填完 费用条款")
 	private String transport_costs_bearer;
 	/**
 	 * 代理费承担方
 	 */
+	@Digits(integer = 10, fraction = 0, message = "请填完 费用条款")
 	private String agency_fee_bearer;
 	/**
 	 * 内贸港口建设费承担方
 	 */
+	@Digits(integer = 10, fraction = 0, message = "请填完 费用条款")
 	private String port_construction_fee_bearer;
 	/**
 	 * 二程船运费承担方
 	 */
+	@Digits(integer = 10, fraction = 0, message = "请填完 费用条款")
 	private String second_vessel_fee_bearer;
 	/**
 	 * 过磅或水尺费承担方
 	 */
+	@Digits(integer = 10, fraction = 0, message = "请填完 费用条款")
 	private String weighing_fee_bearer;
 	/**
 	 * 免堆期 数据范围:0, 1, 2, ...
@@ -85,10 +106,12 @@ public class IronOfferClauseVo implements Serializable {
 	/**
 	 * 超期产生的堆存费承担方
 	 */
+	@Digits(integer = 10, fraction = 0, message = "请填完 费用条款")
 	private String overdue_storage_fee_bearer;
 	/**
 	 * 发票条款
 	 */
+	@Length(min=0, max=200, message="发票条款:200字符以内") 
 	private String invoice_terms;
 	public String getSettlement_method() {
 		return settlement_method;

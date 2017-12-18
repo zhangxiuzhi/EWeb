@@ -360,7 +360,7 @@ function save_offer(){
     if(validateOfferInfo()){
         esteel_addOffer.confirm(null,"该报盘将作为草稿保存到我的报盘记录",function(){
         	 esteel_addOffer.ajaxRequest({
-     	    	url:"/offer/validatedInStockOffer",
+     	    	url:"/offer/validatedFuturesOffer",
      	        data:$('#form-offer').serialize()
      	    },  function (result) {
      	    	if (result.success) {

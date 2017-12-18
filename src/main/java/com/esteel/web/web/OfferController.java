@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +39,7 @@ import com.esteel.web.vo.config.AttributeValueOptionEnum;
 import com.esteel.web.vo.config.AttributeValueOptionVo;
 import com.esteel.web.vo.config.IronAttributeLinkVo;
 import com.esteel.web.vo.offer.IronFuturesOfferRequest;
-import com.esteel.web.vo.offer.IronFuturesTransportDescription;
+import com.esteel.web.vo.offer.IronFuturesTransportVo;
 import com.esteel.web.vo.offer.IronInStockOfferRequest;
 import com.esteel.web.vo.offer.IronOfferClauseVo;
 import com.esteel.web.vo.offer.IronOfferMainVo;
@@ -583,6 +582,45 @@ public class OfferController {
     }
     
     /**
+     * 远期报盘验证
+     * @param futuresOfferRequest
+     * @param offerResult
+     * @param transportDescription
+     * @param transportResult
+     * @return
+     */
+    @RequestMapping(value = "/validatedFuturesOffer", method = RequestMethod.POST)
+    @ResponseBody
+    public WebReturnMessage validatedFuturesOffer(
+    		@Validated(IronFuturesOffer.class) IronFuturesOfferRequest futuresOfferRequest, BindingResult offerResult, 
+    		@Validated IronFuturesTransportVo transportDescription, BindingResult transportResult) {
+    	WebReturnMessage webRetMesage = new WebReturnMessage(false, "提交失败！");
+    	
+    	Assert.notNull(futuresOfferRequest, "提交失败！");
+    	
+    	Assert.notNull(transportDescription, "提交失败！");
+    	
+    	StringBuilder msgSB = new StringBuilder();
+		if(offerResult.hasErrors()) {
+			offerResult.getFieldErrors().forEach(fieldError -> msgSB.append(fieldError.getDefaultMessage()));
+		}
+		
+		if(transportResult.hasErrors()) {
+			transportResult.getFieldErrors().forEach(fieldError -> msgSB.append(fieldError.getDefaultMessage()));
+		}
+		
+		if (msgSB.length() > 0) {
+			webRetMesage.setMsg(msgSB.toString());
+			
+		    return webRetMesage;
+		}
+		
+		webRetMesage = new WebReturnMessage(true, "success");
+		
+		return webRetMesage;
+    }
+    
+    /**
      * 远期报盘保存
      * @param futuresOfferRequest
      * @param offerAffix
@@ -592,26 +630,12 @@ public class OfferController {
      * @return
      */
     @RequestMapping(value = "/saveFuturesOffer", method = RequestMethod.POST)
-    public String saveFuturesOffer(@Validated(IronFuturesOffer.class) IronFuturesOfferRequest futuresOfferRequest, BindingResult offerResult, 
-    		@RequestParam("offerAffix") MultipartFile offerAffix, IronFuturesTransportDescription transportDescription, Model model){
+    public String saveFuturesOffer(IronFuturesOfferRequest futuresOfferRequest, 
+    		IronFuturesTransportVo transportDescription, 
+    		@RequestParam("offerAffix") MultipartFile offerAffix, Model model){
     	Assert.notNull(futuresOfferRequest, "提交失败！");
     	
     	Assert.notNull(transportDescription, "提交失败！");
-    	
-    	// 页面验证
-		if(offerResult.hasErrors()) {
-			StringBuilder sb = new StringBuilder();
-			List<ObjectError> errors = offerResult.getAllErrors();
-			for (ObjectError err : errors) {
-				sb.append(err.getDefaultMessage()+";");
-			}
-			
-			model.addAttribute("msg", sb.toString());
-			System.out.println(sb.toString());
-		    
-		    return "/offer/addOffer";
-		}
-		
     	
     	IronOfferMainVo offerMainVo = new IronOfferMainVo();
     	// 将request 复制到 offerMainVo
@@ -665,8 +689,6 @@ public class OfferController {
     	firstCargo.setPriceDescription(futuresOfferRequest.getPriceDescription());
     	firstCargo.setTransportDescription(JsonUtils.toJsonString(transportDescription));
     	
-    	
-    	
     	// 一船两货
     	if (futuresOfferRequest.getIsMultiCargo().equals(EsteelConstant.YES + "")) {
     		// 第二个货物报盘
@@ -709,14 +731,15 @@ public class OfferController {
     		// 铁矿报盘状态 :草稿
         	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_DRAFT + "");
     	} else {
-    		// 铁矿报盘状态 :草稿
+    		// 铁矿报盘状态 :发布
         	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_In_SALE + "");
+        	offerMainVo.setPublishTime(new Date());
+        	offerMainVo.setPublishUser("王雁飞测试");
     	}
    	
     	offerMainVo.setCompanyId(1);
     	offerMainVo.setCreateUser("王雁飞测试");
     	offerMainVo.setUpdateUser("王雁飞测试");
-    	offerMainVo.setPublishUser("王雁飞测试");
     	
     	// 报盘附件保存 tfs
     	StatusMSGVo msg = getTfsFileName(offerAffix, "报盘备注附件", 
@@ -741,6 +764,45 @@ public class OfferController {
     	}
     	
         return "redirect:/offer/myOffer";
+    }
+    
+    /**
+     * 点价报盘验证
+     * @param inStockOfferRequest
+     * @param offerResult
+     * @param offerClauseVo
+     * @param clauseResult
+     * @return
+     */
+    @RequestMapping(value = "/validatedPricingOffer", method = RequestMethod.POST)
+    @ResponseBody
+    public WebReturnMessage validatedPricingOffer(
+    		@Validated(IronPricingOffer.class) IronPricingOfferRequest pricingOfferRequest, BindingResult offerResult, 
+    		@Validated IronOfferClauseVo offerClauseVo, BindingResult clauseResult) {
+    	WebReturnMessage webRetMesage = new WebReturnMessage(false, "提交失败！");
+    	
+    	Assert.notNull(pricingOfferRequest, "提交失败！");
+    	
+    	Assert.notNull(offerClauseVo, "提交失败！");
+    	
+    	StringBuilder msgSB = new StringBuilder();
+		if(offerResult.hasErrors()) {
+			offerResult.getFieldErrors().forEach(fieldError -> msgSB.append(fieldError.getDefaultMessage()));
+		}
+		
+		if(clauseResult.hasErrors()) {
+			clauseResult.getFieldErrors().forEach(fieldError -> msgSB.append(fieldError.getDefaultMessage()));
+		}
+		
+		if (msgSB.length() > 0) {
+			webRetMesage.setMsg(msgSB.toString());
+			
+		    return webRetMesage;
+		}
+		
+		webRetMesage = new WebReturnMessage(true, "success");
+		
+		return webRetMesage;
     }
     
     /**
@@ -831,14 +893,15 @@ public class OfferController {
     		// 铁矿报盘状态 :草稿
         	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_DRAFT + "");
     	} else {
-    		// 铁矿报盘状态 :草稿
+    		// 铁矿报盘状态 :发布
         	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_In_SALE + "");
+        	offerMainVo.setPublishTime(new Date());
+        	offerMainVo.setPublishUser("王雁飞测试");
     	}
    	
     	offerMainVo.setCompanyId(1);
     	offerMainVo.setCreateUser("王雁飞测试");
     	offerMainVo.setUpdateUser("王雁飞测试");
-    	offerMainVo.setPublishUser("王雁飞测试");
     	
     	// 保存附件
     	// tfs 报盘附件

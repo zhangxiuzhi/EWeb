@@ -3,7 +3,10 @@ package com.esteel.web.vo.offer;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.esteel.web.vo.offer.validator.IronFuturesTransport;
 
 /**
  * 
@@ -13,7 +16,8 @@ import org.springframework.format.annotation.DateTimeFormat;
  * @date 2017年12月14日 下午2:03:44 
  *
  */
-public class IronFuturesTransportDescription implements Serializable {
+@IronFuturesTransport()
+public class IronFuturesTransportVo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -32,11 +36,13 @@ public class IronFuturesTransportDescription implements Serializable {
 	 * 运输信息
 	 * 提单日
 	 */
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private String transport_bill;
 	/**
 	 * 运输信息
 	 * 到港月
 	 */
+	@DateTimeFormat(pattern = "yyyy-MM")
 	private String transport_arrive_month;
 	/**
 	 * 运输信息
@@ -47,16 +53,19 @@ public class IronFuturesTransportDescription implements Serializable {
 	 * 运输信息
 	 * ETA新加坡
 	 */
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private String transport_etaxjb;
 	/**
 	 * 运输信息
 	 * ETA青岛港
 	 */
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private String transport_etaqdg;
 	/**
 	 * 运输信息
 	 * 其他
 	 */
+	@Length(min=0, max=1, message="运输备注:128字符以内") 
 	private String transport_remark;
 	
 	public Date getTransport_load_end() {
