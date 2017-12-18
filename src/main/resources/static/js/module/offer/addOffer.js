@@ -109,7 +109,7 @@ function JBSFrame_addOffer() {
         //商品1指标类型
         var $kpiType1 = $("#component-radioBoxGroup-kpiType-1");
         if($kpiType1.length>0) {
-            this.radioBox_kpiType = ReactDOM.render(React.createElement(ComponentRadioBox, {
+            this.radioBox_kpiType1 = ReactDOM.render(React.createElement(ComponentRadioBox, {
                 data: JSON.parse($("#indicatorTypeJson").html()),
                 value: "26",
                 className: "TagStyle offerKpi",
@@ -131,7 +131,7 @@ function JBSFrame_addOffer() {
       //商品2指标类型
         var $kpiType2 = $("#component-radioBoxGroup-kpiType-2");
         if($kpiType2.length>0) {
-            this.radioBox_kpiType = ReactDOM.render(React.createElement(ComponentRadioBox, {
+            this.radioBox_kpiType2 = ReactDOM.render(React.createElement(ComponentRadioBox, {
                 data: JSON.parse($("#indicatorTypeJson").html()),
                 value: "26",
                 className: "TagStyle offerKpi",
@@ -362,19 +362,37 @@ $(document).ready(function (e) {
 function save_offer(){
     if(validateOfferInfo()){
         esteel_addOffer.confirm(null,"该报盘将作为草稿保存到我的报盘记录",function(){
+        	 esteel_addOffer.ajaxRequest({
+     	    	url:"/offer/validatedFuturesOffer",
+     	        data:$('#form-offer').serialize()
+     	    },  function (result) {
+     	    	if (result.success) {
+     	    		$("#form-offer")[0].submit();
+     	    	} else {
+     	    		alert(result.msg);
+     	    	}
+     	    });
         });
-        
-        $("#form-offer")[0].submit();
     }
-    
-    $("#form-offer")[0].submit();
 }
  
 //提交报盘
 function submit_offer(){
-    esteel_addOffer.confirm(null,"确定要发布吗",function(){
- 
-    });
+	if(validateOfferInfo()){
+		esteel_addOffer.confirm(null,"确定要发布吗",function(){
+			esteel_addOffer.ajaxRequest({
+     	    	url:"/offer/validatedInStockOffer",
+     	        data:$('#form-offer').serialize()
+     	    },  function (result) {
+     	    	if (result.success) {
+     	    		("#offerStatus").val("publish");
+     	    		$("#form-offer")[0].submit();
+     	    	} else {
+     	    		alert(result.msg);
+     	    	}
+     	    });
+	    });
+    }
 }
  
 //品名切换改变指标值

@@ -5,7 +5,10 @@ import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.esteel.web.vo.offer.OfferIronAttachVo.IronFuturesOffer;
 
 /**
  * 
@@ -68,6 +71,7 @@ public class IronInStockOfferRequest extends OfferIronAttachVo implements Serial
 	/**
 	 * 备注
 	 */
+	@Length(groups = {IronInStockOffer.class}, min=0, max=128, message="价格描述:128字符以内") 
 	private String offerRemarks;
 	/**
 	 * 交易方向 0:销售, 1:采购
@@ -80,7 +84,7 @@ public class IronInStockOfferRequest extends OfferIronAttachVo implements Serial
 	/**
 	 * 有效日期
 	 */
-	@NotNull(message = "请填写有效日期")
+	@NotNull(groups = {IronInStockOffer.class}, message = "请填写有效日期")
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date validTime;
 	/**

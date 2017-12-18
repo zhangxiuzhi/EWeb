@@ -112,7 +112,6 @@
     <div class="offer-content-slicer">
         <div class="slicer-text">交货结算条款</div>
     </div>
-
     <!--交货结算条款-->
     <div class="form-horizontal offer-rule">
         <div class="form-group">
@@ -129,7 +128,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">交货方式</label>
+            <label class="col-sm-2 control-label">*交货方式</label>
             <div class="col-sm-10">
                 <select class="offer-rule-f-c" id="offer-rules-port1" name="delivery_Method_port">
                 	<option value=""></option>
@@ -140,7 +139,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">交货数量标准</label>
+            <label class="col-sm-2 control-label">*交货数量标准</label>
             <div class="col-sm-10">
                 以<select class="offer-rule-f-c" id="offer-rules-port2" name="delivery_quantity_port">
                 <option value=""></option>
@@ -151,7 +150,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">货物规格标准</label>
+            <label class="col-sm-2 control-label">*货物规格标准</label>
             <div class="col-sm-10">
                 以<select class="form-control" name="trader_type" data-validetta="required" id="select-trader_type">
                     <option value=""></option>
@@ -161,11 +160,31 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">费用条款</label>
+            <label class="col-sm-2 control-label">*费用条款</label>
             <div class="col-sm-10">
-                费用条款：若火车或车板提货，则产生的港口费差价、运费由 <input class="offer-rule-f-c"  maxlength="3" name="transport_costs_bearer"/> 承担；
-                若二程船提货，则水分检验费及其代理费由<input class="offer-rule-f-c"  maxlength="3" name="agency_fee_bearer"/>承担， 内贸港口建设费由<input class="offer-rule-f-c" maxlength="3" name="port_construction_fee_bearer"/>承担，
-                二程船运费由<input class="offer-rule-f-c"  maxlength="3" name="second_vessel_fee_bearer"/>承担， 过磅费或水尺费由<input class="offer-rule-f-c" maxlength="3" name="weighing_fee_bearer"/>承担；
+                费用条款：若火车或车板提货，则产生的港口费差价、运费由<select class="form-control" name="transport_costs_bearer" data-validetta="required" id="select-trader_type">
+                    <option value=""></option>
+                    <option value="0">卖方</option>
+                    <option value="1">买方</option>
+                </select>承担；
+                若二程船提货，则水分检验费及其代理费由<select class="form-control" name="agency_fee_bearer" data-validetta="required" id="select-trader_type">
+                    <option value=""></option>
+                    <option value="0">卖方</option>
+                    <option value="1">买方</option>
+                </select>承担， 内贸港口建设费由<select class="form-control" name="port_construction_fee_bearer" data-validetta="required" id="select-trader_type">
+                    <option value=""></option>
+                    <option value="0">卖方</option>
+                    <option value="1">买方</option>
+                </select>承担，
+                二程船运费由<select class="form-control" name="second_vessel_fee_bearer" data-validetta="required" id="select-trader_type">
+                    <option value=""></option>
+                    <option value="0">卖方</option>
+                    <option value="1">买方</option>
+                </select>承担， 过磅费或水尺费由<select class="form-control" name="weighing_fee_bearer" data-validetta="required" id="select-trader_type">
+                    <option value=""></option>
+                    <option value="0">卖方</option>
+                    <option value="1">买方</option>
+                </select>承担；
                 自货权转移之日起，买方享有<input class="offer-rule-f-c"  maxlength="3" name="free_storage_several_days"/>天免堆期， 超期产生的堆存费由<input class="offer-rule-f-c" maxlength="3" name="overdue_storage_fee_bearer"/>承担。
             </div>
         </div>
@@ -215,4 +234,6 @@
         <button class="btn btn-default" type="button" onclick="save_offer()">保存</button>
         <button class="btn btn-primary" type="button" onclick="submit_offer()">立即发布</button>
     </div>
+    
+    <input type="hidden" name="offerStatus" value="draft" id="offerStatus"/>
 </form>

@@ -164,21 +164,21 @@
                 <div class="form-group" id="offer-fixedPrice-goods-1">
                     <label class="col-sm-2 control-label">商品1</label>
                     <div class="col-sm-5">
-                        <input type="text" class="form-control mask-number width130 inline-block margin-right-10" id="offer-fixPrice-value" name="priceValue"/>美元/干吨
+                        <input type="text" class="form-control mask-number width130 inline-block margin-right-10" id="offer-fixPrice-value" name="priceValueArr"/>美元/干吨
                     </div>
                     <label class="col-sm-2 control-label">基于Fe%：</label>
                     <div class="col-sm-3">
-                       <input type="text" class="form-control mask-number" id="offer-fixPrice-value" name="priceBasisFe"/>
+                       <input type="text" class="form-control mask-number" id="offer-fixPrice-value" name="priceBasisFeArr"/>
                     </div>
                 </div>
                 <div class="form-group" id="offer-fixedPrice-goods-2" style="display: none;">
                     <label class="col-sm-2 control-label">商品2</label>
                     <div class="col-sm-5">
-                        <input type="text" class="form-control mask-number width130 inline-block margin-right-10" id="offer-fixPrice-value" name="priceValue"/>美元/干吨
+                        <input type="text" class="form-control mask-number width130 inline-block margin-right-10" id="offer-fixPrice-value" name="priceValueArr"/>美元/干吨
                     </div>
                     <label class="col-sm-2 control-label">基于Fe%：</label>
                     <div class="col-sm-3">
-                        <input type="text" class="form-control mask-number" id="offer-fixPrice-value" name="priceBasisFe"/>
+                        <input type="text" class="form-control mask-number" id="offer-fixPrice-value" name="priceBasisFeArr"/>
                     </div>
                 </div>
             </div>
@@ -242,10 +242,10 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">装船期</label>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control datetimepicker" name="transport_load" >
+                    <input type="text" class="form-control datetimepicker" name="transport_load_start" >
                 </div>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control datetimepicker" name="transport_load">
+                    <input type="text" class="form-control datetimepicker" name="transport_load_end">
                 </div>
 
                 <label class="col-sm-2 control-label">提单日</label>
@@ -309,7 +309,7 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">匿名发布</label>
             <div class="col-sm-10">
-                <div id="component-toggle-anonym" inputName="isAnonymousStr" inputValue="1"></div>
+                <div id="component-toggle-anonym" inputName="isAnonymous" inputValue="1"></div>
             </div>
         </div>
 
