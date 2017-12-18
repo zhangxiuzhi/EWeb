@@ -120,10 +120,16 @@ abbr[title], abbr[data-original-title]{
   border:none;
 }
 /*--------------------------------
+线性盒子
+-----------------------------------------*/
+.inline-block{
+  display: inline-block !important;
+}
+/*--------------------------------
 width 宽度
 -----------------------------------------*/
 @mixin width($value: auto) {
-  width:$value;
+  width:$value !important;
 }
 
 .widthAuto{
@@ -138,8 +144,17 @@ width 宽度
 .width120{
   @include width(120px);
 }
+.width130{
+  @include width(130px);
+}
 .width140{
   @include width(140px);
+}
+.width150{
+  @include width(150px);
+}
+.width200{
+  @include width(200px);
 }
 /*--------------------------------
 margin 留白

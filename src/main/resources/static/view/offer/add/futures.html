@@ -85,7 +85,7 @@
 
         </div>
         <!--商品2-->
-        <div class="box-container" id="offer-goods-2">
+        <div class="box-container" id="offer-goods-2" style="display: none;">
             <div class="box-container-title">商品2 <span class="fa fa-caret-down text-danger"></span></div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">*品名</label>
@@ -151,18 +151,36 @@
 
         <div class="form-group">
             <label class="col-sm-2 control-label">*价格</label>
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <select class="form-control" onchange="showFloatPrice(this)" name="priceModel">
                     <option value="1">浮动价</option>
                     <option value="0">固定价</option>
                 </select>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-8" id="offer-floatPrice-box">
                 <textarea class="form-control" id="offer-floatPrice-desc" placeholder="请输入价格描述" name="priceDescription"></textarea>
             </div>
-            <div class="col-sm-4">
-                <input type="text" class="form-control mask-number" id="offer-fixPrice-value" name="priceValue"></input>
-                基于Fe%：<input type="text" class="form-control mask-number" id="offer-fixPrice-value" name="priceBasisFe"></input>
+            <div class="col-sm-8" id="offer-fixedPrice-box" style="display: none;">
+                <div class="form-group" id="offer-fixedPrice-goods-1">
+                    <label class="col-sm-2 control-label">商品1</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control mask-number width130 inline-block margin-right-10" id="offer-fixPrice-value" name="priceValueArr"/>美元/干吨
+                    </div>
+                    <label class="col-sm-2 control-label">基于Fe%：</label>
+                    <div class="col-sm-3">
+                       <input type="text" class="form-control mask-number" id="offer-fixPrice-value" name="priceBasisFeArr"/>
+                    </div>
+                </div>
+                <div class="form-group" id="offer-fixedPrice-goods-2" style="display: none;">
+                    <label class="col-sm-2 control-label">商品2</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control mask-number width130 inline-block margin-right-10" id="offer-fixPrice-value" name="priceValueArr"/>美元/干吨
+                    </div>
+                    <label class="col-sm-2 control-label">基于Fe%：</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control mask-number" id="offer-fixPrice-value" name="priceBasisFeArr"/>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -182,7 +200,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" id="offer-priceTerm-box">
             <label class="col-sm-2 control-label">*价格术语</label>
             <div class="col-sm-2">
                 <select class="form-control" data-validetta="required" id="select-priceTerm" name="priceTerm">
@@ -214,49 +232,52 @@
             </div>
         </div>
 
-        <div class="offer-content-slicer">
-            <div class="slicer-text">运输状态 （至少填一项）</div>
-        </div>
 
-        <!--运输状态-->
-        <div class="form-group">
-            <label class="col-sm-2 control-label">装船期</label>
-            <div class="col-sm-2">
-                <input type="text" class="form-control datetimepicker notime" name="transport_load" >
-            </div>
-            <div class="col-sm-2">
-                <input type="text" class="form-control datetimepicker notime" name="transport_load">
+        <div  id="offer-transportStatus-box">
+            <div class="offer-content-slicer">
+                <div class="slicer-text">运输状态 （至少填一项）</div>
             </div>
 
-            <label class="col-sm-2 control-label">提单日</label>
-            <div class="col-sm-3">
-                <input type="text" class="form-control datetimepicker notime" name="transport_bill">
-            </div>
-        </div>
+            <!--运输状态-->
+            <div class="form-group">
+                <label class="col-sm-2 control-label">装船期</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control datetimepicker" name="transport_load_start" >
+                </div>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control datetimepicker" name="transport_load_end">
+                </div>
 
-        <div class="form-group">
-            <label class="col-sm-2 control-label">ETA新加坡</label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control datetimepicker notime" name="transport_etaxjb">
-            </div>
-
-            <label class="col-sm-2 control-label">ETA青岛港</label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control datetimepicker notime" name="transport_etaqdg">
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="col-sm-2 control-label">到港月</label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control datetimepicker notime" name="transport_arrive_month">
-                 <input type="radio" value="0" name="transport_half_month" checked/>上半月
-                <input type="radio" value="1" name="transport_half_month"/>下半月
+                <label class="col-sm-2 control-label">提单日</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control datetimepicker" name="transport_bill">
+                </div>
             </div>
 
-            <label class="col-sm-2 control-label">其他</label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control" name="transport_remark">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">ETA新加坡</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" name="transport_etaxjb">
+                </div>
+
+                <label class="col-sm-2 control-label">ETA青岛港</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" name="transport_etaqdg">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">到港月</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control datetimepicker notime noday" name="transport_arrive_month">
+                     <input type="radio" value="0" name="transport_half_month" checked/>上半月
+                    <input type="radio" value="1" name="transport_half_month"/>下半月
+                </div>
+
+                <label class="col-sm-2 control-label">其他</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" name="transport_remark">
+                </div>
             </div>
         </div>
 
@@ -288,7 +309,7 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">匿名发布</label>
             <div class="col-sm-10">
-                <div id="component-toggle-anonym" inputName="isAnonymousStr" inputValue="1"></div>
+                <div id="component-toggle-anonym" inputName="isAnonymous" inputValue="1"></div>
             </div>
         </div>
 
@@ -297,7 +318,7 @@
             <button class="btn btn-primary" type="button" onclick="submit_offer()">立即发布</button>
         </div>
 
+
     </div>
 
-	<input type="hidden" name="offerStatus" value="draft" id="offerStatus"/>
 </form>
