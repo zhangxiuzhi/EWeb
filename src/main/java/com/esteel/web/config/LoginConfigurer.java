@@ -1,8 +1,10 @@
 package com.esteel.web.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.CsrfToken;
@@ -29,12 +31,13 @@ import java.io.IOException;
  * Date: 2017-12-06
  * Time: 下午2:16
  */
-@Configuration
+//@Configuration
+//@EnableWebSecurity
 public class LoginConfigurer extends WebSecurityConfigurerAdapter {
     @Override
     public void init(WebSecurity web) {
         web.ignoring().antMatchers("/")
-                .and().ignoring().antMatchers("/trade/**")
+//                .and().ignoring().antMatchers("/trade/**")
                 .and().ignoring().antMatchers("/offer/**")
                 .and().ignoring().antMatchers("/fragments/**")
                 .and().ignoring().antMatchers("/bootstrap/**")
@@ -46,13 +49,26 @@ public class LoginConfigurer extends WebSecurityConfigurerAdapter {
                 .and().ignoring().antMatchers("/react/**")
                 .and().ignoring().antMatchers("/view/**")
         ;
+
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.antMatcher("/**").authorizeRequests().anyRequest().authenticated()
-                .and().headers().frameOptions().sameOrigin()
-        ;
+        System.out.println("8888888888888888888");
+        System.out.println("8888888888888888888");
+        System.out.println("8888888888888888888");
+        System.out.println("8888888888888888888");
+        System.out.println("8888888888888888888");
+        System.out.println("8888888888888888888");
     }
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http
+//
+//        .antMatcher("/**").authorizeRequests().anyRequest().authenticated()
+//
+//        ;
+//        http.headers().frameOptions().sameOrigin();
+//    }
 
 }

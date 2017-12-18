@@ -10,6 +10,9 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @SpringBootApplication
 @EnableDiscoveryClient
@@ -17,7 +20,7 @@ import org.springframework.context.annotation.Bean;
 @EnableFeignClients
 //@EnableHystrix
 @EnableOAuth2Sso
-public class WebApplication {
+public class WebApplication extends WebSecurityConfigurerAdapter {
 
 	public static void main(String[] args) {
 		SpringApplication.run(WebApplication.class, args);
@@ -36,4 +39,12 @@ public class WebApplication {
         factory.setMaxRequestSize("102400KB");
         return factory.createMultipartConfig();
     }
+
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+
+        http.headers().frameOptions().disable().and().antMatcher("/**").authorizeRequests().anyRequest().authenticated();
+    }
+
 }
