@@ -407,12 +407,10 @@ function JBSFrame() {
 		var header = $("meta[name='_csrf_header']").attr("content");
 		var token = $("meta[name='_csrf']").attr("content");
 		var cfg = $.extend({
-
 			url:config.url,
 			method:config.method == undefined ? 'post' : config.method,
 			param:config.data,
 			dataType:config.dataType == undefined ? 'json' : config.dataType
-
 		},config);
 
 		$.ajax({
@@ -422,9 +420,9 @@ function JBSFrame() {
 			global:false,//不触发全局ajax事件
 			dataType:cfg.dataType,
 			//async: false,
-			/*beforeSend: function(xhr){
-				xhr.setRequestHeader(header, token);
-			},*/
+			beforeSend: function(xhr){
+			 xhr.setRequestHeader(header, token);
+			 },
 			success:function(msg,str,response){
 
 				//增加对返回消息的处理

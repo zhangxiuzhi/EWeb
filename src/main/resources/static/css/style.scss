@@ -1197,32 +1197,6 @@ member
 member
 企业认证,证件照片
 ------------------------------------------*/
-.img-uploadPhoto{
-  position: relative;
-  float: left;
-  vertical-align: middle;
-  text-align: center;
-  background: #f9f9f9;
-  border: 1px solid #e9eaec;
-  margin-right: 10px;
-  width: 200px;
-  height: 160px;
-  border-radius: 3px;
-  color:$color-gray-1;
-  &:before{
-    font-family: FontAwesome;
-    content:"\f067";
-    position: absolute;
-    width: 30px;
-    left:50%;
-    top:60px;
-    margin-left: -15px;
-  }
-  .btn-file{
-    margin-top:40%;
-    display: block;
-  }
-}
 
 /*--------------------------------------
 member

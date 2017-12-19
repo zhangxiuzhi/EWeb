@@ -20,6 +20,7 @@
     padding: 0px 0;
     display: inline-block;
     width: 100%;
+    min-width: 100px;
     line-height: 28px;
     border: none;
     background-color: transparent; }
@@ -82,6 +83,8 @@
       padding: 6px 40px 6px 20px; }
       .react-selectbox .react-selectbox-search .react-selectbox-search-input:focus, .react-selectbox .react-selectbox-search .react-selectbox-search-input.hasSearchValue {
         background: #fff; }
+      .react-selectbox .react-selectbox-search .react-selectbox-search-input.hasSearchValue {
+        opacity: 0; }
   .react-selectbox .react-selectbox-options {
     position: absolute;
     top: 100%;

@@ -15,6 +15,7 @@
     padding:0px 0;
     display: inline-block;
     width: 100%;
+    min-width: 100px;
     line-height: 28px;
     border:none;
     background-color: transparent;
@@ -92,6 +93,9 @@
       &:focus,
       &.hasSearchValue{
         background: #fff;
+      }
+      &.hasSearchValue{
+        opacity: 0;
       }
     }
   }

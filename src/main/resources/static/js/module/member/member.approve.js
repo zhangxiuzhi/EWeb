@@ -29,6 +29,7 @@ function JBSFrame_member_approve() {
 					ComponentSelectBox, {
 						data : JSON.parse($("#provincesJson").html()),
 						inputName : $regaddress_1.attr("inputName"),
+						//inputValue:JSON.parse($("#provincesJson").html())[0].value,
 						validetta : $regaddress_1.data("validetta"),
 						onChange : findCity
 					}), $regaddress_1[0]);
@@ -62,7 +63,7 @@ function JBSFrame_member_approve() {
 						data : JSON.parse($("#provincesJson").html()),
 						inputName : $contactAddress_1.attr("inputName"),
 						validetta : $contactAddress_1.data("validetta"),
-						onChange : findCity
+						onChange : findCity_contact
 					}), $contactAddress_1[0]);
 		}
 		var $contactAddress_2 = $("#component-contactAddress-2");
@@ -72,7 +73,7 @@ function JBSFrame_member_approve() {
 						data : [],
 						inputName : $contactAddress_2.attr("inputName"),
 						validetta : $contactAddress_2.data("validetta"),
-						onChange : findDistrict
+						onChange : findDistrict_contact
 					}), $contactAddress_2[0]);
 		}
 		var $contactAddress_3 = $("#component-contactAddress-3");
@@ -84,6 +85,24 @@ function JBSFrame_member_approve() {
 						validetta : $contactAddress_3.data("validetta")
 					}), $contactAddress_3[0]);
 		}
+		//证件正反面
+		var $uploadImage_1 = $("#component-uploadImage-id1");
+		if ($uploadImage_1.length > 0) {
+			this.selectBox_ConDistirct = ReactDOM.render(React.createElement(
+				ComponentUploadImage, {
+					label:"上传人像面",
+					inputName : $uploadImage_1.attr("inputName")
+				}), $uploadImage_1[0]);
+		}
+		var $uploadImage_2 = $("#component-uploadImage-id2");
+		if ($uploadImage_2.length > 0) {
+			this.selectBox_ConDistirct = ReactDOM.render(React.createElement(
+				ComponentUploadImage, {
+					label:"上传国徽面",
+					inputName : $uploadImage_2.attr("inputName")
+				}), $uploadImage_2[0]);
+		}
+
 		// 是否3证合一
 		var $certificate = $("#component-certificate");
 		if ($certificate.length > 0) {
@@ -154,16 +173,30 @@ $(document).ready(function(e) {
 });
 
 // 文件上传
-function upload() {
+function upload(elem) {
+	var header = $("meta[name='_csrf_header']").attr("content");
+	var token = $("meta[name='_csrf']").attr("content");
 	$.ajaxFileUpload({
-		url : '/user/uploadFile',
+		url : '/user/uploadFile?_csrf='+token,
 		secureuri : false,
 		fileElementId : "file1",// file标签的id
 		dataType : 'json',
+		beforeSend: function(xhr){
+			xhr.setRequestHeader(header, token);
+		},
 		success : function(data) {
+			console.log(data)
 			alert(123);
 		}
 	});
+
+	/*var file = elem.files[0];// 获取到input-file的文件对象
+	var url = window.URL.createObjectURL(file);
+	console.log(file,url)
+	$($(elem).parents(".img-uploadPhoto")[0]).addClass("hasImage");
+	$($(elem).parents(".img-uploadPhoto")[0]).find(".viewImg")[0].src=url*/
+
+
 }
 // 表单验证
 function chenckForm() {
@@ -211,9 +244,6 @@ function findCity(node) {
 		esteel_member_approve.selectBox_city.setState({
 			data : JSON.parse(_data[0])
 		});
-		esteel_member_approve.selectBox_ConCity.setState({
-			data : JSON.parse(_data[0])
-		});
 	})
 }
 
@@ -228,6 +258,31 @@ function findDistrict(node) {
 		esteel_member_approve.selectBox_district.setState({
 			data : JSON.parse(_data[0])
 		});
+	})
+}
+
+// 获取所有的城市下拉框
+function findCity_contact(node) {
+	esteel_member_approve.ajaxRequest({
+		url : "/company/findCity",
+		data : {
+			provinceId : node.value
+		}
+	}, function(_data) {
+		esteel_member_approve.selectBox_ConCity.setState({
+			data : JSON.parse(_data[0])
+		});
+	})
+}
+
+// 获取所有的区县下拉框
+function findDistrict_contact(node) {
+	esteel_member_approve.ajaxRequest({
+		url : "/company/findDistrict",
+		data : {
+			cityId : node.value
+		}
+	}, function(_data) {
 		esteel_member_approve.selectBox_ConDistirct.setState({
 			data : JSON.parse(_data[0])
 		});

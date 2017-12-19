@@ -54,6 +54,11 @@ jQuery
 		jQuery(oldElement).attr('id', fileId);
 		jQuery(oldElement).before(newElement);
 		jQuery(oldElement).appendTo(form);
+
+		//
+
+		//
+
 		// set attributes
 		jQuery(form).css('position', 'absolute');
 		jQuery(form).css('top', '-1200px');
@@ -76,6 +81,7 @@ jQuery
 			// Watch for a new set of requests
 			jQuery.event.trigger("ajaxStart");
 		}
+
 		var requestDone = false;
 		// Create the request object
 		var xml = {};
@@ -198,7 +204,9 @@ jQuery
 			} else {
 				form.enctype = 'multipart/form-data';
 			}
-			jQuery(form).submit();
+			console.log(jQuery(form),form)
+			form.submit();
+			//jQuery(form).submit();
 
 		} catch (e) {
 			jQuery.handleError(s, xml, null, e);
