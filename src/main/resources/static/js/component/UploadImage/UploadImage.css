@@ -1,5 +1,6 @@
 @charset "UTF-8";
-.react-uploadImage {
+.react-uploadImage,
+.img-uploadPhoto {
   position: relative;
   vertical-align: middle;
   text-align: center;
@@ -10,24 +11,24 @@
   height: 160px;
   border-radius: 3px;
   color: #ccc; }
-  .react-uploadImage .btn-file {
+  .react-uploadImage .btn-file,
+  .img-uploadPhoto .btn-file {
     position: absolute;
-    top: 50%;
-    left: 0;
+    top: 40%;
     left: 50%;
-    margin-left: -100px;
     width: 100%;
+    margin-left: -100px;
     z-index: 3; }
-    .react-uploadImage .btn-file:before {
+    .react-uploadImage .btn-file:before,
+    .img-uploadPhoto .btn-file:before {
       font-family: FontAwesome;
       content: "\f067";
-      position: absolute;
-      width: 30px;
-      left: 50%;
-      top: -20px;
-      margin-left: -15px;
-      z-index: 3; }
-  .react-uploadImage .btn-file > input[type=file] {
+      display: block;
+      display: block;
+      text-align: center;
+      width: 100%; }
+  .react-uploadImage .btn-file > input[type=file],
+  .img-uploadPhoto .btn-file > input[type=file] {
     position: absolute;
     top: 0;
     left: 0;
@@ -39,14 +40,16 @@
     transform: translate(0px, 0) scale(1);
     direction: ltr;
     cursor: pointer; }
-  .react-uploadImage .removeImage {
+  .react-uploadImage .removeImage,
+  .img-uploadPhoto .removeImage {
     position: absolute;
     right: 5px;
     top: 5px;
     color: #fff;
     display: none;
     z-index: 3; }
-  .react-uploadImage .viewImgMask {
+  .react-uploadImage .viewImgMask,
+  .img-uploadPhoto .viewImgMask {
     position: absolute;
     left: 0;
     top: 0;
@@ -55,7 +58,8 @@
     height: 100%;
     z-index: 2;
     display: none; }
-  .react-uploadImage img.viewImg {
+  .react-uploadImage img.viewImg,
+  .img-uploadPhoto img.viewImg {
     position: absolute;
     top: 0;
     left: 0;
