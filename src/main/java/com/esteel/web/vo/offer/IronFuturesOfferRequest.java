@@ -81,7 +81,7 @@ public class IronFuturesOfferRequest extends OfferIronAttachVo implements Serial
 	/**
 	 * 交易方式 1:现货, 2:点价, 3:远期
 	 */
-	private int tradeMode = 1;
+	private int tradeMode = 3;
 	/**
 	 * 有效日期
 	 */
