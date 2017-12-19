@@ -109,3 +109,66 @@ $(document).ready(function (e) {
 	esteel_safe_verifyMail.initRouter();
 });
 
+//页面加载获取登录用户手机号码
+$(document).ready(function(){
+	//var csrf = $("#csrf").val();{_csrf:csrf},
+	$.get("/user/getMobile",function(data){
+		document.getElementById('phone').innerHTML=data;
+	});
+	
+});
+//获取验证码
+function getCode(){
+	var phone = document.getElementById('phone').innerHTML;
+	esteel_safe_verifyMail.ajaxRequest({
+		url : "/user/sendSms",
+		data : {
+			mobile : phone
+		}
+	}, function(data, msg) {
+		alert(msg);
+	});
+}
+//验证用户信息
+function checkIddity(){
+	var phone = document.getElementById('phone').innerHTML;
+	var code  = $("#code").val();
+	if(code==''){
+		alert("请输入验证码");
+	}
+	esteel_safe_verifyMail.ajaxRequest({
+		url : "/user/checkIdentity",
+		data : {
+			mobile : phone,
+			code : code
+		}
+	}, function(data, msg) {
+		alert(msg);
+	});
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

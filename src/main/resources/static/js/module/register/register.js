@@ -86,12 +86,6 @@ function register() {
 			if ((/^1[34578]\d{9}$/.test(phone))) {
 				var phone = $("#mobile").val();
 				// 数据库验证
-			/*	
-				$.post("/user/checkNo", {mobile :phone,_csrf:vcsrf}, function(result) {
-					if(result.data[0]==1){
-						esteel_register.insertErrorBubble("mobile", "该号码已被注册");
-					}	
-				});*/
 				esteel_register.ajaxRequest({
 					url : "/user/checkNo",
 					data : {
@@ -99,7 +93,6 @@ function register() {
 					}
 				}, function(data,msg) {
 					if(data[0]==1){
-						alert("*****");
 						esteel_register.insertErrorBubble("mobile", "该号码已被注册");
 					}
 				});

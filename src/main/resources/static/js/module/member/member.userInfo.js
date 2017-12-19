@@ -109,11 +109,9 @@ $(document).ready(function(e) {
 
 // 修改帐号信息，用户名验证userId
 function checkForm() {
-	alert(12346);
 	var username = $("#username").val();
 	var userid = $("#userId").val();
 	esteel_member_userInfo.ajaxRequest({
-		type : 'post',
 		url : "/member/membername",
 		data : {
 			userId : userid,
@@ -122,5 +120,22 @@ function checkForm() {
 	}, function(data, msg) {
 		
 	});
+}
 
+//企业子账号申请
+function apply(){
+	var companyName = $("#tradeName").val();
+	var username = $("#applyName").val();
+	esteel_member_userInfo.ajaxRequest({
+		url : "/member/apply",
+		data : {
+			companyName : companyName,
+			username : username
+		}
+	}, function(data, msg) {
+		 $("#change").html(msg);
+	});
+	
+	
+	
 }

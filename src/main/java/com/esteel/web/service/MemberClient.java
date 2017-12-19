@@ -65,9 +65,9 @@ public interface MemberClient {
 	 * @return
 	 */
 	@RequestMapping(value = "/findCompanyById", method = RequestMethod.POST)
-	public MemberCompanyVo findCompany(long comanyId);
+	public MemberCompanyVo findCompany(@RequestParam("companyId") long companyId);
 	/**
-	 * 根据企业id获取企业信息
+	 * 根据用户id获取企业信息
 	 * @param companyId
 	 * @return
 	 */
@@ -79,7 +79,7 @@ public interface MemberClient {
 	 * @return
 	 */
 	@RequestMapping(value = "/findUser", method = RequestMethod.POST)
-	public MemberUserVo findUser(@RequestParam("userId") long userId);
+	public MemberUserVo findUser( long userId);
 	/**
 	 * 根据用户的帐号获取用户对象
 	 * @param account
@@ -102,6 +102,15 @@ public interface MemberClient {
 	 */
 	@RequestMapping(value = "/findByMemberName", method = RequestMethod.POST)
 	public MemberUserVo findByMemberName(@RequestParam("userId") int userId,@RequestParam("memberName") String memberName);
+	
+	
+	/**
+	 * 根据企业名称获取企业对象
+	 * @param companyName
+	 * @return
+	 */
+	@RequestMapping(value = "/findByComName", method = RequestMethod.POST)
+	public MemberCompanyVo findByCompanyName(@RequestParam("companyName") String companyName);
 }
 
 /**
@@ -191,6 +200,13 @@ class MemberUserClientCallback implements MemberClient {
 	 */
 	@Override
 	public MemberUserVo findByMemberName(int userId,String memberName) {
+		return null;
+	}
+	/**
+	 * 根据企业名称查询企业信息失败返回null
+	 */
+	@Override
+	public MemberCompanyVo findByCompanyName(String companyName) {
 		return null;
 	}
 

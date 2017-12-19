@@ -1,6 +1,7 @@
 package com.esteel.web.web;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,12 +12,13 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -81,7 +83,18 @@ public class MemberUserController {
 		return WebReturnMessage.sucess;
 
 	}
-
+	/**
+	 * 获取手机号码
+	 * @return
+	 */
+	@RequestMapping(value = "/getMobile")
+	@ResponseBody
+	public String  getUserMboile() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        MemberUserVo userVo = memberUserClient.findByAccount(authentication.getName());
+        String mobile = userVo.getMobile();
+		return mobile;
+	}
 	/**
 	 * 保存并发送验证码
 	 * 
@@ -197,14 +210,13 @@ public class MemberUserController {
 	 * @return
 	 */
 	@RequestMapping(value = "/findPwd", method = RequestMethod.POST)
-	public String findPassword(String mobile, String code, Model model, HttpSession session) {
+	public String findPassword(String mobile, String code, Model model) {
 		// 根据验证码确认
 		LogVerifyCodeVo codeVo = logVerityCodeClient.checkCode(code, mobile);
 		// 根据手机号码确认是否有这个用户
 		MemberUserVo checkNo = memberUserClient.checkNo(mobile);
 		if (codeVo != null && checkNo != null) {
 			// 验证成功把对象信息放入session,初期模拟登录状态
-			session.setAttribute("userVo", checkNo);
 			return "/register/recover";
 		} else {
 			model.addAttribute("false", new WebReturnMessage(false, "系统无此用户或验证码错误"));
@@ -221,89 +233,93 @@ public class MemberUserController {
 	 * @return
 	 */
 	@RequestMapping(value = "/resetPwd", method = RequestMethod.GET)
-	public String updatePwd(String pwd, HttpSession session) {
-		MemberUserVo user = new MemberUserVo();
-		String password;
-		try {
-			password = Encrypt.EncoderByMd5(pwd);
-			user.setPassword(password);
-			MemberUserVo userVo = memberUserClient.registerUser(user);
-			if (userVo != null) {
-				session.setAttribute("userVo", userVo);
-				return "/";
-			} else {
-				return "/register/resetPed"; // 返回重置页面
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "/500页面";
+	public WebReturnMessage updatePwd(String passwordA, String passwordB) {
+		if(!passwordA.equals(passwordB)) {
+			return new WebReturnMessage(false, "两次密码输入不一致");
 		}
+		//获取登录用户
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		MemberUserVo userVo = memberUserClient.findByAccount(authentication.getName());
+		Assert.notNull(userVo, "用户登录已失效");
+		try {
+			String password = Encrypt.EncoderByMd5(passwordB);
+			userVo.setPassword(password);
+			MemberUserVo userupd = memberUserClient.registerUser(userVo);
+			Assert.notNull(userupd, "修改失败");
+		} catch (Exception e) {
+			//e.printStackTrace();
+			logger.debug(this.getClass()+"修改密码失败"+e);
+			return new WebReturnMessage(false, "修改密码失败");
+		}
+		return WebReturnMessage.sucess;
 	}
 
 	/**
-	 * 登录用户身份密码验证
+	 * 登录用户身份---验证码+密码验证
 	 * 
 	 * @param moblle
 	 * @param code
 	 * @return
 	 */
-	@RequestMapping(value = "/updtPwd", method = RequestMethod.GET)
+	@RequestMapping(value = "/checkIdentityPwd", method = RequestMethod.POST)
 	@ResponseBody
-	public WebReturnMessage testMail(String mobile, String code, String password, HttpSession session) {
+	public WebReturnMessage testMail(String mobile, String code, String password) {
 		WebReturnMessage webRetMesage = null;
+		//获取登录用户
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		MemberUserVo userVo = memberUserClient.findByAccount(authentication.getName());
+		// 密码是否一致
+		boolean flag = Encrypt.EncoderByMd5(userVo.getPassword()).equals(Encrypt.EncoderByMd5(password));
+		if(!flag) {
+			return new WebReturnMessage(false, "密码错误");
+		}		
 		// 根据验证码获取
 		LogVerifyCodeVo codeVo = logVerityCodeClient.checkCode(code, mobile);
-		MemberUserVo userVo = memberUserClient.checkNo(mobile);
-		if (userVo != null && codeVo != null) {
-			boolean flag;
-			try {
-				// 密码是否一致
-				flag = Encrypt.EncoderByMd5(userVo.getPassword()).equals(Encrypt.EncoderByMd5(password));
-				if (flag) {
-					webRetMesage = new WebReturnMessage(true, "验证通过");
-					session.setAttribute("userVo", userVo);
-				} else {
-					webRetMesage = new WebReturnMessage(false, "密码错误");
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-				logger.debug("错误位置：WebReturnMessage.testMail" + e);
-				webRetMesage = new WebReturnMessage(false, "密码错误");
-			}
-		} else {
-			webRetMesage = new WebReturnMessage(false, "验证失败");
+		Assert.notNull(codeVo, "验证码错误");
+		long newTime = new Date().getTime(); // 当前时间
+		long start = codeVo.getSendTime().getTime(); // 发送时间
+		long end = codeVo.getValidTime().getTime(); // 有效时间
+		//判断是否在有效时间之内
+		if (newTime > start && newTime <= end) {
+			//验证成功修改验证状态
+			codeVo.setVerifyStatus(1);
+			//logVerityCodeClient.saveLog(codeVo);
+			return webRetMesage.sucess;
+		}else {
+			return new WebReturnMessage(false, "验证码失效");
 		}
-		return webRetMesage;
 	}
 
 	/**
-	 * 登录用户身份手机验证码验证
+	 * 登录用户身份----手机验证码验证
 	 * 
 	 * @param mobile
 	 * @param code
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value = "/checkMail", method = RequestMethod.GET)
+	@RequestMapping(value = "/checkIdentity")
 	@ResponseBody
-	public WebReturnMessage checkMail(String mobile, String code, HttpSession session) {
+	public WebReturnMessage checkMail(String mobile, String code) {
 		WebReturnMessage webRetMesage = null;
 		// 根据验证码获取
 		LogVerifyCodeVo codeVo = logVerityCodeClient.checkCode(code, mobile);
-		MemberUserVo userVo = memberUserClient.checkNo(mobile);
-		if (userVo != null && codeVo != null) {
-			long newTime = new Date().getTime(); // 当前时间
-			long start = codeVo.getSendTime().getTime(); // 发送时间
-			long end = codeVo.getValidTime().getTime(); // 有效时间
-			if (newTime > start && newTime < end) {
-				webRetMesage = new WebReturnMessage(true, "验证通过");
-			} else {
-				webRetMesage = new WebReturnMessage(true, "验证码已失效");
-			}
+		Assert.notNull(codeVo, "验证码错误");
+		long newTime = new Date().getTime(); // 当前时间
+		long start = codeVo.getSendTime().getTime(); // 发送时间
+		long end = codeVo.getValidTime().getTime(); // 有效时间
+		//判断是否在有效时间之内
+		if (newTime > start && newTime < end) {
+			//验证成功修改验证状态
+			codeVo.setVerifyStatus(1);
+			//logVerityCodeClient.saveLog(codeVo);
+			return webRetMesage.sucess;
 		} else {
-			webRetMesage = new WebReturnMessage(false, "验证失败");
+			codeVo.setVerifyStatus(2);
+			//logVerityCodeClient.saveLog(codeVo);
+			return  new WebReturnMessage(false,"验证码已失效");
+			//webRetMesage = new WebReturnMessage(true, "验证码已失效");
 		}
-		return webRetMesage;
 	}
 
 	/**
@@ -379,36 +395,29 @@ public class MemberUserController {
 	 * @param mobile
 	 * @return
 	 */
-	@RequestMapping(value = "/updMobile", method = RequestMethod.GET)
+	@RequestMapping(value = "/updMobile", method = RequestMethod.POST)
 	@ResponseBody
-	public WebReturnMessage modifyMobile(String phone, String code, String mobile) {
-		WebReturnMessage webRetMesage = null;
-		// 获取当前用户
-		MemberUserVo user = memberUserClient.checkNo(phone);
+	public WebReturnMessage modifyMobile(String code, String mobile) {
+		//获取登录用户
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		MemberUserVo userVo = memberUserClient.findByAccount(authentication.getName());
 		// 根据验证码获取
 		LogVerifyCodeVo codeVo = logVerityCodeClient.checkCode(code, mobile);
-		MemberUserVo userVo = memberUserClient.checkNo(mobile);
-		if (userVo != null && codeVo != null) {
-			long newTime = new Date().getTime(); // 当前时间
-			long start = codeVo.getSendTime().getTime(); // 发送时间
-			long end = codeVo.getValidTime().getTime(); // 有效时间
-			if (newTime > start && newTime < end) {
-				user.setMobile(mobile);
-				MemberUserVo registerUser = memberUserClient.registerUser(user);
-				if (registerUser != null) {
-					webRetMesage = new WebReturnMessage(true,
+		Assert.notNull(codeVo, "验证码错误");
+		//判断验证码是否过期
+		long newTime = new Date().getTime(); // 当前时间
+		long start = codeVo.getSendTime().getTime(); // 发送时间
+		long end = codeVo.getValidTime().getTime(); // 有效时间
+		if (newTime > start && newTime < end) {
+			//保存
+			userVo.setMobile(mobile);
+			MemberUserVo registerUser = memberUserClient.registerUser(userVo);
+			Assert.notNull(registerUser, "修改失败");
+			return new WebReturnMessage(true,
 							"\r\n" + "变更成功\r\n" + "您的手机号已经更改为" + mobile + "，需重新登录网站。\r\n" + "立即登录 ");
-				} else {
-					webRetMesage = new WebReturnMessage(false, "修改失败");
-				}
-
-			} else {
-				webRetMesage = new WebReturnMessage(false, "验证码已失效");
-			}
-		} else {
-			webRetMesage = new WebReturnMessage(false, "验证失败");
+		}else {
+			return new WebReturnMessage(true,"验证码已失效");
 		}
-		return webRetMesage;
 	}
 
 	/**
@@ -417,7 +426,7 @@ public class MemberUserController {
 	 * @param file
 	 * @return
 	 */
-	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
+	@RequestMapping(value = "/uploadFile", method = RequestMethod.GET)
 	@ResponseBody
 	public WebReturnMessage uploadFile(MultipartFile file) {
 		System.out.println("进入控制器");
@@ -492,5 +501,7 @@ public class MemberUserController {
 		}
 		return webRetMesage;
 	}
-
+	public static void main(String[] args) {
+		BigDecimal a = 157896.000000000000000000000000000045679465;
+	}
 }
