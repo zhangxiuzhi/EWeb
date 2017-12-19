@@ -501,7 +501,5 @@ public class MemberUserController {
 		}
 		return webRetMesage;
 	}
-	public static void main(String[] args) {
-		BigDecimal a = 157896.000000000000000000000000000045679465;
-	}
+	
 }
