@@ -362,8 +362,15 @@ $(document).ready(function (e) {
 function save_offer(){
     if(validateOfferInfo()){
         esteel_addOffer.confirm(null,"该报盘将作为草稿保存到我的报盘记录",function(){
+        	var _url = "/offer/validatedInStockOffer";
+			if ($("#tradeMode").val() == 'pricing') {
+				_url = "/offer/validatedPricingOffer";
+			} else if ($("#tradeMode").val() == 'futures') {
+				_url = "/offer/validatedFuturesOffer";
+			}
+			
         	 esteel_addOffer.ajaxRequest({
-     	    	url:"/offer/validatedFuturesOffer",
+     	    	url:_url,
      	        data:$('#form-offer').serialize()
      	    },  function (result) {
      	    	if (result.success) {
@@ -380,12 +387,19 @@ function save_offer(){
 function submit_offer(){
 	if(validateOfferInfo()){
 		esteel_addOffer.confirm(null,"确定要发布吗",function(){
+			var _url = "/offer/validatedInStockOffer";
+			if ($("#tradeMode").val() == 'pricing') {
+				_url = "/offer/validatedPricingOffer";
+			} else if ($("#tradeMode").val() == 'futures') {
+				_url = "/offer/validatedFuturesOffer";
+			}
+			
 			esteel_addOffer.ajaxRequest({
-     	    	url:"/offer/validatedInStockOffer",
+     	    	url:_url,
      	        data:$('#form-offer').serialize()
      	    },  function (result) {
      	    	if (result.success) {
-     	    		("#offerStatus").val("publish");
+     	    		$("#offerStatus").val("publish");
      	    		$("#form-offer")[0].submit();
      	    	} else {
      	    		alert(result.msg);
