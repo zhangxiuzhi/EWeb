@@ -30,7 +30,8 @@ class ComponentJTable extends React.Component {
 			this.thcols.push({
 				dataField: thead[i].dataField,
 				dataName: thead[i].dataName,
-				width: thead[i].width
+				width: thead[i].width,
+				align:thead[i].align
 			});
 			this.row2.push({
 				dataField: thead[i].dataField,

@@ -11,36 +11,52 @@ function JBSFrame_myOffer() {
 
 	//初始化UI
 	this.initUI = function () {
+		//菜单选中报盘记录
+		this.sidebar = ReactDOM.render(React.createElement(ComponentIronSidebar,{focusNode:{name:"myOffer",text:"报盘记录"}}), document.getElementById("component-sidebar"));
 
-		this.sidebar = ReactDOM.render(React.createElement(ComponentSidebar,{focusNode:{name:"addOffer",text:"报盘记录"}}), document.getElementById("component-sidebar"));
-	}
+		//列表状态
+		var $myOfferStatus = $("#component-myOffer-status");
+		if ($myOfferStatus.length > 0) {
+			this.table_status = ReactDOM.render(React.createElement(ComponentRadioBox, {
+				data: [
+					{id: "all", text: "所有", value: "all", name: "status"},
+					{id: "in", text: "在售", value: "in", name: "status"},
+					{id: "deal", text: "成交", value: "deal", name: "status"},
+					{id: "out", text: "下架", value: "out", name: "status"},
+					{id: "draft", text: "草稿", value: "draft", name: "status"}
+				],
+				className: "MiniTagStyle",
+				value: "all",
+				onChange: onTableStatusChange
+			}), $myOfferStatus[0]);
+		}
 
-	//初始化路由
-	this.initRouter = function () {
+		//品名
+		var $myOfferItemName = $("#component-myOffer-itemName");
+		if ($myOfferItemName.length > 0) {
+			this.selectBox_ItemName = ReactDOM.render(React.createElement(ComponentSelectBox,{
+				data:[],
+				inputName:$myOfferItemName.attr("inputName"),
+				inputValue:$myOfferItemName.attr("inputValue"),
+				onChange:onTableStatusChange
+			}), $myOfferItemName[0]);
+		}
 
-		//页面路由，在页面设置
-		var offerRoutes = {}
-		$("#router-linkNode >a").each(function(idx,elem){
-			var rr = elem.getAttribute("linkNode")
-			offerRoutes[rr] = self.loadRouter
-		})
-		var router = Router(offerRoutes);
-		router.configure({
-			on: self.selectTypeTab	//切换路由后设置高亮标签
-		});
-		router.init('/'+$("#router-linkNode >a.selected").attr("linkNode"));//初始化页面
-	}
+		//港口
+		var $myOfferPort = $("#component-myOffer-port");
+		if ($myOfferPort.length > 0) {
+			this.selectBox_port = ReactDOM.render(React.createElement(ComponentSelectBox,{
+				data:[],
+				inputName:$myOfferPort.attr("inputName"),
+				inputValue:$myOfferPort.attr("inputValue"),
+				onChange:onTableStatusChange
+			}), $myOfferPort[0]);
+		}
 
-	this.loadRouter = function(){
-		var path = window.location.hash.slice(2);
-		$("#router-pageCotainer").load('/view/offer/add/'+path+".html");	//加载静态文件
-	}
+		//列表
+		this.table = ReactDOM.render(React.createElement(MyOfferTable,{
 
-	//切换路由后设置高亮标签
-	this.selectTypeTab = function(){
-		var path = window.location.hash.slice(2);
-		$("#router-linkNode >a").removeClass("selected");
-		$("#router-linkNode >a[linkNode='"+path+"']").addClass("selected")
+		}), document.getElementById("component-myOffer-table"));
 
 	}
 
@@ -56,7 +72,9 @@ $(document).ready(function (e) {
 	esteel_myOffer = new JBSFrame_myOffer();
 	//初始化UI
 	esteel_myOffer.initUI();
-	//初始化路由
-	esteel_myOffer.initRouter();
 });
 
+//表格条件过滤
+function onTableStatusChange(){
+
+}

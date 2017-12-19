@@ -12,7 +12,7 @@ function JBSFrame_addOffer() {
  
         //主菜单栏
         //当前选中发布报盘
-        this.sidebar = ReactDOM.render(React.createElement(ComponentSidebar,{focusNode:{name:"addOffer",text:"发布报盘"}}), document.getElementById("component-sidebar"));
+        this.sidebar = ReactDOM.render(React.createElement(ComponentIronSidebar,{focusNode:{name:"addOffer",text:"发布报盘"}}), document.getElementById("component-sidebar"));
  
     }
  
@@ -30,7 +30,7 @@ function JBSFrame_addOffer() {
                 data:TradeCustomer_data
             }), $TradeCustomer[0]);
         }
- 
+
         //品名下拉
         var $ItemName = $("#component-selectBox-ItemName");
         if($ItemName.length>0){
@@ -73,7 +73,7 @@ function JBSFrame_addOffer() {
                 onChange:changeIndicatorValue //指标类型选择，改变指标值
             }), $kpiType[0]);
         }
- 
+
         //是否拆分
         var $Split = $("#component-toggle-split");
         if($Split.length>0) {
@@ -145,14 +145,14 @@ function JBSFrame_addOffer() {
             $opt = $("<option></option>").text(loadingPort[i].text).val(loadingPort[i].value);
             $("#select-loadingPort").append($opt);
         }
-        
+
         //目的港
         var dischargePort = JSON.parse($("#portJson").html());
         for(var i=0;i<dischargePort.length;i++){
             $opt = $("<option></option>").text(dischargePort[i].text).val(dischargePort[i].value);
             $("#select-dischargePort").append($opt);
         }
- 
+
         //报税区
         var $bondedAreas = $("#component-radioBoxGroup-bondedAreas");
         if($bondedAreas.length>0){
@@ -161,55 +161,55 @@ function JBSFrame_addOffer() {
                 onChange:changeBondedArea //指标类型选择，改变指标值
             }), $bondedAreas[0]);
         }
-        
+
         var bondedAreaPort = JSON.parse($("#bondedAreaPortJson").html());
-        
-        //价格术语 
+
+        //价格术语
         var priceTerm = JSON.parse($("#priceTermJson").html());
         for(var i=0;i<priceTerm.length;i++){
             $opt = $("<option></option>").text(priceTerm[i].text).val(priceTerm[i].value);
             $("#select-priceTerm").append($opt);
         }
-        
+
         //价格术语 港口
         for(var i=0;i<bondedAreaPort.length;i++){
             $opt = $("<option></option>").text(bondedAreaPort[i].text).val(bondedAreaPort[i].value);
             $("#select-priceTermPort").append($opt);
         }
-        
+
         //交货港口
         for(var i=0;i<dischargePort.length;i++){
             $opt = $("<option></option>").text(dischargePort[i].text).val(dischargePort[i].value);
             $("#offer-rules-port1").append($opt);
         }
- 
+
         //计价方式
         var pricingMethod = JSON.parse($("#pricingMethodJson").html());
         for(var i=0;i<pricingMethod.length;i++){
             $opt = $("<option></option>").text(pricingMethod[i].text).val(pricingMethod[i].value);
             $("#select-Pricing_method").append($opt);
         }
-        
+
         //交货数量标准港口
         for(var i=0;i<dischargePort.length;i++){
             $opt = $("<option></option>").text(dischargePort[i].text).val(dischargePort[i].value);
             $("#offer-rules-port2").append($opt);
         }
- 
+
         //计量方式
         var measureMethod = JSON.parse($("#measureMethodJson").html());
         for(var i=0;i<measureMethod.length;i++){
             var $opt = $("<option></option>").text(measureMethod[i].text).val(measureMethod[i].value);
             $("#select-measure_method").append($opt);
         }
-        
+
         //连铁合约
         var measureMethod = JSON.parse($("#ironContractJson").html());
         for(var i=0;i<measureMethod.length;i++){
             var $opt = $("<option></option>").text(measureMethod[i].text).val(measureMethod[i].value);
             $("#select-ironContract").append($opt);
         }
- 
+
         this.renderDatetimepicker();
         this.renderNumberMask();
     }
@@ -253,13 +253,13 @@ function JBSFrame_addOffer() {
     /*---------------------------------------------------------------------------------------------------------------------------*/
  
 }
- 
- 
+
+
 //验证报盘商品信息
 function validateOfferInfo(){
     var valid = $("#form-offer [data-validetta],#form-offer select[data-validetta]").length;
     $("#form-offer [data-validetta],#form-offer select[data-validetta]").each(function(index,element){
- 
+
         if(element.value == ""){
             insertErrorBubble($(element));
         }else{
@@ -279,11 +279,11 @@ function validateOfferInfo(){
             }else{
                 valid -=1;
             }
-*/        
-        	 valid -=1;	
+*/
+        	 valid -=1;
         }
     });
- 
+
     //验证报盘数量是否为100倍数
     if(esteel_addOffer.validatePricingNumber==false){
         valid +=1;
@@ -291,14 +291,14 @@ function validateOfferInfo(){
     //console.log("验证商品",valid)
     return valid == 0 ?true : false;
 }
- 
+
 function insertErrorBubble($element,errorText){
     $element.next(".validetta-bubble").remove();
- 
+
     var pos, W = 0, H = 0;
     var $bubble = $("<div class='validetta-bubble validetta-bubble--bottom'></div>");
     $bubble.html("此项为必填项");
- 
+
     //组件下拉
     if($element.parents(".react-selectbox").length>0) {
         //品名
@@ -343,9 +343,9 @@ function insertErrorBubble($element,errorText){
         $bubble.html(errorText);
         $element.after($bubble);
     }
- 
+
 }
- 
+
 /*
  //body load
  --------------------------------------------------------------------*/
@@ -357,7 +357,7 @@ $(document).ready(function (e) {
     //初始化路由
     esteel_addOffer.initRouter();
 });
- 
+
 //保存报盘
 function save_offer(){
     if(validateOfferInfo()){
@@ -375,7 +375,7 @@ function save_offer(){
         });
     }
 }
- 
+
 //提交报盘
 function submit_offer(){
 	if(validateOfferInfo()){
@@ -394,7 +394,7 @@ function submit_offer(){
 	    });
     }
 }
- 
+
 //品名切换改变指标值
 function changeIronAttributeLink(node){
     //典型值
@@ -417,7 +417,7 @@ function changeIronCommodityIndicator(node,index){
         }
     }
 }
- 
+
 //指标类型选择，改变指标值
 function changeIndicatorValue(value,label){
     if(value == "26" && label =="典型值"){
@@ -492,7 +492,7 @@ function showQDL(checked){
         $("#offer-qdl-box").hide();
     }
 }
- 
+
 //显示两个商品
 function show2goods(checked){
     if(checked){
@@ -503,7 +503,7 @@ function show2goods(checked){
         $("#offer-fixedPrice-goods-2").hide();
     }
 }
- 
+
 //显示浮动价
 function showFloatPrice(evt){
 	// 价格模式 0:固定价, 1:浮动价

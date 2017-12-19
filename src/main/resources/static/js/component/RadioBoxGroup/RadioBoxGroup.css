@@ -86,5 +86,33 @@
   }
 }
 */
+.react-radioBox.MiniTagStyle .radio-inline {
+  margin: 0 10px; }
+.react-radioBox.MiniTagStyle label {
+  display: block;
+  width: 100%;
+  font-size: 12px;
+  padding: 4px 10px;
+  font-weight: normal;
+  position: relative; }
+  .react-radioBox.MiniTagStyle label:before {
+    content: "";
+    display: block;
+    width: 1px;
+    height: 13px;
+    background: #cedceb;
+    position: absolute;
+    right: -10px;
+    top: 6px; }
+.react-radioBox.MiniTagStyle .radio {
+  display: none; }
+.react-radioBox.MiniTagStyle .checked .radio {
+  border: none;
+  background: #ccc; }
+  .react-radioBox.MiniTagStyle .checked .radio .point {
+    display: none; }
+.react-radioBox.MiniTagStyle .checked label {
+  background: #eaedf4;
+  border-radius: 4px; }
 
 /*# sourceMappingURL=RadioBoxGroup.css.map */

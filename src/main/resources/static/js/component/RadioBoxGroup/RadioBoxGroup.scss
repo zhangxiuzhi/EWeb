@@ -99,3 +99,43 @@
   }
 }
 */
+
+.react-radioBox.MiniTagStyle {
+  .radio-inline {
+    margin:0 10px;
+  }
+  label{
+    display: block;
+    width: 100%;
+    font-size: 12px;
+    padding:4px 10px;
+    font-weight: normal;
+    position: relative;
+    &:before{
+      content:"";
+      display: block;
+      width: 1px;
+      height:13px ;
+      background: #cedceb;
+      position: absolute;
+      right: -10px;
+      top:6px;
+    }
+  }
+  .radio {
+    display: none;
+  }
+  .checked {
+    .radio {
+      border:none;
+      background: #ccc;
+      .point {
+        display: none;
+      }
+    }
+    label{
+      background: #eaedf4;
+      border-radius: 4px;
+    }
+  }
+}

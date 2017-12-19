@@ -160,16 +160,16 @@ width 宽度
 margin 留白
 -----------------------------------------*/
 @mixin margin-left($value: auto) {
-    margin-left:$value;
+    margin-left:$value !important;
 }
 @mixin margin-right($value: auto) {
-  margin-right:$value;
+  margin-right:$value!important;
 }
 @mixin margin-top($value: auto) {
-  margin-top:$value;
+  margin-top:$value!important;
 }
 @mixin margin-bottom($value: auto) {
-  margin-bottom:$value;
+  margin-bottom:$value!important;
 }
 .margin-lr-auto{
   @include margin-left(auto);
@@ -180,6 +180,9 @@ margin 留白
   margin:0 !important;
 }
 /*左侧留白*/
+.margin-left-0 {
+  @include margin-left(0px);
+}
 .margin-left-5 {
   @include margin-left(5px);
 }
@@ -196,6 +199,9 @@ margin 留白
   @include margin-left(25px);
 }
 /*右侧留白*/
+.margin-right-0 {
+  @include margin-right(0px);
+}
 .margin-right-5 {
   @include margin-right(5px);
 }
@@ -212,6 +218,9 @@ margin 留白
   @include margin-right(25px);
 }
 /*顶部留白*/
+.margin-top-0 {
+  @include margin-top(0px);
+}
 .margin-top-5 {
   @include margin-top(5px);
 }
@@ -229,6 +238,9 @@ margin 留白
 }
 
 /*底部留白*/
+.margin-bottom-0 {
+  @include margin-bottom(0px);
+}
 .margin-bottom-5 {
   @include margin-bottom(5px);
 }
@@ -249,16 +261,16 @@ margin 留白
 padding 填充
 -----------------------------------------*/
 @mixin padding-left($value: auto) {
-  padding-left:$value;
+  padding-left:$value  !important;
 }
 @mixin padding-right($value: auto) {
-  padding-right:$value;
+  padding-right:$value  !important;
 }
 @mixin padding-top($value: auto) {
-  padding-top:$value;
+  padding-top:$value  !important;
 }
 @mixin padding-bottom($value: auto) {
-  padding-bottom:$value;
+  padding-bottom:$value !important;
 }
 /*无填充*/
 .padding0{
@@ -271,6 +283,9 @@ padding 填充
   padding:20px !important;
 }
 /*左侧填充*/
+.padding-left-0 {
+  @include padding-left(0px);
+}
 .padding-left-5 {
   @include padding-left(5px);
 }
@@ -287,6 +302,9 @@ padding 填充
   @include padding-left(25px);
 }
 /*右侧填充*/
+.padding-right-0 {
+  @include padding-right(0px);
+}
 .padding-right-5 {
   @include padding-right(5px);
 }
@@ -303,6 +321,9 @@ padding 填充
   @include padding-right(25px);
 }
 /*顶部填充*/
+.padding-top-0 {
+  @include padding-top(0px);
+}
 .padding-top-5 {
   @include padding-top(5px);
 }
@@ -319,6 +340,9 @@ padding 填充
   @include padding-top(25px);
 }
 /*底部填充*/
+.padding-bottom-0 {
+  @include padding-bottom(0px);
+}
 .padding-bottom-5 {
   @include padding-bottom(5px);
 }

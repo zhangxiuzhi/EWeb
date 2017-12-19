@@ -6,9 +6,9 @@
   position:relative;
   width:100%;
   display:inline-block;
-  -moz-box-shadow:0 0 2px rgba(0,0,0,0.3);
+ /* -moz-box-shadow:0 0 2px rgba(0,0,0,0.3);
   -webkit-box-shadow:0 0 2px rgba(0,0,0,0.3);
-  box-shadow:0 0 2px rgba(0,0,0,0.3);
+  box-shadow:0 0 2px rgba(0,0,0,0.3);*/
 
   /*按钮点击项*/
   .react-selectbox-button{
@@ -19,6 +19,9 @@
     line-height: 28px;
     border:none;
     background-color: transparent;
+    -moz-box-shadow:0 0 2px rgba(0,0,0,0.3);
+    -webkit-box-shadow:0 0 2px rgba(0,0,0,0.3);
+    box-shadow:0 0 2px rgba(0,0,0,0.3);
     &:before{
       content:"";
       position:absolute;
@@ -40,7 +43,7 @@
     .react-selectbox-btn-label{
       text-align: left;
       padding:6px 40px 6px 15px;
-      min-height:32px;
+      min-height:40px;
       white-space: nowrap;
       overflow: hidden;
       .react-selectbox-label-tag{
@@ -89,10 +92,11 @@
       background: transparent;
       border: none;
       padding: 6px 40px 6px 20px;
+      height: 40px;
 
       &:focus,
       &.hasSearchValue{
-        background: #fff;
+       /* background: #fff;*/
       }
       &.hasSearchValue{
         opacity: 0;

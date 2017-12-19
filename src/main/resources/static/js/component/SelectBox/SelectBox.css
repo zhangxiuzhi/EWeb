@@ -6,9 +6,9 @@
   position: relative;
   width: 100%;
   display: inline-block;
-  -moz-box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+  /* -moz-box-shadow:0 0 2px rgba(0,0,0,0.3);
+   -webkit-box-shadow:0 0 2px rgba(0,0,0,0.3);
+   box-shadow:0 0 2px rgba(0,0,0,0.3);*/
   /*按钮点击项*/
   /*清除按钮*/
   /*搜索框*/
@@ -23,7 +23,10 @@
     min-width: 100px;
     line-height: 28px;
     border: none;
-    background-color: transparent; }
+    background-color: transparent;
+    -moz-box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3); }
     .react-selectbox .react-selectbox-button:before {
       content: "";
       position: absolute;
@@ -43,7 +46,7 @@
     .react-selectbox .react-selectbox-button .react-selectbox-btn-label {
       text-align: left;
       padding: 6px 40px 6px 15px;
-      min-height: 32px;
+      min-height: 40px;
       white-space: nowrap;
       overflow: hidden; }
       .react-selectbox .react-selectbox-button .react-selectbox-btn-label .react-selectbox-label-tag {
@@ -80,9 +83,10 @@
       width: 100%;
       background: transparent;
       border: none;
-      padding: 6px 40px 6px 20px; }
+      padding: 6px 40px 6px 20px;
+      height: 40px; }
       .react-selectbox .react-selectbox-search .react-selectbox-search-input:focus, .react-selectbox .react-selectbox-search .react-selectbox-search-input.hasSearchValue {
-        background: #fff; }
+        /* background: #fff;*/ }
       .react-selectbox .react-selectbox-search .react-selectbox-search-input.hasSearchValue {
         opacity: 0; }
   .react-selectbox .react-selectbox-options {

@@ -3,36 +3,59 @@
 
 <head th:replace="./fragments/frontCode" />
 
-<body class="member">
-<!--椤靛ご锛岃彍鍗�-->
-<div class="header">
-    <div th:replace="./fragments/head::topbar"></div>
-    <div th:replace="./fragments/head::header-nav-simple"></div>
-</div>
+<body class="member myIron">
 
+<!--页头，菜单-->
+<div th:replace="./fragments/head::header"></div>
 
-<!--鍐呭-->
+<!--内容-->
 <div class="main">
     <div class="container">
-        <div class="sidebar">
-            <div class="sidebar-header"></div>
-            <div class="sidebar-content">
-                <div class="nav-main">
-                    <div id="component-sidebar"></div>
-                </div>
-            </div>
+        <!--侧栏-->
+        <div th:replace="./fragments/sidebar::sidebar"></div>
 
-        </div>
+        <!--内容-->
         <div class="content">
-        </div>
+
+            <div class="userContent">
+                <!--分类-->
+                <div class="type-title padding-bottom-10">
+                    <div class="t-title" id="router-linkNode">
+                        <a href="#/inStock" linkNode="inStock" class="selected">港口现货</a>
+                        <em class="t-t-line">|</em>
+                        <a href="#/futures" linkNode="futures">远期现货</a>
+                        <em class="t-t-line">|</em>
+                        <a href="#/pricing" linkNode="pricing">点价</a>
+                    </div>
+                </div>
+                <!--表格过滤筛选-->
+                <div class="filter-box clearfix">
+                    <div id="component-myOffer-status" inputName="status"></div>
+                    <div class="pull-left">
+                        <div class="form-group clearfix">
+                            <input type="text" class="form-control input-sm inline-block" style="width: 250px;"/>
+                            <button type="button" class="btn btn-xs btn-primary">查询</button>
+                        </div>
+                    </div>
+                    <div class="pull-right clearfix">
+                        <div id="component-myOffer-itemName" class="pull-left margin-right-10"></div>
+                        <div id="component-myOffer-port" class="pull-left"></div>
+                    </div>
+                </div>
+
+                <!--列表-->
+                <div id="component-myOffer-table"></div>
+
+            </div>
+         </div>
     </div>
 </div>
 
-<!--缁勪欢锛氫晶鏍忚彍鍗�-->
-<script th:src="@{/js/component/component.Sidebar.js}"></script>
-<script th:src="@{/js/component/Sidebar/SNode.js}"></script>
-<script th:src="@{/js/component/Sidebar/Sidebar.js}"></script>
-<!--鎺у埗-->
+<!--页脚，链接-->
+<div th:replace="./fragments/foot::footer"></div>
+
+<!--控制-->
 <script th:src="@{/js/module/offer/myOffer.js}"></script>
+<script th:src="@{/js/module/offer/myOffer.table.js}"></script>
 </body>
 </html>
