@@ -410,7 +410,8 @@ function JBSFrame() {
 			url:config.url,
 			method:config.method == undefined ? 'post' : config.method,
 			param:config.data,
-			dataType:config.dataType == undefined ? 'json' : config.dataType
+			dataType:config.dataType == undefined ? 'json' : config.dataType,
+			async:config.async == undefined ? true : config.async,
 		},config);
 
 		$.ajax({
@@ -419,7 +420,7 @@ function JBSFrame() {
 			data:cfg.param,
 			global:false,//不触发全局ajax事件
 			dataType:cfg.dataType,
-			//async: false,
+			async: cfg.async,
 			beforeSend: function(xhr){
 			 xhr.setRequestHeader(header, token);
 			 },
