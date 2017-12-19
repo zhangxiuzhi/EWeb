@@ -86,12 +86,14 @@ function JBSFrame_member_approve() {
 					}), $contactAddress_3[0]);
 		}
 		//证件正反面
-		var $uploadImage_1 = $("#component-uploadImage-id1");
+		/*var $uploadImage_1 = $("#component-uploadImage-id1");
 		if ($uploadImage_1.length > 0) {
 			this.selectBox_ConDistirct = ReactDOM.render(React.createElement(
 				ComponentUploadImage, {
 					label:"上传人像面",
-					inputName : $uploadImage_1.attr("inputName")
+					inputId: $uploadImage_1.attr("inputId"),
+					inputName : $uploadImage_1.attr("inputName"),
+					ajax:true
 				}), $uploadImage_1[0]);
 		}
 		var $uploadImage_2 = $("#component-uploadImage-id2");
@@ -101,7 +103,7 @@ function JBSFrame_member_approve() {
 					label:"上传国徽面",
 					inputName : $uploadImage_2.attr("inputName")
 				}), $uploadImage_2[0]);
-		}
+		}*/
 
 		// 是否3证合一
 		var $certificate = $("#component-certificate");
@@ -174,29 +176,19 @@ $(document).ready(function(e) {
 
 // 文件上传
 function upload(elem) {
-	var header = $("meta[name='_csrf_header']").attr("content");
-	var token = $("meta[name='_csrf']").attr("content");
 	$.ajaxFileUpload({
-		url : '/user/uploadFile?_csrf='+token,
-		secureuri : false,
-		fileElementId : "file1",// file标签的id
-		dataType : 'json',
-		beforeSend: function(xhr){
+		url: '/user/uploadFile',
+		secureuri: false,
+		fileElementId: elem.id,// file标签的id
+		dataType: 'json',
+		beforeSend: function (xhr) {
 			xhr.setRequestHeader(header, token);
 		},
-		success : function(data) {
+		success: function (data) {
 			console.log(data)
 			alert(123);
 		}
 	});
-
-	/*var file = elem.files[0];// 获取到input-file的文件对象
-	var url = window.URL.createObjectURL(file);
-	console.log(file,url)
-	$($(elem).parents(".img-uploadPhoto")[0]).addClass("hasImage");
-	$($(elem).parents(".img-uploadPhoto")[0]).find(".viewImg")[0].src=url*/
-
-
 }
 // 表单验证
 function chenckForm() {

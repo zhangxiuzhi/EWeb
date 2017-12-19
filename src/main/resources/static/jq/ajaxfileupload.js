@@ -56,7 +56,9 @@ jQuery
 		jQuery(oldElement).appendTo(form);
 
 		//
-
+		var $scrfElement = $("<input type='text' name='_csrf'/>");
+		$scrfElement.val($("meta[name='_csrf']").attr("content"));
+		$scrfElement.appendTo(form);
 		//
 
 		// set attributes
@@ -204,9 +206,7 @@ jQuery
 			} else {
 				form.enctype = 'multipart/form-data';
 			}
-			console.log(jQuery(form),form)
-			form.submit();
-			//jQuery(form).submit();
+			jQuery(form).submit();
 
 		} catch (e) {
 			jQuery.handleError(s, xml, null, e);

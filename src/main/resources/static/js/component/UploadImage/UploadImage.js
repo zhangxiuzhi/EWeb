@@ -11,11 +11,12 @@ class UploadImage extends React.Component {
 		super(props);
 
 		this.state = {
+			value:"aa",
 			hasImage: false,
 			label: props.label ? props.label : "上传照片"
 		};
 
-		this.upload = this.upload.bind(this);
+		//this.changeFile = this.changeFile.bind(this);
 		this.remove = this.remove.bind(this);
 	}
 
@@ -28,16 +29,23 @@ class UploadImage extends React.Component {
 		});
 	}
 
-	upload(event) {
-		var file = event.target.files[0]; // 获取到input-file的文件对象
-		var url = window.URL.createObjectURL(file);
-		this.refs.image.src = url;
-		this.setState({
-			hasImage: true,
-			text: "替换照片"
-		});
-		if (this.props.onChange) {
-			this.props.onChange(url);
+	changeFile(event) {
+		//如果为异步上传文件
+		if(this.props.ajax){
+			if (this.props.onChange) {
+				this.props.onChange(this.refs.inputFile.id,event);
+			}
+		}else{
+			var file = event.target.files[0]; // 获取到input-file的文件对象
+			var url = window.URL.createObjectURL(file);
+			this.refs.image.src = url;
+			this.setState({
+				hasImage: true,
+				text: "替换照片"
+			});
+			if (this.props.onChange) {
+				this.props.onChange(url);
+			}
 		}
 	}
 
@@ -58,10 +66,12 @@ class UploadImage extends React.Component {
 					{ ref: "text" },
 					this.state.label
 				),
-				React.createElement("input", { name: this.props.name, type: "file", onChange: this.upload })
+				React.createElement("input", {onChange:e => this.changeFile(e), id:this.props.id, name: this.props.name, type: "file", ref:"inputFile" })
 			),
 			React.createElement("div", { className: "viewImgMask" }),
 			React.createElement("img", { src: "", className: "viewImg", ref: "image" })
+
+
 		);
 	}
 }

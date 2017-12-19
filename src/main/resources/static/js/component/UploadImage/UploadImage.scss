@@ -1,5 +1,6 @@
 
-.react-uploadImage{
+.react-uploadImage,
+.img-uploadPhoto{
   position: relative;
   vertical-align: middle;
   text-align: center;
@@ -13,21 +14,18 @@
 
   .btn-file{
     position: absolute;
-    top: 50%;
-    left: 0;
+    top: 40%;
     left: 50%;
-    margin-left: -100px;
     width: 100%;
+    margin-left: -100px;
     z-index: 3;
     &:before{
       font-family: FontAwesome;
       content:"\f067";
-      position: absolute;
-      width: 30px;
-      left:50%;
-      top: -20px;
-      margin-left: -15px;
-      z-index: 3;
+      display: block;
+      display: block;
+      text-align: center;
+      width: 100%;
     }
   }
 
