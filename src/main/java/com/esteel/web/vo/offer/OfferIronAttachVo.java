@@ -69,13 +69,13 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	 */
 	@NotNull(groups = {IronPricingOffer.class }, message = "请填写交货期截止时间")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date deliveryTimeEnd;
+	private Date deliveryPeriodEnd;
 	/**
 	 * 交货期起始
 	 */
 	@NotNull(groups = {IronPricingOffer.class }, message = "请填写交货期起始时间")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date deliveryTimeStart;
+	private Date deliveryPeriodStart;
 	/**
 	 * 目的港ID
 	 */
@@ -300,17 +300,17 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	public void setCommodityName(String commodityName) {
 		this.commodityName = commodityName;
 	}
-	public Date getDeliveryTimeEnd() {
-		return deliveryTimeEnd;
+	public Date getDeliveryPeriodEnd() {
+		return deliveryPeriodEnd;
 	}
-	public void setDeliveryTimeEnd(Date deliveryTimeEnd) {
-		this.deliveryTimeEnd = deliveryTimeEnd;
+	public void setDeliveryPeriodEnd(Date deliveryPeriodEnd) {
+		this.deliveryPeriodEnd = deliveryPeriodEnd;
 	}
-	public Date getDeliveryTimeStart() {
-		return deliveryTimeStart;
+	public Date getDeliveryPeriodStart() {
+		return deliveryPeriodStart;
 	}
-	public void setDeliveryTimeStart(Date deliveryTimeStart) {
-		this.deliveryTimeStart = deliveryTimeStart;
+	public void setDeliveryPeriodStart(Date deliveryPeriodStart) {
+		this.deliveryPeriodStart = deliveryPeriodStart;
 	}
 	public String getDischargePortId() {
 		return dischargePortId;
