@@ -46,10 +46,9 @@ function JBSFrame_safe_updatePassword() {
 				return false;
 			}
 			//step 2 验证
-			if(target == "#updatePwd-step-3" && !validate()){
+			if(target == "#updatePwd-step-3" && !updatePwd()){
 				return false;
 			}
-			
 			/*--------------*/
 			
 			//显示当前步骤
@@ -147,8 +146,9 @@ function getCode(){
 }
 //验证登录用户身份
 function validate(){
+	var result = false;
 	var csrf = $("#csrf").val()
-	var phone = document.getElementById('phone').innerHTML;
+	var phone = document.getElementById('phone').value;
 	var code  = $("#code1").val();
 	var passwd  = $("#code2").val();
 	var len = code.length;
@@ -178,20 +178,27 @@ function validate(){
 	//校验验证码
 	esteel_safe_updatePassword.ajaxRequest({
 		url : "/user/checkIdentityPwd",
+		async:false,
 		data : {
 			mobile : phone,
 			code : code,
 			password : passwd
 		}
 	}, function(data, msg) {
+		if(data!=null){
+			alert(msg);
+			result = false;
+		}else{
+			result = true;
+		}
 	});
-	return true;
+	return result;
 }
 //修改密码
 function updatePwd(){
 	var pwdO = $("#oldPwd").val();
-	var pwdN  = $("#oldPwd").val();
-	if(pwdO==null||pwdO==null){
+	var pwdN  = $("#newPwd").val();
+	if(pwdO==''||pwdN==''){
 		alert("密码不能为空");
 		return false;
 	}
@@ -199,21 +206,26 @@ function updatePwd(){
 		alert("请输入6-20之间有效数字和字母组合");
 		return false;
 	}
-	if(!pwdN.equal(pwdO)){
-		alert("");
+	if(pwdN != pwdO){
+		alert("两次输入的密码不一致");
 		return false;
 	}
 	esteel_safe_updatePassword.ajaxRequest({
-		url : "/user/updtPwd",
+		url : "/user/resetPwd",
+		async:false,
 		data : {
 			passwordA : pwdO,
 			passwordB : pwdN
 		}
 	}, function(data, msg) {
+		if(data!=null){
+			alert(msg);
+			result = false;
+		}else{
+			result = true;
+		}
 	});
-	return true;
-	
-	
+	return result;
 }
 
 

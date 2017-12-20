@@ -58,10 +58,14 @@ public class Encrypt {
 			return false;
 	}
 	// 测试
-	/*
-	 * public static void main(String[] args) { try { String str =
-	 * Encrypt.EncoderByMd5("1"); System.out.println(str); } catch
-	 * (NoSuchAlgorithmException e) { e.printStackTrace(); } catch
-	 * (UnsupportedEncodingException e) { e.printStackTrace(); } }
-	 */
+
+	/*public static void main(String[] args) {
+		try {
+			String str = Encrypt.EncoderByMd5("123456");
+			System.out.println(str);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}*/
+
 }

@@ -1,5 +1,6 @@
 package com.esteel.web;
 
+import com.esteel.web.service.ContactClient;
 import com.taobao.common.tfs.TfsManager;
 import org.junit.Assert;
 import org.junit.Test;
@@ -21,6 +22,8 @@ public class WebApplicationTest {
 
     @Autowired
     TfsManager tfsManager;
+    @Autowired
+	ContactClient contactClient;
 
     @Test
     public void tfsPutTest(){
@@ -29,8 +32,5 @@ public class WebApplicationTest {
         System.out.println(file);
         boolean b1 = tfsManager.fetchFile("T11RZTB5dT1R4bAZ6K", "jpg", "e:\\3.jpg");
         Assert.assertEquals(b1,true);
-
-
-
     }
 }

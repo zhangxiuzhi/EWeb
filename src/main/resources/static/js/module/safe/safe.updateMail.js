@@ -40,6 +40,18 @@ function JBSFrame_safe_updateMail() {
 					$item = $(navListItems[i])
 				}
 			}
+			
+			
+			/*--------------*/
+			// step 1 验证
+			if (target == "#updateMail-step-2" && !checkIddity()) {
+				return false;
+			}
+			// step 2 验证
+			if (target == "#updateMail-step-3" && !updateEmail()) {
+				return false;
+			}
+			/*--------------*/
 			//显示当前步骤
 			navListItems.removeClass('active');
 			$item.addClass('active');
@@ -130,24 +142,41 @@ function getCode(){
 		alert(msg);
 	});
 }
-//验证码身份验证
-function checkIddity(){
+//验证用户信息
+function checkIddity() {
+	var result = false;
 	var phone = document.getElementById('phone').innerHTML;
-	var code  = $("#code").val();
-	if(code==''){
+	var code = $("#code").val();
+	if (code == '') {
 		alert("请输入验证码");
+		return false;
+	}
+	if (code.length != 6) {
+		alert("请输入6位验证码");
+		return false;
 	}
 	esteel_safe_updateMail.ajaxRequest({
 		url : "/user/checkIdentity",
+		async : false,
 		data : {
 			mobile : phone,
 			code : code
 		}
 	}, function(data, msg) {
-		alert(msg);
+		if (data == null) {omail
+			result = true;
+		} else {
+			alert(msg);
+			result = false;
+		}
 	});
+	return result;
 }
 
+function updateEmail(){
+	var emailn = $("#emailn").val();
+	
+}
 
 
 

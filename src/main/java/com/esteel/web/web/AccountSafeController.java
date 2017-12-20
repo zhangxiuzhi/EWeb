@@ -60,12 +60,20 @@ public class AccountSafeController {
     public String updateMail(Model model){
         return "/safe/updateMail";
     }
-    
+    /**
+     * 修改手机号
+     * @param model
+     * @return
+     */
     @RequestMapping("/updateMobile")
     public String updateMobile(Model model){
         return "/safe/updateMobile";
     }
-    
+    /**
+     * 验证邮箱
+     * @param model
+     * @return
+     */
     @RequestMapping("/verifyMail")
     public String verifyMail(Model model){
         return "/safe/verifyMail";

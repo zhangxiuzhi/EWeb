@@ -1,5 +1,7 @@
 package com.esteel.web.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,13 +28,18 @@ public interface ContactClient {
 @Component
 class ContactClientFallback implements ContactClient{
 
+	Logger logger = LoggerFactory.getLogger(ContactClientFallback.class);
+	
     @Override
     public boolean sendSms(String mobile, String sms) {
+    	logger.info("sendSms Error  mobile:{} sms:{}",mobile,sms);
         return false;
     }
 
     @Override
     public boolean sendMail(String sendTo, String subject, String htmlMessage) {
+    	System.out.println("失败调用了");
+    	logger.info("sendMail Error  mobile:{} sms:{}",sendTo,subject,htmlMessage);
         return false;
     }
 }
