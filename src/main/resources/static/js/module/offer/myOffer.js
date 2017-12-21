@@ -7,6 +7,7 @@
 function JBSFrame_myOffer() {
 	JBSFrame.call(this);
 
+	this.filter = {}
 	this.sidebar = null;//侧栏菜单
 
 	//初始化UI
@@ -21,7 +22,7 @@ function JBSFrame_myOffer() {
 				data:JSON.parse($("#offerStatusJson").html()),
 				className: "MiniTagStyle",
 				value: "all",
-				onChange: onTableStatusChange
+				onChange: onTableStatusChange_status
 			}), $myOfferStatus[0]);
 		}
 
@@ -32,7 +33,7 @@ function JBSFrame_myOffer() {
 				data:JSON.parse($("#ironCommodityJson").html()),
 				inputName:$myOfferItemName.attr("inputName"),
 				inputValue:$myOfferItemName.attr("inputValue"),
-				onChange:onTableStatusChange
+				onChange:onTableStatusChange_commodity
 			}), $myOfferItemName[0]);
 		}
 
@@ -43,7 +44,7 @@ function JBSFrame_myOffer() {
 				data:JSON.parse($("#portJson").html()),
 				inputName:$myOfferPort.attr("inputName"),
 				inputValue:$myOfferPort.attr("inputValue"),
-				onChange:onTableStatusChange
+				onChange:onTableStatusChange_port
 			}), $myOfferPort[0]);
 		}
 
@@ -68,7 +69,33 @@ $(document).ready(function (e) {
 	esteel_myOffer.initUI();
 });
 
-//表格条件过滤
-function onTableStatusChange(){
+//报盘状态条件过滤
+function onTableStatusChange_status(data){
+	steel_myOffer.filter.offerStatus = data.value;
+	
+	reload_table();
+}
 
+//品名条件过滤
+function onTableStatusChange_commodity(data){
+	esteel_myOffer.filter.commodityId = data.value;
+	
+
+	reload_table();
+}
+
+//港口条件过滤
+function onTableStatusChange_port(data){
+	esteel_myOffer.filter.portId = data.value;
+	
+	reload_table();
+}
+
+
+function reload_table(){
+	esteel_myOffer.table.reloadTable({
+		offerStatus:esteel_myOffer.filter.offerStatus,
+		commodityId:esteel_myOffer.filter.commodityId,
+		portId:esteel_myOffer.filter.portId
+	});
 }

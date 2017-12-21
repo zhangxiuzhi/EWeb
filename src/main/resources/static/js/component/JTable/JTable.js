@@ -221,7 +221,7 @@ class JTable extends React.Component {
 			url:  this.options.url,
 			data: {
 				status: status,
-				//searchData :searchData,
+				searchData :searchData,
 				page: page - 1,
 				sizePerPage: sizePerPage
 			},
@@ -239,7 +239,7 @@ class JTable extends React.Component {
 					this.setState({
 						finish: true, //加载完毕
 						searchData:searchData,	//过滤条件
-						datas: result.content,
+						datas: result.data,
 						page: result.number + 1,
 						sizePerPage: result.size,
 						totalSize: result.totalElements

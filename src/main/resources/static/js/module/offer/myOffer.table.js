@@ -11,12 +11,12 @@ class MyOfferTable extends React.Component {
 		this.thead = [
 			{ dataField: "offerCode", dataName: "商品编号",align:"left"},
 			{ dataField: "commodityName", dataName: "品名"},
-			{ dataField: "portName", dataName: "报盘账号", width: 160 },
+			{ dataField: "createUser", dataName: "报盘账号", width: 160 },
 			{ dataField: "portName", dataName: "港口"  },
 			{ dataField: "tradableQuantity", dataName: "可交易数量（湿吨）", width: 120 ,dataFormat:formatNumber },
-			{ dataField: "priceValue", dataName: "价格（元/湿吨）"  },
-			{ dataField: "loadB", dataName: "报盘有效期", width: 120,dataFormat:formatNumber},
-			{ dataField: "eta", dataName: "状态"},
+			{ dataField: "priceText", dataName: "价格（元/湿吨）"  },
+			{ dataField: "validTimeText", dataName: "报盘有效期", width: 120,dataFormat:formatNumber},
+			{ dataField: "offerStatusText", dataName: "状态"},
 			{ dataField: "etb", dataName: "操作"}
 		];
 		this.state = {

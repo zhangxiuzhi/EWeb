@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.esteel.web.vo.offer.IronOfferMainVo;
+import com.esteel.web.vo.offer.IronOfferPage;
 import com.esteel.web.vo.offer.IronOfferQueryVo;
+import com.esteel.web.vo.offer.IronOfferResponse;
 
 import feign.hystrix.FallbackFactory;
 
@@ -32,8 +34,17 @@ public interface OfferClient {
 	@RequestMapping(value = "/ironOffer", method = RequestMethod.POST)
 	public IronOfferMainVo getIronOffer(@RequestBody IronOfferQueryVo queryVo);
 	
+	@RequestMapping(value = "/updateIronOffer", method = RequestMethod.POST)
+	public IronOfferMainVo updateIronOffer(@RequestBody IronOfferQueryVo queryVo);
+	
 	@RequestMapping(value = "/ironOfferPage", method = RequestMethod.POST)
-	public Page<IronOfferMainVo> query(@RequestBody IronOfferQueryVo queryVo);
+	public IronOfferPage query(@RequestBody IronOfferQueryVo queryVo);
+	
+	@RequestMapping(value = "/updateIronOfferMain", method = RequestMethod.POST)
+	public IronOfferMainVo updateIronOfferMain(@RequestBody IronOfferQueryVo queryVo);
+	
+	@RequestMapping(value = "/updateIronOfferMainAndAttach", method = RequestMethod.POST)
+	public IronOfferMainVo updateIronOfferMainAndAttach(@RequestBody IronOfferQueryVo queryVo);
 }
 
 //@Component
@@ -70,14 +81,35 @@ class OfferClientCallbackFactory implements FallbackFactory<OfferClient> {
 			}
 
 			@Override
-			public Page<IronOfferMainVo> query(IronOfferQueryVo queryVo) {
+			public IronOfferPage query(IronOfferQueryVo queryVo) {
 				cause.printStackTrace();
 				
 				if (queryVo == null) {
 					queryVo = new IronOfferQueryVo();
 				}
 				
-				return new PageImpl<IronOfferMainVo>(new ArrayList<>(), queryVo.getPageable(), 0);
+				IronOfferPage offerPage = new IronOfferPage();
+				offerPage.setContent(new ArrayList<>());;
+				
+				return offerPage;
+			}
+
+			@Override
+			public IronOfferMainVo updateIronOffer(IronOfferQueryVo queryVo) {
+				cause.printStackTrace();
+				return null;
+			}
+
+			@Override
+			public IronOfferMainVo updateIronOfferMain(IronOfferQueryVo queryVo) {
+				cause.printStackTrace();
+				return null;
+			}
+
+			@Override
+			public IronOfferMainVo updateIronOfferMainAndAttach(IronOfferQueryVo queryVo) {
+				cause.printStackTrace();
+				return null;
 			}
 		};
 	}

@@ -35,7 +35,7 @@ public class IronOfferQueryVo extends BaseQueryVo {
 	/**
 	 * 品名ID
 	 */
-	private Long commodityId;
+	private long commodityId;
 	/**
 	 * 港口
 	 */

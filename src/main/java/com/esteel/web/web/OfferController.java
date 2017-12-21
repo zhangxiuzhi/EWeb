@@ -2,6 +2,8 @@ package com.esteel.web.web;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,9 +15,9 @@ import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.esteel.common.controller.WebReturnMessage;
 import com.esteel.common.util.EsteelConstant;
 import com.esteel.common.util.JsonUtils;
+import com.esteel.common.vo.BaseQueryVo;
 import com.esteel.common.vo.StatusMSGVo;
 import com.esteel.web.service.BaseClient;
 import com.esteel.web.service.OfferClient;
@@ -44,7 +47,9 @@ import com.esteel.web.vo.offer.IronFuturesTransportVo;
 import com.esteel.web.vo.offer.IronInStockOfferRequest;
 import com.esteel.web.vo.offer.IronOfferClauseVo;
 import com.esteel.web.vo.offer.IronOfferMainVo;
+import com.esteel.web.vo.offer.IronOfferPage;
 import com.esteel.web.vo.offer.IronOfferQueryVo;
+import com.esteel.web.vo.offer.IronOfferResponse;
 import com.esteel.web.vo.offer.IronPricingOfferRequest;
 import com.esteel.web.vo.offer.OfferAffixVo;
 import com.esteel.web.vo.offer.OfferIronAttachVo;
@@ -158,14 +163,149 @@ public class OfferController {
 	
 	@RequestMapping(value = "/ironOfferPage", method = RequestMethod.POST)
 	@ResponseBody
-    public Page<IronOfferMainVo> myOfferUI(IronOfferQueryVo queryVo){
+    public WebReturnMessage ironOfferPage(@RequestParam("searchData") String searchData, BaseQueryVo baseQueryVo){
+		WebReturnMessage webRetMesage = new WebReturnMessage(true, "success");
+		
+		IronOfferQueryVo queryVo = JsonUtils.toObject(searchData, IronOfferQueryVo.class);
 		if(queryVo == null) {
 			queryVo = new IronOfferQueryVo();
 		}
 		
-		queryVo.setSizePerPage(20);
+		queryVo.setPage(baseQueryVo.getPage());
 		
-		return offerClient.query(queryVo);
+		queryVo.setSizePerPage(baseQueryVo.getSizePerPage());
+		if (queryVo.getSizePerPage() == 0) {
+			queryVo.setSizePerPage(10);
+		}
+
+    	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+    	SimpleDateFormat timestampFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    	DecimalFormat priceFormat = new DecimalFormat("###,##0.0");
+    	DecimalFormat qtyFormat = new DecimalFormat("###,###,###,##0");
+    	
+    	IronOfferPage page = offerClient.query(queryVo);
+    	
+    	List<IronOfferResponse> offerList = page.getContent();
+    	for (IronOfferResponse pageVo: offerList) {
+    		pageVo.setPublishTimeText(pageVo.getPublishTime() == null ? null : dateFormat.format(pageVo.getPublishTime()));
+    		pageVo.setValidTimeText(pageVo.getValidTime() == null ? null : timestampFormat.format(pageVo.getValidTime()));
+    		
+    		pageVo.setOfferStatusText(EsteelConstant.OFFER_STATUS_NAME(NumberUtils.toInt(pageVo.getOfferStatus())));
+    		
+    		List<OfferIronAttachVo> offerAttachEntityList = pageVo.getOfferAttachList();
+    		if (offerAttachEntityList != null && offerAttachEntityList.size() > 0){
+    			// 交易方式 1:现货, 2:点价, 3:远期
+    			OfferIronAttachVo firstAttach = offerAttachEntityList.get(0);
+    			OfferIronAttachVo secondAttach = null;
+    			if (pageVo.getTradeMode() == EsteelConstant.TRADE_MODE_FUTURES 
+    					&& offerAttachEntityList.size() > 1) {
+    				secondAttach = offerAttachEntityList.get(1);
+    			}
+    			
+    			// 可交易量
+    			BigDecimal firstQty = 
+    					firstAttach.getOfferQuantity() == null ? new BigDecimal(0) : new BigDecimal(firstAttach.getOfferQuantity());
+    			if (firstAttach.getSoldQuantity() != null) {
+    				firstQty = firstQty.subtract(new BigDecimal(firstAttach.getSoldQuantity()));
+    				if (firstQty.compareTo(new BigDecimal(0)) < 0) {
+    					firstQty = new BigDecimal(0);
+    				}
+    			}
+    			
+    			BigDecimal secondQty = new BigDecimal(0);
+    			if (secondAttach != null) {
+    				secondQty = 
+    						secondAttach.getOfferQuantity() == null ? new BigDecimal(0) : new BigDecimal(secondAttach.getOfferQuantity());
+    				if (secondAttach.getSoldQuantity() != null) {
+    					secondQty = secondQty.subtract(new BigDecimal(secondAttach.getSoldQuantity()));
+        				if (secondQty.compareTo(new BigDecimal(0)) < 0) {
+        					secondQty = new BigDecimal(0);
+        				}
+        			}
+    			}
+    			
+    			if (secondQty.compareTo(new BigDecimal(0)) == 0) {
+    				secondAttach = null;
+    			}
+    			
+    			// 品名名称
+    			String commodityName = firstAttach.getCommodityName();
+    			if (secondAttach != null && secondAttach.getCommodityName() != null)
+    			{
+    				commodityName += "+" + firstAttach.getCommodityName();
+    			}
+    			pageVo.setCommodityName(commodityName);
+    			// 铁品位
+    			String fe = firstAttach.getFe() == null ? "" : firstAttach.getFe().toString();
+    			if (secondAttach != null && secondAttach.getFe() != null) {
+    				fe += "+" + (secondAttach.getFe() == null ? "" : secondAttach.getFe().toString());
+    			}
+    			pageVo.setFe(fe);
+    			// 港口ID
+    			long portId = firstAttach.getPortId() == null ? 0 : NumberUtils.toInt(firstAttach.getPortId());
+    			if (pageVo.getTradeMode() == EsteelConstant.TRADE_MODE_FUTURES
+    					&& NumberUtils.toInt(firstAttach.getIsBondedArea()) == EsteelConstant.NO)
+    			{
+    				portId = firstAttach.getDischargePortId() == null ? 0 : NumberUtils.toInt(firstAttach.getDischargePortId());
+    			}
+    			pageVo.setPortId(portId);
+    			// 港口
+    			String portName = firstAttach.getPortName();
+    			if (pageVo.getTradeMode() == EsteelConstant.TRADE_MODE_FUTURES
+    					&& NumberUtils.toInt(firstAttach.getIsBondedArea()) == EsteelConstant.NO)
+    			{
+    				portName = firstAttach.getDischargePortName();
+    			}
+    			pageVo.setPortName(portName);
+    			// 价格数值
+    			String priceValue = 
+    					firstAttach.getPriceValue() == null ? "0.0" : priceFormat.format(new BigDecimal(firstAttach.getPriceValue()));
+    			if (secondAttach != null && secondAttach.getPriceValue() != null) {
+    				priceValue += "+" + priceFormat.format(new BigDecimal(secondAttach.getPriceValue()));
+    			}
+    			pageVo.setPriceValue(priceValue);
+    			// 价格描述
+    			pageVo.setPriceDescription(firstAttach.getPriceDescription());
+    			//价格 文本
+    			String priceText = priceValue;
+    			if (pageVo.getTradeMode() == EsteelConstant.TRADE_MODE_FUTURES
+    					&& NumberUtils.toInt(firstAttach.getPriceModel()) == EsteelConstant.PRICE_MODEL_FLOAT) {
+    				priceText = pageVo.getPriceDescription();
+    			}
+    			pageVo.setPriceText(priceText);
+    			// 可交易重量
+    			String tradableQuantity = qtyFormat.format(firstQty);
+    			if (secondAttach != null) {
+    				tradableQuantity += "+" + qtyFormat.format(secondQty);
+    			}
+    			pageVo.setTradableQuantity(tradableQuantity);
+    			// 运输状态 Json数据
+    			pageVo.setTransportDescription(firstAttach.getTransportDescription());
+    			// 点价期
+    			String pricingPeriod = 
+    					firstAttach.getPricingPeriodStart() == null ? "" : dateFormat.format(firstAttach.getPricingPeriodStart());
+    			pricingPeriod += "-";
+    			if (secondAttach != null && secondAttach.getDeliveryPeriodEnd() != null) {
+    				pricingPeriod += 
+    						firstAttach.getDeliveryPeriodEnd() == null ? "" : dateFormat.format(firstAttach.getDeliveryPeriodEnd());
+    			}
+    			pageVo.setPricingPeriod(pricingPeriod);
+    			// 交货期
+    			String deliveryPeriod = 
+    					firstAttach.getDeliveryPeriodStart() == null ? "" : dateFormat.format(firstAttach.getDeliveryPeriodStart());
+    			deliveryPeriod += "-";
+    			if (secondAttach != null && secondAttach.getDeliveryPeriodEnd() != null) {
+    				deliveryPeriod += 
+    						firstAttach.getDeliveryPeriodEnd() == null ? "" : dateFormat.format(firstAttach.getDeliveryPeriodEnd());
+    			}
+    			pageVo.setDeliveryPeriod(deliveryPeriod);
+    		}
+    	}
+    	
+    	webRetMesage = 
+    			new WebReturnMessage(true, "success", page.getContent(), page.getNumber(), page.getSize(), page.getTotalElements());
+    	
+        return webRetMesage;
     }
 
     @RequestMapping(value = "/addOffer", method = RequestMethod.GET)
