@@ -760,17 +760,16 @@ public class OfferController {
     	// 交易方式 1:现货
     	offerMainVo.setTradeMode(EsteelConstant.TRADE_MODE_INSTOCK);
     	
-    	if (inStockOfferRequest.getOfferStatus().equals("draft")) {
-    		// 铁矿报盘状态 :草稿
-        	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_DRAFT + "");
-    	} else {
+    	if (inStockOfferRequest.getOfferStatus().equals("publish")) {
     		// 铁矿报盘状态 :发布
         	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_IN_SALE + "");
-        	offerMainVo.setPublishTime(new Date());
         	offerMainVo.setPublishUser("王雁飞测试");
+    	} else {
+    		// 铁矿报盘状态 :草稿
+        	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_DRAFT + "");
     	}
    	
-    	offerMainVo.setCompanyId(1);
+    	offerMainVo.setCompanyId(1L);
     	offerMainVo.setCreateUser("王雁飞测试");
     	offerMainVo.setUpdateUser("王雁飞测试");
     	
@@ -916,8 +915,6 @@ public class OfferController {
     	// 价格单位 人民币/湿吨
     	firstCargo.setPriceUnitId(AttributeValueOptionEnum.getInstance().CNY_WMT.getId() + "");
     	
-    	firstCargo.setPriceModel(futuresOfferRequest.getPriceModel());
-    	firstCargo.setPriceDescription(futuresOfferRequest.getPriceDescription());
     	firstCargo.setTransportDescription(JsonUtils.toJsonString(transportDescription));
     	
     	// 一船两货
@@ -949,8 +946,6 @@ public class OfferController {
         	// 价格单位 人民币/湿吨
         	secondCargo.setPriceUnitId(AttributeValueOptionEnum.getInstance().CNY_WMT.getId() + "");
         	
-    		secondCargo.setPriceModel(futuresOfferRequest.getPriceModel());
-    		secondCargo.setPriceDescription(futuresOfferRequest.getPriceDescription());
     		secondCargo.setTransportDescription(JsonUtils.toJsonString(transportDescription));
     	}
     	
@@ -958,17 +953,16 @@ public class OfferController {
     	// 交易方式 3:远期
     	offerMainVo.setTradeMode(EsteelConstant.TRADE_MODE_FUTURES);
     	
-    	if (futuresOfferRequest.getOfferStatus().equals("draft")) {
-    		// 铁矿报盘状态 :草稿
-        	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_DRAFT + "");
-    	} else {
+    	if (futuresOfferRequest.getOfferStatus().equals("publish")) {
     		// 铁矿报盘状态 :发布
         	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_IN_SALE + "");
-        	offerMainVo.setPublishTime(new Date());
         	offerMainVo.setPublishUser("王雁飞测试");
+    	} else {
+    		// 铁矿报盘状态 :草稿
+        	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_DRAFT + "");
     	}
    	
-    	offerMainVo.setCompanyId(1);
+    	offerMainVo.setCompanyId(1L);
     	offerMainVo.setCreateUser("王雁飞测试");
     	offerMainVo.setUpdateUser("王雁飞测试");
     	
@@ -1120,18 +1114,369 @@ public class OfferController {
     	// 交易方式 2:点价
     	offerMainVo.setTradeMode(EsteelConstant.TRADE_MODE_PRICING);
     	
-    	if (pricingOfferRequest.getOfferStatus().equals("draft")) {
-    		// 铁矿报盘状态 :草稿
-        	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_DRAFT + "");
-    	} else {
+    	if (pricingOfferRequest.getOfferStatus().equals("publish")) {
     		// 铁矿报盘状态 :发布
         	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_IN_SALE + "");
-        	offerMainVo.setPublishTime(new Date());
         	offerMainVo.setPublishUser("王雁飞测试");
+    	} else {
+    		// 铁矿报盘状态 :草稿
+        	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_DRAFT + "");
     	}
    	
-    	offerMainVo.setCompanyId(1);
+    	offerMainVo.setCompanyId(1L);
     	offerMainVo.setCreateUser("王雁飞测试");
+    	offerMainVo.setUpdateUser("王雁飞测试");
+    	
+    	// 保存附件
+    	// tfs 报盘附件
+    	StatusMSGVo msg = getTfsFileName(offerAffix, "报盘备注附件", 
+    			EsteelConstant.AFFIX_TYPE_OFFER_REMARKS, offerMainVo);
+    	if (msg != null && msg.getStatus() != 0) {
+    		model.addAttribute("msg", msg.getMsg());
+    		
+    		return "/offer/addOffer";
+    	}
+    	
+    	// tfs 合同附件
+    	msg = getTfsFileName(contractAffix, "报盘合同附件", 
+    			EsteelConstant.AFFIX_TYPE_OFFER_CONTRACT, offerMainVo);
+    	if (msg != null && msg.getStatus() != 0) {
+    		model.addAttribute("msg", msg.getMsg());
+    		
+    		return "/offer/addOffer";
+    	}
+    	
+    	// 交货结算条款Json
+    	offerMainVo.setClauseTemplateJson(JsonUtils.toJsonString(offerClauseVo));
+    	
+    	System.out.println(JsonUtils.toJsonString(offerMainVo));
+    	
+    	// 保存
+		IronOfferMainVo offer = offerClient.saveIronOffer(offerMainVo);
+    	
+		if (pricingOfferRequest.getOfferStatus().equals("draft")) {
+    		// 铁矿报盘状态 :草稿
+			Assert.notNull(offer, "新增失败！");
+    	} else {
+    		// 铁矿报盘状态 :草稿
+    		Assert.notNull(offer, "发布失败！");
+    	}
+    	
+        return "redirect:/offer/myOffer";
+    }
+    
+    @RequestMapping(value = "/ironOffer", method = RequestMethod.GET)
+    public String getIronOffer(long offerId, Model model){
+    	IronOfferQueryVo queryVo = new IronOfferQueryVo();
+    	queryVo.setOfferId(offerId);
+    	
+    	IronOfferMainVo offer = offerClient.getIronOffer(queryVo);
+    	model.addAttribute("offer", offer);
+    	
+    	if (offer.getTradeMode() == EsteelConstant.TRADE_MODE_INSTOCK) {
+    		 return "/offer/inStock";
+		} else if (offer.getTradeMode() == EsteelConstant.TRADE_MODE_PRICING) {
+			 return "/offer/pricing";
+		}  else if (offer.getTradeMode() == EsteelConstant.TRADE_MODE_FUTURES) {
+			 return "/offer/futures";
+		} 
+    	
+        return "/offer/inStock";
+    }
+    
+    /**
+     * 现货报盘更新
+     * @param inStockOfferRequest
+     * @param offerAffix
+     * @param offerClauseVo
+     * @param contractAffix
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/updateInStockOffer", method = RequestMethod.POST)
+    public String updateInStockOffer(IronInStockOfferRequest inStockOfferRequest, 
+    		@RequestParam("offerAffix") MultipartFile offerAffix,  IronOfferClauseVo offerClauseVo, 
+    		@RequestParam("contractAffix") MultipartFile contractAffix, Model model) {
+    	Assert.notNull(inStockOfferRequest, "提交失败！");
+    	
+    	Assert.notNull(offerClauseVo, "提交失败！");
+
+    	IronOfferMainVo offerMainVo = new IronOfferMainVo();
+    	// 将request 复制到 offerMainVo
+    	BeanUtils.copyProperties(inStockOfferRequest, offerMainVo);
+    	
+    	// 指定对手(多选值)
+    	List<Long> counterpartyIdList = null;
+    	if (inStockOfferRequest.getCounterpartyIdMulti() != null && !inStockOfferRequest.getCounterpartyIdMulti().trim().equals("")) {
+    		String[] counterpartyIdArr = inStockOfferRequest.getCounterpartyIdMulti().split(",");
+    		
+    		counterpartyIdList = 
+    				Arrays.asList(counterpartyIdArr).stream()
+    				.filter(counterpartyId -> counterpartyId != null && counterpartyId.trim().matches("^\\d+$"))
+    				.map(counterpartyId -> Long.parseLong(counterpartyId.trim())).collect(Collectors.toList()); 
+    	}
+    	
+    	if (counterpartyIdList != null && !counterpartyIdList.isEmpty()) {
+    		// 是否指定 0:否, 1:是
+    		offerMainVo.setIsDesignation("1");
+    		offerMainVo.setCounterpartyIdList(counterpartyIdList);
+    	}
+    	
+    	OfferIronAttachVo offerAttachVo = new OfferIronAttachVo();
+    	// 将request 复制到 offerAttachVo
+    	BeanUtils.copyProperties(inStockOfferRequest, offerAttachVo);
+    	
+    	offerMainVo.addOfferIronAttach(offerAttachVo);
+    	
+    	// 品名
+    	CommodityVo commodity = new CommodityVo();
+    	commodity.setCommodityId(Long.parseLong(inStockOfferRequest.getCommodityId()));
+    	
+    	CommodityVo commodityVo = baseClient.getCommodity(commodity);
+    	if (commodityVo != null) {
+    		offerAttachVo.setCommodityName(commodityVo.getCommodityName());
+    	}
+    	
+    	// 港口
+    	PortVo port = new PortVo();
+    	port.setPortId(Long.parseLong(inStockOfferRequest.getPortId()));
+    	
+    	PortVo portVo = baseClient.getPort(port);
+    	if (portVo != null) {
+    		offerAttachVo.setPortName(portVo.getPortName());
+    	}
+    	
+    	offerMainVo.setUpdateUser("王雁飞测试");
+    	
+    	// 保存附件
+    	// tfs 报盘附件
+    	StatusMSGVo msg = getTfsFileName(offerAffix, "报盘备注附件", 
+    			EsteelConstant.AFFIX_TYPE_OFFER_REMARKS, offerMainVo);
+    	if (msg != null && msg.getStatus() != 0) {
+    		model.addAttribute("msg", msg.getMsg());
+    		
+    		return "/offer/addOffer";
+    	}
+    	
+    	// tfs 合同附件
+    	msg = getTfsFileName(contractAffix, "报盘合同附件", 
+    			EsteelConstant.AFFIX_TYPE_OFFER_CONTRACT, offerMainVo);
+    	if (msg != null && msg.getStatus() != 0) {
+    		model.addAttribute("msg", msg.getMsg());
+    		
+    		return "/offer/addOffer";
+    	}
+    	
+    	// 交货结算条款Json
+    	offerMainVo.setClauseTemplateJson(JsonUtils.toJsonString(offerClauseVo));
+
+    	System.out.println(JsonUtils.toJsonString(offerMainVo));
+		
+		// 保存
+		IronOfferMainVo offer = offerClient.updateIronOffer(offerMainVo);
+    	
+		if (inStockOfferRequest.getOfferStatus().equals("draft")) {
+    		// 铁矿报盘状态 :草稿
+			Assert.notNull(offer, "新增失败！");
+    	} else {
+    		// 铁矿报盘状态 :草稿
+    		Assert.notNull(offer, "发布失败！");
+    	}
+    	
+        return "redirect:/offer/myOffer";
+    }
+    
+    /**
+     * 远期报盘保存
+     * @param futuresOfferRequest
+     * @param offerAffix
+     * @param offerClauseVo
+     * @param contractAffix
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/updateFuturesOffer", method = RequestMethod.POST)
+    public String updateFuturesOffer(IronFuturesOfferRequest futuresOfferRequest, 
+    		IronFuturesTransportVo transportDescription, 
+    		@RequestParam("offerAffix") MultipartFile offerAffix, Model model){
+    	Assert.notNull(futuresOfferRequest, "提交失败！");
+    	
+    	Assert.notNull(transportDescription, "提交失败！");
+    	
+    	IronOfferMainVo offerMainVo = new IronOfferMainVo();
+    	// 将request 复制到 offerMainVo
+    	BeanUtils.copyProperties(futuresOfferRequest, offerMainVo);
+    	
+    	// 指定对手(多选值)
+    	List<Long> counterpartyIdList = null;
+    	if (futuresOfferRequest.getCounterpartyIdMulti() != null && !futuresOfferRequest.getCounterpartyIdMulti().trim().equals("")) {
+    		String[] counterpartyIdArr = futuresOfferRequest.getCounterpartyIdMulti().split(",");
+    		
+    		counterpartyIdList = 
+    				Arrays.asList(counterpartyIdArr).stream()
+    				.filter(counterpartyId -> counterpartyId != null && counterpartyId.trim().matches("^\\d+$"))
+    				.map(counterpartyId -> Long.parseLong(counterpartyId.trim())).collect(Collectors.toList()); 
+    	}
+    	
+    	if (counterpartyIdList != null && !counterpartyIdList.isEmpty()) {
+    		// 是否指定 0:否, 1:是
+    		offerMainVo.setIsDesignation("1");
+    		offerMainVo.setCounterpartyIdList(counterpartyIdList);
+    	}
+    	
+    	// 第一个货物报盘
+    	OfferIronAttachVo firstCargo = getOne(futuresOfferRequest, 0);
+    	
+    	offerMainVo.addOfferIronAttach(firstCargo);
+    	
+    	// 品名
+    	CommodityVo commodity = new CommodityVo();
+    	commodity.setCommodityId(Long.parseLong(firstCargo.getCommodityId()));
+    	CommodityVo commodityVo = baseClient.getCommodity(commodity);
+    	if (commodityVo != null) {
+    		firstCargo.setCommodityName(commodityVo.getCommodityName());
+    	}
+    	
+    	// 港口
+    	PortVo port = new PortVo();
+    	port.setPortId(Long.parseLong(firstCargo.getPortId()));
+    	
+    	PortVo portVo = baseClient.getPort(port);
+    	if (portVo != null) {
+    		firstCargo.setPortName(portVo.getPortName());
+    	}
+    	
+    	firstCargo.setTransportDescription(JsonUtils.toJsonString(transportDescription));
+    	
+    	// 一船两货
+    	if (futuresOfferRequest.getIsMultiCargo().equals(EsteelConstant.YES + "")) {
+    		// 第二个货物报盘
+    		OfferIronAttachVo secondCargo = getOne(futuresOfferRequest, 1);
+    		
+    		offerMainVo.addOfferIronAttach(secondCargo);
+    		
+    		// 品名
+        	commodity = new CommodityVo();
+        	commodity.setCommodityId(Long.parseLong(secondCargo.getCommodityId()));
+        	commodityVo = baseClient.getCommodity(commodity);
+        	if (commodityVo != null) {
+        		secondCargo.setCommodityName(commodityVo.getCommodityName());
+        	}
+        	
+        	// 港口
+        	port = new PortVo();
+        	port.setPortId(Long.parseLong(secondCargo.getPortId()));
+        	
+        	portVo = baseClient.getPort(port);
+        	if (portVo != null) {
+        		secondCargo.setPortName(portVo.getPortName());
+        	}
+        	
+    		secondCargo.setTransportDescription(JsonUtils.toJsonString(transportDescription));
+    	}
+    	
+    	offerMainVo.setUpdateUser("王雁飞测试");
+    	
+    	// 报盘附件保存 tfs
+    	StatusMSGVo msg = getTfsFileName(offerAffix, "报盘备注附件", 
+    			EsteelConstant.AFFIX_TYPE_OFFER_REMARKS, offerMainVo);
+    	if (msg != null && msg.getStatus() != 0) {
+    		model.addAttribute("msg", msg.getMsg());
+    		
+    		return "/offer/addOffer";
+    	}
+    	
+    	System.out.println(JsonUtils.toJsonString(offerMainVo));
+    	
+    	// 保存
+		IronOfferMainVo offer = offerClient.saveIronOffer(offerMainVo);
+    	
+		if (futuresOfferRequest.getOfferStatus().equals("draft")) {
+    		// 铁矿报盘状态 :草稿
+			Assert.notNull(offer, "新增失败！");
+    	} else {
+    		// 铁矿报盘状态 :草稿
+    		Assert.notNull(offer, "发布失败！");
+    	}
+    	
+        return "redirect:/offer/myOffer";
+    }
+    
+    /**
+     * 点价报盘保存
+     * @param pricingOfferRequest
+     * @param offerAffix
+     * @param offerClauseVo
+     * @param contractAffix
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/updatePricingOffer", method = RequestMethod.POST)
+    public String updatePricingOffer(@Validated(IronPricingOffer.class) IronPricingOfferRequest pricingOfferRequest, BindingResult offerResult, 
+    		@RequestParam("offerAffix") MultipartFile offerAffix, IronOfferClauseVo offerClauseVo, 
+    		@RequestParam("contractAffix") MultipartFile contractAffix, Model model){
+    	Assert.notNull(pricingOfferRequest, "提交失败！");
+    	
+    	Assert.notNull(offerClauseVo, "提交失败！");
+    	
+    	// 页面验证
+		if(offerResult.hasErrors()) {
+			StringBuilder sb = new StringBuilder();
+			List<ObjectError> errors = offerResult.getAllErrors();
+			for (ObjectError err : errors) {
+				sb.append(err.getDefaultMessage()+";");
+			}
+			
+			model.addAttribute("msg", sb.toString());
+			System.out.println(sb.toString());
+		    
+		    return "/offer/addOffer";
+		}
+    	
+    	IronOfferMainVo offerMainVo = new IronOfferMainVo();
+    	// 将request 复制到 offerMainVo
+    	BeanUtils.copyProperties(pricingOfferRequest, offerMainVo);
+    	
+    	// 指定对手(多选值)
+    	List<Long> counterpartyIdList = null;
+    	if (pricingOfferRequest.getCounterpartyIdMulti() != null && !pricingOfferRequest.getCounterpartyIdMulti().trim().equals("")) {
+    		String[] counterpartyIdArr = pricingOfferRequest.getCounterpartyIdMulti().split(",");
+    		
+    		counterpartyIdList = 
+    				Arrays.asList(counterpartyIdArr).stream()
+    				.filter(counterpartyId -> counterpartyId != null && counterpartyId.trim().matches("^\\d+$"))
+    				.map(counterpartyId -> Long.parseLong(counterpartyId.trim())).collect(Collectors.toList()); 
+    	}
+    	
+    	if (counterpartyIdList != null && !counterpartyIdList.isEmpty()) {
+    		// 是否指定 0:否, 1:是
+    		offerMainVo.setIsDesignation("1");
+    		offerMainVo.setCounterpartyIdList(counterpartyIdList);
+    	}
+    	
+    	OfferIronAttachVo offerAttachVo = new OfferIronAttachVo();
+    	// 将request 复制到 offerAttachVo
+    	BeanUtils.copyProperties(pricingOfferRequest, offerAttachVo);
+    	
+    	offerMainVo.addOfferIronAttach(offerAttachVo);
+    	
+    	// 品名
+    	CommodityVo commodity = new CommodityVo();
+    	commodity.setCommodityId(Long.parseLong(pricingOfferRequest.getCommodityId()));
+    	CommodityVo commodityVo = baseClient.getCommodity(commodity);
+    	if (commodityVo != null) {
+    		offerAttachVo.setCommodityName(commodityVo.getCommodityName());
+    	}
+    	
+    	// 港口
+    	PortVo port = new PortVo();
+    	port.setPortId(Long.parseLong(pricingOfferRequest.getPortId()));
+    	
+    	PortVo portVo = baseClient.getPort(port);
+    	if (portVo != null) {
+    		offerAttachVo.setPortName(portVo.getPortName());
+    	}
+
     	offerMainVo.setUpdateUser("王雁飞测试");
     	
     	// 保存附件

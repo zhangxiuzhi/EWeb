@@ -35,16 +35,16 @@ public interface OfferClient {
 	public IronOfferMainVo getIronOffer(@RequestBody IronOfferQueryVo queryVo);
 	
 	@RequestMapping(value = "/updateIronOffer", method = RequestMethod.POST)
-	public IronOfferMainVo updateIronOffer(@RequestBody IronOfferQueryVo queryVo);
+	public IronOfferMainVo updateIronOffer(@RequestBody IronOfferMainVo ironOfferVo);
 	
 	@RequestMapping(value = "/ironOfferPage", method = RequestMethod.POST)
 	public IronOfferPage query(@RequestBody IronOfferQueryVo queryVo);
 	
 	@RequestMapping(value = "/updateIronOfferMain", method = RequestMethod.POST)
-	public IronOfferMainVo updateIronOfferMain(@RequestBody IronOfferQueryVo queryVo);
+	public IronOfferMainVo updateIronOfferMain(@RequestBody IronOfferMainVo ironOfferVo);
 	
 	@RequestMapping(value = "/updateIronOfferMainAndAttach", method = RequestMethod.POST)
-	public IronOfferMainVo updateIronOfferMainAndAttach(@RequestBody IronOfferQueryVo queryVo);
+	public IronOfferMainVo updateIronOfferMainAndAttach(@RequestBody IronOfferMainVo ironOfferVo);
 }
 
 //@Component
@@ -89,25 +89,25 @@ class OfferClientCallbackFactory implements FallbackFactory<OfferClient> {
 				}
 				
 				IronOfferPage offerPage = new IronOfferPage();
-				offerPage.setContent(new ArrayList<>());;
+				offerPage.setContent(new ArrayList<>());
 				
 				return offerPage;
 			}
 
 			@Override
-			public IronOfferMainVo updateIronOffer(IronOfferQueryVo queryVo) {
+			public IronOfferMainVo updateIronOffer(IronOfferMainVo ironOfferVo) {
 				cause.printStackTrace();
 				return null;
 			}
 
 			@Override
-			public IronOfferMainVo updateIronOfferMain(IronOfferQueryVo queryVo) {
+			public IronOfferMainVo updateIronOfferMain(IronOfferMainVo ironOfferVo) {
 				cause.printStackTrace();
 				return null;
 			}
 
 			@Override
-			public IronOfferMainVo updateIronOfferMainAndAttach(IronOfferQueryVo queryVo) {
+			public IronOfferMainVo updateIronOfferMainAndAttach(IronOfferMainVo ironOfferVo) {
 				cause.printStackTrace();
 				return null;
 			}

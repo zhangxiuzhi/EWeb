@@ -33,7 +33,7 @@ public class IronOfferMainVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 报盘方ID
 	 */
-	private long companyId;
+	private Long companyId;
 	/**
 	 * 合同模版ID
 	 */
@@ -49,7 +49,7 @@ public class IronOfferMainVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 创建人ID
 	 */
-	private long createUserId;
+	private Long createUserId;
 	/**
 	 * 是否匿名 0:否, 1:是
 	 */
@@ -93,7 +93,7 @@ public class IronOfferMainVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 发布人ID
 	 */
-	private long publishUserId;
+	private Long publishUserId;
 	/**
 	 * 备注
 	 */
@@ -105,7 +105,7 @@ public class IronOfferMainVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 交易方式 1:现货, 2:点价, 3:远期
 	 */
-	private int tradeMode;
+	private Integer tradeMode;
 	/**
 	 * 更新时间
 	 */
@@ -117,7 +117,7 @@ public class IronOfferMainVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 更新人ID
 	 */
-	private long updateUserId;
+	private Long updateUserId;
 	/**
 	 * 有效日期
 	 */
@@ -208,10 +208,10 @@ public class IronOfferMainVo extends StatusMSGVo implements Serializable {
 	public void setClauseTemplateJson(String clauseTemplateJson) {
 		this.clauseTemplateJson = clauseTemplateJson;
 	}
-	public long getCompanyId() {
+	public Long getCompanyId() {
 		return companyId;
 	}
-	public void setCompanyId(long companyId) {
+	public void setCompanyId(Long companyId) {
 		this.companyId = companyId;
 	}
 	public String getContractTemplateId() {
@@ -232,10 +232,10 @@ public class IronOfferMainVo extends StatusMSGVo implements Serializable {
 	public void setCreateUser(String createUser) {
 		this.createUser = createUser;
 	}
-	public long getCreateUserId() {
+	public Long getCreateUserId() {
 		return createUserId;
 	}
-	public void setCreateUserId(long createUserId) {
+	public void setCreateUserId(Long createUserId) {
 		this.createUserId = createUserId;
 	}
 	public String getIsAnonymous() {
@@ -298,10 +298,10 @@ public class IronOfferMainVo extends StatusMSGVo implements Serializable {
 	public void setPublishUser(String publishUser) {
 		this.publishUser = publishUser;
 	}
-	public long getPublishUserId() {
+	public Long getPublishUserId() {
 		return publishUserId;
 	}
-	public void setPublishUserId(long publishUserId) {
+	public void setPublishUserId(Long publishUserId) {
 		this.publishUserId = publishUserId;
 	}
 	public String getOfferRemarks() {
@@ -316,10 +316,10 @@ public class IronOfferMainVo extends StatusMSGVo implements Serializable {
 	public void setTradeDirection(String tradeDirection) {
 		this.tradeDirection = tradeDirection;
 	}
-	public int getTradeMode() {
+	public Integer getTradeMode() {
 		return tradeMode;
 	}
-	public void setTradeMode(int tradeMode) {
+	public void setTradeMode(Integer tradeMode) {
 		this.tradeMode = tradeMode;
 	}
 	public Date getUpdateTime() {
@@ -334,10 +334,10 @@ public class IronOfferMainVo extends StatusMSGVo implements Serializable {
 	public void setUpdateUser(String updateUser) {
 		this.updateUser = updateUser;
 	}
-	public long getUpdateUserId() {
+	public Long getUpdateUserId() {
 		return updateUserId;
 	}
-	public void setUpdateUserId(long updateUserId) {
+	public void setUpdateUserId(Long updateUserId) {
 		this.updateUserId = updateUserId;
 	}
 	public Date getValidTime() {
