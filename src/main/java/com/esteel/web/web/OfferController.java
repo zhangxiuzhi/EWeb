@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -43,6 +44,7 @@ import com.esteel.web.vo.offer.IronFuturesTransportVo;
 import com.esteel.web.vo.offer.IronInStockOfferRequest;
 import com.esteel.web.vo.offer.IronOfferClauseVo;
 import com.esteel.web.vo.offer.IronOfferMainVo;
+import com.esteel.web.vo.offer.IronOfferQueryVo;
 import com.esteel.web.vo.offer.IronPricingOfferRequest;
 import com.esteel.web.vo.offer.OfferAffixVo;
 import com.esteel.web.vo.offer.OfferIronAttachVo;
@@ -72,9 +74,98 @@ public class OfferController {
 	@Autowired
     TfsManager tfsManager;
 	
-	@RequestMapping("/myOffer")
-    public String myOfferUI(){
+	@RequestMapping(value = "/myOffer", method = RequestMethod.GET)
+    public String myOfferUI(Model model){
+		/* 页面数据组装 开始 */
+    	/**
+    	 * 品名列表
+    	 * 格式:[{"text":"commodityName","value":"commodityId","key":"commodityAlias"},...]
+    	 */
+    	List<Map<String, String>> ironCommodityList = new ArrayList<Map<String, String>>();
+    	List<CommodityVo> ironCommoditys = baseClient.findCommodityListByIron();
+    	ironCommoditys.forEach(commodityVo -> {
+    		Map<String, String> ironCommodityMap = new HashMap<>();
+    		ironCommodityList.add(ironCommodityMap);
+    		ironCommodityMap.put("text", commodityVo.getCommodityName());
+    		ironCommodityMap.put("value", commodityVo.getCommodityId() + "");
+    		ironCommodityMap.put("key", commodityVo.getCommodityAlias());
+    	});
+    	
+    	/**
+    	 * 港口列表
+    	 * 格式:[{"text":"portName","value":"portId","key":"portName,portNameEn"},...]
+    	 */
+		List<Map<String, String>> portList = new ArrayList<Map<String, String>>();
+		
+    	List<PortVo> ports = baseClient.findPortListForOffer();
+    	ports.forEach(port -> {
+    		Map<String, String> portMap = new HashMap<>();
+    		portList.add(portMap);
+    		portMap.put("text", port.getPortName());
+    		portMap.put("value", port.getPortId() + "");
+    		portMap.put("key", port.getPortName() + "," + port.getPortNameEn());
+    	});
+    	
+    	/**
+    	 * 交易方式
+    	 * 格式:[{"text":"","value":"","key":""},...]
+    	 */
+    	List<Map<String, String>> offerStatusList = new ArrayList<Map<String, String>>();
+    	
+    	Map<String, String> offerStatusMap = new HashMap<>();
+    	offerStatusList.add(offerStatusMap);
+    	offerStatusMap.put("text", EsteelConstant.OFFER_STATUS_NAME(EsteelConstant.ALL));
+    	offerStatusMap.put("value", EsteelConstant.ALL + "");
+    	offerStatusMap.put("key", EsteelConstant.OFFER_STATUS_NAME(EsteelConstant.ALL));
+    	
+    	offerStatusMap = new HashMap<>();
+    	offerStatusList.add(offerStatusMap);
+    	offerStatusMap.put("text", EsteelConstant.OFFER_STATUS_NAME(EsteelConstant.OFFER_STATUS_IN_SALE));
+    	offerStatusMap.put("value", EsteelConstant.OFFER_STATUS_DRAFT + "");
+    	offerStatusMap.put("key", EsteelConstant.OFFER_STATUS_NAME(EsteelConstant.OFFER_STATUS_IN_SALE));
+    	
+    	offerStatusMap = new HashMap<>();
+    	offerStatusList.add(offerStatusMap);
+    	offerStatusMap.put("text", EsteelConstant.OFFER_STATUS_NAME(EsteelConstant.OFFER_STATUS_SOLD_OUT));
+    	offerStatusMap.put("value", EsteelConstant.OFFER_STATUS_DRAFT + "");
+    	offerStatusMap.put("key", EsteelConstant.OFFER_STATUS_NAME(EsteelConstant.OFFER_STATUS_SOLD_OUT));
+    	
+    	offerStatusMap = new HashMap<>();
+    	offerStatusList.add(offerStatusMap);
+    	offerStatusMap.put("text", EsteelConstant.OFFER_STATUS_NAME(EsteelConstant.OFFER_STATUS_OFF_SHELVES));
+    	offerStatusMap.put("value", EsteelConstant.OFFER_STATUS_DRAFT + "");
+    	offerStatusMap.put("key", EsteelConstant.OFFER_STATUS_NAME(EsteelConstant.OFFER_STATUS_OFF_SHELVES));
+    	
+    	offerStatusMap = new HashMap<>();
+    	offerStatusList.add(offerStatusMap);
+    	offerStatusMap.put("text", EsteelConstant.OFFER_STATUS_NAME(EsteelConstant.OFFER_STATUS_DRAFT));
+    	offerStatusMap.put("value", EsteelConstant.OFFER_STATUS_DRAFT + "");
+    	offerStatusMap.put("key", EsteelConstant.OFFER_STATUS_NAME(EsteelConstant.OFFER_STATUS_DRAFT));
+    	
+    	/* 页面数据组装 结束 */
+    	
+    	/* 页面数据传输 开始 */
+    	// 品名列表Json
+    	model.addAttribute("ironCommodityJson", JSONArray.toJSONString(ironCommodityList));
+    	// 港口列表Json
+    	model.addAttribute("portJson", JSONArray.toJSONString(portList));
+    	// 状态列表Json
+    	model.addAttribute("offerStatusJson", JSONArray.toJSONString(offerStatusList));
+    	/* 页面数据传输 结束 */
+    	
         return "/offer/myOffer";
+    }
+	
+	@RequestMapping(value = "/ironOfferPage", method = RequestMethod.POST)
+	@ResponseBody
+    public Page<IronOfferMainVo> myOfferUI(IronOfferQueryVo queryVo){
+		if(queryVo == null) {
+			queryVo = new IronOfferQueryVo();
+		}
+		
+		queryVo.setSizePerPage(20);
+		
+		return offerClient.query(queryVo);
     }
 
     @RequestMapping(value = "/addOffer", method = RequestMethod.GET)
@@ -534,7 +625,7 @@ public class OfferController {
         	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_DRAFT + "");
     	} else {
     		// 铁矿报盘状态 :发布
-        	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_In_SALE + "");
+        	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_IN_SALE + "");
         	offerMainVo.setPublishTime(new Date());
         	offerMainVo.setPublishUser("王雁飞测试");
     	}
@@ -732,7 +823,7 @@ public class OfferController {
         	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_DRAFT + "");
     	} else {
     		// 铁矿报盘状态 :发布
-        	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_In_SALE + "");
+        	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_IN_SALE + "");
         	offerMainVo.setPublishTime(new Date());
         	offerMainVo.setPublishUser("王雁飞测试");
     	}
@@ -894,7 +985,7 @@ public class OfferController {
         	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_DRAFT + "");
     	} else {
     		// 铁矿报盘状态 :发布
-        	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_In_SALE + "");
+        	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_IN_SALE + "");
         	offerMainVo.setPublishTime(new Date());
         	offerMainVo.setPublishUser("王雁飞测试");
     	}

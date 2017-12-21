@@ -18,13 +18,7 @@ function JBSFrame_myOffer() {
 		var $myOfferStatus = $("#component-myOffer-status");
 		if ($myOfferStatus.length > 0) {
 			this.table_status = ReactDOM.render(React.createElement(ComponentRadioBox, {
-				data: [
-					{id: "all", text: "所有", value: "all", name: "status"},
-					{id: "in", text: "在售", value: "in", name: "status"},
-					{id: "deal", text: "成交", value: "deal", name: "status"},
-					{id: "out", text: "下架", value: "out", name: "status"},
-					{id: "draft", text: "草稿", value: "draft", name: "status"}
-				],
+				data:JSON.parse($("#offerStatusJson").html()),
 				className: "MiniTagStyle",
 				value: "all",
 				onChange: onTableStatusChange
@@ -35,7 +29,7 @@ function JBSFrame_myOffer() {
 		var $myOfferItemName = $("#component-myOffer-itemName");
 		if ($myOfferItemName.length > 0) {
 			this.selectBox_ItemName = ReactDOM.render(React.createElement(ComponentSelectBox,{
-				data:[],
+				data:JSON.parse($("#ironCommodityJson").html()),
 				inputName:$myOfferItemName.attr("inputName"),
 				inputValue:$myOfferItemName.attr("inputValue"),
 				onChange:onTableStatusChange
@@ -46,7 +40,7 @@ function JBSFrame_myOffer() {
 		var $myOfferPort = $("#component-myOffer-port");
 		if ($myOfferPort.length > 0) {
 			this.selectBox_port = ReactDOM.render(React.createElement(ComponentSelectBox,{
-				data:[],
+				data:JSON.parse($("#portJson").html()),
 				inputName:$myOfferPort.attr("inputName"),
 				inputValue:$myOfferPort.attr("inputValue"),
 				onChange:onTableStatusChange

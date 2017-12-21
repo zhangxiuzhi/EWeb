@@ -1,14 +1,17 @@
 package com.esteel.web.service;
 
-import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.esteel.web.vo.offer.IronOfferMainVo;
+import com.esteel.web.vo.offer.IronOfferQueryVo;
 
 import feign.hystrix.FallbackFactory;
 
@@ -25,6 +28,12 @@ import feign.hystrix.FallbackFactory;
 public interface OfferClient {
 	@RequestMapping(value = "/saveIronOffer", method = RequestMethod.POST)
 	public IronOfferMainVo saveIronOffer(@RequestBody IronOfferMainVo ironOfferVo);
+	
+	@RequestMapping(value = "/ironOffer", method = RequestMethod.POST)
+	public IronOfferMainVo getIronOffer(@RequestBody IronOfferQueryVo queryVo);
+	
+	@RequestMapping(value = "/ironOfferPage", method = RequestMethod.POST)
+	public Page<IronOfferMainVo> query(@RequestBody IronOfferQueryVo queryVo);
 }
 
 //@Component
@@ -52,6 +61,23 @@ class OfferClientCallbackFactory implements FallbackFactory<OfferClient> {
 			public IronOfferMainVo saveIronOffer(IronOfferMainVo ironOfferVo) {
 				cause.printStackTrace();
 				return null;
+			}
+
+			@Override
+			public IronOfferMainVo getIronOffer(IronOfferQueryVo queryVo) {
+				cause.printStackTrace();
+				return null;
+			}
+
+			@Override
+			public Page<IronOfferMainVo> query(IronOfferQueryVo queryVo) {
+				cause.printStackTrace();
+				
+				if (queryVo == null) {
+					queryVo = new IronOfferQueryVo();
+				}
+				
+				return new PageImpl<IronOfferMainVo>(new ArrayList<>(), queryVo.getPageable(), 0);
 			}
 		};
 	}

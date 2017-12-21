@@ -9,12 +9,12 @@ class MyOfferTable extends React.Component {
 		super(props);
 
 		this.thead = [
-			{ dataField: "dataTime", dataName: "商品编号",align:"left"},
-			{ dataField: "shipName", dataName: "品名"},
+			{ dataField: "offerCode", dataName: "商品编号",align:"left"},
+			{ dataField: "commodityName", dataName: "品名"},
 			{ dataField: "portName", dataName: "报盘账号", width: 160 },
-			{ dataField: "goodsA", dataName: "港口"  },
-			{ dataField: "loadA", dataName: "数量（湿吨）", width: 120 ,dataFormat:formatNumber },
-			{ dataField: "goodsB", dataName: "价格（元/湿吨）"  },
+			{ dataField: "portName", dataName: "港口"  },
+			{ dataField: "tradableQuantity", dataName: "可交易数量（湿吨）", width: 120 ,dataFormat:formatNumber },
+			{ dataField: "priceValue", dataName: "价格（元/湿吨）"  },
 			{ dataField: "loadB", dataName: "报盘有效期", width: 120,dataFormat:formatNumber},
 			{ dataField: "eta", dataName: "状态"},
 			{ dataField: "etb", dataName: "操作"}
@@ -36,7 +36,7 @@ class MyOfferTable extends React.Component {
 	render() {
 		var datas = this.state.data;
 		var options = {
-			url:"/data/dataArrivalsList",
+			url:"/offer/ironOfferPage",
 			thead: this.thead,
 			status: this.props.status,
 			searchData:this.props.searchData,
