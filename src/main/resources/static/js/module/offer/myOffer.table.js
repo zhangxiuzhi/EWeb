@@ -45,14 +45,19 @@ class MyOfferTable extends React.Component {
 		return React.createElement(ComponentJTable, {options: options, datas: datas, ref: "jtable"});
 	}
 }
+//数量
 function formatNumber(cell){
 	return "<span>"+cell+"</span>";
 }
+//状态
 function formatStatus(cell){
-	alert(cell)
-	return "<a href=''>"+cell+"</a>";
+	var html = "";
+	html += "<div><span>"+cell+"</span></div>";
+	html += "<div><a href='' onclick='onTableViewDetail()'>查看详情</a></div>";
+	html += "<div><a href='' onclick='onTableEdit()'>编辑</a></div>";
+	return html;
 }
+//操作
 function formatOperation(cell){
-	alert(cell)
-	return "<a href=''>"+cell+"</a>";
+	return "<a href='' onclick=onTableOperation('"+cell+"')>"+cell+"</a>";
 }
