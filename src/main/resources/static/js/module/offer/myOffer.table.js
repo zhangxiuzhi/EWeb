@@ -27,10 +27,7 @@ class MyOfferTable extends React.Component {
 	}
 
 	reloadTable(_searchData){
-		this.refs.jtable.refs.jtable.setState({
-			searchData:_searchData
-		});
-		this.refs.jtable.refs.jtable.ajaxRequestData()
+		this.refs.jtable.reloadTable(_searchData);
 	}
 
 	render() {

@@ -7,7 +7,12 @@
 function JBSFrame_myOffer() {
 	JBSFrame.call(this);
 
-	this.filter = {}
+	//列表过滤条件
+	this.filter = {
+		offerStatus:"",
+		commodityId:"",
+		portId:""
+	}
 	this.sidebar = null;//侧栏菜单
 
 	//初始化UI
@@ -50,7 +55,7 @@ function JBSFrame_myOffer() {
 
 		//列表
 		this.table = ReactDOM.render(React.createElement(MyOfferTable,{
-
+			searchData:this.filter
 		}), document.getElementById("component-myOffer-table"));
 
 	}
