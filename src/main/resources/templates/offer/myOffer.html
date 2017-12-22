@@ -33,11 +33,12 @@
                     <div id="component-myOffer-status" inputName="offerStatus"></div>
                     <div class="pull-left">
                         <div class="form-group clearfix">
-                            <input type="text" class="form-control input-sm inline-block" style="width: 250px;"/>
-                            <button type="button" class="btn btn-xs btn-primary">查询</button>
+                            <input type="text" class="form-control input-sm inline-block" style="width: 250px;" id="myoffer-filter-id"/>
+                            <button type="button" class="btn btn-xs btn-primary" onclick="onTableStatusChange_id()">查询</button>
                         </div>
                     </div>
                     <div class="pull-right clearfix">
+                        <div id="component-myOffer-createUser" class="pull-left margin-right-10" inputName="createUser"></div>
                         <div id="component-myOffer-itemName" class="pull-left margin-right-10" inputName="commodityId"></div>
                         <div id="component-myOffer-port" class="pull-left" inputName="portId"></div>
                     </div>
