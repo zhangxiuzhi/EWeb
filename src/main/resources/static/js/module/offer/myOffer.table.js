@@ -33,7 +33,7 @@ class MyOfferTable extends React.Component {
 	render() {
 		var datas = this.state.data;
 		var options = {
-			url:"/offer/ironOfferPage",
+			url:"/offer/iron/myList",
 			thead: this.thead,
 			status: this.props.status,
 			searchData:this.props.searchData,

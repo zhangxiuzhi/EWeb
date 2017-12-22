@@ -34,8 +34,7 @@ public class IronOfferPage implements Serializable {
 	/**
 	 * Returns the page content as Slice.
 	 */
-	private List<IronOfferResponse> content;
-
+	private List<IronOfferResponse> data;
 
 	public int getTotalPages() {
 		return totalPages;
@@ -77,11 +76,11 @@ public class IronOfferPage implements Serializable {
 		this.numberOfElements = numberOfElements;
 	}
 
-	public List<IronOfferResponse> getContent() {
-		return content;
+	public List<IronOfferResponse> getData() {
+		return data;
 	}
 
-	public void setContent(List<IronOfferResponse> content) {
-		this.content = content;
+	public void setData(List<IronOfferResponse> data) {
+		this.data = data;
 	}
 }
