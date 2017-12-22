@@ -211,20 +211,22 @@ class JTable extends React.Component {
 	/*******************************************************************/
 	//ajax加载数据
 	ajaxRequestData(status = this.state.status, searchData = this.state.searchData, page = this.state.page, sizePerPage = this.state.sizePerPage) {
-		var header = $("meta[name='_csrf_header']").attr("content");
-		var token = $("meta[name='_csrf']").attr("content");
+		var _d = {
+			status: status,
+			//searchData :searchData,
+			pageNum: page,
+			pageSize: sizePerPage
+		}
+		for(var s in searchData){
+			_d[s] = searchData[s];
+		}
 
 		//开始加载
 		this.setState({ finish: false });
 		//ajax
 		$.ajax({
 			url:  this.options.url,
-			data: {
-				status: status,
-				searchData :searchData,
-				page: page - 1,
-				sizePerPage: sizePerPage
-			},
+			data:_d,
 			method: "POST",
 			dataType: "JSON",
 			/*beforeSend: function (xhr) {

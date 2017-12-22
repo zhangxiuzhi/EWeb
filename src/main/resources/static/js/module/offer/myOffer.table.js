@@ -16,8 +16,8 @@ class MyOfferTable extends React.Component {
 			{ dataField: "tradableQuantity", dataName: "可交易数量（湿吨）", width: 120 ,dataFormat:formatNumber },
 			{ dataField: "priceText", dataName: "价格（元/湿吨）"  },
 			{ dataField: "validTimeText", dataName: "报盘有效期", width: 120,dataFormat:formatNumber},
-			{ dataField: "offerStatusText", dataName: "状态"},
-			{ dataField: "etb", dataName: "操作"}
+			{ dataField: "offerStatusText", dataName: "状态",dataFormat:formatStatus},
+			{ dataField: "offerStatusText", dataName: "操作",dataFormat:formatOperation}
 		];
 		this.state = {
 			data:[],
@@ -27,16 +27,13 @@ class MyOfferTable extends React.Component {
 	}
 
 	reloadTable(_searchData){
-		this.refs.jtable.refs.jtable.setState({
-			searchData:_searchData
-		});
-		this.refs.jtable.refs.jtable.ajaxRequestData()
+		this.refs.jtable.reloadTable(_searchData);
 	}
 
 	render() {
 		var datas = this.state.data;
 		var options = {
-			url:"/offer/iron/myList",
+			url:"/offer/iron/queryList",
 			thead: this.thead,
 			status: this.props.status,
 			searchData:this.props.searchData,
@@ -49,6 +46,13 @@ class MyOfferTable extends React.Component {
 	}
 }
 function formatNumber(cell){
-	var cell = cell == null ? "" : cell;
-	return "<span style='color: #52A751;'>"+cell+"</span>";
+	return "<span>"+cell+"</span>";
+}
+function formatStatus(cell){
+	alert(cell)
+	return "<a href=''>"+cell+"</a>";
+}
+function formatOperation(cell){
+	alert(cell)
+	return "<a href=''>"+cell+"</a>";
 }

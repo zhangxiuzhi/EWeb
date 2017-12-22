@@ -21,11 +21,17 @@ class ComponentJTable extends React.Component {
 		console.log()
 	}
 
+	reloadTable(_searchData){
+		this.refs.jtable.setState({
+			searchData:_searchData
+		});
+		this.refs.jtable.ajaxRequestData()
+	}
+
 	render() {
 		//数据
 		var datas = this.state.data;
 		var thead = this.options.thead;
-		console.log(this.options);
 		for (var i = 0; i < thead.length; i++) {
 			this.thcols.push({
 				dataField: thead[i].dataField,
@@ -43,7 +49,7 @@ class ComponentJTable extends React.Component {
 			url: this.options.url,
 			thcols: this.thcols,
 			status: this.props.status,
-			searchData: "",
+			searchData: this.options.searchData,
 			page: 1,
 			sizePerPage: 10,
 			nodata: { text: "没有交易报盘" }
