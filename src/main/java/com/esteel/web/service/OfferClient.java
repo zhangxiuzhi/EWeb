@@ -3,8 +3,6 @@ package com.esteel.web.service;
 import java.util.ArrayList;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.esteel.web.vo.offer.IronOfferMainVo;
 import com.esteel.web.vo.offer.IronOfferPage;
 import com.esteel.web.vo.offer.IronOfferQueryVo;
-import com.esteel.web.vo.offer.IronOfferResponse;
 
 import feign.hystrix.FallbackFactory;
 
@@ -25,8 +22,8 @@ import feign.hystrix.FallbackFactory;
  * @date 2017年12月4日 下午2:55:06
  *
  */
-//@FeignClient(name = "Offer",url = "http://127.0.0.1:8880", fallbackFactory = OfferClientCallbackFactory.class, path = "offer")
-@FeignClient(name = "Offer",url = "http://10.0.1.234:8880", fallbackFactory = OfferClientCallbackFactory.class, path = "offer")
+@FeignClient(name = "Offer",url = "http://127.0.0.1:8880", fallbackFactory = OfferClientCallbackFactory.class, path = "offer")
+//@FeignClient(name = "Offer",url = "http://10.0.1.234:8880", fallbackFactory = OfferClientCallbackFactory.class, path = "offer")
 public interface OfferClient {
 	@RequestMapping(value = "/saveIronOffer", method = RequestMethod.POST)
 	public IronOfferMainVo saveIronOffer(@RequestBody IronOfferMainVo ironOfferVo);
@@ -89,7 +86,7 @@ class OfferClientCallbackFactory implements FallbackFactory<OfferClient> {
 				}
 				
 				IronOfferPage offerPage = new IronOfferPage();
-				offerPage.setContent(new ArrayList<>());
+				offerPage.setData(new ArrayList<>());
 				
 				return offerPage;
 			}

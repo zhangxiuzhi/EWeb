@@ -48,6 +48,9 @@
 
             </div>
             <div style="display:none">
+            	<!-- 状态列表 格式:[{"text":"name","value":"id","key":"name"},...] -->
+                <div id="tradeModeJson" th:text="${tradeModeJson}"></div>
+                
             	<!-- 品名列表 格式:[{"text":"commodityName","value":"commodityId","key":"commodityAlias"},...] -->
                 <div id="ironCommodityJson" th:text="${ironCommodityJson}"></div>
                 
@@ -56,6 +59,9 @@
                 
                 <!-- 状态列表 格式:[{"text":"name","value":"id","key":"name"},...] -->
                 <div id="offerStatusJson" th:text="${offerStatusJson}"></div>
+                
+                <!-- 账号列表 格式:[{"text":"name","value":"id","key":"name"},...] -->
+                <div id="userJson" th:text="${userJson}"></div>
             </div>
          </div>
     </div>
