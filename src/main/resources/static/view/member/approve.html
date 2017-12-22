@@ -1,4 +1,4 @@
-<!--企业认证-->
+<!--企业认证  onsubmit="return chenckForm()" -->
 
 <form id="form-userInfo" onsubmit="return false">
     <!--基本信息-->
@@ -18,7 +18,7 @@
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">注册地址</label>
-            <div class="col-sm-8">
+            <div class="col-sm-8" id="shshixianr">
                 <div class="clearfix margin-bottom-15">
                     <div class="pull-left margin-right-10" id="component-regAddress-1" inputName="provinces" inputValue=""></div>
                     <div class="pull-left margin-right-10" id="component-regAddress-2" inputName="" inputValue=""></div>
@@ -29,9 +29,9 @@
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">通信地址</label>
-            <div class="col-sm-8">
+            <div class="col-sm-8" id="shshixianc">
                 <div class="clearfix margin-bottom-15">
-                    <div class="pull-left margin-right-10" id="component-contactAddress-1" inputName="provinces" inputValue=""></div>
+                    <div class="pull-left margin-right-10" id="component-contactAddress-1"  inputName="provinces" inputValue=""></div>
                     <div class="pull-left margin-right-10" id="component-contactAddress-2" inputName="" inputValue=""></div>
                     <div class="pull-left margin-right-10" id="component-contactAddress-3" inputName="" inputValue=""></div>
                 </div>
@@ -55,13 +55,15 @@
             <div class="col-sm-8 clearfix">
                 <div class="img-uploadPhoto pull-left">
                     <a href="javascript:;" class="btn-file">
-                        上传人像面<input id="file1" name="file" type="file" onchange="upload(this)">
+                        	上传人像面<input id="file1" name="file" type="file" onchange="upload(this)">
                     </a>
+                                        <input type="text" id="file1-text"/>
                 </div>
                 <div class="img-uploadPhoto pull-left">
                     <a href="javascript;" class="btn-file">
-                        上传国徽面<input id="file2" name="file" type="file" onchange="upload(this)">
+                     	   上传国徽面<input id="file2" name="file" type="file" onchange="upload(this)">
                     </a>
+                     <input type="text" id="file2-text"/>
                 </div>
             </div>
         </div>
@@ -82,13 +84,15 @@
             <div class="col-sm-8 clearfix">
                 <div class="img-uploadPhoto pull-left">
                     <a href="javascript:;" class="btn-file">
-                        上传人像面<input id="file3" name="file" type="file" onchange="upload()this">
+                        上传人像面<input id="file3" name="file" type="file" onchange="upload(this)">
                     </a>
+                    <input type="text" id="file3-text"/>
                 </div>
                 <div class="img-uploadPhoto pull-left">
                     <a href="javascript:;" class="btn-file">
                         上传国徽面<input id="file4" name="file" type="file" onchange="upload(this)">
                     </a>
+                    <input type="text" id="file4-text"/>
                 </div>
             </div>
         </div>
@@ -100,12 +104,12 @@
                     <span class="btn btn-default btn-file btn-ghost">
                         <span class="fileupload-new"><i class="fa fa-folder-open-o"></i> 选择文件</span>
                         <span class="fileupload-exists"><i class="fa fa-folder-open-o"></i> 替换文件</span>
-                        <input id="file5" type="file" name="ccFile" class="form-control  uploadFile" accept=".zip,.rar,.doc,.docx,.pdf,.jpg,.png" onchange="upload()"/>
+                        <input id="file5" type="file" name="file" class="form-control  uploadFile" accept=".zip,.rar,.doc,.docx,.pdf,.jpg,.png" onchange="upload(this)"/>
                     </span>
                     <span class="fileupload-preview"></span>
                     <a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none">×</a>
-                     <input type="hidden" id="authorize">
                 </span>
+                  <input type="text" id="file5-text"/>
             </div>
         </div>
         <div class="form-group">
@@ -142,9 +146,9 @@
                     <input type="text" id="licenseImg" class="form-control"/>
                 </div>
             </div>
-        </div>
+        </div><!--  onclick="chenckForm()" -->
         <div class="form-group text-center form-group-btns">
-            <button class="btn btn-primary" type="submit" onclick="submitForm()">提交</button>
+            <button class="btn btn-primary" type="button" onclick="chenckForm()">提交</button>
             <a class="btn btn-default" href="/member/userInfo">返回</a>
         </div>
     </div>

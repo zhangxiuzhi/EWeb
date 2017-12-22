@@ -75,6 +75,7 @@ $(document).ready(function (e) {
 	//初始化UI
 	esteel_safe_account.initUI();
 	//初始化路由
-	esteel_safe_account.initRouter();
+	//esteel_safe_account.initRouter();
 });
+
 

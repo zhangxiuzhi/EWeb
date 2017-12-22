@@ -5,73 +5,107 @@
 
 <body class="member">
 
-<!--页头，菜单-->
-<div th:replace="./fragments/head::header"></div>
+	<!--页头，菜单-->
+	<div th:replace="./fragments/head::header"></div>
 
-<!--内容-->
-<div class="main">
-    <div class="container">
-        <!--侧栏-->
-        <div th:replace="./fragments/sidebar::sidebar"></div>
+	<!--内容-->
+	<div class="main">
+		<div class="container">
+			<!--侧栏-->
+			<div th:replace="./fragments/sidebar::sidebar"></div>
 
-        <!--内容-->
-        <div class="content">
-            <div class="userContent">
+			<!--内容-->
+			<div class="content">
+				<div class="userContent">
 
-                <!--分类-->
-                <div class="type-title">
-                    <div class="t-title" id="router-linkNode">
-                        <a href="#/accountSafe" linkNode="accountSafe" class="selected">账号安全</a>
-                    </div>
-                </div>
-
-                <!--分类页面-->
-                <div id="router-pageCotainer" class="padding-left-10 padding-right-10 padding-bottom-10">
-                   
-                   <div class="accoutSafe-item-list">
-					    <!--登录密码-->
-					    <div class="safe-item clearfix">
-					        <div class="item1"><span class="fa fa-check text-success"></span>登录密码</div>
-					        <div class="item2">
-					            <span class="item-text text-danger">互联网账号存在被盗风险，建议您定期修改密码以保护账户安全</span>
-					        </div>
-					        <div class="item3"><a href="/safe/updatePassword">修改</a></div>
-					    </div>
+					<!--分类-->
+					<div class="type-title">
+						<div class="t-title" id="router-linkNode">
+							<a href="#/accountSafe" linkNode="accountSafe" class="selected">账号安全</a>
+						</div>
+					</div>
 					
-					    <!--手机-->
-					    <div class="safe-item clearfix">
-					        <div class="item1"><span class="fa fa-check text-success"></span>手机验证</div>
-					        <div class="item2">
-					            <span class="item-text">您验证的手机号：</span>
-					            <span class="text-default">${userVo.mobile}</span>
-					        </div>
-					        <div class="item3"><a href="/safe/updateMobile">修改</a></div>
-					    </div>
-					
-					    <!--邮箱-->
-					    <div class="safe-item clearfix">
-					        <div class="item1"><span class="fa fa-warning text-warning"></span>邮箱验证</div>
-					        <div class="item2">
-					            <span class="item-text">尚未验证</span>
-					        </div>
-					        <div class="item3"><a class="btn btn-primary btn-xs"  href="/safe/verifyMail">立即验证</a></div>
-					    </div>
+					<!--分类页面-->
+					<div id="router-pageCotainer"
+						class="padding-left-10 padding-right-10 padding-bottom-10">
+						<div class="padding-left-10 padding-right-10 padding-bottom-10">
+							<table>
+								<tr>
+									<td align="center">上次登陆时间:<span th:value="${userVo.lastLoginTime}"></span></td>
+									<td align="center">登录地点:<span th:value="${userVo.lastLoginTime}"></span></td>
+									<td align="center">上次登录ip:<span th:value="${userVo.lastLoginIp}"></span></td>
+								</tr>
+							</table>
+						</div>
+						
+						<div class="accoutSafe-item-list">
+							<!--登录密码-->
+							<div class="safe-item clearfix">
+								<div class="item1">
+									<span class="fa fa-check text-success"></span>登录密码
+								</div>
+								<div class="item2">
+									<span class="item-text text-danger">互联网账号存在被盗风险，建议您定期修改密码以保护账户安全</span>
+								</div>
+								<div class="item3">
+									<a href="/safe/updatePassword">修改</a>
+								</div>
+							</div>
 
-</div>
-                   
-                   
-                </div>
+							<!--手机-->
+							<div class="safe-item clearfix">
+								<div class="item1">
+									<span class="fa fa-check text-success"></span>手机验证
+								</div>
+								<div class="item2">
+									<span class="item-text">您验证的手机号：</span> <span
+										class="text-default" th:text="${userVo.mobile}"></span>
+								</div>
+								<div class="item3">
+									<a href="/safe/updateMobile">修改</a>
+								</div>
+							</div>
 
-            </div>
-        </div>
-    </div>
-</div>
+							<!--邮箱-->
+							<div class="safe-item clearfix">
+								<!-- 1 -->
+								<div class="item1" th:if="${userVo.email} == null">
+									<span class="fa fa-warning text-warning"></span>邮箱验证
+								</div>
+								<div class="item1" th:unless="${userVo.email} == null">
+									<span class="fa fa-check text-success"></span>邮箱验证
+								</div>
+								<!-- 2  -->
+								<div class="item2" th:if="${userVo.email} == null">
+									<span class="item-text">尚未验证</span>
+								</div>
+								<div class="item2" th:unless="${userVo.email} == null">
+									<span class="item-text">修改邮箱</span>
+								</div>
+								<!-- 3 -->
+								<div class="item3" th:if="${userVo.email} == null">
+									<a class="btn btn-primary btn-xs" href="/safe/verifyMail">立即验证</a>
+								</div>
+								<div class="item3" th:unless="${userVo.email} == null">
+									<a class="item-text" href="/safe/updateMail">修改</a>
+								</div>
+							</div>
 
-<!--页脚，链接-->
-<div th:replace="./fragments/foot::footer"></div>
+						</div>
 
-<!--控制-->
-<script th:src="@{/js/module/safe/safe.accountSafe.js}"></script>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--页脚，链接-->
+	<div th:replace="./fragments/foot::footer"></div>
+
+	<!--控制-->
+	<script th:src="@{/js/module/safe/safe.accountSafe.js}"></script>
 
 
 </body>

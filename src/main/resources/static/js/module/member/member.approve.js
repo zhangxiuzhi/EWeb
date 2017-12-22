@@ -176,6 +176,7 @@ $(document).ready(function(e) {
 
 // 文件上传
 function upload(elem) {
+	var fileId =elem.id; 
 	$.ajaxFileUpload({
 		url: '/user/uploadFile',
 		secureuri: false,
@@ -184,46 +185,90 @@ function upload(elem) {
 		beforeSend: function (xhr) {
 			xhr.setRequestHeader(header, token);
 		},
-		success: function (data) {
-			console.log(data)
-			alert(123);
+		success: function (result) {
+			//返回文件id
+			if(result.data!=null){
+				alert(result.data[0]);
+				alert(result.data[1]);
+				//图片下载的地址 user/export/T1saYTByCT1R4cSCrK/.png/html
+				var url = "/user/export/"+result.data[0]+"/"+result.data[1]+"/html;"
+				//保存数据库的字符串
+				var saveStr = result.data[0]+result.data[1];
+				//赋值
+				$("#"+fileId+"-text").val(saveStr);
+			}else{
+				alert(result.msg);
+			}
 		}
 	});
 }
 // 表单验证
 function chenckForm() {
-	// alert("123456");
-	var name = $("#companyName").val();
-	var add = $("#regAddress").val();
-	var agent = $("#agentName").val();
-	var cardid = $("#agentCardId").val();
-	var file1 = $("#file1").val();
-	var file2 = $("#file2").val();
-	var legal = $("#legalName").val();
-	if (name = "") {
-		alert(name);
-		return false;
+	var saveSt= $("#file1").val();
+	var status = true;
+	
+	var name = $("#companyName").val(); //企业全称
+	var regaddr = $("#regAddress").val();//注册地址
+	
+	
+	/*var r1 = document.getElementById("component-regAddress-1").value;
+	var r2 = document.getElementById("component-regAddress-2").value;
+	var r3 = document.getElementById("component-regAddress-3").innerHTML;*/
+	var r1 = $("#component-regAddress-1").html();//注册地址
+	var r2 = $("#component-regAddress-2").text();//注册地址
+	var r3 = $("#component-regAddress-3").val();//注册地址
+	
+	var conAddr = $("#conAddress").val(); //通信地址
+	
+	var c1 = $("#component-contactAddress-1").val();//通信地址
+	var c2 = $("#component-contactAddress-2").val();//通信地址
+	var c3 = $("#component-contactAddress-3").val();//通信地址
+	
+	var agent = $("#agentName").val();//法人姓名
+	var cardid = $("#agentCardId").val(); //代理人身份证号
+	var file1 = $("#file1").val(); //代理人身份证正面
+	var file2 = $("#file2").val(); //代理人身份证号反面
+	var legal = $("#legalName").val(); //法人姓名
+	
+	
+	if (name == ""||name == null) {
+		esteel_member_approve.insertErrorBubble("companyName", "企业全称不能为空");
+		status = false;
 	}
-	if (add == null && add == "") {
+	if (regaddr == null || regaddr == "") {
 		esteel_member_approve.insertErrorBubble("regAddress", "注册地址不能为空");
+		status = false;
 	}
-	if (agent == null && agent == "") {
+	if (r1 == "" && r2 == "") {
+		esteel_member_approve.insertErrorBubble("shshixianr", "请选择注册地址");
+		status = false;
+	}
+	if (c1 == "" && c2 == "") {
+		esteel_member_approve.insertErrorBubble("shshixianc", "请选择联系地址");
+		status = false;
+	}
+	if (conAddr == null || conAddr == "") {
+		esteel_member_approve.insertErrorBubble("regAddress", "通信地址不能为空");
+		status = false;
+	}
+	if (agent == null || agent == "") {
 		esteel_member_approve.insertErrorBubble("agentName", "代理人姓名不能为空");
+		status = false;
 	}
-	if (cardid == null && cardid == "") {
-		esteel_member_approve.insertErrorBubble("agentCardId", "代理人身份证号码不能");
+	//验证身份证号和姓名
+	if (cardid == null || cardid == "") {
+		esteel_member_approve.insertErrorBubble("agentCardId", "代理人身份证号码不能为空");
+		status = false;
 	}
-	if (file1 == null && file1 == "") {
-		esteel_member_approve.insertErrorBubble("file1", "代理人身份附件不能为空");
+	if (file1 == "" || file2 == "") {
+		alert("请上传身份证附件");
+		status = false;
 	}
-	if (file2 == null && file2 == "") {
-		esteel_member_approve.insertErrorBubble("file2", "代理人身份附件不能为空");
+	if (legal == null || legal == "") {
+		esteel_member_approve.insertErrorBubble("legalName", "法人姓名不能为空");
+		status = false;
 	}
-	if (legal == null && legal == "") {
-		esteel_member_approve.insertErrorBubble("legalName", "请先输入手机号");
-	}
-
-	return false;
+	return status;
 }
 // 获取所有的城市下拉框
 function findCity(node) {
@@ -280,9 +325,27 @@ function findDistrict_contact(node) {
 		});
 	})
 }
-
-function submitForm() {
-	
-	var vcsrf = $("#_csrf").val();
-	
+//
+function submitData(){
+	var datas = $("#form-userInfo").serialize();
+	 $.ajax({
+        type: "POST",
+        url: "/company/attest",
+        data: datas,
+        success: function(data){
+               alert(12346);    
+        }
+    });
 }
+//提交数据
+$("#form-userInfo").submit(function (){ 
+	var datas = $("#form-userInfo").serialize();
+	 $.ajax({
+         type: "POST",
+         url: "/company/attest",
+         data: datas,
+         success: function(data){
+                alert(12346);    
+         }
+     });
+});

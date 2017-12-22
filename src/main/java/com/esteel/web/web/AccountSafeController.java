@@ -38,6 +38,9 @@ public class AccountSafeController {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         MemberUserVo userVo = memberUserClient.findByAccount(authentication.getName());
         Assert.notNull(userVo, "无法获取用户信息");
+        //去掉密码信息.substring(4, 8);
+        userVo.getMobile();
+        userVo.setPassword("XXXXXXXXX");
         model.addAttribute("userVo", userVo);
         return "/safe/accountSafe";
     }
@@ -55,7 +58,11 @@ public class AccountSafeController {
         model.addAttribute("userVo", userVo);
         return "/safe/updatePassword";
     }
-    
+    /**
+     * 修改邮箱
+     * @param model
+     * @return
+     */
     @RequestMapping("/updateMail")
     public String updateMail(Model model){
         return "/safe/updateMail";

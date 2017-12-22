@@ -38,10 +38,8 @@ public class MemberController {
 		MemberUserVo userVo = memberUserClient.findByAccount(authentication.getName());
 		// 判断用户是否在一家企业，如果存在查询所在企业信息
 		Integer companyId = userVo.getCompanyId();
-		System.out.println("*************" + companyId);
 		if (companyId != null) {
 			MemberCompanyVo company = memberUserClient.findCompany(userVo.getCompanyId());
-			System.out.println("*************" + company);
 			model.addAttribute("company", company);
 		} else {
 			MemberCompanyVo company = new MemberCompanyVo();
@@ -51,7 +49,7 @@ public class MemberController {
 		model.addAttribute("userVo", userVo);
 		return "/member/userInfo";
 	}
-
+	
 	@RequestMapping("/headSet")
 	public String headSet(Model model) {
 		return "/member/headSet";
