@@ -9,12 +9,12 @@ function JBSFrame_myOffer() {
 
 	//列表过滤条件
 	this.filter = {
-		type:"",//类型
-		createUser:"",//发布账号
-		offerStatus:"",//状态
-		commodityId:"",//品名
-		portId:"",//港口
-		id:""//编号
+		tradeMode:"-1",//类型
+		createUser:"-1",//发布账号
+		offerStatus:"-1",//状态
+		commodityId:"-1",//品名
+		portId:"-1",//港口
+		offerCode:""//编号
 	}
 	this.sidebar = null;//侧栏菜单
 
@@ -25,7 +25,7 @@ function JBSFrame_myOffer() {
 
 		//类型选择
 		$("#router-linkNode >").click(function(){
-			self.filter.type = $(this).attr("linkNode");
+			self.filter.tradeMode = $(this).attr("linkNode");
 			reload_table();
 		});
 
@@ -44,7 +44,7 @@ function JBSFrame_myOffer() {
 		var $myOfferCreateUser = $("#component-myOffer-createUser");
 		if ($myOfferCreateUser.length > 0) {
 			this.selectBox_Account = ReactDOM.render(React.createElement(ComponentSelectBox,{
-				data:JSON.parse($("#ironCommodityJson").html()),
+				data:JSON.parse($("#userJson").html()),
 				inputName:$myOfferCreateUser.attr("inputName"),
 				inputValue:$myOfferCreateUser.attr("inputValue"),
 				onChange:onTableStatusChange_createUser
@@ -74,15 +74,13 @@ function JBSFrame_myOffer() {
 		}
 
 		//默认类型和状态
-		this.filter.type = "期货";
+		this.filter.tradeMode = "1";
 		this.filter.offerStatus = -1;
 		//列表
 		this.table = ReactDOM.render(React.createElement(MyOfferTable,{
 			searchData:this.filter
 		}), document.getElementById("component-myOffer-table"));
-
 	}
-
 
 	var self = this;
 }
@@ -121,31 +119,46 @@ function onTableStatusChange_port(data){
 }
 //编号条件过滤
 function onTableStatusChange_id(){
-	esteel_myOffer.filter.id = $("#myoffer-filter-id").val();
+	esteel_myOffer.filter.offerCode = $("#myoffer-filter-id").val();
 	reload_table();
 }
 
 //重新加载列表
 function reload_table(){
 	esteel_myOffer.table.reloadTable({
-		type:"",
+		tradeMode:"1",
 		createUser:esteel_myOffer.filter.createUser,
 		offerStatus:esteel_myOffer.filter.offerStatus,
 		commodityId:esteel_myOffer.filter.commodityId,
 		portId:esteel_myOffer.filter.portId,
-		id:esteel_myOffer.filter.id
+		offerCode:esteel_myOffer.filter.offerCode
 	});
 }
 
-//查看详情
-function onTableViewDetail(){
-
+function onTablePutShelves(offerCode) {
+	var _url = "/offer/iron/putShelves/"+offerCode;
+	esteel_myOffer.ajaxRequest({
+	    	url:_url,
+	        data:{}
+	    },  function (result) {
+	    	alert(result.msg);
+	    });
 }
-//编辑
-function onTableEdit(){
-
+function onTableOffShelves(offerCode) {
+	var _url = "/offer/iron/offShelves/"+offerCode;
+	esteel_myOffer.ajaxRequest({
+	    	url:_url,
+	        data:{}
+	    },  function (result) {
+	    	alert(result.msg);
+	    });
 }
-//操作
-function onTableOperation(data){
-
+function onTableDelete(_offerCode) {
+	var _url = "/offer/iron/delete/"+offerCode;
+	esteel_myOffer.ajaxRequest({
+	    	url:_url,
+	        data:{}
+	    },  function (result) {
+	    	alert(result.msg);
+	    });
 }

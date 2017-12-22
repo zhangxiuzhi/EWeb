@@ -12,10 +12,12 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.esteel.common.controller.WebReturnMessage;
 import com.esteel.common.util.EsteelConstant;
 import com.esteel.web.service.BaseClient;
 import com.esteel.web.service.MemberClient;
@@ -198,6 +200,11 @@ public class IronOfferListController {
     	
     	List<IronOfferResponse> offerList = page.getData();
     	for (IronOfferResponse pageVo: offerList) {
+    		if (NumberUtils.toInt(pageVo.getIsAnonymous()) == EsteelConstant.NO) {
+    			pageVo.setIsAnonymousText("公开");
+    		} else if (NumberUtils.toInt(pageVo.getIsAnonymous()) == EsteelConstant.YES) {
+    			pageVo.setIsAnonymousText("匿名");
+    		}
     		pageVo.setPublishTimeText(pageVo.getPublishTime() == null ? null : dateFormat.format(pageVo.getPublishTime()));
     		pageVo.setValidTimeText(pageVo.getValidTime() == null ? null : timestampFormat.format(pageVo.getValidTime()));
     		
@@ -316,23 +323,97 @@ public class IronOfferListController {
         return page;
     }
 	
-    @RequestMapping(value = "/detail", method = RequestMethod.GET)
-    public String getIronOffer(long offerId, Model model){
+    @RequestMapping(value = "/detail/{offerCode}", method = RequestMethod.GET)
+    public String getIronOffer(@PathVariable("offerCode") String offerCode, Model model){
+    	Assert.notNull(offerCode, "点击失败！");
+    	
     	IronOfferQueryVo queryVo = new IronOfferQueryVo();
-    	queryVo.setOfferId(offerId);
+    	queryVo.setOfferCode(offerCode);
     	
     	IronOfferMainVo offer = offerClient.getIronOffer(queryVo);
     	model.addAttribute("offer", offer);
     	
     	if (offer.getTradeMode() == EsteelConstant.TRADE_MODE_INSTOCK) {
-    		 return "/offer/inStock";
+    		 return "/offer/detail/inStock";
 		} else if (offer.getTradeMode() == EsteelConstant.TRADE_MODE_PRICING) {
-			 return "/offer/pricing";
+			 return "/offer/detail/pricing";
 		}  else if (offer.getTradeMode() == EsteelConstant.TRADE_MODE_FUTURES) {
-			 return "/offer/futures";
+			 return "/offer/detail/futures";
 		} 
     	
-        return "/offer/inStock";
+        return "/offer/detail/inStock";
+    }
+    
+    /**
+     * 上架
+     * @param offerCode
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/putShelves/{offerCode}", method = RequestMethod.POST)
+    @ResponseBody
+    public WebReturnMessage putShelvesIronOffer(@PathVariable("offerCode") String offerCode){
+    	WebReturnMessage webRetMesage = new WebReturnMessage(false, "上架失败！");
+    	
+    	IronOfferQueryVo queryVo = new IronOfferQueryVo();
+    	queryVo.setOfferCode(offerCode);
+    	
+    	IronOfferMainVo offerMainVo = offerClient.getIronOffer(queryVo);
+    	
+    	offerMainVo.setUpdateUser("王雁飞测试");
+    	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_IN_SALE + "");
+    	
+    	// 删除
+    	IronOfferMainVo offer = offerClient.updateIronOfferMain(offerMainVo);
+    	Assert.notNull(offer, "上架失败！");
+    	
+    	webRetMesage = new WebReturnMessage(true, "上架成功！");
+    	
+        return webRetMesage;
+    }
+    
+    @RequestMapping(value = "/offShelves/{offerCode}", method = RequestMethod.POST)
+    @ResponseBody
+    public WebReturnMessage offShelvesIronOffer(@PathVariable("offerCode") String offerCode){
+    	WebReturnMessage webRetMesage = new WebReturnMessage(false, "下架失败！");
+    	
+    	IronOfferQueryVo queryVo = new IronOfferQueryVo();
+    	queryVo.setOfferCode(offerCode);
+    	
+    	IronOfferMainVo offerMainVo = offerClient.getIronOffer(queryVo);
+    	
+    	offerMainVo.setUpdateUser("王雁飞测试");
+    	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_OFF_SHELVES + "");
+    	
+    	// 删除
+    	IronOfferMainVo offer = offerClient.updateIronOfferMain(offerMainVo);
+    	Assert.notNull(offer, "下架失败！");
+    	
+    	webRetMesage = new WebReturnMessage(true, "下架成功！");
+    	
+        return webRetMesage;
+    }
+    
+    @RequestMapping(value = "/delete/{offerCode}", method = RequestMethod.POST)
+    @ResponseBody
+    public WebReturnMessage deleteIronOffer(@PathVariable("offerCode") String offerCode){
+    	WebReturnMessage webRetMesage = new WebReturnMessage(false, "删除失败！");
+    	
+    	IronOfferQueryVo queryVo = new IronOfferQueryVo();
+    	queryVo.setOfferCode(offerCode);
+    	
+    	IronOfferMainVo offerMainVo = offerClient.getIronOffer(queryVo);
+    	
+    	offerMainVo.setUpdateUser("王雁飞测试");
+    	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_SCRAP + "");
+    	
+    	// 删除
+    	IronOfferMainVo offer = offerClient.updateIronOfferMain(offerMainVo);
+    	Assert.notNull(offer, "删除失败！");
+    	
+    	webRetMesage = new WebReturnMessage(true, "删除成功！");
+    	
+        return webRetMesage;
     }
 }
 

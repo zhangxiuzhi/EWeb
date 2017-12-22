@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -952,23 +953,25 @@ public class IronOfferController {
         return "redirect:/offer/myOffer";
     }
     
-    @RequestMapping(value = "/edit", method = RequestMethod.GET)
-    public String getIronOffer(long offerId, Model model){
+    @RequestMapping(value = "/edit/{offerCode}", method = RequestMethod.GET)
+    public String getIronOffer(@PathVariable("offerCode") String offerCode, Model model){
+    	Assert.notNull(offerCode, "点击失败！");
+    	
     	IronOfferQueryVo queryVo = new IronOfferQueryVo();
-    	queryVo.setOfferId(offerId);
+    	queryVo.setOfferCode(offerCode);
     	
     	IronOfferMainVo offer = offerClient.getIronOffer(queryVo);
     	model.addAttribute("offer", offer);
     	
     	if (offer.getTradeMode() == EsteelConstant.TRADE_MODE_INSTOCK) {
-    		 return "/offer/inStock";
+    		 return "/offer/edit/inStock";
 		} else if (offer.getTradeMode() == EsteelConstant.TRADE_MODE_PRICING) {
-			 return "/offer/pricing";
+			 return "/offer/edit/pricing";
 		}  else if (offer.getTradeMode() == EsteelConstant.TRADE_MODE_FUTURES) {
-			 return "/offer/futures";
+			 return "/offer/edit/futures";
 		} 
     	
-        return "/offer/inStock";
+        return "/offer/edit/inStock";
     }
     
     /**

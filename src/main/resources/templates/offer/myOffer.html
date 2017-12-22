@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="./fragments/frontCode" />
+<head th:replace="./fragments/frontCode::frontCode" />
 
 <body class="member myIron">
 
@@ -21,11 +21,11 @@
             	 <!--分类-->
                 <div class="type-title padding-bottom-10">
                     <div class="t-title" id="router-linkNode">
-                        <a href="#/inStock" linkNode="inStock" class="selected">港口现货</a>
+                        <a href="#/inStock" linkNode="1" class="selected">港口现货</a>
                         <em class="t-t-line">|</em>
-                        <a href="#/futures" linkNode="futures">远期现货</a>
+                        <a href="#/futures" linkNode="3">远期现货</a>
                         <em class="t-t-line">|</em>
-                        <a href="#/pricing" linkNode="pricing">点价</a>
+                        <a href="#/pricing" linkNode="2">点价</a>
                     </div>
                 </div>
                 <!--表格过滤筛选-->

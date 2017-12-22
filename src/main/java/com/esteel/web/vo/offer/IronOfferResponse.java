@@ -2,6 +2,9 @@ package com.esteel.web.vo.offer;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
+import com.esteel.common.util.EsteelConstant;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 /**
@@ -24,6 +27,10 @@ public class IronOfferResponse extends IronOfferMainVo implements Serializable {
 	 * 扩展字段
 	 */
 	private String offerStatusText;
+	/**
+	 * 是否匿名文本
+	 */
+	private String isAnonymousText;
 	/**
 	 * 发布时间 文本
 	 * 扩展字段
@@ -111,6 +118,12 @@ public class IronOfferResponse extends IronOfferMainVo implements Serializable {
 	}
 	public void setOfferStatusText(String offerStatusText) {
 		this.offerStatusText = offerStatusText;
+	}
+	public String getIsAnonymousText() {
+		return isAnonymousText;
+	}
+	public void setIsAnonymousText(String isAnonymousText) {
+		this.isAnonymousText = isAnonymousText;
 	}
 	public String getPublishTimeText() {
 		return publishTimeText;
