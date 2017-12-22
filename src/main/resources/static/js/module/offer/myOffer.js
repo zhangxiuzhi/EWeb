@@ -125,7 +125,7 @@ function onTableStatusChange_id(){
 	reload_table();
 }
 
-
+//重新加载列表
 function reload_table(){
 	esteel_myOffer.table.reloadTable({
 		type:"",
@@ -135,4 +135,17 @@ function reload_table(){
 		portId:esteel_myOffer.filter.portId,
 		id:esteel_myOffer.filter.id
 	});
+}
+
+//查看详情
+function onTableViewDetail(){
+
+}
+//编辑
+function onTableEdit(){
+
+}
+//操作
+function onTableOperation(data){
+
 }
