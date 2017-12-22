@@ -132,7 +132,7 @@ public class MemberCompanyController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping("/attest")
+	@RequestMapping(value="/attest")
 	@ResponseBody
 	public String companyAttest(
 
@@ -214,7 +214,7 @@ public class MemberCompanyController {
 		} else {
 			webRetMesage = new WebReturnMessage(false, "提交失败");
 		}
-		return "/member/approve";
+		return "";
 
 	}
 

@@ -166,7 +166,7 @@ function checkIddity() {
 			code : code
 		}
 	}, function(data, msg) {
-		if (data == null) {
+		if (data != null) {
 			result = true;
 		} else {
 			alert(msg);

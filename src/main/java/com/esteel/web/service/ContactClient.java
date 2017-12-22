@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * Date: 2017-11-24
  * Time: 18:18
  */
-@FeignClient(name = "Contact",fallback = ContactClientFallback.class)
+@FeignClient(name = "Contact",url="http://10.0.1.234:9990",fallback = ContactClientFallback.class)
 public interface ContactClient {
 
     @RequestMapping(value = "/sms", method = RequestMethod.POST)

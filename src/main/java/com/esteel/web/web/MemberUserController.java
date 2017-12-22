@@ -1,22 +1,27 @@
 package com.esteel.web.web;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -119,7 +124,7 @@ public class MemberUserController {
 		code.setVerifyStatus(0); // 初始为0，未验证
 		long time = new Date().getTime();
 		code.setSendTime(new Timestamp(time)); // 时间
-		code.setValidTime(new Timestamp(time + 60 * 60 * 1000));// 有效时间3分钟
+		code.setValidTime(new Timestamp(time + 5*60 * 60 * 1000));// 有效时间3分钟
 		// 返回结果
 		WebReturnMessage webRetMesage = null;
 		try {
@@ -284,9 +289,10 @@ public class MemberUserController {
 		//获取登录用户
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		MemberUserVo userVo = memberUserClient.findByAccount(authentication.getName());
+		Assert.notNull(userVo, "未登录");
 		// 密码是否一致
 		boolean flag = userVo.getPassword().equals(Encrypt.EncoderByMd5(password));
-		if(!flag) {
+		if(flag) {
 			list.add(0);
 			return new WebReturnMessage(true,"密码错误",list);
 		}	
@@ -323,6 +329,10 @@ public class MemberUserController {
 		//获取用户登录信息
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		MemberUserVo userVo = memberUserClient.findByAccount(authentication.getName());
+		Assert.notNull(userVo, "未登录");
+		//获取邮箱
+		String email = userVo.getEmail();
+		Assert.notNull(email, "您还未进行邮箱验证，请先验证");
 		// 根据验证码获取
 		LogVerifyCodeVo codeVo = logVerityCodeClient.checkCode(code, mobile);
 		Assert.notNull(codeVo, "验证码错误");
@@ -335,10 +345,12 @@ public class MemberUserController {
 			codeVo.setVerifyStatus(1);
 			//logVerityCodeClient.saveLog(codeVo);
 			list = new ArrayList<>();
-			list.add(userVo.getEmail());
+			list.add(userVo.getEmail()+"");
+			list.add(userVo.getMobile());
 			logger.info(this.getClass()+"参数："+mobile+","+code+",返回结果："+new WebReturnMessage(true));
-			return new WebReturnMessage(true,"验证码已失效",list);
+			return new WebReturnMessage(true,"",list);
 		} else {
+			System.out.println("验证码失效了");
 			codeVo.setVerifyStatus(2);
 			//logVerityCodeClient.saveLog(codeVo);
 			logger.info(this.getClass()+"参数："+mobile+","+code+",返回结果："+new WebReturnMessage(false,"验证码已失效"));
@@ -360,9 +372,8 @@ public class MemberUserController {
 		LogVerifyCodeVo code = new LogVerifyCodeVo();
 		code.setVerifyType(1); // 验证为邮箱
 		code.setVerifyTarget(mail);
-		Integer miMa = (int) ((Math.random() * 9 + 1) * 100000); // 随机生成六位验证码
-		code.setVerifyContent("【点钢网】  邮箱验证码为：" + miMa + ",请勿转发他人,如非本人操作请忽略。"); //邮件信息
-		code.setVerifyCode(miMa.toString()); // 验证码
+		code.setVerifyContent("【点钢网】  邮箱验证码为： ,请勿转发他人,如非本人操作请忽略。"); //邮件信息
+		code.setVerifyCode(""); // 验证码
 		code.setVerifyStatus(0); // 初始为0，未验证
 		long time = new Date().getTime();
 		code.setSendTime(new Timestamp(time)); // 发送时间
@@ -374,7 +385,7 @@ public class MemberUserController {
 		String str = "您在点钢的账号已创建，请激活";
 		// 发送邮件
 		boolean sendMail = contactClient.sendMail(mail,str,"\"【点钢网】  邮箱验证码为：\" + miMa + \",请勿转发他人,如非本人操作请忽略。\"");
-		if (true) {
+		if (sendMail) {
 			list = new ArrayList<>();
 			list.add("验证邮件30分钟内有效，请尽快登录您的邮箱点击验证链接完成验证");
 			String msg = "已发送邮件至"+mail;
@@ -452,11 +463,9 @@ public class MemberUserController {
 	 * @param file
 	 * @return
 	 */
-	@RequestMapping(value = "/uploadFile", method = RequestMethod.GET)
+	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
 	@ResponseBody
 	public WebReturnMessage uploadFile(MultipartFile file) {
-		System.out.println("进入控制器");
-		WebReturnMessage webRetMesage = null;
 		if (file != null && !file.isEmpty()) {
 			// 获取文件后缀
 			String type = file.getOriginalFilename().substring(file.getOriginalFilename().indexOf("."));
@@ -464,44 +473,37 @@ public class MemberUserController {
 				// 文件ID
 				String filepath = tfsManager.saveFile(file.getBytes(), null, type);
 				if (filepath != null && filepath != "") {
-					webRetMesage = new WebReturnMessage(true, filepath);// 成功返回文件id
+					list = new ArrayList<>();
+					list.add(filepath);
+					list.add(type);
+					return new WebReturnMessage(true, "",list);// 成功返回文件id
 				} else {
-					webRetMesage = new WebReturnMessage(false, "文件上传失败");
+					return new WebReturnMessage(true, "文件上传失败");
 				}
 			} catch (Exception e) {
 				logger.debug("错误位置：" + this.getClass() + ".uploadFile" + e);
-				webRetMesage = new WebReturnMessage(false, "文件上传失败");
+				return new WebReturnMessage(true, "文件上传失败");
 			}
 		} else {
-			webRetMesage = new WebReturnMessage(false, "文件不能为空");
+			return new WebReturnMessage(true, "文件不能为空");
 		}
-		return webRetMesage;
-
 	}
-
 	/**
 	 * 图片回显
-	 * 
-	 * @param request
-	 * @param response
-	 * @throws IOException
-	 */
-	@RequestMapping(value = "/showPic")
-	public void showPic(String path, HttpServletResponse response) throws IOException {
-		// String path = request.getParameter("path");
-		tfsManager.fetchFile(path, "", response.getOutputStream());
-	}
-
-	/**
-	 * 文件下载
-	 * 
-	 * @param fileId
+	 * @param fileId  
+	 * @param type  文件类型
 	 * @return
 	 */
-	@RequestMapping(value = "/downloadFile", method = RequestMethod.POST)
-	@ResponseBody
-	public void uploadFile(String fileId, String req) {
-		tfsManager.fetchFile(fileId, "jpg", "e:\\1111.jpg");
+	@RequestMapping(value="/export/{fileId}/{type}/html")
+	public ResponseEntity<byte[]> export(@PathVariable("fileId") String fileId,@PathVariable("type") String type){
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.IMAGE_JPEG);
+		//生成一个uuid做文件名
+		String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+		headers.setContentDispositionFormData("attachment", uuid+type);
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		boolean fetchFile = tfsManager.fetchFile(fileId,type,out);
+		return new ResponseEntity<byte[]>( out.toByteArray(),headers, HttpStatus.CREATED);
 	}
 
 	/**

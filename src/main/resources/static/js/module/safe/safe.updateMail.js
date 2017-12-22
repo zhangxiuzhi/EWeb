@@ -163,10 +163,11 @@ function checkIddity() {
 			code : code
 		}
 	}, function(data, msg) {
-		if (data == null) {omail
+		if (data != null) {
+			$("#omail").val(data[0]);
+			//document.getElementById('omail').innerHTML=data;
 			result = true;
 		} else {
-			alert(msg);
 			result = false;
 		}
 	});
@@ -174,8 +175,36 @@ function checkIddity() {
 }
 
 function updateEmail(){
-	var emailn = $("#emailn").val();
-	
+	var result = false;
+	//邮箱正则
+	var reg =  /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+	var email = $("#emailn").val();
+	if (email == '') {
+		alert("请输入新邮箱地址");
+		return false;
+	}
+	if(reg.test(email)){
+	}else{
+		alert("邮箱格式错误");
+		return false;
+	}
+	//提交发送邮件
+	esteel_safe_updateMail.ajaxRequest({ 
+		url : "/user/sendMail",
+		async : false,
+		data : {
+			mail : email,
+		}
+	}, function(data, msg) {
+		if (data != null) {
+			document.getElementById('step3').innerHTML = data;
+			document.getElementById('title').innerHTML = msg;
+			result = true;
+		} else {
+			result = false;
+		}
+	});
+	return result;
 }
 
 
