@@ -32,7 +32,6 @@ class ComponentJTable extends React.Component {
 		//数据
 		var datas = this.state.data;
 		var thead = this.options.thead;
-		console.log(this.options);
 		for (var i = 0; i < thead.length; i++) {
 			this.thcols.push({
 				dataField: thead[i].dataField,
