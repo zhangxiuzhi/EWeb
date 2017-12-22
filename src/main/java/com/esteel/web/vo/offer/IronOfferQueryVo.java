@@ -35,7 +35,7 @@ public class IronOfferQueryVo extends BaseQueryVo {
 	/**
 	 * 交易方式  -1:全部, 1:现货, 2:点价, 3:远期
 	 */
-	private String tradeMode = "-1";
+	private String tradeMode = "1";
 	/**
 	 * 品名ID
 	 */
@@ -95,7 +95,7 @@ public class IronOfferQueryVo extends BaseQueryVo {
 	}
 	public String getTradeMode() {
 		if (tradeMode == null || tradeMode.trim().equals("")) {
-			return "-1";
+			return "1";
 		}
 		
 		return tradeMode;

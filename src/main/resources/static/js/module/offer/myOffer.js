@@ -9,7 +9,7 @@ function JBSFrame_myOffer() {
 
 	//列表过滤条件
 	this.filter = {
-		tradeMode:"-1",//类型
+		tradeMode:"1",//类型
 		createUser:"-1",//发布账号
 		offerStatus:"-1",//状态
 		commodityId:"-1",//品名
@@ -126,7 +126,7 @@ function onTableStatusChange_id(){
 //重新加载列表
 function reload_table(){
 	esteel_myOffer.table.reloadTable({
-		tradeMode:"1",
+		tradeMode:esteel_myOffer.filter.tradeMode,
 		createUser:esteel_myOffer.filter.createUser,
 		offerStatus:esteel_myOffer.filter.offerStatus,
 		commodityId:esteel_myOffer.filter.commodityId,

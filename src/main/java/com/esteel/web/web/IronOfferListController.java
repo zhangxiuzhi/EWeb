@@ -323,7 +323,7 @@ public class IronOfferListController {
         return page;
     }
 	
-    @RequestMapping(value = "/detail/{offerCode}", method = RequestMethod.GET)
+    @RequestMapping(value = "/detailBySelf/{offerCode}", method = RequestMethod.GET)
     public String getIronOffer(@PathVariable("offerCode") String offerCode, Model model){
     	Assert.notNull(offerCode, "点击失败！");
     	
@@ -334,14 +334,14 @@ public class IronOfferListController {
     	model.addAttribute("offer", offer);
     	
     	if (offer.getTradeMode() == EsteelConstant.TRADE_MODE_INSTOCK) {
-    		 return "/offer/detail/inStock";
+    		 return "/myOffer/detail/inStock";
 		} else if (offer.getTradeMode() == EsteelConstant.TRADE_MODE_PRICING) {
-			 return "/offer/detail/pricing";
+			 return "/myOffer/detail/pricing";
 		}  else if (offer.getTradeMode() == EsteelConstant.TRADE_MODE_FUTURES) {
-			 return "/offer/detail/futures";
+			 return "/myOffer/detail/futures";
 		} 
     	
-        return "/offer/detail/inStock";
+        return "/myOffer/detail/inStock";
     }
     
     /**
