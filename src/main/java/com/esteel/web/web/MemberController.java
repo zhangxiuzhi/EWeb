@@ -1,5 +1,7 @@
 package com.esteel.web.web;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,7 +24,9 @@ import com.esteel.web.vo.MemberUserVo;
 @RequestMapping("/member")
 @Controller
 public class MemberController {
-
+	
+	
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	MemberClient memberUserClient;
 
@@ -78,6 +82,7 @@ public class MemberController {
 	@RequestMapping(value = "/membername", method = RequestMethod.POST)
 	@ResponseBody
 	public WebReturnMessage findMemberName(int userId, String memberName) {
+		logger.info("修改用户名，参数{userId,memberName}"+userId+"-"+memberName);
 		MemberUserVo member = memberUserClient.findByMemberName(userId, memberName);
 		Assert.isNull(member, "用户名已被占用");
 		return new WebReturnMessage(true);
@@ -93,6 +98,7 @@ public class MemberController {
 	 */
 	@RequestMapping(value = "/updMemberName", method = RequestMethod.POST)
 	public String updMemberName(Integer userId, String memberName, Integer gender) {
+		logger.info("修改用户信息，参数{userId,memberName,gender}"+userId+memberName+gender);
 		// 先查出用户的信息
 		MemberUserVo user = memberUserClient.findUser(userId);
 		Assert.notNull(user, "修改失败");

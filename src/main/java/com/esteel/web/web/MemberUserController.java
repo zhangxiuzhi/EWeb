@@ -390,7 +390,7 @@ public class MemberUserController {
 		code.setVerifyType(1); // 验证为邮箱
 		code.setVerifyTarget(mail);
 		code.setVerifyContent("【点钢网】  邮箱验证码为： ,请勿转发他人,如非本人操作请忽略。"); //邮件信息
-		code.setVerifyCode(""); // 验证码
+		code.setVerifyCode("1"); // 验证码
 		code.setVerifyStatus(0); // 初始为0，未验证
 		long time = new Date().getTime();
 		code.setSendTime(new Timestamp(time)); // 发送时间
