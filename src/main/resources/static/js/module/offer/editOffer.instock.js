@@ -248,60 +248,38 @@ function submit_offer(){
     }
 }
 
-//远期期货商品1联动指标
-function changeIronAttributeLink_1(node){
-    changeIronCommodityIndicator1(node,'1');
-}
-//远期期货商品1 指标类型选择，改变指标值
-function changeIndicatorValue1(value,label){
-    if(value == "26" && label =="典型值"){
-        //品名切换改变指标值
-        changeIronCommodityIndicator1(esteel_addOffer.selectBox_ItemName1.state.node,'');
+//品名切换改变指标值
+function changeIronAttributeLink(node){
+    //典型值
+    if($("input[name='indicatorTypeId']:checked").val() == "26"){
+        changeIronCommodityIndicator(node,'');
     }else{
         //清空指标值
         $(".offer-kip-table input.form-control").val("");
     }
 }
-//远期期货商品1 品名联动
-function changeIronCommodityIndicator1(node,index){
-    var ironAttr = JSON.parse($("#ironAttributeLinkJson").html());
-    for(var attr in ironAttr){
-        if(attr == node.label){
-            var iron = ironAttr[attr];
-            for(var i=0;i<iron.length;i++){
-                $("#indicator"+index+"-"+iron[i].text+"-1").val(iron[i].value);
-            }
-        }
-    }
-}
-
-//期货商品2联动指标
-function changeIronAttributeLink_2(node) {
-    changeIronCommodityIndicator2(node,'2');
-}
-//期货商品2 指标类型选择，改变指标值
-function changeIndicatorValue2(value,label){
+//指标类型选择，改变指标值
+function changeIndicatorValue(value,label){
     if(value == "26" && label =="典型值"){
         //品名切换改变指标值
-        changeIronCommodityIndicator2(esteel_addOffer.selectBox_ItemName2.state.node,'');
+        changeIronCommodityIndicator(esteel_addOffer.selectBox_ItemName.state.node,'');
     }else{
         //清空指标值
         $(".offer-kip-table input.form-control").val("");
     }
 }
-//期货商品2 品名联动
-function changeIronCommodityIndicator2(node,index){
+//品名联动
+function changeIronCommodityIndicator(node,index){
     var ironAttr = JSON.parse($("#ironAttributeLinkJson").html());
     for(var attr in ironAttr){
         if(attr == node.label){
             var iron = ironAttr[attr];
             for(var i=0;i<iron.length;i++){
-                $("#indicator"+index+"-"+iron[i].text+"-2").val(iron[i].value);
+                $("#indicator"+index+"-"+iron[i].text).val(iron[i].value);
             }
         }
     }
 }
-
 
 //显示隐藏起订量
 function showQDL(checked){

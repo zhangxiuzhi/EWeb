@@ -30,7 +30,7 @@
                 </div>
                 <!--分类页面-->
                 <div id="router-pageCotainer" class="padding-left-10 padding-right-10 padding-bottom-10">
-					<form id="form-offer" action="/offer/saveFuturesOffer" enctype="multipart/form-data" method="post" onsubmit="return false">
+					<form id="form-offer" action="/offer/updateFuturesOffer" enctype="multipart/form-data" method="post" onsubmit="return false">
 					    <!--商品信息-->
 					    <div class="form-horizontal">
 					        <div class="form-group">
@@ -265,7 +265,7 @@
 					
 					            <label class="col-sm-2 control-label">*信用证交单期</label>
 					            <div class="col-sm-4">
-					                <input type="text" class="form-control mask-number" name="lcPresentationPeriod" data-validetta="required">
+					                <input type="text" class="form-control mask-number" name="lcPresentationPeriod" data-validetta="required"/>
 					            </div>
 					        </div>
 					
@@ -279,41 +279,41 @@
 					            <div class="form-group">
 					                <label class="col-sm-2 control-label">装船期</label>
 					                <div class="col-sm-2">
-					                    <input type="text" class="form-control datetimepicker" name="transport_load_start" >
+					                    <input type="text" class="form-control datetimepicker" name="transport_load_start"/>
 					                </div>
 					                <div class="col-sm-2">
-					                    <input type="text" class="form-control datetimepicker" name="transport_load_end">
+					                    <input type="text" class="form-control datetimepicker" name="transport_load_end"/>
 					                </div>
 					
 					                <label class="col-sm-2 control-label">提单日</label>
 					                <div class="col-sm-3">
-					                    <input type="text" class="form-control datetimepicker" name="transport_bill">
+					                    <input type="text" class="form-control datetimepicker" name="transport_bill"/>
 					                </div>
 					            </div>
 					
 					            <div class="form-group">
 					                <label class="col-sm-2 control-label">ETA新加坡</label>
 					                <div class="col-sm-4">
-					                    <input type="text" class="form-control" name="transport_etaxjb">
+					                    <input type="text" class="form-control" name="transport_etaxjb"/>
 					                </div>
 					
 					                <label class="col-sm-2 control-label">ETA青岛港</label>
 					                <div class="col-sm-4">
-					                    <input type="text" class="form-control" name="transport_etaqdg">
+					                    <input type="text" class="form-control" name="transport_etaqdg"/>
 					                </div>
 					            </div>
 					
 					            <div class="form-group">
 					                <label class="col-sm-2 control-label">到港月</label>
 					                <div class="col-sm-4">
-					                    <input type="text" class="form-control datetimepicker notime noday" name="transport_arrive_month">
-					                     <input type="radio" value="0" name="transport_half_month" checked/>上半月
+					                    <input type="text" class="form-control datetimepicker notime noday" name="transport_arrive_month"/>/
+					                     <input type="radio" value="0" name="transport_half_month"/>上半月
 					                    <input type="radio" value="1" name="transport_half_month"/>下半月
 					                </div>
 					
 					                <label class="col-sm-2 control-label">其他</label>
 					                <div class="col-sm-4">
-					                    <input type="text" class="form-control" name="transport_remark">
+					                    <input type="text" class="form-control" name="transport_remark"/>
 					                </div>
 					            </div>
 					        </div>
@@ -323,7 +323,7 @@
 					        <div class="form-group">
 					            <label class="col-sm-2 control-label">商品备注</label>
 					            <div class="col-sm-10">
-					                <textarea type="text" class="form-control" maxlength="128" name="offerAttachRemarks"></textarea>
+					                <textarea class="form-control" maxlength="128" name="offerAttachRemarks"></textarea>
 					            </div>
 					        </div>
 					 
@@ -416,6 +416,5 @@
 <div th:replace="./fragments/foot::footer"></div>
 
 <!--控制-->
-<script th:src="@{/js/module/offer/editOffer.futures.js}"></script>
-</body>
+ec</body>
 </html>

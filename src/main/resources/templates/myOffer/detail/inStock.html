@@ -36,7 +36,7 @@
 					        <div class="form-group">
 					            <label class="col-sm-2 control-label">交易对象</label>
 					            <div class="col-sm-10">
-					                <div id="component-TradeCustomer" inputName="counterpartyIdMulti"></div>
+					                <div id="component-TradeCustomer" inputName="counterpartyIdMulti" th:text="${companyWhitelistJson}"></div>
 					            </div>
 					        </div>
 					 
@@ -164,10 +164,10 @@
 					    <div class="form-horizontal offer-rule">
 					        <div class="form-group">
 					            <label class="col-sm-2 control-label">*结算方式</label>
-					            <!-- <div class="col-sm-10">
-					                <input type="radio" value="0" name="settlement_method" checked/>签订合同后<input class="offer-rule-f-c  mask-number" maxlength="3" name="clear_within_several_working_days"/>个工作日内付全款<br/>
+					            <div class="col-sm-10">
+					                <input type="radio" value="0" name="settlement_method"/>签订合同后<input class="offer-rule-f-c  mask-number" maxlength="3" name="clear_within_several_working_days"/>个工作日内付全款<br/>
 					                <input type="radio" value="1" name="settlement_method"/>签订合同后<input class="offer-rule-f-c  mask-number" maxlength="3" name="after_sign_several_working_days"/>个工作日内付合同款的<input class="offer-rule-f-c  mask-number" maxlength="5" name="contract_funds_percentage"/>%作为定金，剩余货款在<input class="offer-rule-f-c  mask-number" maxlength="3" name="clear_within_several_working_days"/>个工作日内结清。
-					            </div> -->
+					            </div>
 					        </div>
 					        <div class="form-group">
 					            <label class="col-sm-2 control-label">*交货期</label>

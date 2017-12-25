@@ -69,15 +69,8 @@ function sendSms() {
 		alert("已发送");
 	});
 }
-
-// 注册
-function register() {
+function checkNo(){
 	var phone = $("#mobile").val();
-	var codes = $("#code").val();
-	var pwd = $("#password").val();
-	var vcsrf = $("#_csrf").val();
-	var num = 0;
-	// 手机号码验证
 	if (phone.length == 0) {
 		esteel_register.insertErrorBubble("mobile", "手机号码不能空");
 	} else {
@@ -92,7 +85,7 @@ function register() {
 						mobile : phone
 					}
 				}, function(data,msg) {
-					if(data[0]==1){
+					if(data==null){
 						esteel_register.insertErrorBubble("mobile", "该号码已被注册");
 					}
 				});
@@ -104,6 +97,15 @@ function register() {
 
 		}
 	}
+}
+// 注册
+function register() {
+	var phone = $("#mobile").val();
+	var codes = $("#code").val();
+	var pwd = $("#password").val();
+	var vcsrf = $("#_csrf").val();
+	var num = 0;
+	// 手机号码验证
 	// 验证码验证
 	if (codes.length == 0) {
 		esteel_register.insertErrorBubble("code", "验证码不能为空");

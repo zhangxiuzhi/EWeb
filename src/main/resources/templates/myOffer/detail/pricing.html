@@ -30,7 +30,7 @@
                 </div>
                 <!--分类页面-->
                 <div id="router-pageCotainer" class="padding-left-10 padding-right-10 padding-bottom-10">
-					<form id="form-offer" action="/offer/savePricingOffer" enctype="multipart/form-data" method="post" onsubmit="return false">
+					<form id="form-offer" action="/offer/updatePricingOffer" enctype="multipart/form-data" method="post" onsubmit="return false">
 					    <!--商品信息-->
 					    <div class="form-horizontal">
 					        <div class="form-group">
@@ -149,7 +149,7 @@
 					        <div class="form-group">
 					            <label class="col-sm-2 control-label">*结算方式</label>
 					            <div class="col-sm-10">
-					                <input type="radio" value="0" name="settlement_method" checked/>签订合同后<input class="offer-rule-f-c  mask-number" maxlength="3" name="clear_within_several_working_days"/>个工作日内付全款<br/>
+					                <input type="radio" value="0" name="settlement_method"/>签订合同后<input class="offer-rule-f-c  mask-number" maxlength="3" name="clear_within_several_working_days"/>个工作日内付全款<br/>
 					                <input type="radio" value="1" name="settlement_method"/>签订合同后<input class="offer-rule-f-c  mask-number" maxlength="3" name="after_sign_several_working_days"/>个工作日内付合同款的<input class="offer-rule-f-c  mask-number" maxlength="5" name="contract_funds_percentage"/>%作为定金，剩余货款在<input class="offer-rule-f-c  mask-number" maxlength="3" name="clear_within_several_working_days"/>个工作日内结清。
 					            </div>
 					        </div>
@@ -317,6 +317,6 @@
 <div th:replace="./fragments/foot::footer"></div>
 
 <!--控制-->
-<script th:src="@{/js/module/offer/editOffer.instock.js}"></script>
+<script th:src="@{/js/module/offer/editOffer.pricing.js}"></script>
 </body>
 </html>

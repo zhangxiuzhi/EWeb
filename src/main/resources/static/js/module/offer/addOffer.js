@@ -169,6 +169,14 @@ function JBSFrame_addOffer() {
             $("#select-bondedAreasPort").append($opt);
         }
         
+        //价格模式
+        var priceModel = JSON.parse($("#priceModelJson").html());
+        for(var i=0;i<priceModel.length;i++){
+            $opt = $("<option></option>").text(priceModel[i].text).val(priceModel[i].value);
+            $("#offer-priceModel").append($opt);
+            $("#offer-priceModel").val("1");
+        }
+        
         //价格术语
         var priceTerm = JSON.parse($("#priceTermJson").html());
         for(var i=0;i<priceTerm.length;i++){

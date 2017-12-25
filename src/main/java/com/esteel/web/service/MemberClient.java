@@ -22,7 +22,8 @@ import com.esteel.web.vo.MemberUserVo;
  *
  */
 // ,url = "http://127.0.0.1:9000"
-@FeignClient(name = "User", url = "http://127.0.0.1:9930/", fallback = MemberUserClientCallback.class)
+//@FeignClient(name = "User", url = "http://127.0.0.1:9930/", fallback = MemberUserClientCallback.class)
+@FeignClient(name = "User",url = "http://10.0.1.234:9930",fallback = MemberUserClientCallback.class)
 public interface MemberClient {
 	/**
 	 * 验证手机号
@@ -47,7 +48,15 @@ public interface MemberClient {
 	public MemberUserVo checkNo(@RequestBody MemberUserVo user);
 	
 	/**
-	 * 保存企业信息
+	 * 保存企业认证信息
+	 * @param company
+	 * @param comAtt
+	 * @return int  0:保存失败，1:保存成功
+	 */
+	@RequestMapping(value = "/saveCompanyInfo", method = RequestMethod.POST)
+	public int saveCompanyInfo(@RequestBody MemberCompanyVo company);
+	/**
+	 * 保存企业主表信息
 	 * @param company
 	 * @return
 	 */
@@ -67,7 +76,7 @@ public interface MemberClient {
 	@RequestMapping(value = "/findCompanyById", method = RequestMethod.POST)
 	public MemberCompanyVo findCompany(@RequestParam("companyId") long companyId);
 	/**
-	 * 根据用户id获取企业信息
+	 * 根据企业id获取企业信息
 	 * @param companyId
 	 * @return
 	 */
@@ -208,6 +217,17 @@ class MemberUserClientCallback implements MemberClient {
 	@Override
 	public MemberCompanyVo findByCompanyName(String companyName) {
 		return null;
+	}
+	/**
+	 * 企业认证保存信息
+	 *  0:保存失败，1:保存成功
+	 *  调用失败返回
+	 */
+	@Override
+	public int saveCompanyInfo(@RequestBody MemberCompanyVo company) {
+		System.out.println(company);
+		logger.warn("企业认证信息保存失败");
+		return 0;
 	}
 
 }
