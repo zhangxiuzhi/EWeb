@@ -188,8 +188,6 @@ function upload(elem) {
 		success: function (result) {
 			//返回文件id
 			if(result.data!=null){
-				alert(result.data[0]);
-				alert(result.data[1]);
 				//图片下载的地址 user/export/T1saYTByCT1R4cSCrK/.png/html
 				var url = "/user/export/"+result.data[0]+"/"+result.data[1]+"/html;"
 				//保存数据库的字符串
@@ -204,25 +202,19 @@ function upload(elem) {
 }
 // 表单验证
 function chenckForm() {
-	var saveSt= $("#file1").val();
 	var status = true;
 	
 	var name = $("#companyName").val(); //企业全称
 	var regaddr = $("#regAddress").val();//注册地址
-	
-	
-	/*var r1 = document.getElementById("component-regAddress-1").value;
-	var r2 = document.getElementById("component-regAddress-2").value;
-	var r3 = document.getElementById("component-regAddress-3").innerHTML;*/
-	var r1 = $("#component-regAddress-1").html();//注册地址
-	var r2 = $("#component-regAddress-2").text();//注册地址
-	var r3 = $("#component-regAddress-3").val();//注册地址
-	
 	var conAddr = $("#conAddress").val(); //通信地址
-	
-	var c1 = $("#component-contactAddress-1").val();//通信地址
-	var c2 = $("#component-contactAddress-2").val();//通信地址
-	var c3 = $("#component-contactAddress-3").val();//通信地址
+	/*  注册地址  */
+	var r1 = $("select[name='provincesr']").val();//注册地址
+	var r2 = $("select[name='cityr']").val();//注册地址
+	var r3 = $("select[name='dictristor']").val();//注册地址
+	/*  联系地址  */
+	var c1 = $("select[name='provincesc']").val();//通信地址
+	var c2 = $("select[name='cityc']").val();//通信地址
+	var c3 = $("select[name='dictristorc']").val();//通信地址
 	
 	var agent = $("#agentName").val();//法人姓名
 	var cardid = $("#agentCardId").val(); //代理人身份证号
@@ -261,15 +253,39 @@ function chenckForm() {
 		status = false;
 	}
 	if (file1 == "" || file2 == "") {
-		alert("请上传身份证附件");
+		alert("请上传身份证附件正反面");
 		status = false;
 	}
 	if (legal == null || legal == "") {
 		esteel_member_approve.insertErrorBubble("legalName", "法人姓名不能为空");
 		status = false;
 	}
-	return status;
+	
+	//验证不通过中断执行
+	if(!status){
+		return;
+	}
+	
+	//表单序列化
+	var datas = $("#form-userInfo").serialize();
+	//数据提交
+	esteel_member_approve.ajaxRequest({
+		url : "/company/attest",
+		data : datas
+	}, function(data,msg) {
+		if(data!=null){
+			//跳转成功页面
+			alert("保存成功");
+			window.location.href = "/member/userInfo";
+		}else{
+			alert(msg);
+		}
+	})
 }
+
+
+
+
 // 获取所有的城市下拉框
 function findCity(node) {
 	esteel_member_approve.ajaxRequest({
@@ -325,27 +341,3 @@ function findDistrict_contact(node) {
 		});
 	})
 }
-//
-function submitData(){
-	var datas = $("#form-userInfo").serialize();
-	 $.ajax({
-        type: "POST",
-        url: "/company/attest",
-        data: datas,
-        success: function(data){
-               alert(12346);    
-        }
-    });
-}
-//提交数据
-$("#form-userInfo").submit(function (){ 
-	var datas = $("#form-userInfo").serialize();
-	 $.ajax({
-         type: "POST",
-         url: "/company/attest",
-         data: datas,
-         success: function(data){
-                alert(12346);    
-         }
-     });
-});

@@ -16,7 +16,7 @@ import com.esteel.web.vo.MemberCompanyVo;
 import com.esteel.web.vo.MemberUserVo;
 
 /**
- * ESTeel Description: 报盘用controller User: zhangxiuzhi Date: 2017-11-21 Time:
+ * ESTeel Description: 登录用户个人信息模块
  * 13:49
  */
 @RequestMapping("/member")
@@ -49,7 +49,11 @@ public class MemberController {
 		model.addAttribute("userVo", userVo);
 		return "/member/userInfo";
 	}
-	
+	/**
+	 * 跳转头像设置页面
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("/headSet")
 	public String headSet(Model model) {
 		return "/member/headSet";

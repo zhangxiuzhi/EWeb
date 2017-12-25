@@ -7,47 +7,47 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">公司全称</label>
             <div class="col-sm-8">
-                <input type="text" id="companyName" class="form-control"/>
+                <input type="text" id="companyName" name="companyName" class="form-control"/>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">公司简称</label>
             <div class="col-sm-4">
-                <input type="text" id="companyshort" class="form-control"/>
+                <input type="text" id="companyshort" name="companyshort" class="form-control"/>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" id="shshixianr">
             <label class="col-sm-2 control-label">注册地址</label>
-            <div class="col-sm-8" id="shshixianr">
+            <div class="col-sm-8" >
                 <div class="clearfix margin-bottom-15">
-                    <div class="pull-left margin-right-10" id="component-regAddress-1" inputName="provinces" inputValue=""></div>
-                    <div class="pull-left margin-right-10" id="component-regAddress-2" inputName="" inputValue=""></div>
-                    <div class="pull-left margin-right-10" id="component-regAddress-3" inputName="" inputValue=""></div>
+                    <div class="pull-left margin-right-10" id="component-regAddress-1" inputName="provincesr" inputValue="" ></div>
+                    <div class="pull-left margin-right-10" id="component-regAddress-2" inputName="cityr" inputValue=""></div>
+                    <div class="pull-left margin-right-10" id="component-regAddress-3" inputName="dictristor" inputValue=""></div>
                 </div>
-                <textarea class="form-control" id="regAddress" placeholder="请输入详细地址"></textarea>
+                <textarea class="form-control" id="regAddress"  name="regAddress" placeholder="请输入详细地址"></textarea>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">通信地址</label>
             <div class="col-sm-8" id="shshixianc">
                 <div class="clearfix margin-bottom-15">
-                    <div class="pull-left margin-right-10" id="component-contactAddress-1"  inputName="provinces" inputValue=""></div>
-                    <div class="pull-left margin-right-10" id="component-contactAddress-2" inputName="" inputValue=""></div>
-                    <div class="pull-left margin-right-10" id="component-contactAddress-3" inputName="" inputValue=""></div>
+                    <div class="pull-left margin-right-10" id="component-contactAddress-1"  inputName="provincesc" inputValue=""></div>
+                    <div class="pull-left margin-right-10" id="component-contactAddress-2" inputName="cityc" inputValue=""></div>
+                    <div class="pull-left margin-right-10" id="component-contactAddress-3" inputName="dictristorc" inputValue=""></div>
                 </div>
-                <textarea class="form-control" id="conAddress" placeholder="请输入详细地址"></textarea>
+                <textarea class="form-control" id="conAddress" name="conAddress" placeholder="请输入详细地址"></textarea>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">代理人姓名</label>
             <div class="col-sm-4">
-                <input type="text" id="agentName" class="form-control"/>
+                <input type="text" id="agentName" name="agentName" class="form-control"/>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">代理人身份证号</label>
             <div class="col-sm-4">
-                <input type="text"  id="agentCardId" class="form-control"/>
+                <input type="text"  id="agentCardId" name="agentCardId" class="form-control"/>
             </div>
         </div>
         <div class="form-group">
@@ -57,26 +57,26 @@
                     <a href="javascript:;" class="btn-file">
                         	上传人像面<input id="file1" name="file" type="file" onchange="upload(this)">
                     </a>
-                                        <input type="text" id="file1-text"/>
+                   	<input type="text" id="file1-text" name="positive"/>
                 </div>
                 <div class="img-uploadPhoto pull-left">
                     <a href="javascript;" class="btn-file">
                      	   上传国徽面<input id="file2" name="file" type="file" onchange="upload(this)">
                     </a>
-                     <input type="text" id="file2-text"/>
+                     <input type="text" id="file2-text" name="opposite"/>
                 </div>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">法人姓名</label>
             <div class="col-sm-4">
-                <input type="text" id="legalName" class="form-control"/>
+                <input type="text" id="legalName" name="legalName" class="form-control"/>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">法人身份证号</label>
             <div class="col-sm-4">
-                <input type="text" id="legalCardId" class="form-control"/>
+                <input type="text" id="legalCardId" name="legalCardId" class="form-control"/>
             </div>
         </div>
         <div class="form-group">
@@ -86,13 +86,13 @@
                     <a href="javascript:;" class="btn-file">
                         上传人像面<input id="file3" name="file" type="file" onchange="upload(this)">
                     </a>
-                    <input type="text" id="file3-text"/>
+                    <input type="text" id="file3-text" name="legalPositive"/>
                 </div>
                 <div class="img-uploadPhoto pull-left">
                     <a href="javascript:;" class="btn-file">
                         上传国徽面<input id="file4" name="file" type="file" onchange="upload(this)">
                     </a>
-                    <input type="text" id="file4-text"/>
+                    <input type="text" id="file4-text" name="legalOpposite"/>
                 </div>
             </div>
         </div>
@@ -109,7 +109,7 @@
                     <span class="fileupload-preview"></span>
                     <a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none">×</a>
                 </span>
-                  <input type="text" id="file5-text"/>
+                  <input type="text" id="file5-text"  name="authorize"/>
             </div>
         </div>
         <div class="form-group">
@@ -117,33 +117,33 @@
             <div class="col-sm-8">
                 <div id="component-certificate" inputName="certificate"></div>
             </div>
-            <input type="hidden" id="certificate">
+            <input type="hidden" id="certificate" name="certificate">
         </div>
         <div class="box-container">
             <div class="form-group">
                 <label class="col-sm-2 control-label">营业执照注册号</label>
                 <div class="col-sm-4">
-                    <input type="text" id="regCode" class="form-control"/>
+                    <input type="text" id="regCode" class="form-control" name="regCode"/>
                 </div>
                 <label class="col-sm-2 control-label">统一社会信用代码</label>
                 <div class="col-sm-4">
-                    <input type="text" id="socialCode" class="form-control"/>
+                    <input type="text" id="socialCode"  name="" class="form-control"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">组织机构代码</label>
                 <div class="col-sm-4">
-                    <input type="text"  id="organizationCode" class="form-control"/>
+                    <input type="text"  id="organizationCode" name="organizationCode" class="form-control"/>
                 </div>
                 <label class="col-sm-2 control-label">税务登记证号</label>
                 <div class="col-sm-4">
-                    <input type="text" id="taxationCode" class="form-control"/>
+                    <input type="text" id="taxationCode" name="taxationCode" class="form-control"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">营业执照</label>
                 <div class="col-sm-8">
-                    <input type="text" id="licenseImg" class="form-control"/>
+                    <input type="text" id="licenseImg" name="licenseImg" class="form-control"/>
                 </div>
             </div>
         </div><!--  onclick="chenckForm()" -->

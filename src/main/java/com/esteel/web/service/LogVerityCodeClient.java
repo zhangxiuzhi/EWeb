@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.esteel.web.vo.LogVerifyCodeVo;
 
-@FeignClient(name = "User", url = "http://127.0.0.1:9930/", fallback = LogVerityCodeClientCallback.class)
+//@FeignClient(name = "User", url = "http://127.0.0.1:9930/", fallback = LogVerityCodeClientCallback.class)
+@FeignClient(name = "User", url = "http://10.0.1.234:9930/", fallback = LogVerityCodeClientCallback.class)
 public interface LogVerityCodeClient {
 	/**
 	 * 保存验证码
