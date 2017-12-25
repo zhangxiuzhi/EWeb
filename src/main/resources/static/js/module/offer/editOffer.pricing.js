@@ -84,6 +84,7 @@ function JBSFrame_OfferEdit_Pricing() {
         }
 
         //交货数量标准港口
+<<<<<<< HEAD
         var dischargePort = JSON.parse($("#portJson").html());
         for(var i=0;i<dischargePort.length;i++){
             $opt = $("<option></option>").text(dischargePort[i].text).val(dischargePort[i].value);

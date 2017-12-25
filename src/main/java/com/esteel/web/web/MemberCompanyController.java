@@ -10,8 +10,11 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,11 +37,13 @@ import com.google.gson.Gson;
 public class MemberCompanyController {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	@Autowired
 	MemberClient memberClient;
 
 	@Autowired
 	BaseClient baseClient;
+	
 
 	/**
 	 * 跳转企业logo编辑页面
@@ -132,14 +137,15 @@ public class MemberCompanyController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value="/attest")
+	@RequestMapping(value="/attest",method=RequestMethod.POST)
 	@ResponseBody
-	public String companyAttest(
+	public WebReturnMessage companyAttest(
 
 			String companyName, // 企业名称
-			String regProvince, // 注册省份
-			String regCity, // 注册城市
-			String regDistinct, // 注册区县
+			String companyshort,//企业简称
+			String provincesr, // 注册省份
+			String cityr, // 注册城市
+			String dictristor, // 注册区县
 			String regAddress, // 注册详细地址
 			String conAddress, // 联系地址
 			// 待确认
@@ -156,38 +162,44 @@ public class MemberCompanyController {
 			String authorize, // 主联系人授权书
 			Integer certificate, // 是否三证合一
 			String regCode, // 营业执照注册号
-			String socialCode, // 社会信用代码
 			String organizationCode, // 组织结构代码
 			String taxationCode, // 税务登记号
+			
+			String socialCode, // 社会信用代码
 
 			String licenseImg, // 营业执照
 			String organizationImg, // 组织机构
 			String taxationImg // 税务登记证
 
 	) {
-		System.out.println("*********************************************************");
-		System.out.println(companyName);
+		
+		logger.info(this.getClass()+"企业认证入口,参数{}"+companyName+agentName);
+		//获取用户登录信息
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		MemberUserVo userVo = memberClient.findByAccount(authentication.getName());
+		Assert.notNull(userVo, "用户未登录");
 		// 设置企业基本信息
 		MemberCompanyVo company = new MemberCompanyVo();
 		company.setCountryCode("China"); // 国家编码
 		company.setCompanyName(companyName);// 企业名称
+		company.setCompanyAlias(companyshort);
 		company.setContactAddress(conAddress);// 企业联系地址
 		company.setCompanyNameEn(""); // --
 		company.setSeats(5); // 企业子账号数
 		company.setIsForeignTrade(0); // 是否有外贸资质
 		company.setValidTime(new Timestamp(new Date().getTime() + 10 * 365 * 24 * 60 * 60 * 1000)); // 有效时间10年
 		company.setRegisteredTime(new Timestamp(new Date().getTime())); // 注册时间
-		company.setRegisteredUserId(1);// --
-		company.setRegisteredUser(""); // --
+		company.setRegisteredUserId((int)userVo.getUserId());// --
+		company.setRegisteredUser(userVo.getUserName()); // --
 		company.setApprovalStatus(0);// 审核状态
 		company.setCompanyStatus(0);// 企业状态
 		// 设置企业附件信息
 		MemberCompanyAttachVo companyAtt = new MemberCompanyAttachVo();
-		companyAtt.setRegisteredProvince(regProvince);// 省
+		companyAtt.setRegisteredProvince(provincesr);// 省
 		companyAtt.setLegalIdCard(legalCardId);// 法人身份证号
 		companyAtt.setLegalIdPath(opposite);// 身份证号图片
-		companyAtt.setRegisteredCity(regCity);// 市
-		companyAtt.setRegisteredDistrict(regDistinct);// 区县
+		companyAtt.setRegisteredCity(cityr);// 市
+		companyAtt.setRegisteredDistrict(dictristor);// 区县
 		companyAtt.setRegisteredAddress(regAddress);// 联系地址
 		companyAtt.setAuthorizationPath(authorize);// 主联系人授权书
 		companyAtt.setIsThreeCertificate(certificate);// 三证合一
@@ -199,23 +211,16 @@ public class MemberCompanyController {
 		companyAtt.setOrganizationPath(organizationImg);// 组织结构图片
 		companyAtt.setTaxRegistrationPath(taxationImg);// 税务登记证图片
 		companyAtt.setUpdateTime(new Timestamp(new Date().getTime()));// 更新时间
+		company.setComAtt(companyAtt);
 		// 保存企业信息，同时返回保存后的对象信息
-		MemberCompanyVo saveComp = memberClient.saveComp(company);
-		WebReturnMessage webRetMesage = null;
-		if (saveComp != null) {
-			companyAtt.setCompanyId((int) saveComp.getCompanyId());
-			// 保存企业信息，同时返回保存后的对象信息
-			MemberCompanyAttachVo saveComAtt = memberClient.saveComAtt(companyAtt);
-			if (saveComAtt != null) {
-				webRetMesage = new WebReturnMessage(true, "提交成功");
-			} else {
-				webRetMesage = new WebReturnMessage(false, "提交失败");
-			}
-		} else {
-			webRetMesage = new WebReturnMessage(false, "提交失败");
+		int status = memberClient.saveCompanyInfo(company);
+		if(status==1) {
+			List<Object> list = new ArrayList<>();
+			list.add(1);
+			return new WebReturnMessage(true,"",list);
+		}else {
+			return new WebReturnMessage(true,"数据保存失败");
 		}
-		return "";
-
 	}
 
 	/**

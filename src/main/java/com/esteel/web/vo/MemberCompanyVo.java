@@ -72,6 +72,7 @@ public class MemberCompanyVo implements Serializable {
 	private Timestamp validTime;
 
 	private String zipCode;
+	private MemberCompanyAttachVo comAtt;
 
 	public MemberCompanyVo() {
 	}
@@ -324,4 +325,28 @@ public class MemberCompanyVo implements Serializable {
 		this.zipCode = zipCode;
 	}
 
+	public MemberCompanyAttachVo getComAtt() {
+		return comAtt;
+	}
+
+	public void setComAtt(MemberCompanyAttachVo comAtt) {
+		this.comAtt = comAtt;
+	}
+
+	@Override
+	public String toString() {
+		return "MemberCompanyVo [companyId=" + companyId + ", approvalStatus=" + approvalStatus + ", approvalTime="
+				+ approvalTime + ", approvalUser=" + approvalUser + ", approvalUserId=" + approvalUserId
+				+ ", companyAlias=" + companyAlias + ", companyAliasEn=" + companyAliasEn + ", companyFax=" + companyFax
+				+ ", companyName=" + companyName + ", companyNameEn=" + companyNameEn + ", companyPhone=" + companyPhone
+				+ ", companyStatus=" + companyStatus + ", contactAddress=" + contactAddress + ", countryCode="
+				+ countryCode + ", creditIntegration=" + creditIntegration + ", isForeignTrade=" + isForeignTrade
+				+ ", logo=" + logo + ", mainBusiness=" + mainBusiness + ", memberGrade=" + memberGrade
+				+ ", memberUserId=" + memberUserId + ", registeredMethod=" + registeredMethod + ", registeredTime="
+				+ registeredTime + ", registeredUser=" + registeredUser + ", registeredUserId=" + registeredUserId
+				+ ", remarks=" + remarks + ", seats=" + seats + ", tradeCurrency=" + tradeCurrency
+				+ ", tradeIntegration=" + tradeIntegration + ", tradeVarietie=" + tradeVarietie + ", validTime="
+				+ validTime + ", zipCode=" + zipCode + ", comAtt=" + comAtt + "]";
+	}
+	
 }

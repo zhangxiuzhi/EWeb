@@ -355,4 +355,24 @@ public class MemberCompanyAttachVo implements Serializable {
 		this.updateUser = updateUser;
 	}
 
+	@Override
+	public String toString() {
+		return "MemberCompanyAttachVo [companyAttachedId=" + companyAttachedId + ", authorizationPath="
+				+ authorizationPath + ", businessLicenseCode=" + businessLicenseCode + ", businessLicensePath="
+				+ businessLicensePath + ", certificateOneCode=" + certificateOneCode + ", certificateOnePath="
+				+ certificateOnePath + ", certificateThreeCode=" + certificateThreeCode + ", certificateThreePath="
+				+ certificateThreePath + ", certificateTwoCode=" + certificateTwoCode + ", certificateTwoPath="
+				+ certificateTwoPath + ", companyId=" + companyId + ", companyNature=" + companyNature
+				+ ", companyType=" + companyType + ", foreignTradePath=" + foreignTradePath + ", importExportCode="
+				+ importExportCode + ", isThreeCertificate=" + isThreeCertificate + ", legalIdCard=" + legalIdCard
+				+ ", legalIdPath=" + legalIdPath + ", openingPermitCode=" + openingPermitCode + ", openingPermitPath="
+				+ openingPermitPath + ", organizationCode=" + organizationCode + ", organizationPath="
+				+ organizationPath + ", registeredAddress=" + registeredAddress + ", registeredCity=" + registeredCity
+				+ ", registeredDistrict=" + registeredDistrict + ", registeredProvince=" + registeredProvince
+				+ ", socialCreditCode=" + socialCreditCode + ", socialCreditPath=" + socialCreditPath
+				+ ", taxRegistrationCode=" + taxRegistrationCode + ", taxRegistrationPath=" + taxRegistrationPath
+				+ ", threeCertificateCode=" + threeCertificateCode + ", threeCertificatePath=" + threeCertificatePath
+				+ ", updateTime=" + updateTime + ", updateUser=" + updateUser + "]";
+	}
+	
 }
