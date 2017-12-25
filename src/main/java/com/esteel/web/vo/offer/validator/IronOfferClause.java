@@ -67,7 +67,8 @@ public @interface IronOfferClause {
 				}
 				
 				if (clause.getClear_within_several_working_days() == null 
-						|| clause.getClear_within_several_working_days().trim().equals("")) {
+						|| clause.getClear_within_several_working_days().length < 2
+						|| clause.getClear_within_several_working_days()[1].trim().equals("")) {
 					context.buildConstraintViolationWithTemplate("请填完 结算方式。")  
 	                .addPropertyNode("after_sign_several_working_days")  
 	                .addConstraintViolation();

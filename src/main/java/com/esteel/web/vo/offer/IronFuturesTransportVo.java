@@ -66,6 +66,11 @@ public class IronFuturesTransportVo implements Serializable {
 	 * 其他
 	 */
 	@Length(min=0, max=1, message="运输备注:128字符以内") 
+	/**
+	 * 是否一船多货 0:否, 1:是
+	 */
+	private String isMultiCargo = "0";
+	
 	private String transport_remark;
 	
 	public Date getTransport_load_end() {
@@ -115,5 +120,11 @@ public class IronFuturesTransportVo implements Serializable {
 	}
 	public void setTransport_remark(String transport_remark) {
 		this.transport_remark = transport_remark;
+	}
+	public String getIsMultiCargo() {
+		return isMultiCargo;
+	}
+	public void setIsMultiCargo(String isMultiCargo) {
+		this.isMultiCargo = isMultiCargo;
 	}
 }

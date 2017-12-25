@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.esteel.web.vo.offer.IronOfferMainVo;
 import com.esteel.web.vo.offer.IronOfferPage;
-import com.esteel.web.vo.offer.IronOfferQueryVo;
+import com.esteel.web.vo.offer.request.IronOfferQueryVo;
 
 import feign.hystrix.FallbackFactory;
 

@@ -1,4 +1,4 @@
-package com.esteel.web.vo.offer;
+package com.esteel.web.vo.offer.request;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -7,6 +7,8 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.esteel.web.vo.offer.OfferIronAttachVo;
+import com.esteel.web.vo.offer.OfferIronAttachVo.IronFuturesOffer;
 import com.esteel.web.vo.offer.validator.Array;
 import com.esteel.web.vo.offer.validator.DigitsHasEmpty;
 import com.esteel.web.vo.offer.validator.LengthForEach;

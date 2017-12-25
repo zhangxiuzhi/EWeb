@@ -13,6 +13,9 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.Payload;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
+import com.esteel.common.util.EsteelConstant;
 import com.esteel.web.vo.offer.IronFuturesTransportVo;
 
 /**
@@ -44,6 +47,11 @@ public @interface IronFuturesTransport {
 		@Override
 		public boolean isValid(IronFuturesTransportVo transport, ConstraintValidatorContext context) {
 			if (transport == null) {
+				return true;
+			}
+			
+			if (transport.getIsMultiCargo() == null 
+					|| NumberUtils.toInt(transport.getIsMultiCargo()) != EsteelConstant.YES) {
 				return true;
 			}
 			

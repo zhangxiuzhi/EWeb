@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="./fragments/frontCode::frontCode" />
+
+<body class="member myIron">
+
+<!--页头，菜单-->
+<div th:replace="./fragments/head::header"></div>
+
+<!--内容-->
+<div class="main">
+    <div class="container">
+        <!--侧栏-->
+        <div th:replace="./fragments/sidebar::sidebar"></div>
+
+        <!--内容-->
+        <div class="content">
+
+            <div class="userContent">
+            	 <!--分类-->
+                <div class="type-title">
+                    <div class="t-title" id="router-linkNode">
+                        <a href="#" linkNode="inStock" class="selected">港口现货</a>
+                        <em class="t-t-line">|</em>
+                        <a href="#" linkNode="futures">远期现货</a>
+                        <em class="t-t-line">|</em>
+                        <a href="#" linkNode="pricing">点价</a>
+                    </div>
+                </div>
+                <!--分类页面-->
+                <div id="router-pageCotainer" class="padding-left-10 padding-right-10 padding-bottom-10">
+					<form id="form-offer" action="/offer/updateInStockOffer" enctype="multipart/form-data" method="post" onsubmit="return false">
+					<!--商品信息-->
+					    <div class="form-horizontal">
+					        <div class="form-group">
+					            <label class="col-sm-2 control-label">交易对象</label>
+					            <div class="col-sm-10">
+					                <div id="component-TradeCustomer" inputName="counterpartyIdMulti"></div>
+					            </div>
+					        </div>
+					 
+					        <div class="form-group">
+					            <label class="col-sm-2 control-label">*品名</label>
+					            <div class="col-sm-4">
+					                <div id="component-selectBox-ItemName" inputName="commodityId" data-validetta="required"></div>
+					            </div>
+					            <label class="col-sm-2 control-label">*港口</label>
+					            <div class="col-sm-4">
+					                <div id="component-selectBox-Port" inputName="portId" data-validetta="required"></div>
+					            </div>
+					        </div>
+					 
+					        <div class="form-group">
+					            <label class="col-sm-2 control-label">指标类型</label>
+					            <div class="col-sm-8">
+					                <div id="component-radioBoxGroup-kpiType" inputName="indicatorTypeId"></div>
+					            </div>
+					        </div>
+					 
+					        <div class="form-group">
+					            <label class="col-sm-2 control-label">指标(%)</label>
+					            <div class="col-sm-8">
+					                <table class="offer-kip-table">
+					                    <tr>
+					                        <th>Fe</th><th>SiO2</th><th>A12O3</th><th>Mn</th><th>LOI</th>
+					                    </tr>
+					                    <tr>
+					                        <td><input type="text" class="form-control mask-number" name="fe" id="indicator-FE" data-validetta="required"/></td>
+					                        <td><input type="text" class="form-control" name="sio2" id="indicator-SIO2"/></td>
+					                        <td><input type="text" class="form-control" name="al2o3" id="indicator-AL2O3"/></td>
+					                        <td><input type="text" class="form-control" name="mn" id="indicator-MN"/></td>
+					                        <td><input type="text" class="form-control" name="LOI" id="indicator-LOI"/></td>
+					                    </tr>
+					                    <tr>
+					                        <th>P</th><th>S</th><th>H20</th><th>&nbsp;</th><th>&nbsp;</th>
+					                    </tr>
+					                    <tr>
+					                        <td><input type="text" class="form-control" name="p" id="indicator-P"/></td>
+					                        <td><input type="text" class="form-control" name="s" id="indicator-S"/></td>
+					                        <td><input type="text" class="form-control" name="h2o" id="indicator-H2O"/></td>
+					                        <td>&nbsp;</td>
+					                        <td>&nbsp;</td>
+					                    </tr>
+					                </table>
+					            </div>
+					        </div>
+					 
+					        <div class="form-group">
+					            <label class="col-sm-2 control-label">粒度</label>
+					            <div class="col-sm-4">
+					                <input type="text" class="form-control" maxlength="32" name="sizeIndicators"/>
+					            </div>
+					        </div>
+					 
+					        <div class="form-group">
+					            <label class="col-sm-2 control-label">*数量</label>
+					            <div class="col-sm-4">
+					                <input type="text" class="form-control mask-number"  data-validetta="required" name="offerQuantity" maxlength="100"/>
+					            </div>
+					 
+					            <label class="col-sm-2 control-label">*溢短装</label>
+					            <div class="col-sm-4">
+					                <input type="text" class="form-control mask-number"  data-validetta="required" maxlength="4" name="moreOrLess"/>
+					            </div>
+					        </div>
+					 
+					        <div class="form-group">
+					            <label class="col-sm-2 control-label">*可否拆分</label>
+					            <div class="col-sm-4">
+					                <div id="component-toggle-split" inputName="isSplit" inputValue="0"></div>
+					            </div>
+					 
+					            <div id="offer-qdl-box">
+					                <label class="col-sm-2 control-label">*起订量</label>
+					                <div class="col-sm-4">
+					                    <input type="text" class="form-control mask-number" id="minQuantity" name="minQuantity"/>
+					                </div>
+					            </div>
+					        </div>
+					 
+					        <div class="form-group">
+					            <label class="col-sm-2 control-label">*价格</label>
+					            <div class="col-sm-4">
+					                <input type="text" class="form-control mask-number" name="priceValue" data-validetta="required" maxlength="6"/>
+					            </div>
+					        </div>
+					 
+					        <div class="form-group">
+					            <label class="col-sm-2 control-label">*报盘有效期：</label>
+					            <div class="col-sm-4">
+					                <input type="text" class="form-control datetimepicker" name="validTime" data-validetta="required"/>
+					            </div>
+					        </div>
+					 
+					        <div class="form-group">
+					            <label class="col-sm-2 control-label">商品备注</label>
+					            <div class="col-sm-10">
+					                <textarea type="text" class="form-control" maxlength="128" name="offerAttachRemarks"></textarea>
+					            </div>
+					        </div>
+					 
+					        <div class="form-group">
+					            <label class="col-sm-2 control-label">上传附件</label>
+					            <div class="col-sm-10">
+					                <div id=""></div>
+					                <span class="fileupload fileupload-new" data-provides="fileupload">
+					                    <span class="btn btn-default btn-file btn-ghost">
+					                        <span class="fileupload-new"><i class="fa fa-folder-open-o"></i> 选择文件</span>
+					                        <span class="fileupload-exists"><i class="fa fa-folder-open-o"></i> 替换文件</span>
+					                        <input type="file" name="offerAffix" class="form-control uploadFile" accept=".doc,.docx,.xls,.xlsx,.pdf,.zip,.rar,.7z"/>
+					                    </span>
+					                    <span class="fileupload-preview"></span>
+					                    <a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none">×</a>
+					                </span>
+					            </div>
+					        </div>
+					 
+					</div>
+					    <div class="offer-content-slicer">
+					        <div class="slicer-text">交货结算条款</div>
+					    </div>
+					    <!--交货结算条款-->
+					    <div class="form-horizontal offer-rule">
+					        <div class="form-group">
+					            <label class="col-sm-2 control-label">*结算方式</label>
+					            <!-- <div class="col-sm-10">
+					                <input type="radio" value="0" name="settlement_method" checked/>签订合同后<input class="offer-rule-f-c  mask-number" maxlength="3" name="clear_within_several_working_days"/>个工作日内付全款<br/>
+					                <input type="radio" value="1" name="settlement_method"/>签订合同后<input class="offer-rule-f-c  mask-number" maxlength="3" name="after_sign_several_working_days"/>个工作日内付合同款的<input class="offer-rule-f-c  mask-number" maxlength="5" name="contract_funds_percentage"/>%作为定金，剩余货款在<input class="offer-rule-f-c  mask-number" maxlength="3" name="clear_within_several_working_days"/>个工作日内结清。
+					            </div> -->
+					        </div>
+					        <div class="form-group">
+					            <label class="col-sm-2 control-label">*交货期</label>
+					            <div class="col-sm-10">
+					                买方付全款后<input class="offer-rule-f-c mask-number"  data-validetta="required" maxlength="3" name="after_pay_off_several_working_days"/>个工作日内完成货权转移
+					            </div>
+					        </div>
+					        <div class="form-group">
+					            <label class="col-sm-2 control-label">*交货方式</label>
+					            <div class="col-sm-10">
+					                <select class="offer-rule-f-c" id="offer-rules-port1" name="delivery_Method_port">
+					                	<option value=""></option>
+					                </select>（港口）
+					                <select class="form-control" name="pricing_method" id="select-Pricing_method">
+					                    <option value=""></option>
+					                </select>（计价方式）交货
+					            </div>
+					        </div>
+					        <div class="form-group">
+					            <label class="col-sm-2 control-label">*交货数量标准</label>
+					            <div class="col-sm-10">
+					                以<select class="offer-rule-f-c" id="offer-rules-port2" name="delivery_quantity_port">
+					                <option value=""></option>
+					          </select>（港口）
+					          <select class="form-control" name="measure_method" data-validetta="required" id="select-measure_method">
+					              <option value=""></option>
+					          </select>（计量方式）数量为准
+					            </div>
+					        </div>
+					        <div class="form-group">
+					            <label class="col-sm-2 control-label">*货物规格标准</label>
+					            <div class="col-sm-10">
+					                以<select class="form-control" name="trader_type" data-validetta="required" id="select-trader_type">
+					                    <option value=""></option>
+					                    <option value="0">卖方</option>
+					                    <option value="1">买方</option>
+					                </select>检测结果作为结算依据。
+					            </div>
+					        </div>
+					        <div class="form-group">
+					            <label class="col-sm-2 control-label">*费用条款</label>
+					            <div class="col-sm-10">
+					                费用条款：若火车或车板提货，则产生的港口费差价、运费由<select class="form-control" name="transport_costs_bearer" data-validetta="required" id="transport_costs_bearer">
+					                    <option value=""></option>
+					                    <option value="0">卖方</option>
+					                    <option value="1">买方</option>
+					                </select>承担；
+					                若二程船提货，则水分检验费及其代理费由<select class="form-control" name="agency_fee_bearer" data-validetta="required" id="agency_fee_bearer">
+					                    <option value=""></option>
+					                    <option value="0">卖方</option>
+					                    <option value="1">买方</option>
+					                </select>承担， 内贸港口建设费由<select class="form-control" name="port_construction_fee_bearer" data-validetta="required" id="port_construction_fee_bearer">
+					                    <option value=""></option>
+					                    <option value="0">卖方</option>
+					                    <option value="1">买方</option>
+					                </select>承担，
+					                二程船运费由<select class="form-control" name="second_vessel_fee_bearer" data-validetta="required" id="second_vessel_fee_bearer">
+					                    <option value=""></option>
+					                    <option value="0">卖方</option>
+					                    <option value="1">买方</option>
+					                </select>承担， 过磅费或水尺费由<select class="form-control" name="weighing_fee_bearer" data-validetta="required" id="weighing_fee_bearer">
+					                    <option value=""></option>
+					                    <option value="0">卖方</option>
+					                    <option value="1">买方</option>
+					                </select>承担；
+					                自货权转移之日起，买方享有<input class="offer-rule-f-c"  maxlength="3" name="free_storage_several_days"/>天免堆期， 超期产生的堆存费由<select class="form-control" name="overdue_storage_fee_bearer" data-validetta="required" id="overdue_storage_fee_bearer">
+					                    <option value=""></option>
+					                    <option value="0">卖方</option>
+					                    <option value="1">买方</option>
+					                </select>承担。
+					            </div>
+					        </div>
+					        <div class="form-group">
+					            <label class="col-sm-2 control-label">发票条款</label>
+					            <div class="col-sm-10">
+					                在卖方收到全部货款后，卖方应向买方开出增值税发票，增值税发票一票结算。增值税发票品种以合同品种为准并且无其他要求。 其他发票条款<br/>
+					                <textarea class="form-control" maxlength="200" name="invoice_terms"></textarea>
+					            </div>
+					        </div>
+					        <div class="form-group">
+					            <label class="col-sm-2 control-label">不可抗力</label>
+					            <div class="col-sm-10">
+					                买、卖双方的任何一方由于不可抗力的原因不能全部或部分履行合同义务时，应本着诚信原则尽快通知对方，经提供相应证明后，可允许延期履行、部分履行或不履行，并可根据情况全部或部分免予承担违约责任
+					            </div>
+					        </div>
+					        <div class="form-group">
+					            <label class="col-sm-2 control-label">上传合同</label>
+					            <div class="col-sm-10">
+					                <div id=""></div>
+					                <span class="fileupload fileupload-new" data-provides="fileupload">
+					                    <span class="btn btn-default btn-file btn-ghost">
+					                        <span class="fileupload-new"><i class="fa fa-folder-open-o"></i> 选择文件</span>
+					                        <span class="fileupload-exists"><i class="fa fa-folder-open-o"></i> 替换文件</span>
+					                        <input type="file" name="contractAffix" class="form-control uploadFile" accept=".doc,.docx,.xls,.xlsx,.pdf,.zip,.rar,.7z"/>
+					                    </span>
+					                    <span class="fileupload-preview"></span>
+					                    <a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none">×</a>
+					                </span>
+					            </div>
+					        </div>
+					        <div class="form-group">
+					            <label class="col-sm-2 control-label">其他</label>
+					            <div class="col-sm-10">
+					                <textarea class="form-control" name="offerRemarks"></textarea>
+					            </div>
+					        </div>
+					        <div class="form-group">
+					            <label class="col-sm-2 control-label">匿名发布</label>
+					            <div class="col-sm-10">
+					                <div id="component-toggle-anonym" inputName="isAnonymous" inputValue="1"></div>
+					            </div>
+					        </div>
+					    </div>
+					 
+					    <div class="form-group offer-rule-buttons">
+					        <button class="btn btn-default" type="button" onclick="save_offer()">保存</button>
+					        <button class="btn btn-primary" type="button" onclick="submit_offer()">立即发布</button>
+					    </div>
+					 
+					 	<input type="hidden" value="inStock" id="tradeMode"/>
+					 	<input type="hidden" name="offerStatus" value="draft" id="offerStatus"/>
+					</form>
+ 				</div>
+ 				
+ 				<div style="display:none">
+            
+	                <!-- 公司白名单列表Json:[{"text":"counterpartyName","value":"counterpartyId","key":"counterpartyAlias"},...] -->
+	                <div id="companyWhitelistJson" th:text="${companyWhitelistJson}"></div>
+	 
+	                <!-- 品名列表 格式:[{"text":"commodityName","value":"commodityId","key":"commodityAlias"},...] -->
+	                <div id="ironCommodityJson" th:text="${ironCommodityJson}"></div>
+	                
+	                <!-- 铁矿品名属性值联动列表  格式:格式:{"commodityName":[{"text":"attributeCode","value":"attributeValue","key":"attributeCode"},...],...} -->
+	                <div id="ironAttributeLinkJson" th:text="${ironAttributeLinkJson}"></div>
+	                
+	                <!-- 港口列表 格式:[{"text":"portName","value":"portId","key":"portName,portNameEn"},...] -->
+	                <div id="portJson" th:text="${portJson}"></div>
+	                
+	                <!-- 指标类型列表 格式:[{"text":"optionValue","value":"optionId","key":"optionValue,optionValueEn"},...] -->
+	                <div id="indicatorTypeJson" th:text="${indicatorTypeJson}"></div>
+	                
+	                <!-- 计量方式列表 格式:[{"text":"optionValue","value":"optionId","key":"optionValue,optionValueEn"},...] -->
+	                <div id="measureMethodJson" th:text="${measureMethodJson}"></div>
+	                
+	                <!-- 计价方式列表 格式:[{"text":"optionValue","value":"optionId","key":"optionValue,optionValueEn"},...] -->
+	                <div id="pricingMethodJson" th:text="${pricingMethodJson}"></div>
+	                
+	                <!-- 交易方式 格式:[{"text":"","value":"","key":""},...] -->
+	                <div id="tradeModeJson" th:text="${tradeModeJson}"></div>
+	                
+	                <!-- 是否拆分 格式:[{"text":"","value":"","key":""},...] -->
+	                <div id="isSplitJson" th:text="${isSplitJson}"></div>
+	                
+	                <!-- 交易者类型格式:[{"text":"","value":"","key":""},...] -->
+	                <div id="traderTypeJson" th:text="${traderTypeJson}"></div>
+	                
+	                <!-- 是否匿名 格式:[{"text":"","value":"","key":""},...] -->
+	                <div id="isAnonymousJson" th:text="${isAnonymousJson}"></div>
+            	</div>
+ 			</div>
+ 		</div>		
+    </div>
+</div>
+
+<!--页脚，链接-->
+<div th:replace="./fragments/foot::footer"></div>
+
+<!--控制-->
+<script th:src="@{/js/module/offer/editOffer.instock.js}"></script>
+</body>
+</html>

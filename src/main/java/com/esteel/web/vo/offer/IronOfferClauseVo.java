@@ -8,6 +8,7 @@ import javax.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.esteel.web.vo.offer.validator.Array;
 import com.esteel.web.vo.offer.validator.DigitsHasEmpty;
 import com.esteel.web.vo.offer.validator.IronOfferClause;
 import com.esteel.web.vo.offer.validator.PatternHasEmpty;
@@ -42,8 +43,9 @@ public class IronOfferClauseVo implements Serializable {
 	/**
 	 * 剩余货款在几个工作日内结清
 	 */
+	@Array(min=1, message = "请填完 结算方式。")
 	@PatternHasEmpty(regexp = "^\\d{1,3}$", message = "付款期限： 必须为整数。")
-	private String clear_within_several_working_days;
+	private String[] clear_within_several_working_days;
 	/**
 	 * 付全款后几个工作日
 	 */
@@ -135,10 +137,10 @@ public class IronOfferClauseVo implements Serializable {
 	public void setContract_funds_percentage(String contract_funds_percentage) {
 		this.contract_funds_percentage = contract_funds_percentage;
 	}
-	public String getClear_within_several_working_days() {
+	public String[] getClear_within_several_working_days() {
 		return clear_within_several_working_days;
 	}
-	public void setClear_within_several_working_days(String clear_within_several_working_days) {
+	public void setClear_within_several_working_days(String[] clear_within_several_working_days) {
 		this.clear_within_several_working_days = clear_within_several_working_days;
 	}
 	public String getAfter_pay_off_several_working_days() {

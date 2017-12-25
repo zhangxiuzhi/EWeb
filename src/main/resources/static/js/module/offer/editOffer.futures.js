@@ -1,8 +1,8 @@
 /**
- * Created by wzj on 2017/10/31.
- *    发布报盘
+ * Created by wzj on 2017/12/24.
+ *    更新报盘
  */
-function JBSFrame_addOffer() {
+function JBSFrame_OfferEdit_Futures() {
     JBSFrame.call(this);
  
     this.sidebar = null;//侧栏菜单
@@ -30,50 +30,6 @@ function JBSFrame_addOffer() {
                 data:TradeCustomer_data
             }), $TradeCustomer[0]);
         }
-
-        //品名下拉
-        var $ItemName = $("#component-selectBox-ItemName");
-        if($ItemName.length>0){
-            this.selectBox_ItemName = ReactDOM.render(React.createElement(ComponentSelectBox,{
-                data:JSON.parse($("#ironCommodityJson").html()),
-                inputName:$ItemName.attr("inputName"),
-                inputValue:$ItemName.attr("inputValue"),
-                validetta:$ItemName.data("validetta"),
-                onChange:changeIronAttributeLink
-            }), $ItemName[0]);
-        }
-        //港口
-        var $Port = $("#component-selectBox-Port")
-        if($Port.length>0) {
-            this.selectBox_Port = ReactDOM.render(React.createElement(ComponentSelectBox, {
-                data:JSON.parse($("#portJson").html()),
-                inputName: $Port.attr("inputName"),
-                inputValue:$Port.attr("inputValue"),
-                validetta:$Port.data("validetta")
-            }), $Port[0]);
-        }
-      //点价交易港口
-        var $Port = $("#component-selectBox-Port-Pricing")
-        if($Port.length>0) {
-            this.selectBox_Port = ReactDOM.render(React.createElement(ComponentSelectBox, {
-                data:JSON.parse($("#pricingPortJson").html()),
-                inputName: $Port.attr("inputName"),
-                inputValue:$Port.attr("inputValue"),
-                validetta:$Port.data("validetta")
-            }), $Port[0]);
-        }
-        //指标类型
-        var $kpiType = $("#component-radioBoxGroup-kpiType");
-        if($kpiType.length>0) {
-            this.radioBox_kpiType = ReactDOM.render(React.createElement(ComponentRadioBox, {
-                data: JSON.parse($("#indicatorTypeJson").html()),
-                value: "26",
-                className: "TagStyle offerKpi",
-                name:$kpiType.attr("inputName"),
-                onChange:changeIndicatorValue //指标类型选择，改变指标值
-            }), $kpiType[0]);
-        }
-
         //是否拆分
         var $Split = $("#component-toggle-split");
         if($Split.length>0) {
@@ -128,7 +84,7 @@ function JBSFrame_addOffer() {
                 onChange:changeIronAttributeLink_2 //期货商品2联动指标
             }), $ItemName2[0]);
         }
-      //商品2指标类型
+        //商品2指标类型
         var $kpiType2 = $("#component-radioBoxGroup-kpiType-2");
         if($kpiType2.length>0) {
             this.radioBox_kpiType2 = ReactDOM.render(React.createElement(ComponentRadioBox, {
@@ -161,14 +117,14 @@ function JBSFrame_addOffer() {
                 onChange:changeBondedArea //指标类型选择，改变指标值
             }), $bondedAreas[0]);
         }
-
+        
         //报税区港口
         var bondedAreaPort = JSON.parse($("#bondedAreaPortJson").html());
         for(var i=0;i<bondedAreaPort.length;i++){
             $opt = $("<option></option>").text(bondedAreaPort[i].text).val(bondedAreaPort[i].value);
             $("#select-bondedAreasPort").append($opt);
         }
-        
+
         //价格术语
         var priceTerm = JSON.parse($("#priceTermJson").html());
         for(var i=0;i<priceTerm.length;i++){
@@ -195,70 +151,10 @@ function JBSFrame_addOffer() {
             $("#select-Pricing_method").append($opt);
         }
 
-        //交货数量标准港口
-        for(var i=0;i<dischargePort.length;i++){
-            $opt = $("<option></option>").text(dischargePort[i].text).val(dischargePort[i].value);
-            $("#offer-rules-port2").append($opt);
-        }
-
-        //计量方式
-        var measureMethod = JSON.parse($("#measureMethodJson").html());
-        for(var i=0;i<measureMethod.length;i++){
-            var $opt = $("<option></option>").text(measureMethod[i].text).val(measureMethod[i].value);
-            $("#select-measure_method").append($opt);
-        }
-
-        //连铁合约
-        var measureMethod = JSON.parse($("#ironContractJson").html());
-        for(var i=0;i<measureMethod.length;i++){
-            var $opt = $("<option></option>").text(measureMethod[i].text).val(measureMethod[i].value);
-            $("#select-ironContract").append($opt);
-        }
-
         this.renderDatetimepicker();
         this.renderNumberMask();
     }
- 
- 
-    /*---------------------------------------------------------------------------------------------------------------------------*/
- 
-    //初始化路由
-    this.initRouter = function () {
- 
-        //页面路由，在页面设置
-        var offerRoutes = {}
-        $("#router-linkNode >a").each(function(idx,elem){
-            var rr = elem.getAttribute("linkNode")
-            offerRoutes[rr] = self.loadRouter
-        })
-        var router = Router(offerRoutes);
-        router.configure({
-            on: self.selectTypeTab    //切换路由后设置高亮标签
-        });
-        router.init('/'+$("#router-linkNode >a.selected").attr("linkNode"));//初始化页面
-    }
- 
-    this.loadRouter = function(){
-        var path = window.location.hash.slice(2);
-        $("#router-pageCotainer").load('/view/offer/add/'+path+".html", function(){
-            self.renderFormElement();//渲染表单元素
-        });    //加载静态文件
-    }
- 
-    //切换路由后设置高亮标签
-    this.selectTypeTab = function(){
-        var path = window.location.hash.slice(2);
-        $("#router-linkNode >a").removeClass("selected");
-        $("#router-linkNode >a[linkNode='"+path+"']").addClass("selected");
-    }
- 
- 
-    var self = this
- 
-    /*---------------------------------------------------------------------------------------------------------------------------*/
- 
 }
-
 
 //验证报盘商品信息
 function validateOfferInfo(){
@@ -274,10 +170,10 @@ function validateOfferInfo(){
                 var value = $element.val();
                 var pos,H;
                 if(value !="" && Number(value)%100>0) {
-                    esteel_addOffer.validatePricingNumber = false;   //验证点数量为100的倍数失败
+                    esteel_offerEdit_Futures.validatePricingNumber = false;   //验证点数量为100的倍数失败
                     insertErrorBubble($(element),"数量必须为100的倍数");
                 }else{
-                    esteel_addOffer.validatePricingNumber = true;
+                    esteel_offerEdit_Futures.validatePricingNumber = true;
                     $element.next(".validetta-bubble").remove();
                     valid -=1;
                 }
@@ -290,7 +186,7 @@ function validateOfferInfo(){
     });
 
     //验证报盘数量是否为100倍数
-    if(esteel_addOffer.validatePricingNumber==false){
+    if(esteel_offerEdit_Futures.validatePricingNumber==false){
         valid +=1;
     }
     //console.log("验证商品",valid)
@@ -308,11 +204,11 @@ function insertErrorBubble($element,errorText){
     if($element.parents(".react-selectbox").length>0) {
         //品名
         if($element[0].name =="ItemName"){
-            esteel_addOffer.selectBox_ItemName.addValidettaBubble();
+            esteel_offerEdit_Futures.selectBox_ItemName.addValidettaBubble();
         }
         //港口
         if($element[0].name =="Port"){
-            esteel_addOffer.selectBox_Port.addValidettaBubble();
+            esteel_offerEdit_Futures.selectBox_Port.addValidettaBubble();
         }
     }
     else if($element.hasClass("uploadFile")) {
@@ -354,27 +250,22 @@ function insertErrorBubble($element,errorText){
 /*
  //body load
  --------------------------------------------------------------------*/
-var esteel_addOffer;
+var esteel_offerEdit_Futures;
 $(document).ready(function (e) {
-    esteel_addOffer = new JBSFrame_addOffer();
+	esteel_offerEdit_Futures = new JBSFrame_OfferEdit_Futures();
     //初始化UI
-    esteel_addOffer.initUI();
-    //初始化路由
-    esteel_addOffer.initRouter();
+	esteel_offerEdit_Futures.initUI();
+	//渲染表单元素
+	esteel_offerEdit_Futures.renderFormElement();
 });
 
 //保存报盘
 function save_offer(){
     if(validateOfferInfo()){
-        esteel_addOffer.confirm(null,"该报盘将作为草稿保存到我的报盘记录",function(){
-        	var _url = "/offer/iron/validatedInStockOffer";
-			if ($("#tradeMode").val() == 'pricing') {
-				_url = "/offer/iron/validatedPricingOffer";
-			} else if ($("#tradeMode").val() == 'futures') {
-				_url = "/offer/iron/validatedFuturesOffer";
-			}
+        esteel_offerEdit_Futures.confirm(null,"该报盘将作为草稿保存到我的报盘记录",function(){
+        	var _url = "/offer/iron/validatedFuturesOffer";
 			
-        	 esteel_addOffer.ajaxRequest({
+        	 esteel_offerEdit_Futures.ajaxRequest({
      	    	url:_url,
      	        data:$('#form-offer').serialize()
      	    },  function (result) {
@@ -391,15 +282,10 @@ function save_offer(){
 //提交报盘
 function submit_offer(){
 	if(validateOfferInfo()){
-		esteel_addOffer.confirm(null,"确定要发布吗",function(){
-			var _url = "/offer/iron/validatedInStockOffer";
-			if ($("#tradeMode").val() == 'pricing') {
-				_url = "/offer/iron/validatedPricingOffer";
-			} else if ($("#tradeMode").val() == 'futures') {
-				_url = "/offer/iron/validatedFuturesOffer";
-			}
+		esteel_offerEdit_Futures.confirm(null,"确定要发布吗",function(){
+			var _url = "/offer/iron/validatedFuturesOffer";
 			
-			esteel_addOffer.ajaxRequest({
+			esteel_offerEdit_Futures.ajaxRequest({
      	    	url:_url,
      	        data:$('#form-offer').serialize()
      	    },  function (result) {
@@ -436,72 +322,6 @@ function changeIronCommodityIndicator(node,index){
         }
     }
 }
-
-//指标类型选择，改变指标值
-function changeIndicatorValue(value,label){
-    if(value == "26" && label =="典型值"){
-        //品名切换改变指标值
-        changeIronCommodityIndicator(esteel_addOffer.selectBox_ItemName.state.node,'');
-    }else{
-        //清空指标值
-        $(".offer-kip-table input.form-control").val("");
-    }
-}
-/* 远期现货 品名指标联动  start***/
-//远期期货商品1联动指标
-function changeIronAttributeLink_1(node){
-    changeIronCommodityIndicator1(node,'1');
-}
-//远期期货商品1 指标类型选择，改变指标值
-function changeIndicatorValue1(value,label){
-    if(value == "26" && label =="典型值"){
-        //品名切换改变指标值
-        changeIronCommodityIndicator1(esteel_addOffer.selectBox_ItemName1.state.node,'');
-    }else{
-        //清空指标值
-        $(".offer-kip-table input.form-control").val("");
-    }
-}
-//远期期货商品1 品名联动
-function changeIronCommodityIndicator1(node,index){
-    var ironAttr = JSON.parse($("#ironAttributeLinkJson").html());
-    for(var attr in ironAttr){
-        if(attr == node.label){
-            var iron = ironAttr[attr];
-            for(var i=0;i<iron.length;i++){
-                $("#indicator"+index+"-"+iron[i].text+"-1").val(iron[i].value);
-            }
-        }
-    }
-}
-
-//期货商品2联动指标
-function changeIronAttributeLink_2(node) {
-    changeIronCommodityIndicator2(node,'2');
-}
-//期货商品2 指标类型选择，改变指标值
-function changeIndicatorValue2(value,label){
-    if(value == "26" && label =="典型值"){
-        //品名切换改变指标值
-        changeIronCommodityIndicator2(esteel_addOffer.selectBox_ItemName2.state.node,'');
-    }else{
-        //清空指标值
-        $(".offer-kip-table input.form-control").val("");
-    }
-}
-//期货商品2 品名联动
-function changeIronCommodityIndicator2(node,index){
-    var ironAttr = JSON.parse($("#ironAttributeLinkJson").html());
-    for(var attr in ironAttr){
-        if(attr == node.label){
-            var iron = ironAttr[attr];
-            for(var i=0;i<iron.length;i++){
-                $("#indicator"+index+"-"+iron[i].text+"-2").val(iron[i].value);
-            }
-        }
-    }
-}
-/* 远期现货 品名指标联动  end***/
 
 //显示隐藏起订量
 function showQDL(checked){

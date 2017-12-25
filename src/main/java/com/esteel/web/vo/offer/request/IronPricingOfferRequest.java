@@ -1,4 +1,4 @@
-package com.esteel.web.vo.offer;
+package com.esteel.web.vo.offer.request;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -8,15 +8,18 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.esteel.web.vo.offer.OfferIronAttachVo;
+import com.esteel.web.vo.offer.OfferIronAttachVo.IronPricingOffer;
+
 /**
  * 
- * @ClassName: IronInStockOfferRequest
- * @Description: 铁矿港口现货报盘Request
+ * @ClassName: IronPricingOfferRequest
+ * @Description: 铁矿点价报盘Request
  * @author wyf
  * @date 2017年12月6日 下午1:28:25 
  *
  */
-public class IronInStockOfferRequest extends OfferIronAttachVo implements Serializable {
+public class IronPricingOfferRequest extends OfferIronAttachVo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	/**
@@ -69,7 +72,7 @@ public class IronInStockOfferRequest extends OfferIronAttachVo implements Serial
 	/**
 	 * 备注
 	 */
-	@Length(groups = {IronInStockOffer.class}, min=0, max=128, message="价格描述:128字符以内") 
+	@Length(groups = {IronPricingOffer.class}, min=0, max=128, message="价格描述:128字符以内") 
 	private String offerRemarks;
 	/**
 	 * 交易方向 0:销售, 1:采购
@@ -78,11 +81,11 @@ public class IronInStockOfferRequest extends OfferIronAttachVo implements Serial
 	/**
 	 * 交易方式 1:现货, 2:点价, 3:远期
 	 */
-	private int tradeMode = 1;
+	private int tradeMode = 2;
 	/**
 	 * 有效日期
 	 */
-	@NotNull(groups = {IronInStockOffer.class}, message = "请填写有效日期")
+	@NotNull(groups = {IronPricingOffer.class}, message = "请填写有效日期")
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date validTime;
 	/**
@@ -96,7 +99,7 @@ public class IronInStockOfferRequest extends OfferIronAttachVo implements Serial
 	 */
 	private String counterpartyIdMulti;
 	
-	public IronInStockOfferRequest() {
+	public IronPricingOfferRequest() {
 		// 默认:在保税区
 		super.setIsBondedArea("1");
 		// 默认:固定价模式 

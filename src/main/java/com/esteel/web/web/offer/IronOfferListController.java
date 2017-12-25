@@ -1,4 +1,4 @@
-package com.esteel.web.web;
+package com.esteel.web.web.offer;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -27,9 +27,9 @@ import com.esteel.web.vo.base.CommodityVo;
 import com.esteel.web.vo.base.PortVo;
 import com.esteel.web.vo.offer.IronOfferMainVo;
 import com.esteel.web.vo.offer.IronOfferPage;
-import com.esteel.web.vo.offer.IronOfferQueryVo;
 import com.esteel.web.vo.offer.IronOfferResponse;
 import com.esteel.web.vo.offer.OfferIronAttachVo;
+import com.esteel.web.vo.offer.request.IronOfferQueryVo;
 import com.taobao.common.tfs.TfsManager;
 import com.taobao.tair.json.JSONArray;
 
@@ -324,7 +324,7 @@ public class IronOfferListController {
     }
 	
     @RequestMapping(value = "/detailBySelf/{offerCode}", method = RequestMethod.GET)
-    public String getIronOffer(@PathVariable("offerCode") String offerCode, Model model){
+    public String detailBySelf(@PathVariable("offerCode") String offerCode, Model model){
     	Assert.notNull(offerCode, "点击失败！");
     	
     	IronOfferQueryVo queryVo = new IronOfferQueryVo();
@@ -347,7 +347,6 @@ public class IronOfferListController {
     /**
      * 上架
      * @param offerCode
-     * @param model
      * @return
      */
     @RequestMapping(value = "/putShelves/{offerCode}", method = RequestMethod.POST)
@@ -372,6 +371,11 @@ public class IronOfferListController {
         return webRetMesage;
     }
     
+    /**
+     * 下架
+     * @param offerCode
+     * @return
+     */
     @RequestMapping(value = "/offShelves/{offerCode}", method = RequestMethod.POST)
     @ResponseBody
     public WebReturnMessage offShelvesIronOffer(@PathVariable("offerCode") String offerCode){
@@ -394,6 +398,11 @@ public class IronOfferListController {
         return webRetMesage;
     }
     
+    /**
+     * 删除
+     * @param offerCode
+     * @return
+     */
     @RequestMapping(value = "/delete/{offerCode}", method = RequestMethod.POST)
     @ResponseBody
     public WebReturnMessage deleteIronOffer(@PathVariable("offerCode") String offerCode){

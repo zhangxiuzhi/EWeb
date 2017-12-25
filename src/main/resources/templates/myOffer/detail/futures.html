@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="./fragments/frontCode::frontCode" />
+
+<body class="member myIron">
+
+<!--页头，菜单-->
+<div th:replace="./fragments/head::header"></div>
+
+<!--内容-->
+<div class="main">
+    <div class="container">
+        <!--侧栏-->
+        <div th:replace="./fragments/sidebar::sidebar"></div>
+
+        <!--内容-->
+        <div class="content">
+
+            <div class="userContent">
+            	 <!--分类-->
+                <div class="type-title">
+                    <div class="t-title" id="router-linkNode">
+                        <a href="#" linkNode="inStock">港口现货</a>
+                        <em class="t-t-line">|</em>
+                        <a href="#" linkNode="futures" class="selected">远期现货</a>
+                        <em class="t-t-line">|</em>
+                        <a href="#" linkNode="pricing">点价</a>
+                    </div>
+                </div>
+                <!--分类页面-->
+                <div id="router-pageCotainer" class="padding-left-10 padding-right-10 padding-bottom-10">
+					<form id="form-offer" action="/offer/saveFuturesOffer" enctype="multipart/form-data" method="post" onsubmit="return false">
+					    <!--商品信息-->
+					    <div class="form-horizontal">
+					        <div class="form-group">
+					            <label class="col-sm-2 control-label">交易对象</label>
+					            <div class="col-sm-10">
+					                <div id="component-TradeCustomer" inputName="counterpartyIdMulti"></div>
+					            </div>
+					        </div>
+					
+					        <div class="form-group">
+					            <label class="col-sm-2 control-label">一船两货</label>
+					            <div class="col-sm-4">
+					                <div id="component-radioBoxGroup-1ship2goods" inputName="isMultiCargo" inputValue="0"></div>
+					            </div>
+					            <label class="col-sm-2 control-label">是否拆分</label>
+					            <div class="col-sm-4">
+					                <div id="component-toggle-split" inputName="isSplit" inputValue="0"></div>
+					            </div>
+					        </div>
+					
+					        <!--商品1-->
+					        <div class="box-container">
+					            <div class="box-container-title">商品1 <span class="fa fa-caret-down text-danger" ></span></div>
+					            <div class="form-group">
+					                <label class="col-sm-2 control-label">*品名</label>
+					                <div class="col-sm-4">
+					                    <div id="component-selectBox-ItemName-1" inputName="commodityIdArr" data-validetta="required"></div>
+					                </div>
+					            </div>
+					            
+					            <div class="form-group">
+						            <label class="col-sm-2 control-label">指标类型</label>
+						            <div class="col-sm-8">
+						                <div id="component-radioBoxGroup-kpiType-1" inputName="indicatorTypeIdArr"></div>
+						            </div>
+						        </div>
+					
+					            <div class="form-group">
+					                <label class="col-sm-2 control-label">指标</label>
+					                <div class="col-sm-8">
+					                    <table class="offer-kip-table">
+					                        <tr>
+					                            <th>Fe</th><th>SiO2</th><th>A12O3</th><th>Mn</th><th>LOI</th>
+					                        </tr>
+					                        <tr>
+					                            <td><input type="text" class="form-control" name="feArr" id="indicator-FE-1" data-validetta="required"/></td>
+					                            <td><input type="text" class="form-control" name="sio2Arr" id="indicator-SIO2-1"/></td>
+					                            <td><input type="text" class="form-control" name="al2o3Arr" id="indicator-AL2O3-1"/></td>
+					                            <td><input type="text" class="form-control" name="mnArr" id="indicator-MN-1"/></td>
+					                            <td><input type="text" class="form-control" name="LOIArr" id="indicator-LOI-1"/></td>
+					                        </tr>
+					                        <tr>
+					                            <th>P</th><th>S</th><th>H20</th><th>&nbsp;</th><th>&nbsp;</th>
+					                        </tr>
+					                        <tr>
+					                            <td><input type="text" class="form-control" name="pArr" id="indicator-P-1"/></td>
+					                            <td><input type="text" class="form-control" name="sArr" id="indicator-S-1"/></td>
+					                            <td><input type="text" class="form-control" name="h2oArr" id="indicator-H2O-1"/></td>
+					                            <td>&nbsp;</td>
+					                            <td>&nbsp;</td>
+					                        </tr>
+					                    </table>
+					                </div>
+					            </div>
+					
+					            <div class="form-group">
+					                <label class="col-sm-2 control-label">粒度</label>
+					                <div class="col-sm-4">
+					                    <input type="text" class="form-control" name="sizeIndicatorsArr"/>
+					                </div>
+					            </div>
+					
+					            <div class="form-group">
+					                <label class="col-sm-2 control-label">*数量</label>
+					                <div class="col-sm-4">
+					                    <input type="text" class="form-control" data-validetta="required" name="offerQuantityArr"/>
+					                </div>
+					
+					                <label class="col-sm-2 control-label">*溢短装</label>
+					                <div class="col-sm-4">
+					                    <input type="text" class="form-control" data-validetta="required" name="moreOrLessArr"/>
+					                </div>
+					            </div>
+					
+					        </div>
+					        <!--商品2-->
+					        <div class="box-container" id="offer-goods-2" style="display: none;">
+					            <div class="box-container-title">商品2 <span class="fa fa-caret-down text-danger"></span></div>
+					            <div class="form-group">
+					                <label class="col-sm-2 control-label">*品名</label>
+					                <div class="col-sm-4">
+					                    <div id="component-selectBox-ItemName-2" inputName="commodityIdArr" data-validetta="required"></div>
+					                </div>
+					            </div>
+					            
+					             <div class="form-group">
+						            <label class="col-sm-2 control-label">指标类型</label>
+						            <div class="col-sm-8">
+						                <div id="component-radioBoxGroup-kpiType-2" inputName="indicatorTypeIdArr"></div>
+						            </div>
+						        </div>
+					
+					            <div class="form-group">
+					                <label class="col-sm-2 control-label">指标</label>
+					                <div class="col-sm-8">
+					                    <table class="offer-kip-table">
+					                        <tr>
+					                            <th>Fe</th><th>SiO2</th><th>A12O3</th><th>Mn</th><th>LOI</th>
+					                        </tr>
+					                        <tr>
+					                            <td><input type="text" class="form-control" name="feArr" id="indicator-FE-2" data-validetta="required"/></td>
+					                            <td><input type="text" class="form-control" name="sio2Arr" id="indicator-SIO2-2"/></td>
+					                            <td><input type="text" class="form-control" name="al2o3Arr" id="indicator-AL2O3-2"/></td>
+					                            <td><input type="text" class="form-control" name="mnArr" id="indicator-MN-2"/></td>
+					                            <td><input type="text" class="form-control" name="LOIArr" id="indicator-LOI-2"/></td>
+					                        </tr>
+					                        <tr>
+					                            <th>P</th><th>S</th><th>H20</th><th>&nbsp;</th><th>&nbsp;</th>
+					                        </tr>
+					                        <tr>
+					                            <td><input type="text" class="form-control" name="pArr" id="indicator-P-2"/></td>
+					                            <td><input type="text" class="form-control" name="sArr" id="indicator-S-2"/></td>
+					                            <td><input type="text" class="form-control" name="h2oArr" id="indicator-H2O-2"/></td>
+					                            <td>&nbsp;</td>
+					                            <td>&nbsp;</td>
+					                        </tr>
+					                    </table>
+					                </div>
+					            </div>
+					
+					            <div class="form-group">
+					                <label class="col-sm-2 control-label">粒度</label>
+					                <div class="col-sm-4">
+					                    <input type="text" class="form-control" name="sizeIndicatorsArr"/>
+					                </div>
+					            </div>
+					
+					            <div class="form-group">
+					                <label class="col-sm-2 control-label">*数量</label>
+					                <div class="col-sm-4">
+					                    <input type="text" class="form-control" data-validetta="required" name="offerQuantityArr"/>
+					                </div>
+					
+					                <label class="col-sm-2 control-label">*溢短装</label>
+					                <div class="col-sm-4">
+					                    <input type="text" class="form-control" data-validetta="required" name="moreOrLessArr"/>
+					                </div>
+					            </div>
+					        </div>
+					
+					        <div class="form-group">
+					            <label class="col-sm-2 control-label">*价格</label>
+					            <div class="col-sm-2">
+					                <select class="form-control" onchange="showFloatPrice(this)" name="priceModel">
+					                    <option value="1">浮动价</option>
+					                    <option value="0">固定价</option>
+					                </select>
+					            </div>
+					            <div class="col-sm-8" id="offer-floatPrice-box">
+					                <textarea class="form-control" id="offer-floatPrice-desc" placeholder="请输入价格描述" name="priceDescription"></textarea>
+					            </div>
+					            <div class="col-sm-8" id="offer-fixedPrice-box" style="display: none;">
+					                <div class="form-group" id="offer-fixedPrice-goods-1">
+					                    <label class="col-sm-2 control-label">商品1</label>
+					                    <div class="col-sm-5">
+					                        <input type="text" class="form-control mask-number width130 inline-block margin-right-10" id="offer-fixPrice-value" name="priceValueArr"/>美元/干吨
+					                    </div>
+					                    <label class="col-sm-2 control-label">基于Fe%：</label>
+					                    <div class="col-sm-3">
+					                       <input type="text" class="form-control mask-number" id="offer-fixPrice-value" name="priceBasisFeArr"/>
+					                    </div>
+					                </div>
+					                <div class="form-group" id="offer-fixedPrice-goods-2" style="display: none;">
+					                    <label class="col-sm-2 control-label">商品2</label>
+					                    <div class="col-sm-5">
+					                        <input type="text" class="form-control mask-number width130 inline-block margin-right-10" id="offer-fixPrice-value" name="priceValueArr"/>美元/干吨
+					                    </div>
+					                    <label class="col-sm-2 control-label">基于Fe%：</label>
+					                    <div class="col-sm-3">
+					                        <input type="text" class="form-control mask-number" id="offer-fixPrice-value" name="priceBasisFeArr"/>
+					                    </div>
+					                </div>
+					            </div>
+					        </div>
+					
+					        <div class="form-group">
+					            <label class="col-sm-2 control-label">*装货港</label>
+					            <div class="col-sm-3">
+					                <select class="form-control" data-validetta="required" id="select-loadingPort" name="loadingPortId">
+					                	<option value=""></option>
+					                </select>
+					            </div>
+					        </div>
+					
+					        <div class="form-group">
+					            <label class="col-sm-2 control-label">*保税区</label>
+					            <div class="col-sm-8">
+					                <div id="component-radioBoxGroup-bondedAreas" inputName="isBondedArea" inputValue="0"></div>
+					            </div>
+					            <div class="col-sm-3" id="offer-bondedAreasPort-box">
+					                <select class="form-control" id="select-bondedAreasPort" name="portId">
+					                	<option value=""></option>
+					                </select>
+					            </div>
+					        </div>
+					
+					        <div class="form-group" id="offer-priceTerm-box">
+					            <label class="col-sm-2 control-label">*价格术语</label>
+					            <div class="col-sm-2">
+					                <select class="form-control" data-validetta="required" id="select-priceTerm" name="priceTerm">
+					                	<option value=""></option>
+					                </select>
+					            </div>
+					            <div class="col-sm-3">
+					                <select class="form-control" data-validetta="required" id="select-priceTermPort" name="priceTermPortId">
+					                	<option value=""></option>
+					                </select>
+					            </div>
+					            <label class="col-sm-2 control-label">目的港</label>
+					            <div class="col-sm-3">
+					                <select class="form-control" id="select-dischargePort" name="dischargePortId">
+					                	<option value=""></option>
+					                </select>
+					            </div>
+					        </div>
+					
+					        <div class="form-group">
+					            <label class="col-sm-2 control-label">*报盘有效期</label>
+					            <div class="col-sm-4">
+					                <input type="text" class="form-control datetimepicker" name="validTime" data-validetta="required"/>
+					            </div>
+					
+					            <label class="col-sm-2 control-label">*信用证交单期</label>
+					            <div class="col-sm-4">
+					                <input type="text" class="form-control mask-number" name="lcPresentationPeriod" data-validetta="required">
+					            </div>
+					        </div>
+					
+					
+					        <div  id="offer-transportStatus-box">
+					            <div class="offer-content-slicer">
+					                <div class="slicer-text">运输状态 （至少填一项）</div>
+					            </div>
+					
+					            <!--运输状态-->
+					            <div class="form-group">
+					                <label class="col-sm-2 control-label">装船期</label>
+					                <div class="col-sm-2">
+					                    <input type="text" class="form-control datetimepicker" name="transport_load_start" >
+					                </div>
+					                <div class="col-sm-2">
+					                    <input type="text" class="form-control datetimepicker" name="transport_load_end">
+					                </div>
+					
+					                <label class="col-sm-2 control-label">提单日</label>
+					                <div class="col-sm-3">
+					                    <input type="text" class="form-control datetimepicker" name="transport_bill">
+					                </div>
+					            </div>
+					
+					            <div class="form-group">
+					                <label class="col-sm-2 control-label">ETA新加坡</label>
+					                <div class="col-sm-4">
+					                    <input type="text" class="form-control" name="transport_etaxjb">
+					                </div>
+					
+					                <label class="col-sm-2 control-label">ETA青岛港</label>
+					                <div class="col-sm-4">
+					                    <input type="text" class="form-control" name="transport_etaqdg">
+					                </div>
+					            </div>
+					
+					            <div class="form-group">
+					                <label class="col-sm-2 control-label">到港月</label>
+					                <div class="col-sm-4">
+					                    <input type="text" class="form-control datetimepicker notime noday" name="transport_arrive_month">
+					                     <input type="radio" value="0" name="transport_half_month" checked/>上半月
+					                    <input type="radio" value="1" name="transport_half_month"/>下半月
+					                </div>
+					
+					                <label class="col-sm-2 control-label">其他</label>
+					                <div class="col-sm-4">
+					                    <input type="text" class="form-control" name="transport_remark">
+					                </div>
+					            </div>
+					        </div>
+					
+					        <div class="offer-content-slicer"></div>
+					
+					        <div class="form-group">
+					            <label class="col-sm-2 control-label">商品备注</label>
+					            <div class="col-sm-10">
+					                <textarea type="text" class="form-control" maxlength="128" name="offerAttachRemarks"></textarea>
+					            </div>
+					        </div>
+					 
+					        <div class="form-group">
+					            <label class="col-sm-2 control-label">上传附件</label>
+					            <div class="col-sm-10">
+					                <div id=""></div>
+					                <span class="fileupload fileupload-new" data-provides="fileupload">
+					                    <span class="btn btn-default btn-file btn-ghost">
+					                        <span class="fileupload-new"><i class="fa fa-folder-open-o"></i> 选择文件</span>
+					                        <span class="fileupload-exists"><i class="fa fa-folder-open-o"></i> 替换文件</span>
+					                        <input type="file" name="offerAffix" class="form-control uploadFile" accept=".doc,.docx,.xls,.xlsx,.pdf,.zip,.rar,.7z"/>
+					                    </span>
+					                    <span class="fileupload-preview"></span>
+					                    <a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none">×</a>
+					                </span>
+					            </div>
+					        </div>
+					
+					        <div class="form-group">
+					            <label class="col-sm-2 control-label">匿名发布</label>
+					            <div class="col-sm-10">
+					                <div id="component-toggle-anonym" inputName="isAnonymous" inputValue="1"></div>
+					            </div>
+					        </div>
+					
+					        <div class="form-group offer-rule-buttons">
+					            <button class="btn btn-default" type="button" onclick="save_offer()">保存</button>
+					            <button class="btn btn-primary" type="button" onclick="submit_offer()">立即发布</button>
+					        </div>
+					
+					
+					    </div>
+					
+						<input type="hidden" value="futures" id="tradeMode"/>
+						<input type="hidden" name="offerStatus" value="draft" id="offerStatus"/>
+					</form>
+				</div>
+ 				
+ 				<div style="display:none">
+            
+	                <!-- 公司白名单列表Json:[{"text":"counterpartyName","value":"counterpartyId","key":"counterpartyAlias"},...] -->
+	                <div id="companyWhitelistJson" th:text="${companyWhitelistJson}"></div>
+	 
+	                <!-- 品名列表 格式:[{"text":"commodityName","value":"commodityId","key":"commodityAlias"},...] -->
+	                <div id="ironCommodityJson" th:text="${ironCommodityJson}"></div>
+	                
+	                <!-- 铁矿品名属性值联动列表  格式:格式:{"commodityName":[{"text":"attributeCode","value":"attributeValue","key":"attributeCode"},...],...} -->
+	                <div id="ironAttributeLinkJson" th:text="${ironAttributeLinkJson}"></div>
+	                
+	                <!-- 装货港列表 格式:{"commodityName":[{"text":"portName","value":"portId","key":"portName,portNameEn"},...],...} -->
+	                <div id="loadingPortJson" th:text="${loadingPortJson}"></div>
+	                
+	                <!-- 港口列表 格式:[{"text":"portName","value":"portId","key":"portName,portNameEn"},...] -->
+	                <div id="portJson" th:text="${portJson}"></div>
+	                
+	                <!-- 保税区港口列表 格式:[{"text":"portName","value":"portId","key":"portName,portNameEn"},...] -->
+	                <div id="bondedAreaPortJson" th:text="${bondedAreaPortJson}"></div>
+	                
+	                <!-- 指标类型列表 格式:[{"text":"optionValue","value":"optionId","key":"optionValue,optionValueEn"},...] -->
+	                <div id="indicatorTypeJson" th:text="${indicatorTypeJson}"></div>
+	                
+	                <!-- 价格术语列表 格式:[{"text":"optionValue","value":"optionId","key":"optionValue,optionValueEn"},...] -->
+	                <div id="priceTermJson" th:text="${priceTermJson}"></div>
+	                
+	                <!-- 交易方式 格式:[{"text":"","value":"","key":""},...] -->
+	                <div id="tradeModeJson" th:text="${tradeModeJson}"></div>
+	                
+	                <!-- 是否一船多货 格式:[{"text":"","value":"","key":""},...] -->
+	                <div id="isMultiCargoJson" th:text="${isMultiCargoJson}"></div>
+	                
+	                <!-- 是否拆分 格式:[{"text":"","value":"","key":""},...] -->
+	                <div id="isSplitJson" th:text="${isSplitJson}"></div>
+	                
+	                <!-- 是否在保税区 格式:[{"text":"","value":"","key":""},...] -->
+	                <div id="isBondedAreaJson" th:text="${isBondedAreaJson}"></div>
+	                
+	                <!-- 价格模式 格式:[{"text":"","value":"","key":""},...] -->
+	                <div id="priceModelJson" th:text="${priceModelJson}"></div>
+	                
+	                <!-- 是否匿名 格式:[{"text":"","value":"","key":""},...] -->
+	                <div id="isAnonymousJson" th:text="${isAnonymousJson}"></div>
+            	</div>
+ 			</div>
+ 		</div>		
+    </div>
+</div>
+
+<!--页脚，链接-->
+<div th:replace="./fragments/foot::footer"></div>
+
+<!--控制-->
+<script th:src="@{/js/module/offer/editOffer.futures.js}"></script>
+</body>
+</html>

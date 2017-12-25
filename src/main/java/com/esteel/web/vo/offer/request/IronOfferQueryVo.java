@@ -1,4 +1,4 @@
-package com.esteel.web.vo.offer;
+package com.esteel.web.vo.offer.request;
 
 import java.math.BigDecimal;
 
