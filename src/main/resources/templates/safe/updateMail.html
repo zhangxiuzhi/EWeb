@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="./fragments/frontCode" />
+<head th:replace="/fragments/frontCode" />
 
 <body class="member">
 
 <!--页头，菜单-->
-<div th:replace="./fragments/head::header"></div>
+<div th:replace="/fragments/head::header"></div>
 
 <!--内容-->
 <div class="main">
@@ -35,7 +35,7 @@
 </div>
 
 <!--页脚，链接-->
-<div th:replace="./fragments/foot::footer"></div>
+<div th:replace="/fragments/foot::footer"></div>
 
 <!--组件-->
 <script th:src="@{/js/component/component.MemberSidebar.js}"></script>

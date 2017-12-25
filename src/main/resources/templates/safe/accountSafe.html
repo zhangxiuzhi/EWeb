@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="./fragments/frontCode" />
+<head th:replace="/fragments/frontCode" />
 
 <body class="member">
 
@@ -102,7 +102,7 @@
 	</div>
 
 	<!--页脚，链接-->
-	<div th:replace="./fragments/foot::footer"></div>
+	<div th:replace="/fragments/foot::footer"></div>
 
 	<!--控制-->
 	<script th:src="@{/js/module/safe/safe.accountSafe.js}"></script>

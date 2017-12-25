@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="./fragments/frontCode::frontCode" />
+<head th:replace="/fragments/frontCode::frontCode" />
 <body class="register">
 
 <!--页头-->
@@ -61,7 +61,7 @@
 
 
 <div class="footer">
-<div th:replace="./fragments/foot::link"></div>
+<div th:replace="/fragments/foot::link"></div>
 </div>
 
 <link rel="stylesheet" th:href="@{/jq/dragValidate/dragValidate.css}"/>

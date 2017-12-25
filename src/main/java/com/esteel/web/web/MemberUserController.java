@@ -94,11 +94,14 @@ public class MemberUserController {
 		logger.info("验证手机号码是否注册+参数{mobile}"+mobile);
 		List<Object> list = new ArrayList<>();
 		MemberUserVo checkNo = memberUserClient.checkNo(mobile);
-		Assert.isNull(checkNo,"该号码已注册");
+		//Assert.isNull(checkNo,"该号码已注册");
+		if(checkNo==null) {
+			return new WebReturnMessage(true, "");
+		}else {
 		list.add(1);
-		logger.info("验证手机号码是否注册,返回结果：WebReturnMessage"+new WebReturnMessage(true, "", list));
+		logger.info("验证手机号码是否注册,返回结果：WebReturnMessage"+new WebReturnMessage(true, "该号码已注册", list));
 		return new WebReturnMessage(true, "", list);
-
+		}
 	}
 	/**
 	 * 获取手机号码
@@ -198,19 +201,16 @@ public class MemberUserController {
 						// 验证成功修改状态为验证通过2,验证未通过
 						 //codeVo.setVerifyStatus(2);
 						// logVerityCodeClient.saveLog(codeVo);
-						 result.add(1);
-						webRetMsg = new WebReturnMessage(true, "注册失败",result);
+						webRetMsg = new WebReturnMessage(true, "注册失败");
 					}
 				} else {
 					// 验证成功修改状态为验证通过2,验证未通过
 					codeVo.setVerifyStatus(2);
 					logVerityCodeClient.saveLog(codeVo);
-					result.add(1);
-					webRetMsg = new WebReturnMessage(true, "注册失败,验证码已失效",result);
+					webRetMsg = new WebReturnMessage(true, "注册失败,验证码已失效");
 				}
 			} else {
-				result.add(1);
-				webRetMsg = new WebReturnMessage(true, "注册失败,验证码错误",result);
+				webRetMsg = new WebReturnMessage(true, "注册失败,验证码错误");
 			}
 		} catch (Exception e) {
 			// 验证成功修改状态为验证通过2
