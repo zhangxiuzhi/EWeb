@@ -21,7 +21,7 @@ function JBSFrame_member_headSet() {
 	this.initUI = function () {
 		//主菜单栏
 		//当前选中发布报盘
-		this.sidebar = ReactDOM.render(React.createElement(ComponentSidebar,{data:memberSidebarData, focusNode:{name:"userInfo",text:"个人资料"}}), document.getElementById("component-sidebar"));
+		this.sidebar = ReactDOM.render(React.createElement(ComponentMemberSidebar,{data:memberSidebarData, focusNode:{name:"userInfo",text:"个人资料"}}), document.getElementById("component-sidebar"));
 
 
 	}

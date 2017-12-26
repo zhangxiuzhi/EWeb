@@ -62,7 +62,6 @@ public class MemberController {
 	public String headSet(Model model) {
 		return "/member/headSet";
 	}
-
 	@RequestMapping("/headUpload")
 	public String headUpload(Model model) {
 		return "/member/headUpload";
