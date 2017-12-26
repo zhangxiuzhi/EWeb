@@ -2,16 +2,6 @@
  * 会员中心
  * Created by wzj on 2017/11/30.
  */
-var memberSidebarData = [
-	{name:"userInfo", text:"个人资料", url:"/member/userInfo"},
-	{ name: "sale", text: "账号安全", url:""},
-	{ name: "bind", text: "账号绑定", url:""},
-	{ name: "sub", text: "子账号管理", url:""},
-	{ name: "funds", text: "资金管理", url:""},
-	{ name: "message", text: "消息中心", url:""},
-	{ name: "note", text: "短信订阅", url:""}
-]
-
 function JBSFrame_member_headSet() {
 
 	JBSFrame.call(this);
@@ -21,7 +11,9 @@ function JBSFrame_member_headSet() {
 	this.initUI = function () {
 		//主菜单栏
 		//当前选中发布报盘
-		this.sidebar = ReactDOM.render(React.createElement(ComponentMemberSidebar,{data:memberSidebarData, focusNode:{name:"userInfo",text:"个人资料"}}), document.getElementById("component-sidebar"));
+		this.sidebar = ReactDOM.render(React.createElement(ComponentMemberSidebar,{
+			focusNode:{name:"userInfo",text:"个人资料"}
+		}), document.getElementById("component-sidebar"));
 
 
 	}
