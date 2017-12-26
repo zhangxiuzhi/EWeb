@@ -17,6 +17,17 @@ function JBSFrame_member_userInfo() {
 			}
 		}), document.getElementById("component-sidebar"));
 
+		//用户性别
+		var $gender = $("#component-gender");
+		this.grade =  ReactDOM.render(React.createElement(ComponentRadioBox, {
+			data : [
+				{text: "男", value: "man",name:"user-grade"},
+				{ text: "女", value: "female",name:"user-grade"}
+			],
+			name:$gender.attr("inputName"),
+			value:"man"
+		}), $gender[0]);
+
 	}
 
 	/*---------------------------------------------------------------------------------------------------------------------------*/
@@ -74,7 +85,7 @@ $(document).ready(function(e) {
 	// 初始化UI
 	esteel_member_userInfo.initUI();
 	// 初始化路由
-	esteel_member_userInfo.initRouter();
+	//esteel_member_userInfo.initRouter();
 });
 
 // 修改帐号信息，用户名验证userId
