@@ -8,7 +8,6 @@ import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.esteel.web.vo.offer.OfferIronAttachVo;
-import com.esteel.web.vo.offer.OfferIronAttachVo.IronFuturesOffer;
 import com.esteel.web.vo.offer.validator.Array;
 import com.esteel.web.vo.offer.validator.DigitsHasEmpty;
 import com.esteel.web.vo.offer.validator.LengthForEach;
@@ -181,7 +180,7 @@ public class IronFuturesOfferRequest extends OfferIronAttachVo implements Serial
 	 * 报盘重量 数组
 	 * 扩展字段
 	 */
-	@Array(groups = {IronFuturesOffer.class}, min=1, message = "请填写溢短装")
+	@Array(groups = {IronFuturesOffer.class}, min=1, message = "请填写报盘数量")
 	@PatternHasEmpty(groups = {IronFuturesOffer.class}, regexp = "^\\d{1,6}00$", message = "数量：必须为100的正整数倍。")
 	private String[] offerQuantityArr;
 	/**
@@ -194,7 +193,6 @@ public class IronFuturesOfferRequest extends OfferIronAttachVo implements Serial
 	 * 价格基数 铁 数组
 	 * 扩展字段
 	 */
-	@Array(groups = {IronFuturesOffer.class}, min=1, message = "请填写溢短装")
 	@DigitsHasEmpty(groups = {IronFuturesOffer.class}, integer = 2, fraction = 3, message = "价格基数 铁：请填写有效数字。小数位支持1-3位。")
 	private String[] priceBasisFeArr;
 	/**
@@ -211,7 +209,6 @@ public class IronFuturesOfferRequest extends OfferIronAttachVo implements Serial
 	 * 价格数值 数组
 	 * 扩展字段
 	 */
-	@Array(groups = {IronFuturesOffer.class}, min=1, message = "请填写溢短装")
 	@DigitsHasEmpty(groups = {IronFuturesOffer.class}, integer = 4, fraction = 1, message = "价格基数 铁：请填写有效数字。小数位支持1位。")
 	private String[] priceValueArr;
 	/**

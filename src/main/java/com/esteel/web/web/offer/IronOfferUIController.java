@@ -28,14 +28,14 @@ import com.esteel.web.vo.base.CommodityVo;
 import com.esteel.web.vo.base.PortVo;
 import com.esteel.web.vo.config.AttributeValueOptionVo;
 import com.esteel.web.vo.config.IronAttributeLinkVo;
-import com.esteel.web.vo.offer.IronFuturesTransportVo;
-import com.esteel.web.vo.offer.IronOfferClauseVo;
 import com.esteel.web.vo.offer.IronOfferMainVo;
 import com.esteel.web.vo.offer.OfferIronAttachVo.IronFuturesOffer;
 import com.esteel.web.vo.offer.OfferIronAttachVo.IronInStockOffer;
 import com.esteel.web.vo.offer.OfferIronAttachVo.IronPricingOffer;
 import com.esteel.web.vo.offer.request.IronFuturesOfferRequest;
+import com.esteel.web.vo.offer.request.IronFuturesTransportRequest;
 import com.esteel.web.vo.offer.request.IronInStockOfferRequest;
+import com.esteel.web.vo.offer.request.IronOfferClauseRequest;
 import com.esteel.web.vo.offer.request.IronOfferQueryVo;
 import com.esteel.web.vo.offer.request.IronPricingOfferRequest;
 import com.taobao.common.tfs.TfsManager;
@@ -121,12 +121,12 @@ public class IronOfferUIController {
     @ResponseBody
     public WebReturnMessage validatedInStockOffer(
     		@Validated(IronInStockOffer.class) IronInStockOfferRequest inStockOfferRequest, BindingResult offerResult, 
-    		@Validated IronOfferClauseVo offerClauseVo, BindingResult clauseResult) {
+    		@Validated IronOfferClauseRequest clauseRequest, BindingResult clauseResult) {
     	WebReturnMessage webRetMesage = new WebReturnMessage(false, "提交失败！");
     	
     	Assert.notNull(inStockOfferRequest, "提交失败！");
     	
-    	Assert.notNull(offerClauseVo, "提交失败！");
+    	Assert.notNull(clauseRequest, "提交失败！");
     	
     	StringBuilder msgSB = new StringBuilder();
 		if(offerResult.hasErrors()) {
@@ -160,12 +160,12 @@ public class IronOfferUIController {
     @ResponseBody
     public WebReturnMessage validatedFuturesOffer(
     		@Validated(IronFuturesOffer.class) IronFuturesOfferRequest futuresOfferRequest, BindingResult offerResult, 
-    		@Validated IronFuturesTransportVo transportDescription, BindingResult transportResult) {
+    		@Validated IronFuturesTransportRequest transportRequest, BindingResult transportResult) {
     	WebReturnMessage webRetMesage = new WebReturnMessage(false, "提交失败！");
     	
     	Assert.notNull(futuresOfferRequest, "提交失败！");
     	
-    	Assert.notNull(transportDescription, "提交失败！");
+    	Assert.notNull(transportRequest, "提交失败！");
     	
     	StringBuilder msgSB = new StringBuilder();
 		if(offerResult.hasErrors()) {
@@ -199,12 +199,12 @@ public class IronOfferUIController {
     @ResponseBody
     public WebReturnMessage validatedPricingOffer(
     		@Validated(IronPricingOffer.class) IronPricingOfferRequest pricingOfferRequest, BindingResult offerResult, 
-    		@Validated IronOfferClauseVo offerClauseVo, BindingResult clauseResult) {
+    		@Validated IronOfferClauseRequest clauseRequest, BindingResult clauseResult) {
     	WebReturnMessage webRetMesage = new WebReturnMessage(false, "提交失败！");
     	
     	Assert.notNull(pricingOfferRequest, "提交失败！");
     	
-    	Assert.notNull(offerClauseVo, "提交失败！");
+    	Assert.notNull(clauseRequest, "提交失败！");
     	
     	StringBuilder msgSB = new StringBuilder();
 		if(offerResult.hasErrors()) {
@@ -515,8 +515,8 @@ public class IronOfferUIController {
         		Map<String, String> priceTermMap = new HashMap<>();
         		priceTermList.add(priceTermMap);
         		priceTermMap.put("text", indicatorType.getOptionValue());
-        		priceTermMap.put("value", indicatorType.getOptionId() + "");
-        		priceTermMap.put("key", indicatorType.getOptionValue() + "," + indicatorType.getOptionValueEn());
+        		priceTermMap.put("value", indicatorType.getOptionValue() + "");
+        		priceTermMap.put("key", indicatorType.getOptionValue());
         	});
         	// 页面数据传输
         	model.addAttribute("priceTermJson", JSONArray.toJSONString(priceTermList));

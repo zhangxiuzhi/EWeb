@@ -136,29 +136,35 @@ function reload_table(){
 }
 
 function onTablePutShelves(offerCode) {
-	var _url = "/offer/iron/putShelves/"+offerCode;
-	esteel_myOffer.ajaxRequest({
-	    	url:_url,
-	        data:{}
-	    },  function (result) {
-	    	alert(result.msg);
-	    });
+	esteel_myOffer.confirm(null,offerCode+"确定要发布吗?",function(){
+		var _url = "/offer/iron/putShelves/"+offerCode;
+		esteel_myOffer.ajaxRequest({
+		    	url:_url,
+		        data:{}
+		    }, function (data, mag) {
+		    	alert(msg);
+		    });
+    });
 }
 function onTableOffShelves(offerCode) {
-	var _url = "/offer/iron/offShelves/"+offerCode;
-	esteel_myOffer.ajaxRequest({
-	    	url:_url,
-	        data:{}
-	    },  function (result) {
-	    	alert(result.msg);
-	    });
+	esteel_myOffer.confirm(null,offerCode+"确定要下架吗?",function(){
+		var _url = "/offer/iron/offShelves/"+offerCode;
+		esteel_myOffer.ajaxRequest({
+		    	url:_url,
+		        data:{}
+		    }, function (data, mag) {
+		    	alert(msg);
+		    });
+    });
 }
 function onTableDelete(_offerCode) {
-	var _url = "/offer/iron/delete/"+offerCode;
-	esteel_myOffer.ajaxRequest({
-	    	url:_url,
-	        data:{}
-	    },  function (result) {
-	    	alert(result.msg);
-	    });
+	esteel_myOffer.confirm(null,offerCode+"确定要删除吗?",function(){
+		var _url = "/offer/iron/delete/"+offerCode;
+		esteel_myOffer.ajaxRequest({
+		    	url:_url,
+		        data:{}
+		    }, function (data, mag) {
+		    	alert(msg);
+		    });
+    });
 }

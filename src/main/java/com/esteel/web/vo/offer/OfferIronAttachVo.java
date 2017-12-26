@@ -13,6 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.esteel.common.vo.StatusMSGVo;
 import com.esteel.web.vo.offer.validator.DigitsHasEmpty;
+import com.esteel.web.vo.offer.validator.PatternHasEmpty;
 
 /**
  * 
@@ -47,7 +48,7 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 基差
 	 */
-	@NotBlank(groups = {IronPricingOffer.class}, message = "请填写基差")
+	@NotBlank(groups = {IronPricingOffer.class}, message = "请填写基差。")
 	@Pattern(regexp = "^[+-]((\\d{0,2}\\.\\d{1,2})|(\\d{1,2}(\\.\\d{0,2})?))$", message = "基差：请填写有效数字。首位必须为正负号，小数位支持1-2位。")
 	private String baseDifference;
 	/**
@@ -57,8 +58,8 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 品名ID
 	 */
-	@NotBlank(groups = {IronInStockOffer.class, IronPricingOffer.class}, message = "请选择品名")
-	@Pattern(groups = {IronInStockOffer.class, IronPricingOffer.class}, regexp = "^\\d+$", message = "请选择品名")
+	@NotBlank(groups = {IronInStockOffer.class, IronPricingOffer.class}, message = "请选择品名。")
+	@Pattern(groups = {IronInStockOffer.class, IronPricingOffer.class}, regexp = "^\\d+$", message = "请重新选择品名。")
 	private String commodityId;
 	/**
 	 * 品名名称
@@ -67,19 +68,19 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 交货期截止
 	 */
-	@NotNull(groups = {IronPricingOffer.class }, message = "请填写交货期截止时间")
+	@NotNull(groups = {IronPricingOffer.class }, message = "请填写交货期截止时间。")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date deliveryPeriodEnd;
 	/**
 	 * 交货期起始
 	 */
-	@NotNull(groups = {IronPricingOffer.class }, message = "请填写交货期起始时间")
+	@NotNull(groups = {IronPricingOffer.class }, message = "请填写交货期起始时间。")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date deliveryPeriodStart;
 	/**
 	 * 目的港ID
 	 */
-	@Pattern(groups = {IronFuturesOffer.class}, regexp = "^\\d+$", message = "请重新选择目的港")
+	@PatternHasEmpty(groups = {IronFuturesOffer.class}, regexp = "^\\d+$", message = "请重新选择目的港。")
 	private String dischargePortId;
 	/**
 	 * 目的港
@@ -88,7 +89,7 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 化学元素指标 Fe
 	 */
-	@NotBlank(groups = {IronInStockOffer.class}, message = "请填写Fe指标")
+	@NotBlank(groups = {IronInStockOffer.class}, message = "请填写Fe指标。")
 	@Digits(groups = {IronInStockOffer.class}, integer = 2, fraction = 3, message = "Fe指标：请填写有效数字。小数位支持1-3位。")
 	private String fe;
 	/**
@@ -99,8 +100,8 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 指标类型ID
 	 */
-	@NotBlank(groups = {IronInStockOffer.class}, message = "请选择指标")
-	@Pattern(groups = {IronInStockOffer.class}, regexp = "^\\d+$", message = "请重新选择指标")
+	@NotBlank(groups = {IronInStockOffer.class}, message = "请选择指标。")
+	@Pattern(groups = {IronInStockOffer.class}, regexp = "^\\d+$", message = "请重新选择指标。")
 	private String indicatorTypeId;
 	/**
 	 * 指标类型
@@ -109,7 +110,7 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 连铁合约
 	 */
-	@NotBlank(groups = {IronPricingOffer.class}, message = "请选择连铁合约")
+	@NotBlank(groups = {IronPricingOffer.class}, message = "请选择连铁合约。")
 	private String ironContract;
 	/**
 	 * 是否在保税区 0:否, 1:是
@@ -118,14 +119,14 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 信用证交单期
 	 */
-	@NotNull(groups = {IronFuturesOffer.class}, message = "请填写信用证交单期")
+	@NotNull(groups = {IronFuturesOffer.class}, message = "请填写信用证交单期。")
 	@Pattern(groups = {IronFuturesOffer.class}, regexp = "^\\d{1,3}$", message = "信用证交单期：必须为整数。")
 	private String lcPresentationPeriod;
 	/**
 	 * 装货港ID
 	 */
-	@NotBlank(groups = {IronFuturesOffer.class}, message = "请选择装货港")
-	@Pattern(groups = {IronFuturesOffer.class}, regexp = "^\\d+$", message = "请重新选择装货港")
+	@NotBlank(groups = {IronFuturesOffer.class}, message = "请选择装货港。")
+	@Pattern(groups = {IronFuturesOffer.class}, regexp = "^\\d+$", message = "请重新选择装货港。")
 	private String loadingPortId;
 	/**
 	 * 装货港
@@ -139,7 +140,7 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 起订量
 	 */
-	@Pattern(groups = {IronInStockOffer.class, IronPricingOffer.class}, regexp = "^\\d{1,7}$", message = "起订量：必须为整数。")
+	@PatternHasEmpty(groups = {IronInStockOffer.class, IronPricingOffer.class}, regexp = "^\\d{1,7}$", message = "起订量：必须为整数。")
 	private String minQuantity;
 	/**
 	 * 化学元素指标 Mn
@@ -149,7 +150,7 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 溢短装
 	 */
-	@NotBlank(groups = {IronInStockOffer.class, IronPricingOffer.class}, message = "请填写溢短装")
+	@NotBlank(groups = {IronInStockOffer.class, IronPricingOffer.class}, message = "请填写溢短装。")
 	@Digits(groups = {IronInStockOffer.class, IronPricingOffer.class}, integer = 2, fraction = 1, message = "溢短装：请填写有效数字。小数位支持1位。")
 	private String moreOrLess;
 	/**
@@ -159,7 +160,7 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 备注
 	 */
-	@Length(groups = {IronInStockOffer.class, IronPricingOffer.class, IronFuturesOffer.class}, min=0, max=128, message="商品备注:128字符以内") 
+	@Length(groups = {IronInStockOffer.class, IronPricingOffer.class, IronFuturesOffer.class}, min=0, max=128, message="商品备注:128字符以内。") 
 	private String offerAttachRemarks;
 	/**
 	 * 铁矿报盘ID
@@ -168,7 +169,7 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 报盘重量
 	 */
-	@NotBlank(groups = {IronInStockOffer.class, IronPricingOffer.class}, message = "请填写数量")
+	@NotBlank(groups = {IronInStockOffer.class, IronPricingOffer.class}, message = "请填写数量。")
 	@Pattern(groups = {IronInStockOffer.class, IronPricingOffer.class}, regexp = "^\\d{1,6}00$", message = "数量：必须为100的正整数倍。")
 	private String offerQuantity;
 	/**
@@ -179,20 +180,20 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 点价期截止
 	 */
-	@NotNull(groups = {IronPricingOffer.class }, message = "请填写点价期截止时间")
+	@NotNull(groups = {IronPricingOffer.class }, message = "请填写点价期截止时间。")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date pricingPeriodEnd;
 	/**
 	 * 点价期起始
 	 */
-	@NotNull(groups = {IronPricingOffer.class }, message = "请填写点价期起始时间")
+	@NotNull(groups = {IronPricingOffer.class }, message = "请填写点价期起始时间。")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date pricingPeriodStart;
 	/**
 	 * 港口ID
 	 */
-	@NotBlank(groups = {IronInStockOffer.class, IronPricingOffer.class}, message = "请选择港口")
-	@Digits(groups = {IronInStockOffer.class, IronPricingOffer.class}, integer = 10, fraction = 0, message = "请重新选择港口")
+	@NotBlank(groups = {IronInStockOffer.class, IronPricingOffer.class}, message = "请选择港口。")
+	@Digits(groups = {IronInStockOffer.class, IronPricingOffer.class}, integer = 10, fraction = 0, message = "请重新选择港口。")
 	private String portId;
 	/**
 	 * 港口
@@ -205,7 +206,7 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 价格描述
 	 */
-	@Length(groups = {IronFuturesOffer.class}, min=0, max=128, message="价格描述:128字符以内") 
+	@Length(groups = {IronFuturesOffer.class}, min=0, max=128, message="价格描述:128字符以内。") 
 	private String priceDescription;
 	/**
 	 * 价格模式 0:固定价, 1:浮动价
@@ -214,13 +215,12 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 价格术语
 	 */
-	@NotBlank(groups = {IronFuturesOffer.class}, message = "请填写价格术语")
+	@PatternHasEmpty(groups = {IronFuturesOffer.class}, regexp = "^[a-zA-Z]+$", message = "请重新选择价格术语。")
 	private String priceTerm;
 	/**
 	 * 价格术语基于港ID
 	 */
-	@NotBlank(groups = {IronFuturesOffer.class}, message = "请选择价格术语 港口")
-	@Digits(groups = {IronFuturesOffer.class}, integer = 10, fraction = 0, message = "请重新选择价格术语 港口")
+	@DigitsHasEmpty(groups = {IronFuturesOffer.class}, integer = 10, fraction = 0, message = "请重新选择价格术语 港口。")
 	private String priceTermPortId;
 	/**
 	 * 价格术语基于港
@@ -233,7 +233,7 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 价格数值
 	 */
-	@NotBlank(groups = {IronInStockOffer.class}, message = "请填写价格")
+	@NotBlank(groups = {IronInStockOffer.class}, message = "请填写价格。")
 	@Digits(groups = {IronInStockOffer.class}, integer = 4, fraction = 1, message = "价格：请填写有效数字。小数位支持1位。")
 	private String priceValue;
 	/**
@@ -253,7 +253,7 @@ public class OfferIronAttachVo extends StatusMSGVo implements Serializable {
 	/**
 	 * 粒度指标
 	 */
-	@Length(groups = {IronInStockOffer.class}, min=0, max=32, message="粒度指标:32字符以内")
+	@Length(groups = {IronInStockOffer.class}, min=0, max=32, message="粒度指标:32字符以内。")
 	private String sizeIndicators;
 	/**
 	 * 已售重量

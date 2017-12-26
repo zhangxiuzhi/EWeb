@@ -382,11 +382,12 @@ function save_offer(){
 				_url = "/offer/iron/validatedFuturesOffer";
 			}
 			
+			var formData = new FormData($('form-offer')[0]);
         	 esteel_addOffer.ajaxRequest({
      	    	url:_url,
      	        data:$('#form-offer').serialize()
-     	    },  function (result) {
-     	    	if (result.success) {
+     	    }, function (data, msg) {
+     	    	if (msg == 'success') {
      	    		$("#form-offer")[0].submit();
      	    	} else {
      	    		alert(result.msg);
@@ -410,9 +411,8 @@ function submit_offer(){
 			esteel_addOffer.ajaxRequest({
      	    	url:_url,
      	        data:$('#form-offer').serialize()
-     	    },  function (result) {
-     	    	if (result.success) {
-     	    		$("#offerStatus").val("publish");
+     	    },function (data, msg) {
+     	    	if (msg == 'success') {
      	    		$("#form-offer")[0].submit();
      	    	} else {
      	    		alert(result.msg);

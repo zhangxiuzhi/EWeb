@@ -1,4 +1,4 @@
-package com.esteel.web.vo.offer;
+package com.esteel.web.vo.offer.request;
 
 import java.io.Serializable;
 
@@ -22,7 +22,7 @@ import com.esteel.web.vo.offer.validator.PatternHasEmpty;
  *
  */
 @IronOfferClause()
-public class IronOfferClauseVo implements Serializable {
+public class IronOfferClauseRequest implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/* 交货结算条款模版中参数 */
@@ -45,7 +45,7 @@ public class IronOfferClauseVo implements Serializable {
 	 */
 	@Array(min=1, message = "请填完 结算方式。")
 	@PatternHasEmpty(regexp = "^\\d{1,3}$", message = "付款期限： 必须为整数。")
-	private String clear_within_several_working_days;
+	private String[] clear_within_several_working_daysArr;
 	/**
 	 * 付全款后几个工作日
 	 */
@@ -137,11 +137,11 @@ public class IronOfferClauseVo implements Serializable {
 	public void setContract_funds_percentage(String contract_funds_percentage) {
 		this.contract_funds_percentage = contract_funds_percentage;
 	}
-	public String getClear_within_several_working_days() {
-		return clear_within_several_working_days;
+	public String[] getClear_within_several_working_daysArr() {
+		return clear_within_several_working_daysArr;
 	}
-	public void setClear_within_several_working_days(String clear_within_several_working_days) {
-		this.clear_within_several_working_days = clear_within_several_working_days;
+	public void setClear_within_several_working_daysArr(String[] clear_within_several_working_daysArr) {
+		this.clear_within_several_working_daysArr = clear_within_several_working_daysArr;
 	}
 	public String getAfter_pay_off_several_working_days() {
 		return after_pay_off_several_working_days;

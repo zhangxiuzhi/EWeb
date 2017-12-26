@@ -1,4 +1,4 @@
-package com.esteel.web.vo.offer;
+package com.esteel.web.vo.offer.request;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -6,6 +6,9 @@ import java.util.Date;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.esteel.web.vo.offer.OfferIronAttachVo.IronInStockOffer;
+import com.esteel.web.vo.offer.OfferIronAttachVo.IronPricingOffer;
+import com.esteel.web.vo.offer.validator.DigitsHasEmpty;
 import com.esteel.web.vo.offer.validator.IronFuturesTransport;
 
 /**
@@ -17,7 +20,7 @@ import com.esteel.web.vo.offer.validator.IronFuturesTransport;
  *
  */
 @IronFuturesTransport()
-public class IronFuturesTransportVo implements Serializable {
+public class IronFuturesTransportRequest implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -66,6 +69,15 @@ public class IronFuturesTransportVo implements Serializable {
 	 * 其他
 	 */
 	@Length(min=0, max=1, message="运输备注:128字符以内") 
+	/**
+	 * 是否在保税区 0:否, 1:是
+	 */
+	private String isBondedArea;
+	/**
+	 * 保税区港口ID
+	 */
+	@DigitsHasEmpty(groups = {IronInStockOffer.class, IronPricingOffer.class}, integer = 10, fraction = 0, message = "请重新选择保税区港口")
+	private String bondedAreaPortId;
 	
 	private String transport_remark;
 	
@@ -116,5 +128,17 @@ public class IronFuturesTransportVo implements Serializable {
 	}
 	public void setTransport_remark(String transport_remark) {
 		this.transport_remark = transport_remark;
+	}
+	public String getIsBondedArea() {
+		return isBondedArea;
+	}
+	public void setIsBondedArea(String isBondedArea) {
+		this.isBondedArea = isBondedArea;
+	}
+	public String getBondedAreaPortId() {
+		return bondedAreaPortId;
+	}
+	public void setBondedAreaPortId(String bondedAreaPortId) {
+		this.bondedAreaPortId = bondedAreaPortId;
 	}
 }

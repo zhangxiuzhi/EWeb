@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,7 +38,9 @@ import com.esteel.web.vo.offer.OfferAffixVo;
 import com.esteel.web.vo.offer.OfferIronAttachVo;
 import com.esteel.web.vo.offer.OfferIronAttachVo.IronPricingOffer;
 import com.esteel.web.vo.offer.request.IronFuturesOfferRequest;
+import com.esteel.web.vo.offer.request.IronFuturesTransportRequest;
 import com.esteel.web.vo.offer.request.IronInStockOfferRequest;
+import com.esteel.web.vo.offer.request.IronOfferClauseRequest;
 import com.esteel.web.vo.offer.request.IronPricingOfferRequest;
 import com.taobao.common.tfs.TfsManager;
 
@@ -74,11 +77,11 @@ public class IronOfferController {
      */
     @RequestMapping(value = "/saveInStockOffer", method = RequestMethod.POST)
     public String saveInStockOffer(IronInStockOfferRequest inStockOfferRequest, 
-    		@RequestParam("offerAffix") MultipartFile offerAffix,  IronOfferClauseVo offerClauseVo, 
+    		@RequestParam("offerAffix") MultipartFile offerAffix,  IronOfferClauseRequest clauseRequest, 
     		@RequestParam("contractAffix") MultipartFile contractAffix, Model model) {
     	Assert.notNull(inStockOfferRequest, "提交失败！");
     	
-    	Assert.notNull(offerClauseVo, "提交失败！");
+    	Assert.notNull(clauseRequest, "提交失败！");
 
     	IronOfferMainVo offerMainVo = new IronOfferMainVo();
     	// 将request 复制到 offerMainVo
@@ -167,6 +170,11 @@ public class IronOfferController {
     	}
     	
     	// 交货结算条款Json
+    	IronOfferClauseVo offerClauseVo = new IronOfferClauseVo();
+    	BeanUtils.copyProperties(clauseRequest, offerClauseVo);
+    	offerClauseVo.setClear_within_several_working_days(
+    			clauseRequest.getClear_within_several_working_daysArr()[NumberUtils.toInt(clauseRequest.getSettlement_method())]);
+    	
     	offerMainVo.setClauseTemplateJson(JsonUtils.toJsonString(offerClauseVo));
 
     	System.out.println(JsonUtils.toJsonString(offerMainVo));
@@ -182,7 +190,7 @@ public class IronOfferController {
     		Assert.notNull(offer, "发布失败！");
     	}
     	
-        return "redirect:/offer/myOffer";
+        return "redirect:/offer/iron//myList";
     }
     
     /**
@@ -196,11 +204,11 @@ public class IronOfferController {
      */
     @RequestMapping(value = "/saveFuturesOffer", method = RequestMethod.POST)
     public String saveFuturesOffer(IronFuturesOfferRequest futuresOfferRequest, 
-    		IronFuturesTransportVo transportDescription, 
+    		IronFuturesTransportRequest transportRequest, 
     		@RequestParam("offerAffix") MultipartFile offerAffix, Model model){
     	Assert.notNull(futuresOfferRequest, "提交失败！");
     	
-    	Assert.notNull(transportDescription, "提交失败！");
+    	Assert.notNull(transportRequest, "提交失败！");
     	
     	IronOfferMainVo offerMainVo = new IronOfferMainVo();
     	// 将request 复制到 offerMainVo
@@ -223,6 +231,49 @@ public class IronOfferController {
     		offerMainVo.setCounterpartyIdList(counterpartyIdList);
     	}
     	
+    	// 是否在保税区 0:否, 1:是
+    	boolean isBondedArea = NumberUtils.toInt(futuresOfferRequest.getIsBondedArea()) == EsteelConstant.YES;
+    	
+    	PortVo queryport = new PortVo();
+    	PortVo port = null;
+    	
+    	// 交货结算条款Json
+    	IronFuturesTransportVo transportVo = new IronFuturesTransportVo();
+    	BeanUtils.copyProperties(transportRequest, transportVo);
+    	
+    	// 在保税区 没有这些数据: 价格术语, 目的港, 运输状态
+    	if (isBondedArea) {
+    		// 保税区港口
+        	long bondedAreaPortId = Long.parseLong(transportRequest.getBondedAreaPortId());
+    		futuresOfferRequest.setPortId(bondedAreaPortId + "");
+    		
+    		queryport.setPortId(bondedAreaPortId);
+    		port = baseClient.getPort(queryport);
+        	if (port != null) {
+        		futuresOfferRequest.setPortName(port.getPortName());
+        	}
+        	
+        	// 价格术语, 目的港, 运输状态
+        	futuresOfferRequest.setPriceTerm(null);
+    		futuresOfferRequest.setPriceTermPortId(null);
+    		futuresOfferRequest.setDischargePortId(null);
+    		futuresOfferRequest.setTransportDescription(null);
+    	} else {
+    		queryport.setPortId(NumberUtils.toLong(futuresOfferRequest.getPriceTermPortId()));
+    		port = baseClient.getPort(port);
+        	if (port != null) {
+        		futuresOfferRequest.setPriceTermPortName(port.getPortName());
+        	}
+        	
+        	queryport.setPortId(NumberUtils.toLong(futuresOfferRequest.getDischargePortId()));
+    		port = baseClient.getPort(port);
+        	if (port != null) {
+        		futuresOfferRequest.setDischargePortName(port.getPortName());
+        	}
+    		
+    		futuresOfferRequest.setTransportDescription(JsonUtils.toJsonString(transportVo));
+    	}
+    	
     	// 第一个货物报盘
     	OfferIronAttachVo firstCargo = getOne(futuresOfferRequest, 0);
     	
@@ -236,24 +287,13 @@ public class IronOfferController {
     		firstCargo.setCommodityName(commodityVo.getCommodityName());
     	}
     	
-    	// 港口
-    	PortVo port = new PortVo();
-    	port.setPortId(Long.parseLong(firstCargo.getPortId()));
-    	
-    	PortVo portVo = baseClient.getPort(port);
-    	if (portVo != null) {
-    		firstCargo.setPortName(portVo.getPortName());
-    	}
-    	
     	// 重量单位 湿吨
     	firstCargo.setQuantityUnitId(AttributeValueOptionEnum.getInstance().WMT.getId() + "");
     	// 价格单位 人民币/湿吨
     	firstCargo.setPriceUnitId(AttributeValueOptionEnum.getInstance().CNY_WMT.getId() + "");
     	
-    	firstCargo.setTransportDescription(JsonUtils.toJsonString(transportDescription));
-    	
     	// 一船两货
-    	if (futuresOfferRequest.getIsMultiCargo().equals(EsteelConstant.YES + "")) {
+    	if (isBondedArea) {
     		// 第二个货物报盘
     		OfferIronAttachVo secondCargo = getOne(futuresOfferRequest, 1);
     		
@@ -267,21 +307,12 @@ public class IronOfferController {
         		secondCargo.setCommodityName(commodityVo.getCommodityName());
         	}
         	
-        	// 港口
-        	port = new PortVo();
-        	port.setPortId(Long.parseLong(secondCargo.getPortId()));
-        	
-        	portVo = baseClient.getPort(port);
-        	if (portVo != null) {
-        		secondCargo.setPortName(portVo.getPortName());
-        	}
-        	
         	// 重量单位 湿吨
         	secondCargo.setQuantityUnitId(AttributeValueOptionEnum.getInstance().WMT.getId() + "");
         	// 价格单位 人民币/湿吨
         	secondCargo.setPriceUnitId(AttributeValueOptionEnum.getInstance().CNY_WMT.getId() + "");
         	
-    		secondCargo.setTransportDescription(JsonUtils.toJsonString(transportDescription));
+    		secondCargo.setTransportDescription(JsonUtils.toJsonString(transportVo));
     	}
     	
     	// 初始化
@@ -323,7 +354,7 @@ public class IronOfferController {
     		Assert.notNull(offer, "发布失败！");
     	}
     	
-        return "redirect:/offer/myOffer";
+        return "redirect:/offer/iron//myList";
     }
     
     /**
@@ -337,11 +368,11 @@ public class IronOfferController {
      */
     @RequestMapping(value = "/savePricingOffer", method = RequestMethod.POST)
     public String savePricingOffer(@Validated(IronPricingOffer.class) IronPricingOfferRequest pricingOfferRequest, BindingResult offerResult, 
-    		@RequestParam("offerAffix") MultipartFile offerAffix, IronOfferClauseVo offerClauseVo, 
+    		@RequestParam("offerAffix") MultipartFile offerAffix, IronOfferClauseRequest clauseRequest, 
     		@RequestParam("contractAffix") MultipartFile contractAffix, Model model){
     	Assert.notNull(pricingOfferRequest, "提交失败！");
     	
-    	Assert.notNull(offerClauseVo, "提交失败！");
+    	Assert.notNull(clauseRequest, "提交失败！");
     	
     	IronOfferMainVo offerMainVo = new IronOfferMainVo();
     	// 将request 复制到 offerMainVo
@@ -429,6 +460,11 @@ public class IronOfferController {
     	}
     	
     	// 交货结算条款Json
+    	IronOfferClauseVo offerClauseVo = new IronOfferClauseVo();
+    	BeanUtils.copyProperties(clauseRequest, offerClauseVo);
+    	offerClauseVo.setClear_within_several_working_days(
+    			clauseRequest.getClear_within_several_working_daysArr()[NumberUtils.toInt(clauseRequest.getSettlement_method())]);
+    	
     	offerMainVo.setClauseTemplateJson(JsonUtils.toJsonString(offerClauseVo));
     	
     	System.out.println(JsonUtils.toJsonString(offerMainVo));
@@ -444,7 +480,7 @@ public class IronOfferController {
     		Assert.notNull(offer, "发布失败！");
     	}
     	
-        return "redirect:/offer/myOffer";
+        return "redirect:/offer/iron//myList";
     }
     
     /**
@@ -458,11 +494,11 @@ public class IronOfferController {
      */
     @RequestMapping(value = "/updateInStockOffer", method = RequestMethod.POST)
     public String updateInStockOffer(IronInStockOfferRequest inStockOfferRequest, 
-    		@RequestParam("offerAffix") MultipartFile offerAffix,  IronOfferClauseVo offerClauseVo, 
+    		@RequestParam("offerAffix") MultipartFile offerAffix,  IronOfferClauseRequest clauseRequest, 
     		@RequestParam("contractAffix") MultipartFile contractAffix, Model model) {
     	Assert.notNull(inStockOfferRequest, "提交失败！");
     	
-    	Assert.notNull(offerClauseVo, "提交失败！");
+    	Assert.notNull(clauseRequest, "提交失败！");
 
     	IronOfferMainVo offerMainVo = new IronOfferMainVo();
     	// 将request 复制到 offerMainVo
@@ -531,7 +567,10 @@ public class IronOfferController {
     	}
     	
     	// 交货结算条款Json
-    	offerMainVo.setClauseTemplateJson(JsonUtils.toJsonString(offerClauseVo));
+    	IronOfferClauseVo offerClauseVo = new IronOfferClauseVo();
+    	BeanUtils.copyProperties(clauseRequest, offerClauseVo);
+    	offerClauseVo.setClear_within_several_working_days(
+    			clauseRequest.getClear_within_several_working_daysArr()[NumberUtils.toInt(clauseRequest.getSettlement_method())]);
 
     	System.out.println(JsonUtils.toJsonString(offerMainVo));
 		
@@ -560,11 +599,11 @@ public class IronOfferController {
      */
     @RequestMapping(value = "/updateFuturesOffer", method = RequestMethod.POST)
     public String updateFuturesOffer(IronFuturesOfferRequest futuresOfferRequest, 
-    		IronFuturesTransportVo transportDescription, 
+    		IronFuturesTransportRequest transportRequest, 
     		@RequestParam("offerAffix") MultipartFile offerAffix, Model model){
     	Assert.notNull(futuresOfferRequest, "提交失败！");
     	
-    	Assert.notNull(transportDescription, "提交失败！");
+    	Assert.notNull(transportRequest, "提交失败！");
     	
     	IronOfferMainVo offerMainVo = new IronOfferMainVo();
     	// 将request 复制到 offerMainVo
@@ -609,7 +648,11 @@ public class IronOfferController {
     		firstCargo.setPortName(portVo.getPortName());
     	}
     	
-    	firstCargo.setTransportDescription(JsonUtils.toJsonString(transportDescription));
+    	// 交货结算条款Json
+    	IronFuturesTransportVo transportVo = new IronFuturesTransportVo();
+    	BeanUtils.copyProperties(transportRequest, transportVo);
+    	
+    	firstCargo.setTransportDescription(JsonUtils.toJsonString(transportVo));
     	
     	// 一船两货
     	if (futuresOfferRequest.getIsMultiCargo().equals(EsteelConstant.YES + "")) {
@@ -635,7 +678,7 @@ public class IronOfferController {
         		secondCargo.setPortName(portVo.getPortName());
         	}
         	
-    		secondCargo.setTransportDescription(JsonUtils.toJsonString(transportDescription));
+    		secondCargo.setTransportDescription(JsonUtils.toJsonString(transportVo));
     	}
     	
     	offerMainVo.setUpdateUser("王雁飞测试");
@@ -676,11 +719,11 @@ public class IronOfferController {
      */
     @RequestMapping(value = "/updatePricingOffer", method = RequestMethod.POST)
     public String updatePricingOffer(@Validated(IronPricingOffer.class) IronPricingOfferRequest pricingOfferRequest, BindingResult offerResult, 
-    		@RequestParam("offerAffix") MultipartFile offerAffix, IronOfferClauseVo offerClauseVo, 
+    		@RequestParam("offerAffix") MultipartFile offerAffix, IronOfferClauseRequest clauseRequest, 
     		@RequestParam("contractAffix") MultipartFile contractAffix, Model model){
     	Assert.notNull(pricingOfferRequest, "提交失败！");
     	
-    	Assert.notNull(offerClauseVo, "提交失败！");
+    	Assert.notNull(clauseRequest, "提交失败！");
     	
     	// 页面验证
 		if(offerResult.hasErrors()) {
@@ -762,7 +805,10 @@ public class IronOfferController {
     	}
     	
     	// 交货结算条款Json
-    	offerMainVo.setClauseTemplateJson(JsonUtils.toJsonString(offerClauseVo));
+    	IronOfferClauseVo offerClauseVo = new IronOfferClauseVo();
+    	BeanUtils.copyProperties(clauseRequest, offerClauseVo);
+    	offerClauseVo.setClear_within_several_working_days(
+    			clauseRequest.getClear_within_several_working_daysArr()[NumberUtils.toInt(clauseRequest.getSettlement_method())]);
     	
     	System.out.println(JsonUtils.toJsonString(offerMainVo));
     	
@@ -797,6 +843,10 @@ public class IronOfferController {
     	StatusMSGVo vo = new StatusMSGVo();
 
 		String fileName = file.getOriginalFilename();// 获取上传文件名,包括路径
+	    if (fileName == null || fileName.equals("")) {
+	    	return null;
+	    }
+	    
 	    long size = file.getSize();
 	    if ((fileName == null || fileName.equals("")) && size == 0) {
 	    	vo.setStatus(1);

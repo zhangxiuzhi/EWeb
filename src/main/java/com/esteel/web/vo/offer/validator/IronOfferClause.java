@@ -13,7 +13,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.Payload;
 
-import com.esteel.web.vo.offer.IronOfferClauseVo;
+import com.esteel.web.vo.offer.request.IronOfferClauseRequest;
 
 /**
  * 
@@ -35,14 +35,14 @@ public @interface IronOfferClause {
 
 	Class<? extends Payload>[] payload() default { };
 
-	public class IronOfferClauseVoValidator implements ConstraintValidator<IronOfferClause, IronOfferClauseVo> {
+	public class IronOfferClauseVoValidator implements ConstraintValidator<IronOfferClause, IronOfferClauseRequest> {
 		
 		@Override
 		public void initialize(IronOfferClause constraintAnnotation) {
 		}
 
 		@Override
-		public boolean isValid(IronOfferClauseVo clause, ConstraintValidatorContext context) {
+		public boolean isValid(IronOfferClauseRequest clause, ConstraintValidatorContext context) {
 			if (clause == null) {
 				return true;
 			}
@@ -66,9 +66,10 @@ public @interface IronOfferClause {
 					return false;
 				}
 				
-				if (clause.getClear_within_several_working_days() == null 
-						|| clause.getClear_within_several_working_days().length < 2
-						|| clause.getClear_within_several_working_days()[1].trim().equals("")) {
+				if (clause.getClear_within_several_working_daysArr() == null 
+						|| clause.getClear_within_several_working_daysArr().length < 2
+						|| clause.getClear_within_several_working_daysArr()[1] == null
+						|| clause.getClear_within_several_working_daysArr()[1].trim().equals("")) {
 					context.buildConstraintViolationWithTemplate("请填完 结算方式。")  
 	                .addPropertyNode("after_sign_several_working_days")  
 	                .addConstraintViolation();

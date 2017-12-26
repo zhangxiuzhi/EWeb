@@ -16,7 +16,7 @@ import javax.validation.Payload;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import com.esteel.common.util.EsteelConstant;
-import com.esteel.web.vo.offer.IronFuturesTransportVo;
+import com.esteel.web.vo.offer.request.IronFuturesTransportRequest;
 
 /**
  * 
@@ -38,20 +38,28 @@ public @interface IronFuturesTransport {
 
 	Class<? extends Payload>[] payload() default { };
 
-	public class IronFuturesTransportValidator implements ConstraintValidator<IronFuturesTransport, IronFuturesTransportVo> {
+	public class IronFuturesTransportValidator implements ConstraintValidator<IronFuturesTransport, IronFuturesTransportRequest> {
 		
 		@Override
 		public void initialize(IronFuturesTransport constraintAnnotation) {
 		}
 
 		@Override
-		public boolean isValid(IronFuturesTransportVo transport, ConstraintValidatorContext context) {
+		public boolean isValid(IronFuturesTransportRequest transport, ConstraintValidatorContext context) {
 			if (transport == null) {
 				return true;
 			}
 			
-			if (transport.getIsMultiCargo() == null 
-					|| NumberUtils.toInt(transport.getIsMultiCargo()) != EsteelConstant.YES) {
+			// 是否在保税区 0:否, 1:是
+			if (NumberUtils.toInt(transport.getIsBondedArea()) == EsteelConstant.YES) {
+				if (NumberUtils.toInt(transport.getBondedAreaPortId()) == 0) {
+					context.buildConstraintViolationWithTemplate("请选择保税区港口。")  
+	                .addPropertyNode("bondedAreaPortId")  
+	                .addConstraintViolation();
+					
+					 return false;
+				}
+				
 				return true;
 			}
 			
