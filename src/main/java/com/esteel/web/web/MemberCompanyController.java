@@ -276,6 +276,12 @@ public class MemberCompanyController {
 		long userId = userVo.getUserId();
 		// 获取到企业子账号
 		List<MemberUserVo> members = memberClient.findmember(companyId, userId, page, size);
+		for (MemberUserVo memberUserVo : members) {
+			
+		}
+		
+		
+		
 		return members;
 	}
 

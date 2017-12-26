@@ -51,6 +51,10 @@ public class MemberUserVo implements Serializable {
 	
 	private String memberName;
 	
+	private String positon;
+	
+	private String dept;
+	
 	public MemberUserVo() {
 	}
 
@@ -222,20 +226,39 @@ public class MemberUserVo implements Serializable {
 		this.userStatus = userStatus;
 	}
 	
+	public String getPositon() {
+		return positon;
+	}
+
+	public void setPositon(String positon) {
+		this.positon = positon;
+	}
+
+	public String getDept() {
+		return dept;
+	}
+
+	public void setDept(String dept) {
+		this.dept = dept;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((account == null) ? 0 : account.hashCode());
 		result = prime * result + ((companyId == null) ? 0 : companyId.hashCode());
+		result = prime * result + ((dept == null) ? 0 : dept.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((gender == null) ? 0 : gender.hashCode());
 		result = prime * result + ((lastLoginIp == null) ? 0 : lastLoginIp.hashCode());
 		result = prime * result + ((lastLoginTime == null) ? 0 : lastLoginTime.hashCode());
 		result = prime * result + ((memberGrade == null) ? 0 : memberGrade.hashCode());
 		result = prime * result + ((memberIntegration == null) ? 0 : memberIntegration.hashCode());
+		result = prime * result + ((memberName == null) ? 0 : memberName.hashCode());
 		result = prime * result + ((mobile == null) ? 0 : mobile.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((positon == null) ? 0 : positon.hashCode());
 		result = prime * result + ((registeredTime == null) ? 0 : registeredTime.hashCode());
 		result = prime * result + ((remarks == null) ? 0 : remarks.hashCode());
 		result = prime * result + ((securitySetting == null) ? 0 : securitySetting.hashCode());
@@ -268,6 +291,11 @@ public class MemberUserVo implements Serializable {
 				return false;
 		} else if (!companyId.equals(other.companyId))
 			return false;
+		if (dept == null) {
+			if (other.dept != null)
+				return false;
+		} else if (!dept.equals(other.dept))
+			return false;
 		if (email == null) {
 			if (other.email != null)
 				return false;
@@ -298,6 +326,11 @@ public class MemberUserVo implements Serializable {
 				return false;
 		} else if (!memberIntegration.equals(other.memberIntegration))
 			return false;
+		if (memberName == null) {
+			if (other.memberName != null)
+				return false;
+		} else if (!memberName.equals(other.memberName))
+			return false;
 		if (mobile == null) {
 			if (other.mobile != null)
 				return false;
@@ -307,6 +340,11 @@ public class MemberUserVo implements Serializable {
 			if (other.password != null)
 				return false;
 		} else if (!password.equals(other.password))
+			return false;
+		if (positon == null) {
+			if (other.positon != null)
+				return false;
+		} else if (!positon.equals(other.positon))
 			return false;
 		if (registeredTime == null) {
 			if (other.registeredTime != null)
@@ -366,8 +404,11 @@ public class MemberUserVo implements Serializable {
 				+ memberIntegration + ", mobile=" + mobile + ", password=" + password + ", registeredTime="
 				+ registeredTime + ", remarks=" + remarks + ", securitySetting=" + securitySetting + ", tradeCurrency="
 				+ tradeCurrency + ", tradeVarietie=" + tradeVarietie + ", userName=" + userName + ", userPicture="
-				+ userPicture + ", userStatus=" + userStatus + ", memberName=" + memberName + "]";
+				+ userPicture + ", userStatus=" + userStatus + ", memberName=" + memberName + ", positon=" + positon
+				+ ", dept=" + dept + "]";
 	}
+
+	
 	
 	
 }
