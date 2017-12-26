@@ -44,7 +44,7 @@ class RadioBoxGroup extends React.Component {
 				name: name,
 				onChange: this.handleChange,
 				isChecked: this.state.currentValue })),
-			React.createElement('input', { type: 'hidden', name: name, ref: 'hidden-value', value: this.state.currentValue })
+			React.createElement('input', { type: 'hidden', name: name, ref: 'hiddenValue', value: this.state.currentValue })
 	);
 	}
 }

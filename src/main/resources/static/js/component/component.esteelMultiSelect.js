@@ -9,7 +9,7 @@ class ComponentEsteelMultiSelect extends React.Component {
 	}
 
 	onChange(selectValue) {
-		console.log(selectValue);
+		//console.log(selectValue);
 	}
 
 	componentDidMount() {

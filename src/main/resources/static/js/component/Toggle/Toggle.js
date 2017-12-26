@@ -46,7 +46,8 @@ class Toggle extends React.PureComponent {
 			React.createElement('div', { className: 'toggle-thumb' }),
 			React.createElement('input', {
 				id: id,
-				name: name,
+				//name: name,
+				checked:this.state.checked,
 				value:this.state.checked == true ? "1" : "0",
 				defaultChecked:defaultChecked,
 				onChange:onChange,
@@ -55,7 +56,8 @@ class Toggle extends React.PureComponent {
 				},
 				className: 'react-toggle-screenreader-only',
 				type: 'checkbox'
-			})
+			}),
+			React.createElement('input', { type: 'hidden', name: name, ref: 'hiddenValue', value: this.state.checked == true ? "1" : "0" })
 		);
 	}
 }

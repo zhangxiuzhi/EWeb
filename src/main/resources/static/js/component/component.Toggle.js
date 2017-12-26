@@ -25,7 +25,7 @@ class ComponentToggle extends React.Component{
 
 		return React.createElement(Toggle, {
 			defaultChecked:val,
-			name:this.props.name,
+			name:this.props.inputName,
 			onChange:this.ui_toggle_onChange
 		});
 	}

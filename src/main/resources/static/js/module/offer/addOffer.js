@@ -69,7 +69,7 @@ function JBSFrame_addOffer() {
                 data: JSON.parse($("#indicatorTypeJson").html()),
                 value: "26",
                 className: "TagStyle offerKpi",
-                name:$kpiType.attr("inputName"),
+                inputName:$kpiType.attr("inputName"),
                 onChange:changeIndicatorValue //指标类型选择，改变指标值
             }), $kpiType[0]);
         }
@@ -113,7 +113,7 @@ function JBSFrame_addOffer() {
                 data: JSON.parse($("#indicatorTypeJson").html()),
                 value: "26",
                 className: "TagStyle offerKpi",
-                name:$kpiType1.attr("inputName"),
+                inputName:$kpiType1.attr("inputName"),
                 onChange:changeIndicatorValue1 //指标类型选择，改变指标值
             }), $kpiType1[0]);
         }
@@ -135,7 +135,7 @@ function JBSFrame_addOffer() {
                 data: JSON.parse($("#indicatorTypeJson").html()),
                 value: "26",
                 className: "TagStyle offerKpi",
-                name:$kpiType2.attr("inputName"),
+                inputName:$kpiType2.attr("inputName"),
                 onChange:changeIndicatorValue2 //指标类型选择，改变指标值
             }), $kpiType2[0]);
         }

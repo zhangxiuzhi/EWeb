@@ -16,7 +16,7 @@ class MultiSelect extends React.Component {
 	}
 
 	onOptionClick() {
-		console.log(this.refs.MSL, this.refs.MSL.value);
+		//console.log(this.refs.MSL, this.refs.MSL.value);
 	}
 
 	componentDidMount() {
@@ -63,6 +63,7 @@ class MultiSelect extends React.Component {
 	moveInAll() {
 		$(this.refs.MSL).children("option").appendTo($(this.refs.MSR));
 		$(this.refs.MSR).children("option").prop("selected", false);
+		$(this.refs.hiddenValue).val(this.getMSRValue());
 		if (this.props.onChange) {
 			this.props.onChange(this.getMSRValue());
 		}
@@ -70,6 +71,7 @@ class MultiSelect extends React.Component {
 	moveIn() {
 		$(this.refs.MSL).children("option:selected").appendTo($(this.refs.MSR));
 		$(this.refs.MSR).children("option").prop("selected", false);
+		$(this.refs.hiddenValue).val(this.getMSRValue());
 		if (this.props.onChange) {
 			this.props.onChange(this.getMSRValue());
 		}
@@ -77,6 +79,7 @@ class MultiSelect extends React.Component {
 	moveOutAll() {
 		$(this.refs.MSR).children("option").appendTo($(this.refs.MSL));
 		$(this.refs.MSL).children("option").prop("selected", false);
+		$(this.refs.hiddenValue).val(this.getMSRValue());
 		if (this.props.onChange) {
 			this.props.onChange(this.getMSRValue());
 		}
@@ -84,7 +87,8 @@ class MultiSelect extends React.Component {
 	moveOut() {
 		$(this.refs.MSR).children("option:selected").appendTo($(this.refs.MSL));
 		$(this.refs.MSL).children("option").prop("selected", false);
-		$("#msr option").prop("selected", false);
+		$(this.refs.MSR).children("option").prop("selected", false);
+		$(this.refs.hiddenValue).val(this.getMSRValue());
 		if (this.props.onChange) {
 			this.props.onChange(this.getMSRValue());
 		}
@@ -181,12 +185,18 @@ class MultiSelect extends React.Component {
 					{ className: 'react-ms-right' },
 					React.createElement(
 						'select',
-						{ multiple: true, ref: 'MSR', className: 'react-msr', id: 'msr',
-							name:this.props.name,},
+						{
+							multiple: true,
+							ref: 'MSR',
+							className: 'react-msr',
+							id: 'msr',
+							//name:this.props.name,
+						},
 						msrData
 					)
 				)
-			)
+			),
+			React.createElement('input', { type: 'hidden', name: this.props.name, ref: 'hiddenValue'})
 		);
 	}
 }

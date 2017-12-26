@@ -36,7 +36,7 @@ class ComponentRadioBox extends React.Component{
             data:datas,
             className:this.props.className,
             value:this.props.value,
-            name:this.props.name,
+            name:this.props.inputName,
             onChange:this.onChange
         });
  
