@@ -179,8 +179,9 @@ public class MemberUserController {
 				if (newTime > start && newTime < end) {
 					String pwd = Encrypt.EncoderByMd5(password); // 密码加密
 					MemberUserVo user = new MemberUserVo();
-					user.setAccount("E"); // 帐号
-					user.setMemberName(mobile);; // 帐号
+					user.setAccount(mobile); // 帐号
+					user.setUserName(mobile);
+					user.setMemberName(mobile); // 帐号
 					user.setMobile(mobile); // 手机
 					user.setPassword(pwd); // 密码
 					user.setUserStatus(0); // 状态，初始为0

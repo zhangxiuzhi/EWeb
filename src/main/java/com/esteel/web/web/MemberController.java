@@ -67,7 +67,11 @@ public class MemberController {
 	public String headUpload(Model model) {
 		return "/member/headUpload";
 	}
-
+	/**
+	 * 跳转企业子账号管理页面
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("/subAccount")
 	public String subAccount(Model model) {
 		return "/member/subAccount";

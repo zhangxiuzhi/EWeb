@@ -21,8 +21,7 @@ import com.esteel.web.vo.MemberUserVo;
  * @author chenshouye
  *
  */
-// ,url = "http://127.0.0.1:9000"
-//@FeignClient(name = "User", url = "http://127.0.0.1:9930/", fallback = MemberUserClientCallback.class)
+//@FeignClient(name = "User", url = "http://127.0.0.1:9930/",fallback = MemberUserClientCallback.class)
 @FeignClient(name = "User",url = "http://10.0.1.234:9930",fallback = MemberUserClientCallback.class)
 public interface MemberClient {
 	/**
@@ -76,12 +75,23 @@ public interface MemberClient {
 	@RequestMapping(value = "/findCompanyById", method = RequestMethod.POST)
 	public MemberCompanyVo findCompany(@RequestParam("companyId") long companyId);
 	/**
-	 * 根据企业id获取企业信息
+	 * 根据企业id获取企业信息---分页
+	 * @param companyId
+	 * @return
+	 */
+	@RequestMapping(value = "/findMembersPage", method = RequestMethod.POST)
+	public List<MemberUserVo> findmember(
+			@RequestParam("companyId") int companyId,
+			@RequestParam("userId") long userId,
+			@RequestParam("page") int page,
+			@RequestParam("size") long size);
+	/**
+	 * 根据企业id获取子账号
 	 * @param companyId
 	 * @return
 	 */
 	@RequestMapping(value = "/findMembers", method = RequestMethod.POST)
-	public List<MemberUserVo> findmembers(int companyId);
+	public List<MemberUserVo> findmembers(@RequestParam("companyId") int companyId);
 	/**
 	 * 根据用户的id获取用户对象
 	 * @param userId
@@ -175,13 +185,6 @@ class MemberUserClientCallback implements MemberClient {
 	public MemberCompanyVo findCompany(long comanyId) {
 		return null;
 	}
-	/**
-	 * 调用失败
-	 */
-	@Override
-	public List<MemberUserVo> findmembers(int companyId) {
-		return null;
-	}
 	/*
 	 * 调用失败了返回空
 	 * @see com.esteel.web.service.MemberClient#findUser(long)
@@ -229,5 +232,22 @@ class MemberUserClientCallback implements MemberClient {
 		logger.warn("企业认证信息保存失败");
 		return 0;
 	}
+	/**
+	 * 子账号
+	 */
+	@Override
+	public List<MemberUserVo> findmembers(int companyId) {
+		logger.warn("获取企业下属子账号");
+		return null;
+	}
+	/**
+	 * 子账号分页
+	 */
+	@Override
+	public List<MemberUserVo> findmember(int companyId, long userId, int page, long size) {
+		logger.warn("获取企业下属子账号分页");
+		return null;
+	}
+	
 
 }

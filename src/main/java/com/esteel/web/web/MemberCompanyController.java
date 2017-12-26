@@ -3,13 +3,17 @@ package com.esteel.web.web;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -17,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.esteel.common.controller.WebReturnMessage;
@@ -37,13 +42,12 @@ import com.google.gson.Gson;
 public class MemberCompanyController {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+
 	@Autowired
 	MemberClient memberClient;
 
 	@Autowired
 	BaseClient baseClient;
-	
 
 	/**
 	 * 跳转企业logo编辑页面
@@ -137,12 +141,12 @@ public class MemberCompanyController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value="/attest",method=RequestMethod.POST)
+	@RequestMapping(value = "/attest", method = RequestMethod.POST)
 	@ResponseBody
 	public WebReturnMessage companyAttest(
 
 			String companyName, // 企业名称
-			String companyshort,//企业简称
+			String companyshort, // 企业简称
 			String provincesr, // 注册省份
 			String cityr, // 注册城市
 			String dictristor, // 注册区县
@@ -164,7 +168,7 @@ public class MemberCompanyController {
 			String regCode, // 营业执照注册号
 			String organizationCode, // 组织结构代码
 			String taxationCode, // 税务登记号
-			
+
 			String socialCode, // 社会信用代码
 
 			String licenseImg, // 营业执照
@@ -172,9 +176,9 @@ public class MemberCompanyController {
 			String taxationImg // 税务登记证
 
 	) {
-		
-		logger.info(this.getClass()+"企业认证入口,参数{}"+companyName+agentName);
-		//获取用户登录信息
+
+		logger.info(this.getClass() + "企业认证入口,参数{}" + companyName + agentName);
+		// 获取用户登录信息
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		MemberUserVo userVo = memberClient.findByAccount(authentication.getName());
 		Assert.notNull(userVo, "用户未登录");
@@ -189,7 +193,7 @@ public class MemberCompanyController {
 		company.setIsForeignTrade(0); // 是否有外贸资质
 		company.setValidTime(new Timestamp(new Date().getTime() + 10 * 365 * 24 * 60 * 60 * 1000)); // 有效时间10年
 		company.setRegisteredTime(new Timestamp(new Date().getTime())); // 注册时间
-		company.setRegisteredUserId((int)userVo.getUserId());// --
+		company.setRegisteredUserId((int) userVo.getUserId());// --
 		company.setRegisteredUser(userVo.getUserName()); // --
 		company.setApprovalStatus(0);// 审核状态
 		company.setCompanyStatus(0);// 企业状态
@@ -214,12 +218,12 @@ public class MemberCompanyController {
 		company.setComAtt(companyAtt);
 		// 保存企业信息，同时返回保存后的对象信息
 		int status = memberClient.saveCompanyInfo(company);
-		if(status==1) {
+		if (status == 1) {
 			List<Object> list = new ArrayList<>();
 			list.add(1);
-			return new WebReturnMessage(true,"",list);
-		}else {
-			return new WebReturnMessage(true,"数据保存失败");
+			return new WebReturnMessage(true, "", list);
+		} else {
+			return new WebReturnMessage(true, "数据保存失败");
 		}
 	}
 
@@ -262,11 +266,16 @@ public class MemberCompanyController {
 	 * @return
 	 */
 	@RequestMapping(value = "/findMembers", method = RequestMethod.GET)
-	public List<MemberUserVo> memebers(HttpSession session) {
-		// 根据登录用户获取到企业id查询企业信息
-		MemberUserVo user = (MemberUserVo) session.getAttribute("userVo");
-		Integer companyId = user.getCompanyId();
-		List<MemberUserVo> members = memberClient.findmembers(companyId);
+	@ResponseBody
+	public List<MemberUserVo> memebers(@RequestParam(defaultValue="0") int page,@RequestParam(defaultValue="10") int size) {
+		// 获取用户登录信息
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		MemberUserVo userVo = memberClient.findByAccount(authentication.getName());
+		// 获取企业id
+		Integer companyId = userVo.getCompanyId();
+		long userId = userVo.getUserId();
+		// 获取到企业子账号
+		List<MemberUserVo> members = memberClient.findmember(companyId, userId, page, size);
 		return members;
 	}
 
@@ -280,10 +289,12 @@ public class MemberCompanyController {
 	 */
 	@RequestMapping(value = "/addMember", method = RequestMethod.GET)
 	@ResponseBody
-	public WebReturnMessage addMember(String mobile, String username, HttpSession session) {
+	public WebReturnMessage addMember(String mobile) {
 		WebReturnMessage webRetMesage = null;
+		// 获取用户登录信息
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		MemberUserVo userVo = memberClient.findByAccount(authentication.getName());
 		// 获取企业id
-		MemberUserVo userVo = (MemberUserVo) session.getAttribute("userVo");
 		Integer companyId = userVo.getCompanyId();
 		// 创建保存信息
 		MemberUserVo user = new MemberUserVo();
