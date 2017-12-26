@@ -1046,6 +1046,37 @@ member
 member
 企业认证,证件照片
 ------------------------------------------*/
+.img-uploadPhoto .btn-file {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  margin-left: 0px;
+  z-index: 3;
+  height: 100%;
+  padding-top: 30%; }
+  .img-uploadPhoto .btn-file:hover {
+    text-decoration: none; }
+  .img-uploadPhoto .btn-file .text-new {
+    display: block; }
+  .img-uploadPhoto .btn-file .text-update {
+    display: none; }
+.img-uploadPhoto img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0; }
+.img-uploadPhoto.hasImage .btn-file {
+  background: rgba(0, 0, 0, 0.4);
+  color: #fff; }
+  .img-uploadPhoto.hasImage .btn-file:before {
+    content: "\f021"; }
+  .img-uploadPhoto.hasImage .btn-file .text-update {
+    display: block; }
+  .img-uploadPhoto.hasImage .btn-file .text-new {
+    display: none; }
+
 /*--------------------------------------
 member
 账号安全,

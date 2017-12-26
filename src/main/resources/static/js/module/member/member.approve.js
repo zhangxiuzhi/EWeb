@@ -188,8 +188,8 @@ function upload(elem) {
 		success: function (result) {
 			//返回文件id
 			if(result.data!=null){
-				//图片下载的地址 user/export/T1saYTByCT1R4cSCrK/.png/html
-				var url = "/user/export/"+result.data[0]+"/"+result.data[1]+"/html;"
+				//图片回写
+				reloadUploadImage(fileId,result);
 				//保存数据库的字符串
 				var saveStr = result.data[0]+result.data[1];
 				//赋值
@@ -199,6 +199,15 @@ function upload(elem) {
 			}
 		}
 	});
+}
+//图片回写
+function reloadUploadImage(fileId,result){
+	$("#"+fileId+"-text").parent(".img-uploadPhoto").addClass("hasImage");
+	$("#"+fileId+"-text").siblings("img").remove();
+	//图片下载的地址 user/export/T1saYTByCT1R4cSCrK/.png/html
+	var url = "/user/export/"+result.data[0]+"/"+result.data[1]+"/html;";
+	var $img = $("<img/>").attr("src",url);
+	$("#"+fileId+"-text").after($img);
 }
 // 表单验证
 function chenckForm() {
