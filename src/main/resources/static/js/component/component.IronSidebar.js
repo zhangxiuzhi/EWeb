@@ -15,7 +15,7 @@ class ComponentIronSidebar extends React.Component {
 				]},
 				{ name: "", text: "我的报盘",children:[
 					{ name: "addOffer", text: "发布报盘", url:"/offer/iron/add"},
-					{ name: "myOffer", text: "报盘记录", url:"/offer/myOffer"},
+					{ name: "myOffer", text: "报盘记录", url:"/offer/iron/myList"},
 				]},
 				{ name: "", text: "我的招标",children:[
 					{ name: "addBid", text: "发布招标", url:""},

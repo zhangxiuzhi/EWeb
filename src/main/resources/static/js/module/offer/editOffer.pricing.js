@@ -22,7 +22,7 @@ function JBSFrame_OfferEdit_Pricing() {
         var $TradeCustomer = $("#component-TradeCustomer");
         var TradeCustomer_data = {
             orgList:JSON.parse($("#companyWhitelistJson").html()),
-            curList:[]
+            curList:JSON.parse($("#counterpartyJson").html())
         }
         if($TradeCustomer.length>0){
             this.select_TradeCustomer = ReactDOM.render(React.createElement(ComponentEsteelMultiSelect,{

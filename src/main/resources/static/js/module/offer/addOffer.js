@@ -222,6 +222,19 @@ function JBSFrame_addOffer() {
             var $opt = $("<option></option>").text(measureMethod[i].text).val(measureMethod[i].value);
             $("#select-ironContract").append($opt);
         }
+        
+        //交易者类型
+        var traderType = JSON.parse($("#traderTypeJson").html());
+        for(var i=0;i<traderType.length;i++){
+            var $opt = $("<option></option>").text(traderType[i].text).val(traderType[i].value);
+            $("#select-trader_type").append($opt);
+            $("#transport_costs_bearer").append($opt);
+            $("#agency_fee_bearer").append($opt);
+            $("#port_construction_fee_bearer").append($opt);
+            $("#second_vessel_fee_bearer").append($opt);
+            $("#weighing_fee_bearer").append($opt);
+            $("#overdue_storage_fee_bearer").append($opt);
+        }
 
         this.renderDatetimepicker();
         this.renderNumberMask();

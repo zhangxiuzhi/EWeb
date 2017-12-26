@@ -6,7 +6,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,15 +19,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.esteel.common.controller.WebReturnMessage;
 import com.esteel.common.util.EsteelConstant;
+import com.esteel.common.util.JsonUtils;
 import com.esteel.web.service.BaseClient;
 import com.esteel.web.service.MemberClient;
 import com.esteel.web.service.OfferClient;
+import com.esteel.web.vo.MemberCompanyVo;
 import com.esteel.web.vo.base.CommodityCategoryEnum;
 import com.esteel.web.vo.base.CommodityVo;
 import com.esteel.web.vo.base.PortVo;
 import com.esteel.web.vo.config.AttributeValueOptionVo;
 import com.esteel.web.vo.config.IronAttributeLinkVo;
+import com.esteel.web.vo.offer.IronFuturesTransportVo;
+import com.esteel.web.vo.offer.IronOfferClauseVo;
 import com.esteel.web.vo.offer.IronOfferMainVo;
+import com.esteel.web.vo.offer.OfferIronAttachVo;
 import com.esteel.web.vo.offer.OfferIronAttachVo.IronFuturesOffer;
 import com.esteel.web.vo.offer.OfferIronAttachVo.IronInStockOffer;
 import com.esteel.web.vo.offer.OfferIronAttachVo.IronPricingOffer;
@@ -91,16 +95,52 @@ public class IronOfferUIController {
 
 		IronOfferMainVo offer = offerClient.getIronOffer(queryVo);
 		model.addAttribute("offer", offer);
+		
+		/**
+		 * 指定交易对手
+		 */
+		List<Long> counterpartyIdList = offer.getCounterpartyIdList();
+		List<Map<String, String>> counterpartyList = new ArrayList<Map<String, String>>();
+		if (counterpartyIdList != null && counterpartyIdList.size() > 0) {
+			offer.getCounterpartyIdList().forEach(counterpartyId -> {
+				MemberCompanyVo counterparty = memberClient.findCompany(counterpartyId);
+				
+				Map<String, String> counterpartyMap = new HashMap<>();
+				counterpartyList.add(counterpartyMap);
+				counterpartyMap.put("text", counterparty.getCompanyName());
+				counterpartyMap.put("value", counterparty.getCompanyId() + "");
+				counterpartyMap.put("key", counterparty.getCompanyName() + "," + counterparty.getCompanyNameEn());
+			});
+		}
+		
+		model.addAttribute("counterpartyJson", JSONArray.toJSONString(counterpartyList));
 
 		if (offer.getTradeMode() == EsteelConstant.TRADE_MODE_INSTOCK) {
 			loadData(true, false, false, model);
+			
+			OfferIronAttachVo offerAttach = offer.getOfferAttachList().get(0);
+			model.addAttribute("offerAttach", offerAttach);
+			
+			IronOfferClauseVo offerClause  = JsonUtils.toObject(offer.getClauseTemplateJson(), IronOfferClauseVo.class);
+			model.addAttribute("offerClause", offerClause);
 
 			return "/offer/edit/inStock";
 		} else if (offer.getTradeMode() == EsteelConstant.TRADE_MODE_PRICING) {
+			model.addAttribute("offerAttachList", offer.getOfferAttachList());
+			
+			IronFuturesTransportVo offerTransport  = JsonUtils.toObject(offer.getTradeDirection(), IronFuturesTransportVo.class);
+			model.addAttribute("offerTransport", offerTransport);
+			
 			loadData(false, true, false, model);
 
 			return "/offer/edit/pricing";
 		} else if (offer.getTradeMode() == EsteelConstant.TRADE_MODE_FUTURES) {
+			OfferIronAttachVo offerAttach = offer.getOfferAttachList().get(0);
+			model.addAttribute("offerAttach", offerAttach);
+			
+			IronOfferClauseVo offerClause  = JsonUtils.toObject(offer.getClauseTemplateJson(), IronOfferClauseVo.class);
+			model.addAttribute("offerClause", offerClause);
+			
 			loadData(false, false, true, model);
 
 			return "/offer/edit/futures";
@@ -325,6 +365,7 @@ public class IronOfferUIController {
     	});
     	// 页面数据传输
     	model.addAttribute("portJson", JSONArray.toJSONString(portList));
+    	model.addAttribute("portList", ports);
     	
     	if (isInStock || isFutures) {
     		/**
@@ -355,10 +396,8 @@ public class IronOfferUIController {
         		List<Map<String, String>> ironAttributes = new ArrayList<Map<String, String>>();
         		ironAttributeLinkMap.put(commodityVo.getCommodityName(), ironAttributes);
         		
-        		List  list = ironAttributeList.stream().filter(attribute -> attribute.getCommodityCode() != null && attribute.getCommodityCode().equals(commodityVo.getCommodityCode()))
-            			.collect(Collectors.toList());
         		ironAttributeList.stream().filter(attribute -> attribute.getCommodityCode() != null && attribute.getCommodityCode().equals(commodityVo.getCommodityCode()))
-        			.collect(Collectors.toList()).forEach(attribute ->{
+        			.forEach(attribute ->{
         			Map<String, String> ironAttributeMap = new HashMap<>();
         			ironAttributes.add(ironAttributeMap);
         			ironAttributeMap.put("text", attribute.getAttributeCode());
@@ -567,6 +606,7 @@ public class IronOfferUIController {
         	});
         	// 页面数据传输
         	model.addAttribute("measureMethodJson", JSONArray.toJSONString(measureMethodList));
+        	model.addAttribute("measureMethodList", measureMethods);
         	
         	/**
         	 * 计价方式列表
@@ -582,6 +622,7 @@ public class IronOfferUIController {
         	});
         	// 页面数据传输
         	model.addAttribute("pricingMethodJson", JSONArray.toJSONString(pricingMethodList));
+        	model.addAttribute("pricingMethodList", pricingMethods);
         	
         	/**
         	 * 交易者类型列表
@@ -597,6 +638,7 @@ public class IronOfferUIController {
         	});
         	// 页面数据传输
         	model.addAttribute("traderTypeJson", JSONArray.toJSONString(traderTypeList));
+        	model.addAttribute("traderTypeList", traderTypes);
     	}
     	/* 页面数据组装 结束 */
     	

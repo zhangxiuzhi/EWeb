@@ -2,9 +2,6 @@ package com.esteel.web.vo.offer;
 
 import java.io.Serializable;
 
-import org.apache.commons.lang3.math.NumberUtils;
-
-import com.esteel.common.util.EsteelConstant;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 /**
