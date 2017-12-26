@@ -3,17 +3,12 @@ package com.esteel.web.web;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -23,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.esteel.common.controller.WebReturnMessage;
 import com.esteel.web.service.BaseClient;
 import com.esteel.web.service.MemberClient;
@@ -236,7 +230,7 @@ public class MemberCompanyController {
 	 *            英文名
 	 * @return
 	 */
-	@RequestMapping(value = "/updtPwd", method = RequestMethod.GET)
+	@RequestMapping(value = "/updtPwd", method = RequestMethod.POST)
 	@ResponseBody
 	public WebReturnMessage trade(String license, String englishName, HttpSession session) {
 		WebReturnMessage webRetMesage = null;
@@ -265,9 +259,9 @@ public class MemberCompanyController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "/findMembers", method = RequestMethod.GET)
+	@RequestMapping(value = "/findMembers", method = RequestMethod.POST)
 	@ResponseBody
-	public List<MemberUserVo> memebers(@RequestParam(defaultValue="0") int page,@RequestParam(defaultValue="10") int size) {
+	public String memebers(@RequestParam(defaultValue="0") int page,@RequestParam(defaultValue="10") int size) {
 		// 获取用户登录信息
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		MemberUserVo userVo = memberClient.findByAccount(authentication.getName());
@@ -275,13 +269,7 @@ public class MemberCompanyController {
 		Integer companyId = userVo.getCompanyId();
 		long userId = userVo.getUserId();
 		// 获取到企业子账号
-		List<MemberUserVo> members = memberClient.findmember(companyId, userId, page, size);
-		for (MemberUserVo memberUserVo : members) {
-			
-		}
-		
-		
-		
+		String members = memberClient.findmember(companyId, userId, page, size);
 		return members;
 	}
 

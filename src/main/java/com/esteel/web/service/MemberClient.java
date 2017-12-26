@@ -5,6 +5,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,8 +23,8 @@ import com.esteel.web.vo.MemberUserVo;
  * @author chenshouye
  *
  */
-//@FeignClient(name = "User", url = "http://127.0.0.1:9930/",fallback = MemberUserClientCallback.class)
-@FeignClient(name = "User",url = "http://10.0.1.234:9930",fallback = MemberUserClientCallback.class)
+@FeignClient(name = "User", url = "http://127.0.0.1:9930/",fallback = MemberUserClientCallback.class)
+//@FeignClient(name = "User",url = "http://10.0.1.234:9930",fallback = MemberUserClientCallback.class)
 public interface MemberClient {
 	/**
 	 * 验证手机号
@@ -80,7 +82,7 @@ public interface MemberClient {
 	 * @return
 	 */
 	@RequestMapping(value = "/findMembersPage", method = RequestMethod.POST)
-	public List<MemberUserVo> findmember(
+	public String findmember(
 			@RequestParam("companyId") int companyId,
 			@RequestParam("userId") long userId,
 			@RequestParam("page") int page,
@@ -244,7 +246,7 @@ class MemberUserClientCallback implements MemberClient {
 	 * 子账号分页
 	 */
 	@Override
-	public List<MemberUserVo> findmember(int companyId, long userId, int page, long size) {
+	public String findmember(int companyId, long userId, int page, long size) {
 		logger.warn("获取企业下属子账号分页");
 		return null;
 	}

@@ -11,21 +11,15 @@ class SubAccountList extends React.Component{
 		this.thead = [
 			{ dataField: "indexId", dataName: "序号",width: 60 },
 			{ dataField: "account", dataName: "账号", width: 160, dataFormat: format_subAccount },
-			{ dataField: "name", dataName: "姓名", width: 160 },
-			{ dataField: "department", dataName: "部门",  },
-			{ dataField: "job", dataName: "职务",  },
+			{ dataField: "userName", dataName: "姓名", width: 160 },
+			{ dataField: "dept", dataName: "部门",  },
+			{ dataField: "positon", dataName: "职务",  },
 			{ dataField: "email", dataName: "邮箱",  },
 			{ dataField: "indexId", dataName: "操作", width: 120 , dataFormat: format_operation}
 		];
 		this.state = {
 			data:[
-				{indexId:"1",account:"100.00",name:"王震甲",department:"技术",job:"UI",email:""},
-				{indexId:"2",account:"100.00",name:"",department:"",job:"",email:""},
-				{indexId:"3",account:"100.00",name:"",department:"",job:"",email:""},
-				{indexId:"4",account:"100.00",name:"",department:"",job:"",email:""},
-				{indexId:"5",account:"100.00",name:"",department:"",job:"",email:""},
-				{indexId:"6",account:"100.00",name:"",department:"",job:"",email:""},
-				{indexId:"7",account:"100.00",name:"",department:"",job:"",email:""}
+				
 			]
 		}
 	}
@@ -34,7 +28,7 @@ class SubAccountList extends React.Component{
 	render() {
 		var datas = this.state.data;
 		var options = {
-			url:"",
+			url:"/company/findMembers?_csrf=b7aac0fa-df63-4570-bb02-901ac2f51c03",
 			thead: this.thead,
 			status: this.props.status,
 			page: 1,
@@ -55,18 +49,22 @@ function format_subAccount(cell,row){
 //格式化操作
 function format_operation(cell,row){
 	//if (row.status == 0) {
-		return "<a class='text-info' onclick=show_subAccountEditModal('"+JSON.stringify(row)+"')>编辑</a>";
+	var html = "<a class='text-info' onclick=show_subAccountEditModal('"+row.userId+"')>移除</a>";
+	html+= "<a class='text-info' onclick=show_subAccountEditModal('"+row.userId+"')>编辑</a>";
+	html+= "<a class='text-info' onclick=show_subAccountEditModal('"+row.userId+"')>编辑</a>";
+	return html;
 	//}
 
 }
 
 //显示子账号编辑窗口
-function show_subAccountEditModal(rowData){
-	var data = JSON.parse(rowData);
+function show_subAccountEditModal(id){
+	alert(id)
+	/*var data = JSON.parse(rowData);
 	$("#subaccoumt-edit-modal").modal("show");
 	//显示当前值
 	$("#subAccount-name").val(data.name);
 	$("#subAccount-department").val(data.department);
-	$("#subAccount-job").val(data.job);
+	$("#subAccount-job").val(data.job);*/
 }
 
