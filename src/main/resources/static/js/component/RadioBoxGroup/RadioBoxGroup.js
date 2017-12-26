@@ -6,7 +6,7 @@ class RadioBoxGroup extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.id = RadioBoxGroup.generateId();
+		this.id = RadioBox.generateId();
 
 		this.state = {
 			currentValue: props.value
@@ -17,6 +17,8 @@ class RadioBoxGroup extends React.Component {
 
 	//选择切换后
 	handleChange(event) {
+		//console.log(event.target)
+
 		this.setState({
 			currentValue: event.target.value
 		});
@@ -35,17 +37,17 @@ class RadioBoxGroup extends React.Component {
 		const groupId = "react-radioBox" + this.id;
 
 		return React.createElement(
-			"div",
+			'div',
 			{ className: classes },
-			data.map((radio, index) => React.createElement(RadioBox, {
-				data: radio, key: radio.id || index,
+			data.map((radio, index) => React.createElement(RadioBox, { data: radio, key: radio.id || index,
 				groupId: groupId,
-				name:name,
+				name: name,
 				onChange: this.handleChange,
-				isChecked: this.state.currentValue }))
+				isChecked: this.state.currentValue })),
+			React.createElement('input', { type: 'hidden', name: name, ref: 'hidden-value', value: this.state.currentValue })
 	);
 	}
 }
 
-RadioBoxGroup.idGenerator = 1;
-RadioBoxGroup.generateId = () => RadioBoxGroup.idGenerator++;
+RadioBox.idGenerator = 1;
+RadioBox.generateId = () => RadioBox.idGenerator++;

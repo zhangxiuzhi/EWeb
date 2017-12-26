@@ -20,10 +20,13 @@ class ComponentRadioBox extends React.Component{
                     {id: "tradeType-pricing", text: "点价", value: "pricing",name:"tradeType"}
             ]
         }
+        this.onChange = this.onChange.bind(this);
     }
  
     onChange(value,label){
- 
+        if(this.props.onChange){
+            this.props.onChange(value,label);
+        }
     }
  
     render(){
