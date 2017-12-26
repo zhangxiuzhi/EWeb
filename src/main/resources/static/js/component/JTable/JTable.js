@@ -223,18 +223,21 @@ class JTable extends React.Component {
 
 		//开始加载
 		this.setState({ finish: false });
+
+		var header = $("meta[name='_csrf_header']").attr("content");
+		var token = $("meta[name='_csrf']").attr("content");
 		//ajax
 		$.ajax({
 			url:  this.options.url,
 			data:_d,
 			method: "POST",
 			dataType: "JSON",
-			/*beforeSend: function (xhr) {
+			beforeSend: function (xhr) {
 				xhr.setRequestHeader(header, token);
-				if (searchData != null) {
+				/*if (searchData != null) {
 					this.data = this.data + "&" + searchData;
-				}
-			},*/
+				}*/
+			},
 			success: function (str, msg, response) {
 				if (response.statusText == "OK" || response.statusText == "success") {
 					var result = JSON.parse(response.responseText);
