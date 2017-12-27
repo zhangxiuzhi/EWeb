@@ -228,11 +228,31 @@ function JBSFrame_addOffer() {
         for(var i=0;i<traderType.length;i++){
             var $opt = $("<option></option>").text(traderType[i].text).val(traderType[i].value);
             $("#select-trader_type").append($opt);
+
+        }
+        for(var i=0;i<traderType.length;i++){
+            var $opt = $("<option></option>").text(traderType[i].text).val(traderType[i].value);
+            $("#select-trader_type").append($opt);
+        }
+
+        for(var i=0;i<traderType.length;i++){
+            var $opt = $("<option></option>").text(traderType[i].text).val(traderType[i].value);
             $("#transport_costs_bearer").append($opt);
-            $("#agency_fee_bearer").append($opt);
+        }
+        for(var i=0;i<traderType.length;i++){
+            var $opt = $("<option></option>").text(traderType[i].text).val(traderType[i].value);
             $("#port_construction_fee_bearer").append($opt);
+        }
+        for(var i=0;i<traderType.length;i++){
+            var $opt = $("<option></option>").text(traderType[i].text).val(traderType[i].value);
             $("#second_vessel_fee_bearer").append($opt);
+        }
+        for(var i=0;i<traderType.length;i++){
+            var $opt = $("<option></option>").text(traderType[i].text).val(traderType[i].value);
             $("#weighing_fee_bearer").append($opt);
+        }
+        for(var i=0;i<traderType.length;i++){
+            var $opt = $("<option></option>").text(traderType[i].text).val(traderType[i].value);
             $("#overdue_storage_fee_bearer").append($opt);
         }
 
