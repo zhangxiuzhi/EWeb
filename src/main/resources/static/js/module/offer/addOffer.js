@@ -232,7 +232,7 @@ function JBSFrame_addOffer() {
         }
         for(var i=0;i<traderType.length;i++){
             var $opt = $("<option></option>").text(traderType[i].text).val(traderType[i].value);
-            $("#select-trader_type").append($opt);
+            $("#agency_fee_bearer").append($opt);
         }
 
         for(var i=0;i<traderType.length;i++){
