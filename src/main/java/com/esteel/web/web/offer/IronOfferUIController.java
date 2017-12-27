@@ -94,6 +94,7 @@ public class IronOfferUIController {
 		queryVo.setOfferCode(offerCode);
 
 		IronOfferMainVo offer = offerClient.getIronOffer(queryVo);
+		model.addAttribute("offerJson", JsonUtils.toJsonString(offer));
 		model.addAttribute("offer", offer);
 		
 		/**
@@ -119,6 +120,7 @@ public class IronOfferUIController {
 			loadData(true, false, false, model);
 			
 			OfferIronAttachVo offerAttach = offer.getOfferAttachList().get(0);
+			model.addAttribute("offerAttachJson", JsonUtils.toJsonString(offerAttach));
 			model.addAttribute("offerAttach", offerAttach);
 			
 			IronOfferClauseVo offerClause  = JsonUtils.toObject(offer.getClauseTemplateJson(), IronOfferClauseVo.class);
@@ -126,6 +128,7 @@ public class IronOfferUIController {
 
 			return "/offer/edit/inStock";
 		} else if (offer.getTradeMode() == EsteelConstant.TRADE_MODE_PRICING) {
+			model.addAttribute("offerAttachListJson", JsonUtils.toJsonString(offer.getOfferAttachList()));
 			model.addAttribute("offerAttachList", offer.getOfferAttachList());
 			
 			IronFuturesTransportVo offerTransport  = JsonUtils.toObject(offer.getTradeDirection(), IronFuturesTransportVo.class);
@@ -136,6 +139,7 @@ public class IronOfferUIController {
 			return "/offer/edit/pricing";
 		} else if (offer.getTradeMode() == EsteelConstant.TRADE_MODE_FUTURES) {
 			OfferIronAttachVo offerAttach = offer.getOfferAttachList().get(0);
+			model.addAttribute("offerAttachJson", JsonUtils.toJsonString(offerAttach));
 			model.addAttribute("offerAttach", offerAttach);
 			
 			IronOfferClauseVo offerClause  = JsonUtils.toObject(offer.getClauseTemplateJson(), IronOfferClauseVo.class);

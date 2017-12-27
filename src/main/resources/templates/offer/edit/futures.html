@@ -363,11 +363,17 @@
  				
  				<div style="display:none">
             
+	                <!-- 报盘主表 -->
+	                <div id="offerJson" th:text="${offerJson}"></div>
+	                
+	                <!-- 报盘附表 -->
+	                <div id="offerAttachListJson" th:text="${offerAttachListJson}"></div>
+	                
+	                <!-- 指定交易对手列表Json:[{"text":"counterpartyName","value":"counterpartyId","key":"counterpartyAlias"},...] -->
+	                <div id="counterpartyJson" th:text="${counterpartyJson}"></div>
+            
 	                <!-- 公司白名单列表Json:[{"text":"counterpartyName","value":"counterpartyId","key":"counterpartyAlias"},...] -->
 	                <div id="companyWhitelistJson" th:text="${companyWhitelistJson}"></div>
-	                
-	                <!-- 公司白名单列表Json:[{"text":"counterpartyName","value":"counterpartyId","key":"counterpartyAlias"},...] -->
-	                <div id="counterpartyJson" th:text="${counterpartyJson}"></div>
 	 				
 	                <!-- 品名列表 格式:[{"text":"commodityName","value":"commodityId","key":"commodityAlias"},...] -->
 	                <div id="ironCommodityJson" th:text="${ironCommodityJson}"></div>

@@ -30,6 +30,9 @@ function JBSFrame_OfferEdit_INStock() {
                 data:TradeCustomer_data
             }), $TradeCustomer[0]);
         }
+        
+        var offer = JSON.parse($("#offerJson").html());
+        var offerAttach = JSON.parse($("#offerAttachJson").html());
 
         //品名下拉
         var $ItemName = $("#component-selectBox-ItemName");
@@ -37,7 +40,7 @@ function JBSFrame_OfferEdit_INStock() {
             this.selectBox_ItemName = ReactDOM.render(React.createElement(ComponentSelectBox,{
                 data:JSON.parse($("#ironCommodityJson").html()),
                 inputName:$ItemName.attr("inputName"),
-                inputValue:$ItemName.attr("inputValue"),
+                value: offerAttach.commodityId,
                 validetta:$ItemName.data("validetta"),
                 onChange:changeIronAttributeLink
             }), $ItemName[0]);
@@ -48,7 +51,7 @@ function JBSFrame_OfferEdit_INStock() {
             this.selectBox_Port = ReactDOM.render(React.createElement(ComponentSelectBox, {
                 data:JSON.parse($("#portJson").html()),
                 inputName: $Port.attr("inputName"),
-                inputValue:$Port.attr("inputValue"),
+                value: offerAttach.portId,
                 validetta:$Port.data("validetta")
             }), $Port[0]);
         }
@@ -57,7 +60,7 @@ function JBSFrame_OfferEdit_INStock() {
         if($kpiType.length>0) {
             this.radioBox_kpiType = ReactDOM.render(React.createElement(ComponentRadioBox, {
                 data: JSON.parse($("#indicatorTypeJson").html()),
-                value: "26",
+                value: offerAttach.indicatorTypeId,
                 className: "TagStyle offerKpi",
                 name:$kpiType.attr("inputName"),
                 onChange:changeIndicatorValue //指标类型选择，改变指标值
@@ -69,15 +72,19 @@ function JBSFrame_OfferEdit_INStock() {
         if($Split.length>0) {
             this.toggle_Split = ReactDOM.render(React.createElement(ComponentToggle, {
                 inputName: $Split.attr("inputName"),
+                value: offer.isSplit,
                 onChange:showQDL//显示起订量
             }), $Split[0]);
         }
         //匿名
         var $Anonym = $("#component-toggle-anonym");
         if($Anonym.length>0) {
-            this.toggle_anonym = ReactDOM.render(React.createElement(ComponentToggle, {inputName: $Anonym.attr("inputName")}), $Anonym[0]);
+            this.toggle_anonym = ReactDOM.render(React.createElement(ComponentToggle, {
+            	inputName: $Anonym.attr("inputName"),
+                value: offer.isAnonymous
+            }), $Anonym[0]);
         }
-
+/*
         //计价方式
         var pricingMethod = JSON.parse($("#pricingMethodJson").html());
         for(var i=0;i<pricingMethod.length;i++){
@@ -97,7 +104,7 @@ function JBSFrame_OfferEdit_INStock() {
         for(var i=0;i<measureMethod.length;i++){
             var $opt = $("<option></option>").text(measureMethod[i].text).val(measureMethod[i].value);
             $("#select-measure_method").append($opt);
-        }
+        }*/
 
         this.renderDatetimepicker();
         this.renderNumberMask();

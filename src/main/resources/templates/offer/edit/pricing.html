@@ -43,36 +43,36 @@
 					        <div class="form-group">
 					            <label class="col-sm-2 control-label">*品名</label>
 					            <div class="col-sm-4">
-					                <div id="component-selectBox-ItemName" inputName="commodityId" data-validetta="required"></div>
+					                <div id="component-selectBox-ItemName" inputName="commodityId" data-validetta="required" th:value="${offerAttach.commodityId}"></div>
 					            </div>
 					            <label class="col-sm-2 control-label">*港口</label>
 					            <div class="col-sm-4">
-					                <div id="component-selectBox-Port-Pricing" inputName="portId" data-validetta="required"></div>
+					                <div id="component-selectBox-Port-Pricing" inputName="portId" data-validetta="required" th:value="${offerAttach.portId}"></div>
 					            </div>
 					        </div>
 					
 					        <div class="form-group">
 					            <label class="col-sm-2 control-label">*数量</label>
 					            <div class="col-sm-4">
-					                <input type="text" class="form-control mask-number"  data-validetta="required" name="offerQuantity" maxlength="100"/>
+					                <input type="text" class="form-control mask-number"  data-validetta="required" name="offerQuantity" maxlength="100" th:value="${offerAttach.offerQuantity}"/>
 					            </div>
 					
 					            <label class="col-sm-2 control-label">*溢短装</label>
 					            <div class="col-sm-4">
-					                 <input type="text" class="form-control mask-number"  data-validetta="required" maxlength="4" name="moreOrLess"/>
+					                 <input type="text" class="form-control mask-number"  data-validetta="required" maxlength="4" name="moreOrLess" th:value="${offerAttach.moreOrLess}"/>
 					            </div>
 					        </div>
 					
 					        <div class="form-group">
 					            <label class="col-sm-2 control-label">*可否拆分</label>
 					            <div class="col-sm-4">
-					                <div id="component-toggle-split" inputName="isSplit" inputValue="0"></div>
+					                <div id="component-toggle-split" inputName="isSplit" inputValue="0" th:value="${offer.isSplit}"></div>
 					            </div>
 					
 					            <div id="offer-qdl-box" style="display: none;">
 					                <label class="col-sm-2 control-label">*起订量</label>
 					                <div class="col-sm-4">
-					                    <input type="text" class="form-control mask-number" id="minQuantity" name="minQuantity"/>
+					                    <input type="text" class="form-control mask-number" id="minQuantity" name="minQuantity" th:value="${offerAttach.minQuantity}"/>
 					                </div>
 					            </div>
 					        </div>
@@ -80,39 +80,39 @@
 					        <div class="form-group">
 					            <label class="col-sm-2 control-label">*合约</label>
 					            <div class="col-sm-4">
-					                <select class="form-control" id="select-ironContract" name="ironContract" data-validetta="required"></select>
+					                <select class="form-control" id="select-ironContract" name="ironContract" data-validetta="required" th:value="${offerAttach.ironContract}"></select>
 					            </div>
 					
 					            <label class="col-sm-2 control-label">*基差</label>
 					            <div class="col-sm-4">
-					                <input type="text" class="form-control mask-number" name="baseDifference" data-validetta="required" maxlength="6">
+					                <input type="text" class="form-control mask-number" name="baseDifference" data-validetta="required" maxlength="6" th:value="${offerAttach.baseDifference}">
 					            </div>
 					        </div>
 					
 					        <div class="form-group">
 					            <label class="col-sm-2 control-label">*点价期</label>
 					            <div class="col-sm-3">
-					                <input type="text" class="form-control datetimepicker notime" name="pricingPeriodStart" data-validetta="required">
+					                <input type="text" class="form-control datetimepicker notime" name="pricingPeriodStart" data-validetta="required" th:value="${#dates.format(offerAttach.pricingPeriodStart, 'yyyy-MM-dd HH:mm:ss')}">
 					            </div>
 					            <div class="col-sm-3">
-					                <input type="text" class="form-control datetimepicker notime" name="pricingPeriodEnd" data-validetta="required">
+					                <input type="text" class="form-control datetimepicker notime" name="pricingPeriodEnd" data-validetta="required" th:value="${#dates.format(offerAttach.pricingPeriodEnd, 'yyyy-MM-dd HH:mm:ss')}"/>
 					            </div>
 					        </div>
 					
 					        <div class="form-group">
 					            <label class="col-sm-2 control-label">*交货期</label>
 					            <div class="col-sm-3">
-					                <input type="text" class="form-control datetimepicker notime" name="deliveryPeriodStart" data-validetta="required">
+					                <input type="text" class="form-control datetimepicker notime" name="deliveryPeriodStart" data-validetta="required" th:value="${#dates.format(offerAttach.deliveryPeriodStart, 'yyyy-MM-dd HH:mm:ss')}"/>
 					            </div>
 					            <div class="col-sm-3">
-					                <input type="text" class="form-control datetimepicker notime" name="deliveryPeriodEnd" data-validetta="required">
+					                <input type="text" class="form-control datetimepicker notime" name="deliveryPeriodEnd" data-validetta="required" th:value="${#dates.format(offerAttach.deliveryPeriodEnd, 'yyyy-MM-dd HH:mm:ss')}"/>
 					            </div>
 					        </div>
 					
 					        <div class="form-group">
 					            <label class="col-sm-2 control-label">*报盘有效期</label>
 					            <div class="col-sm-4">
-					                <input type="text" class="form-control datetimepicker" name="validTime" data-validetta="required"/>
+					                <input type="text" class="form-control datetimepicker" name="validTime" data-validetta="required" th:value="${#dates.format(offer.validTime, 'yyyy-MM-dd HH:mm:ss')}"/>
 					            </div>
 					        </div>
 					
@@ -278,11 +278,17 @@
  				
  				<div style="display:none">
             
+	                <!-- 报盘主表 -->
+	                <div id="offerJson" th:text="${offerJson}"></div>
+	                
+	                <!-- 报盘附表 -->
+	                <div id="offerAttachJson" th:text="${offerAttachJson}"></div>
+	                
+	                <!-- 指定交易对手列表Json:[{"text":"counterpartyName","value":"counterpartyId","key":"counterpartyAlias"},...] -->
+	                <div id="counterpartyJson" th:text="${counterpartyJson}"></div>
+            
 	                <!-- 公司白名单列表Json:[{"text":"counterpartyName","value":"counterpartyId","key":"counterpartyAlias"},...] -->
 	                <div id="companyWhitelistJson" th:text="${companyWhitelistJson}"></div>
-	                
-	                <!-- 公司白名单列表Json:[{"text":"counterpartyName","value":"counterpartyId","key":"counterpartyAlias"},...] -->
-	                <div id="counterpartyJson" th:text="${counterpartyJson}"></div>
 	 				
 	                <!-- 品名列表 格式:[{"text":"commodityName","value":"commodityId","key":"commodityAlias"},...] -->
 	                <div id="ironCommodityJson" th:text="${ironCommodityJson}"></div>
