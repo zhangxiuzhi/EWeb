@@ -43,28 +43,29 @@
 					        <div class="form-group">
 					            <label class="col-sm-2 control-label">一船两货</label>
 					            <div class="col-sm-4">
-					                <div id="component-radioBoxGroup-1ship2goods" inputName="isMultiCargo" inputValue="0"></div>
+					                <div id="component-radioBoxGroup-1ship2goods" inputName="isMultiCargo" th:value="${offer.isMultiCargo}"></div>
 					            </div>
 					            <label class="col-sm-2 control-label">是否拆分</label>
 					            <div class="col-sm-4">
-					                <div id="component-toggle-split" inputName="isSplit" inputValue="0"></div>
+					                <div id="component-toggle-split" inputName="isSplit"  th:value="${offer.isSplit}"></div>
 					            </div>
 					        </div>
 					
 					        <!--商品1-->
-					        <div class="box-container">
-					            <div class="box-container-title">商品1 <span class="fa fa-caret-down text-danger" ></span></div>
+					        <div class="box-container" th:each="attachTmp,iterStat : ${offerAttachList}">
+					        <div th:if="${iterStat.index > 0 and offer.isMultiCargo == '1'}">
+					            <div class="box-container-title"><span th:text="'商品'+(${iterStat.index}+1)"></span> <span class="fa fa-caret-down text-danger" ></span></div>
 					            <div class="form-group">
 					                <label class="col-sm-2 control-label">*品名</label>
 					                <div class="col-sm-4">
-					                    <div id="component-selectBox-ItemName-1" inputName="commodityIdArr" data-validetta="required"></div>
+					                    <div th:id="'component-selectBox-ItemName-'+(${iterStat.index}+1)" inputName="commodityIdArr" data-validetta="required"></div>
 					                </div>
 					            </div>
 					            
 					            <div class="form-group">
 						            <label class="col-sm-2 control-label">指标类型</label>
 						            <div class="col-sm-8">
-						                <div id="component-radioBoxGroup-kpiType-1" inputName="indicatorTypeIdArr"></div>
+						                <div th:id="'component-radioBoxGroup-kpiType-'+(${iterStat.index}+1)" inputName="indicatorTypeIdArr"></div>
 						            </div>
 						        </div>
 					
@@ -76,19 +77,19 @@
 					                            <th>Fe</th><th>SiO2</th><th>A12O3</th><th>Mn</th><th>LOI</th>
 					                        </tr>
 					                        <tr>
-					                            <td><input type="text" class="form-control" name="feArr" id="indicator-FE-1" data-validetta="required"/></td>
-					                            <td><input type="text" class="form-control" name="sio2Arr" id="indicator-SIO2-1"/></td>
-					                            <td><input type="text" class="form-control" name="al2o3Arr" id="indicator-AL2O3-1"/></td>
-					                            <td><input type="text" class="form-control" name="mnArr" id="indicator-MN-1"/></td>
-					                            <td><input type="text" class="form-control" name="LOIArr" id="indicator-LOI-1"/></td>
+					                            <td><input type="text" class="form-control" name="feArr" th:id="'indicator-FE-'+(${iterStat.index}+1)" data-validetta="required" th:value="${attachTmp.fe}"/></td>
+					                            <td><input type="text" class="form-control" name="sio2Arr" th:id="'indicator-SIO2-'+(${iterStat.index}+1)" th:value="${attachTmp.sio2}"/></td>
+					                            <td><input type="text" class="form-control" name="al2o3Arr" th:id="'indicator-AL2O3-'+(${iterStat.index}+1)" th:value="${attachTmp.al2o3}"/></td>
+					                            <td><input type="text" class="form-control" name="mnArr" th:id="'indicator-MN-'+(${iterStat.index}+1)" th:value="${attachTmp.mn}"/></td>
+					                            <td><input type="text" class="form-control" name="LOIArr" th:id="'indicator-LOI-'+(${iterStat.index}+1)" th:value="${attachTmp.LOI}"/></td>
 					                        </tr>
 					                        <tr>
 					                            <th>P</th><th>S</th><th>H20</th><th>&nbsp;</th><th>&nbsp;</th>
 					                        </tr>
 					                        <tr>
-					                            <td><input type="text" class="form-control" name="pArr" id="indicator-P-1"/></td>
-					                            <td><input type="text" class="form-control" name="sArr" id="indicator-S-1"/></td>
-					                            <td><input type="text" class="form-control" name="h2oArr" id="indicator-H2O-1"/></td>
+					                            <td><input type="text" class="form-control" name="pArr" th:id="'indicator-P-'+(${iterStat.index}+1)" th:value="${attachTmp.p}"/></td>
+					                            <td><input type="text" class="form-control" name="sArr" th:id="'indicator-S-'+(${iterStat.index}+1)" th:value="${attachTmp.s}"/></td>
+					                            <td><input type="text" class="form-control" name="h2oArr" th:id="'indicator-H2O-'+(${iterStat.index}+1)" th:value="${attachTmp.h2o}"/></td>
 					                            <td>&nbsp;</td>
 					                            <td>&nbsp;</td>
 					                        </tr>
@@ -99,86 +100,22 @@
 					            <div class="form-group">
 					                <label class="col-sm-2 control-label">粒度</label>
 					                <div class="col-sm-4">
-					                    <input type="text" class="form-control" name="sizeIndicatorsArr"/>
+					                    <input type="text" class="form-control" name="sizeIndicatorsArr" th:value="${attachTmp.sizeIndicators}"/>
 					                </div>
 					            </div>
 					
 					            <div class="form-group">
 					                <label class="col-sm-2 control-label">*数量</label>
 					                <div class="col-sm-4">
-					                    <input type="text" class="form-control" data-validetta="required" name="offerQuantityArr"/>
+					                    <input type="text" class="form-control" data-validetta="required" name="offerQuantityArr" th:value="${attachTmp.offerQuantity}"/>
 					                </div>
 					
 					                <label class="col-sm-2 control-label">*溢短装</label>
 					                <div class="col-sm-4">
-					                    <input type="text" class="form-control" data-validetta="required" name="moreOrLessArr"/>
+					                    <input type="text" class="form-control" data-validetta="required" name="moreOrLessArr" th:value="${attachTmp.moreOrLess}"/>
 					                </div>
 					            </div>
-					
-					        </div>
-					        <!--商品2-->
-					        <div class="box-container" id="offer-goods-2" style="display: none;">
-					            <div class="box-container-title">商品2 <span class="fa fa-caret-down text-danger"></span></div>
-					            <div class="form-group">
-					                <label class="col-sm-2 control-label">*品名</label>
-					                <div class="col-sm-4">
-					                    <div id="component-selectBox-ItemName-2" inputName="commodityIdArr" data-validetta="required"></div>
-					                </div>
-					            </div>
-					            
-					             <div class="form-group">
-						            <label class="col-sm-2 control-label">指标类型</label>
-						            <div class="col-sm-8">
-						                <div id="component-radioBoxGroup-kpiType-2" inputName="indicatorTypeIdArr"></div>
-						            </div>
-						        </div>
-					
-					            <div class="form-group">
-					                <label class="col-sm-2 control-label">指标</label>
-					                <div class="col-sm-8">
-					                    <table class="offer-kip-table">
-					                        <tr>
-					                            <th>Fe</th><th>SiO2</th><th>A12O3</th><th>Mn</th><th>LOI</th>
-					                        </tr>
-					                        <tr>
-					                            <td><input type="text" class="form-control" name="feArr" id="indicator-FE-2" data-validetta="required"/></td>
-					                            <td><input type="text" class="form-control" name="sio2Arr" id="indicator-SIO2-2"/></td>
-					                            <td><input type="text" class="form-control" name="al2o3Arr" id="indicator-AL2O3-2"/></td>
-					                            <td><input type="text" class="form-control" name="mnArr" id="indicator-MN-2"/></td>
-					                            <td><input type="text" class="form-control" name="LOIArr" id="indicator-LOI-2"/></td>
-					                        </tr>
-					                        <tr>
-					                            <th>P</th><th>S</th><th>H20</th><th>&nbsp;</th><th>&nbsp;</th>
-					                        </tr>
-					                        <tr>
-					                            <td><input type="text" class="form-control" name="pArr" id="indicator-P-2"/></td>
-					                            <td><input type="text" class="form-control" name="sArr" id="indicator-S-2"/></td>
-					                            <td><input type="text" class="form-control" name="h2oArr" id="indicator-H2O-2"/></td>
-					                            <td>&nbsp;</td>
-					                            <td>&nbsp;</td>
-					                        </tr>
-					                    </table>
-					                </div>
-					            </div>
-					
-					            <div class="form-group">
-					                <label class="col-sm-2 control-label">粒度</label>
-					                <div class="col-sm-4">
-					                    <input type="text" class="form-control" name="sizeIndicatorsArr"/>
-					                </div>
-					            </div>
-					
-					            <div class="form-group">
-					                <label class="col-sm-2 control-label">*数量</label>
-					                <div class="col-sm-4">
-					                    <input type="text" class="form-control" data-validetta="required" name="offerQuantityArr"/>
-					                </div>
-					
-					                <label class="col-sm-2 control-label">*溢短装</label>
-					                <div class="col-sm-4">
-					                    <input type="text" class="form-control" data-validetta="required" name="moreOrLessArr"/>
-					                </div>
-					            </div>
+							</div>
 					        </div>
 					
 					        <div class="form-group">
@@ -188,27 +125,17 @@
 					                </select>
 					            </div>
 					            <div class="col-sm-8" id="offer-floatPrice-box">
-					                <textarea class="form-control" id="offer-floatPrice-desc" placeholder="请输入价格描述" name="priceDescription"></textarea>
+					                <textarea class="form-control" id="offer-floatPrice-desc" placeholder="请输入价格描述" name="priceDescription" th:value="${offerAttach.priceDescription}"></textarea>
 					            </div>
 					            <div class="col-sm-8" id="offer-fixedPrice-box" style="display: none;">
-					                <div class="form-group" id="offer-fixedPrice-goods-1">
-					                    <label class="col-sm-2 control-label">商品1</label>
+					                <div class="form-group" th:each="attachTmp,iterStat : ${offerAttachList}" th:id="'offer-fixedPrice-goods-'+(${iterStat.index}+1)">
+					                    <label class="col-sm-2 control-label"><span th:text="'商品'+(${iterStat.index}+1)"></span></label>
 					                    <div class="col-sm-5">
-					                        <input type="text" class="form-control mask-number width130 inline-block margin-right-10" id="offer-fixPrice-value" name="priceValueArr"/>美元/干吨
+					                        <input type="text" class="form-control mask-number width130 inline-block margin-right-10" id="offer-fixPrice-value" name="priceValueArr" th:value="${attachTmp.priceValue}"/>美元/干吨
 					                    </div>
 					                    <label class="col-sm-2 control-label">基于Fe%：</label>
 					                    <div class="col-sm-3">
-					                       <input type="text" class="form-control mask-number" id="offer-fixPrice-value" name="priceBasisFeArr"/>
-					                    </div>
-					                </div>
-					                <div class="form-group" id="offer-fixedPrice-goods-2" style="display: none;">
-					                    <label class="col-sm-2 control-label">商品2</label>
-					                    <div class="col-sm-5">
-					                        <input type="text" class="form-control mask-number width130 inline-block margin-right-10" id="offer-fixPrice-value" name="priceValueArr"/>美元/干吨
-					                    </div>
-					                    <label class="col-sm-2 control-label">基于Fe%：</label>
-					                    <div class="col-sm-3">
-					                        <input type="text" class="form-control mask-number" id="offer-fixPrice-value" name="priceBasisFeArr"/>
+					                       <input type="text" class="form-control mask-number" id="offer-fixPrice-value" name="priceBasisFeArr" th:value="${attachTmp.priceBasisFe}"/>
 					                    </div>
 					                </div>
 					            </div>
@@ -219,6 +146,8 @@
 					            <div class="col-sm-3">
 					                <select class="form-control" data-validetta="required" id="select-loadingPort" name="loadingPortId">
 					                	<option value=""></option>
+					                	<option th:each="loadingPort : ${loadingPortList}" th:value="${loadingPort.portId}" th:text="${loadingPort.portName}" 
+					                    th:selected="${loadingPort.portId} == ${offerAttach.loadingPortId}"></option>
 					                </select>
 					            </div>
 					        </div>
@@ -226,11 +155,13 @@
 					        <div class="form-group">
 					            <label class="col-sm-2 control-label">*保税区</label>
 					            <div class="col-sm-8">
-					                <div id="component-radioBoxGroup-bondedAreas" inputName="isBondedArea" inputValue="0"></div>
+					                <div id="component-radioBoxGroup-bondedAreas" inputName="isBondedArea"></div>
 					            </div>
 					            <div class="col-sm-3" id="offer-bondedAreasPort-box">
 					                <select class="form-control" id="select-bondedAreasPort" name="bondedAreaPortId">
 					                	<option value=""></option>
+					                	<option th:each="bondedAreaPort : ${bondedAreaPortList}" th:value="${bondedAreaPort.portId}" th:text="${bondedAreaPort.portName}" 
+					                    th:selected="${bondedAreaPort.portId} == ${offerAttach.portId}"></option>
 					                </select>
 					            </div>
 					        </div>
@@ -240,17 +171,23 @@
 					            <div class="col-sm-2">
 					                <select class="form-control" data-validetta="required" id="select-priceTerm" name="priceTerm">
 					                	<option value=""></option>
+					                	<option th:each="priceTermTmp : ${priceTermList}" th:value="${priceTermTmp.optionId}" th:text="${priceTermTmp.optionValue}" 
+					                    th:selected="${priceTermTmp.optionId} == ${offerAttach.priceTerm}"></option>
 					                </select>
 					            </div>
 					            <div class="col-sm-3">
 					                <select class="form-control" data-validetta="required" id="select-priceTermPort" name="priceTermPortId">
 					                	<option value=""></option>
+					                	<option th:each="bondedAreaPort : ${bondedAreaPortList}" th:value="${bondedAreaPort.portId}" th:text="${bondedAreaPort.portName}" 
+					                    th:selected="${bondedAreaPort.portId} == ${offerAttach.priceTermPortId}"></option>
 					                </select>
 					            </div>
 					            <label class="col-sm-2 control-label">目的港</label>
 					            <div class="col-sm-3">
 					                <select class="form-control" id="select-dischargePort" name="dischargePortId">
 					                	<option value=""></option>
+					                	<option th:each="dischargePort : ${portList}" th:value="${dischargePort.portId}" th:text="${dischargePort.portName}" 
+					                    th:selected="${dischargePort.portId} == ${offerAttach.dischargePortId}"></option>
 					                </select>
 					            </div>
 					        </div>
@@ -258,12 +195,12 @@
 					        <div class="form-group">
 					            <label class="col-sm-2 control-label">*报盘有效期</label>
 					            <div class="col-sm-4">
-					                <input type="text" class="form-control datetimepicker" name="validTime" data-validetta="required"/>
+					                <input type="text" class="form-control datetimepicker" name="validTime" data-validetta="required" th:value="${#dates.format(offer.validTime, 'yyyy-MM-dd HH:mm:ss')}"/>
 					            </div>
 					
 					            <label class="col-sm-2 control-label">*信用证交单期</label>
 					            <div class="col-sm-4">
-					                <input type="text" class="form-control mask-number" name="lcPresentationPeriod" data-validetta="required"/>
+					                <input type="text" class="form-control mask-number" name="lcPresentationPeriod" data-validetta="required" th:value="${offerAttach.lcPresentationPeriod}"/>
 					            </div>
 					        </div>
 					
@@ -277,41 +214,41 @@
 					            <div class="form-group">
 					                <label class="col-sm-2 control-label">装船期</label>
 					                <div class="col-sm-2">
-					                    <input type="text" class="form-control datetimepicker notime" name="transport_load_start" >
+					                    <input type="text" class="form-control datetimepicker notime" name="transport_load_start" th:value="${offerTransport.transport_load_start}"/>
 					                </div>
 					                <div class="col-sm-2">
-					                    <input type="text" class="form-control datetimepicker notime" name="transport_load_end">
+					                    <input type="text" class="form-control datetimepicker notime" name="transport_load_end" th:value="${offerTransport.transport_load_end}"/>
 					                </div>
 					
 					                <label class="col-sm-2 control-label">提单日</label>
 					                <div class="col-sm-3">
-					                    <input type="text" class="form-control datetimepicker notime" name="transport_bill">
+					                    <input type="text" class="form-control datetimepicker notime" name="transport_bill" th:value="${offerTransport.transport_bill}"/>
 					                </div>
 					            </div>
 					
 					            <div class="form-group">
 					                <label class="col-sm-2 control-label">ETA新加坡</label>
 					                <div class="col-sm-4">
-					                    <input type="text" class="form-control datetimepicker notime" name="transport_etaxjb">
+					                    <input type="text" class="form-control datetimepicker notime" name="transport_etaxjb" th:value="${offerTransport.transport_etaxjb}"/>
 					                </div>
 					
 					                <label class="col-sm-2 control-label">ETA青岛港</label>
 					                <div class="col-sm-4">
-					                    <input type="text" class="form-control datetimepicker notime" name="transport_etaqdg">
+					                    <input type="text" class="form-control datetimepicker notime" name="transport_etaqdg" th:value="${offerTransport.transport_etaqdg}"/>
 					                </div>
 					            </div>
 					
 					            <div class="form-group">
 					                <label class="col-sm-2 control-label">到港月</label>
 					                <div class="col-sm-4">
-					                    <input type="text" class="form-control datetimepicker notime noday" name="transport_arrive_month"/>/
-					                     <input type="radio" value="0" name="transport_half_month"/>上半月
-					                    <input type="radio" value="1" name="transport_half_month"/>下半月
+					                    <input type="text" class="form-control datetimepicker notime noday" name="transport_arrive_month" th:value="${offerTransport.transport_arrive_month}"/>
+					                     <input type="radio" value="0" name="transport_half_month" th:check="${'0' == offerTransport.transport_half_month}"/>上半月
+					                    <input type="radio" value="1" name="transport_half_month" th:check="${'1' == offerTransport.transport_half_month}"/>下半月
 					                </div>
 					
 					                <label class="col-sm-2 control-label">其他</label>
 					                <div class="col-sm-4">
-					                    <input type="text" class="form-control" name="transport_remark"/>
+					                    <input type="text" class="form-control" name="transport_remark" th:value="${offerTransport.transport_remark}"/>
 					                </div>
 					            </div>
 					        </div>
@@ -321,7 +258,7 @@
 					        <div class="form-group">
 					            <label class="col-sm-2 control-label">商品备注</label>
 					            <div class="col-sm-10">
-					                <textarea class="form-control" maxlength="128" name="offerAttachRemarks"></textarea>
+					                <textarea class="form-control" maxlength="128" name="offerAttachRemarks" th:value="${offerAttach.offerAttachRemarks}"></textarea>
 					            </div>
 					        </div>
 					 
@@ -344,7 +281,7 @@
 					        <div class="form-group">
 					            <label class="col-sm-2 control-label">匿名发布</label>
 					            <div class="col-sm-10">
-					                <div id="component-toggle-anonym" inputName="isAnonymous" inputValue="1"></div>
+					                <div id="component-toggle-anonym" inputName="isAnonymous" th:value="${offer.isAnonymous}"></div>
 					            </div>
 					        </div>
 					
@@ -356,6 +293,7 @@
 					
 					    </div>
 					
+						<input type="hidden" value="inStock" name="offerId" th:value="${offer.offerId}"/>
 						<input type="hidden" value="futures" id="tradeMode"/>
 						<input type="hidden" name="offerStatus" value="draft" id="offerStatus"/>
 					</form>

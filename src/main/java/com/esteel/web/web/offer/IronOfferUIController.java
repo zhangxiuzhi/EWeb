@@ -94,6 +94,8 @@ public class IronOfferUIController {
 		queryVo.setOfferCode(offerCode);
 
 		IronOfferMainVo offer = offerClient.getIronOffer(queryVo);
+		Assert.notNull(offer, "点击失败！");
+		
 		model.addAttribute("offerJson", JsonUtils.toJsonString(offer));
 		model.addAttribute("offer", offer);
 		
@@ -117,41 +119,168 @@ public class IronOfferUIController {
 		model.addAttribute("counterpartyJson", JSONArray.toJSONString(counterpartyList));
 
 		if (offer.getTradeMode() == EsteelConstant.TRADE_MODE_INSTOCK) {
-			loadData(true, false, false, model);
-			
-			OfferIronAttachVo offerAttach = offer.getOfferAttachList().get(0);
+			OfferIronAttachVo offerAttach = new OfferIronAttachVo();
+			if (offer.getOfferAttachList() != null && offer.getOfferAttachList().size() > 0) {
+				offerAttach = offer.getOfferAttachList().get(0);
+			}
 			model.addAttribute("offerAttachJson", JsonUtils.toJsonString(offerAttach));
 			model.addAttribute("offerAttach", offerAttach);
 			
-			IronOfferClauseVo offerClause  = JsonUtils.toObject(offer.getClauseTemplateJson(), IronOfferClauseVo.class);
+			IronOfferClauseVo offerClause  = new IronOfferClauseVo();
+			if (offer.getClauseTemplateJson() != null && !offer.getClauseTemplateJson().trim().equals("")) {
+				offerClause = JsonUtils.toObject(offer.getClauseTemplateJson(), IronOfferClauseVo.class);
+			}
 			model.addAttribute("offerClause", offerClause);
+			
+			loadData(true, false, false, model);
 
 			return "/offer/edit/inStock";
-		} else if (offer.getTradeMode() == EsteelConstant.TRADE_MODE_PRICING) {
+		} else if (offer.getTradeMode() == EsteelConstant.TRADE_MODE_FUTURES) {
+			OfferIronAttachVo offerAttach = new OfferIronAttachVo();
+			List<OfferIronAttachVo> offerAttachList = new ArrayList<>();
+			if (offer.getOfferAttachList() != null && offer.getOfferAttachList().size() > 0) {
+				offerAttach = offer.getOfferAttachList().get(0);
+				offerAttachList = offer.getOfferAttachList();
+			} else {
+				offerAttachList.add(new OfferIronAttachVo());
+				offerAttachList.add(new OfferIronAttachVo());
+			}
+			model.addAttribute("offerAttach", offerAttach);
+			
+			if (offer.getOfferAttachList().size() == 1) {
+				offerAttachList.add(new OfferIronAttachVo());
+			}
 			model.addAttribute("offerAttachListJson", JsonUtils.toJsonString(offer.getOfferAttachList()));
 			model.addAttribute("offerAttachList", offer.getOfferAttachList());
 			
-			IronFuturesTransportVo offerTransport  = JsonUtils.toObject(offer.getTradeDirection(), IronFuturesTransportVo.class);
+			IronFuturesTransportVo offerTransport  = new IronFuturesTransportVo();
+			if (offerAttach.getTransportDescription() != null && !offerAttach.getTransportDescription().trim().equals("")) {
+				offerTransport = JsonUtils.toObject(offerAttach.getTransportDescription(), IronFuturesTransportVo.class);
+			}
 			model.addAttribute("offerTransport", offerTransport);
-			
-			loadData(false, true, false, model);
-
-			return "/offer/edit/pricing";
-		} else if (offer.getTradeMode() == EsteelConstant.TRADE_MODE_FUTURES) {
-			OfferIronAttachVo offerAttach = offer.getOfferAttachList().get(0);
-			model.addAttribute("offerAttachJson", JsonUtils.toJsonString(offerAttach));
-			model.addAttribute("offerAttach", offerAttach);
-			
-			IronOfferClauseVo offerClause  = JsonUtils.toObject(offer.getClauseTemplateJson(), IronOfferClauseVo.class);
-			model.addAttribute("offerClause", offerClause);
 			
 			loadData(false, false, true, model);
 
 			return "/offer/edit/futures";
+		} else if (offer.getTradeMode() == EsteelConstant.TRADE_MODE_PRICING) {
+			OfferIronAttachVo offerAttach = new OfferIronAttachVo();
+			if (offer.getOfferAttachList() != null && offer.getOfferAttachList().size() > 0) {
+				offerAttach = offer.getOfferAttachList().get(0);
+			}
+			model.addAttribute("offerAttachJson", JsonUtils.toJsonString(offerAttach));
+			model.addAttribute("offerAttach", offerAttach);
+			
+			IronOfferClauseVo offerClause  = new IronOfferClauseVo();
+			if (offer.getClauseTemplateJson() != null && !offer.getClauseTemplateJson().trim().equals("")) {
+				offerClause = JsonUtils.toObject(offer.getClauseTemplateJson(), IronOfferClauseVo.class);
+			}
+			model.addAttribute("offerClause", offerClause);
+			
+			loadData(false, true, false, model);
+			
+			return "/offer/edit/pricing";
 		}
 
 		return "/offer/edit/inStock";
 	}
+	
+    @RequestMapping(value = "/detailBySelf/{offerCode}", method = RequestMethod.GET)
+    public String detailBySelf(@PathVariable("offerCode") String offerCode, Model model){
+    	Assert.notNull(offerCode, "点击失败！");
+
+		IronOfferQueryVo queryVo = new IronOfferQueryVo();
+		queryVo.setOfferCode(offerCode);
+
+		IronOfferMainVo offer = offerClient.getIronOffer(queryVo);
+		Assert.notNull(offer, "点击失败！");
+		
+		model.addAttribute("offerJson", JsonUtils.toJsonString(offer));
+		model.addAttribute("offer", offer);
+		
+		/**
+		 * 指定交易对手
+		 */
+		List<Long> counterpartyIdList = offer.getCounterpartyIdList();
+		List<Map<String, String>> counterpartyList = new ArrayList<Map<String, String>>();
+		if (counterpartyIdList != null && counterpartyIdList.size() > 0) {
+			offer.getCounterpartyIdList().forEach(counterpartyId -> {
+				MemberCompanyVo counterparty = memberClient.findCompany(counterpartyId);
+				
+				Map<String, String> counterpartyMap = new HashMap<>();
+				counterpartyList.add(counterpartyMap);
+				counterpartyMap.put("text", counterparty.getCompanyName());
+				counterpartyMap.put("value", counterparty.getCompanyId() + "");
+				counterpartyMap.put("key", counterparty.getCompanyName() + "," + counterparty.getCompanyNameEn());
+			});
+		}
+		
+		model.addAttribute("counterpartyJson", JSONArray.toJSONString(counterpartyList));
+    	
+    	if (offer.getTradeMode() == EsteelConstant.TRADE_MODE_INSTOCK) {
+    		OfferIronAttachVo offerAttach = new OfferIronAttachVo();
+			if (offer.getOfferAttachList() != null && offer.getOfferAttachList().size() > 0) {
+				offerAttach = offer.getOfferAttachList().get(0);
+			}
+			model.addAttribute("offerAttachJson", JsonUtils.toJsonString(offerAttach));
+			model.addAttribute("offerAttach", offerAttach);
+			
+			IronOfferClauseVo offerClause  = new IronOfferClauseVo();
+			if (offer.getClauseTemplateJson() != null && !offer.getClauseTemplateJson().trim().equals("")) {
+				offerClause = JsonUtils.toObject(offer.getClauseTemplateJson(), IronOfferClauseVo.class);
+			}
+			model.addAttribute("offerClause", offerClause);
+			
+			loadData(true, false, false, model);
+			
+    		 return "/myOffer/detail/inStock";
+		} else if (offer.getTradeMode() == EsteelConstant.TRADE_MODE_FUTURES) {
+			OfferIronAttachVo offerAttach = new OfferIronAttachVo();
+			List<OfferIronAttachVo> offerAttachList = new ArrayList<>();
+			if (offer.getOfferAttachList() != null && offer.getOfferAttachList().size() > 0) {
+				offerAttach = offer.getOfferAttachList().get(0);
+				offerAttachList = offer.getOfferAttachList();
+			} else {
+				offerAttachList.add(new OfferIronAttachVo());
+				offerAttachList.add(new OfferIronAttachVo());
+			}
+			model.addAttribute("offerAttach", offerAttach);
+			
+			if (offer.getOfferAttachList().size() == 1) {
+				offerAttachList.add(new OfferIronAttachVo());
+			}
+			model.addAttribute("offerAttachListJson", JsonUtils.toJsonString(offer.getOfferAttachList()));
+			model.addAttribute("offerAttachList", offer.getOfferAttachList());
+			
+			IronFuturesTransportVo offerTransport  = new IronFuturesTransportVo();
+			if (offerAttach.getTransportDescription() != null && !offerAttach.getTransportDescription().trim().equals("")) {
+				offerTransport = JsonUtils.toObject(offerAttach.getTransportDescription(), IronFuturesTransportVo.class);
+			}
+			model.addAttribute("offerTransport", offerTransport);
+			
+			loadData(false, false, true, model);
+			
+			 return "/myOffer/detail/futures";
+		} else if (offer.getTradeMode() == EsteelConstant.TRADE_MODE_PRICING) {
+			OfferIronAttachVo offerAttach = new OfferIronAttachVo();
+			if (offer.getOfferAttachList() != null && offer.getOfferAttachList().size() > 0) {
+				offerAttach = offer.getOfferAttachList().get(0);
+			}
+			model.addAttribute("offerAttachJson", JsonUtils.toJsonString(offerAttach));
+			model.addAttribute("offerAttach", offerAttach);
+			
+			IronOfferClauseVo offerClause  = new IronOfferClauseVo();
+			if (offer.getClauseTemplateJson() != null && !offer.getClauseTemplateJson().trim().equals("")) {
+				offerClause = JsonUtils.toObject(offer.getClauseTemplateJson(), IronOfferClauseVo.class);
+			}
+			model.addAttribute("offerClause", offerClause);
+			
+			loadData(false, true, false, model);
+			
+			 return "/myOffer/detail/pricing";
+		}
+    	
+        return "/myOffer/detail/inStock";
+    }
 	
 	/**
      * 现货报盘验证
@@ -446,6 +575,7 @@ public class IronOfferUIController {
         	});
     		// 页面数据传输
     		model.addAttribute("loadingPortJson", JSONArray.toJSONString(loadingPortList));
+    		model.addAttribute("loadingPortList", loadingPorts);
     		
         	/**
         	 * 保税区港口列表
@@ -461,6 +591,7 @@ public class IronOfferUIController {
         	});
         	// 页面数据传输
         	model.addAttribute("bondedAreaPortJson", JSONArray.toJSONString(bondedAreaPortList));
+        	model.addAttribute("bondedAreaPortList", bondedAreaPorts);
     	}
     	
     	/**
@@ -563,6 +694,7 @@ public class IronOfferUIController {
         	});
         	// 页面数据传输
         	model.addAttribute("priceTermJson", JSONArray.toJSONString(priceTermList));
+        	model.addAttribute("priceTermList", priceTerms);
     	}
     	
     	if (isPricing) {

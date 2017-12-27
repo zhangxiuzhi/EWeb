@@ -1,7 +1,8 @@
-package com.esteel.web.vo.offer;
+package com.esteel.web.vo.offer.response;
 
 import java.io.Serializable;
 
+import com.esteel.web.vo.offer.IronOfferMainVo;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 /**

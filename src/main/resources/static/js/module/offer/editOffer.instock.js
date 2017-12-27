@@ -40,7 +40,7 @@ function JBSFrame_OfferEdit_INStock() {
             this.selectBox_ItemName = ReactDOM.render(React.createElement(ComponentSelectBox,{
                 data:JSON.parse($("#ironCommodityJson").html()),
                 inputName:$ItemName.attr("inputName"),
-                value: offerAttach.commodityId,
+                inputValue: offerAttach.commodityId,
                 validetta:$ItemName.data("validetta"),
                 onChange:changeIronAttributeLink
             }), $ItemName[0]);
@@ -51,7 +51,7 @@ function JBSFrame_OfferEdit_INStock() {
             this.selectBox_Port = ReactDOM.render(React.createElement(ComponentSelectBox, {
                 data:JSON.parse($("#portJson").html()),
                 inputName: $Port.attr("inputName"),
-                value: offerAttach.portId,
+                inputValue: offerAttach.portId,
                 validetta:$Port.data("validetta")
             }), $Port[0]);
         }
@@ -62,7 +62,7 @@ function JBSFrame_OfferEdit_INStock() {
                 data: JSON.parse($("#indicatorTypeJson").html()),
                 value: offerAttach.indicatorTypeId,
                 className: "TagStyle offerKpi",
-                name:$kpiType.attr("inputName"),
+                inputName:$kpiType.attr("inputName"),
                 onChange:changeIndicatorValue //指标类型选择，改变指标值
             }), $kpiType[0]);
         }
@@ -72,7 +72,7 @@ function JBSFrame_OfferEdit_INStock() {
         if($Split.length>0) {
             this.toggle_Split = ReactDOM.render(React.createElement(ComponentToggle, {
                 inputName: $Split.attr("inputName"),
-                value: offer.isSplit,
+                inputValue: offer.isSplit,
                 onChange:showQDL//显示起订量
             }), $Split[0]);
         }
@@ -81,10 +81,18 @@ function JBSFrame_OfferEdit_INStock() {
         if($Anonym.length>0) {
             this.toggle_anonym = ReactDOM.render(React.createElement(ComponentToggle, {
             	inputName: $Anonym.attr("inputName"),
-                value: offer.isAnonymous
+            	inputValue: offer.isAnonymous
             }), $Anonym[0]);
         }
-/*
+        
+/*        var dischargePort = JSON.parse($("#portJson").html());
+        
+        //交货港口
+        for(var i=0;i<dischargePort.length;i++){
+            $opt = $("<option></option>").text(dischargePort[i].text).val(dischargePort[i].value);
+            $("#offer-rules-port1").append($opt);
+        }
+        
         //计价方式
         var pricingMethod = JSON.parse($("#pricingMethodJson").html());
         for(var i=0;i<pricingMethod.length;i++){
@@ -93,7 +101,6 @@ function JBSFrame_OfferEdit_INStock() {
         }
 
         //交货数量标准港口
-        var dischargePort = JSON.parse($("#portJson").html());
         for(var i=0;i<dischargePort.length;i++){
             $opt = $("<option></option>").text(dischargePort[i].text).val(dischargePort[i].value);
             $("#offer-rules-port2").append($opt);
@@ -104,8 +111,21 @@ function JBSFrame_OfferEdit_INStock() {
         for(var i=0;i<measureMethod.length;i++){
             var $opt = $("<option></option>").text(measureMethod[i].text).val(measureMethod[i].value);
             $("#select-measure_method").append($opt);
-        }*/
-
+        }
+        
+      //交易者类型
+        var traderType = JSON.parse($("#traderTypeJson").html());
+        for(var i=0;i<traderType.length;i++){
+            var $opt = $("<option></option>").text(traderType[i].text).val(traderType[i].value);
+            $("#select-trader_type").append($opt);
+            $("#transport_costs_bearer").append($opt);
+            $("#agency_fee_bearer").append($opt);
+            $("#port_construction_fee_bearer").append($opt);
+            $("#second_vessel_fee_bearer").append($opt);
+            $("#weighing_fee_bearer").append($opt);
+            $("#overdue_storage_fee_bearer").append($opt);
+        }
+*/
         this.renderDatetimepicker();
         this.renderNumberMask();
     }

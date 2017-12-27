@@ -164,9 +164,13 @@
 					    <div class="form-horizontal offer-rule">
 					        <div class="form-group">
 					            <label class="col-sm-2 control-label">*结算方式</label>
-					            <div class="col-sm-10">
-					                <input type="radio" value="0" name="settlement_method" th:checked="${0 == offerClause.settlement_method}"/>签订合同后<input class="offer-rule-f-c  mask-number" maxlength="3" name="clear_within_several_working_daysArr" th:value="${offerClause.clear_within_several_working_days}"/>个工作日内付全款<br/>
-					                <input type="radio" value="1" name="settlement_method" th:checked="${1 == offerClause.settlement_method}"/>签订合同后<input class="offer-rule-f-c  mask-number" maxlength="3" name="after_sign_several_working_days"/>个工作日内付合同款的<input class="offer-rule-f-c  mask-number" maxlength="5" name="contract_funds_percentage" th:value="${offerClause.contract_funds_percentage}"/>%作为定金，剩余货款在<input class="offer-rule-f-c  mask-number" maxlength="3" name="clear_within_several_working_daysArr" th:value="${offerClause.clear_within_several_working_days}"/>个工作日内结清。
+					            <div class="col-sm-10" th:if="${'0' == offerClause.settlement_method}">
+					                <input type="radio" value="0" name="settlement_method" th:checked="checked"/>签订合同后<input class="offer-rule-f-c  mask-number" maxlength="3" name="clear_within_several_working_daysArr" th:value="${offerClause.clear_within_several_working_days}"/>个工作日内付全款<br/>
+					                <input type="radio" value="1" name="settlement_method"/>签订合同后<input class="offer-rule-f-c  mask-number" maxlength="3" name="after_sign_several_working_days"/>个工作日内付合同款的<input class="offer-rule-f-c  mask-number" maxlength="5" name="contract_funds_percentage"/>%作为定金，剩余货款在<input class="offer-rule-f-c  mask-number" maxlength="3" name="clear_within_several_working_daysArr"/>个工作日内结清。
+					            </div>
+					            <div class="col-sm-10" th:if="${'1' == offerClause.settlement_method}">
+					                <input type="radio" value="0" name="settlement_method"/>签订合同后<input class="offer-rule-f-c  mask-number" maxlength="3" name="clear_within_several_working_daysArr"/>个工作日内付全款<br/>
+					                <input type="radio" value="1" name="settlement_method" th:checked="checked"/>签订合同后<input class="offer-rule-f-c  mask-number" maxlength="3" name="after_sign_several_working_days" th:value="${offerClause.after_sign_several_working_days}"/>个工作日内付合同款的<input class="offer-rule-f-c  mask-number" maxlength="5" name="contract_funds_percentage" th:value="${offerClause.contract_funds_percentage}"/>%作为定金，剩余货款在<input class="offer-rule-f-c  mask-number" maxlength="3" name="clear_within_several_working_daysArr" th:value="${offerClause.clear_within_several_working_days}"/>个工作日内结清。
 					            </div>
 					        </div>
 					        <div class="form-group">
@@ -181,12 +185,12 @@
 					                <select class="offer-rule-f-c" id="offer-rules-port1" name="delivery_Method_port">
 					                	<option value=""></option>
 					                	<option th:each="port : ${portList}" th:value="${port.portId}" th:text="${port.portName}" 
-					                    th:selected="${port.portId == offerClause.delivery_Method_port}"></option>
+					                    th:selected="${port.portId} == ${offerClause.delivery_Method_port}"></option>
 					                </select>（港口）
 					                <select class="form-control" name="pricing_method" id="select-Pricing_method">
 					                    <option value=""></option>
 					                    <option th:each="pricingMethod : ${pricingMethodList}" th:value="${pricingMethod.optionId}" th:text="${pricingMethod.optionValue}" 
-					                    th:selected="${pricingMethod.optionId == offerClause.pricing_method}"></option>
+					                    th:selected="${pricingMethod.optionId} == ${offerClause.pricing_method}"></option>
 					                </select>（计价方式）交货
 					            </div>
 					        </div>
@@ -196,12 +200,12 @@
 					                以<select class="offer-rule-f-c" id="offer-rules-port2" name="delivery_quantity_port">
 					                <option value=""></option>
 					                <option th:each="port : ${portList}" th:value="${port.portId}" th:text="${port.portName}" 
-					                    th:selected="${port.portId == offerClause.delivery_quantity_port}"></option>
+					                    th:selected="${port.portId} == ${offerClause.delivery_quantity_port}"></option>
 					          </select>（港口）
 					          <select class="form-control" name="measure_method" data-validetta="required" id="select-measure_method">
 					              <option value=""></option>
 					              <option th:each="measureMethod : ${measureMethodList}" th:value="${measureMethod.optionId}" th:text="${measureMethod.optionValue}" 
-					                    th:selected="${measureMethod.optionId == offerClause.measure_method}"></option>
+					                    th:selected="${measureMethod.optionId} == ${offerClause.measure_method}"></option>
 					          </select>（计量方式）数量为准
 					            </div>
 					        </div>
@@ -211,7 +215,7 @@
 					                以<select class="form-control" name="trader_type" data-validetta="required" id="select-trader_type">
 					                    <option value=""></option>
 					                    <option th:each="traderType : ${traderTypeList}" th:value="${traderType.optionId}" th:text="${traderType.optionValue}" 
-					                    th:selected="${traderType.optionId == offerClause.trader_type}"></option>
+					                    th:selected="${traderType.optionId} == ${offerClause.trader_type}"></option>
 					                </select>检测结果作为结算依据。
 					            </div>
 					        </div>
@@ -221,30 +225,30 @@
 					                费用条款：若火车或车板提货，则产生的港口费差价、运费由<select class="form-control" name="transport_costs_bearer" data-validetta="required" id="transport_costs_bearer">
 					                    <option value=""></option>
 					                    <option th:each="traderType : ${traderTypeList}" th:value="${traderType.optionId}" th:text="${traderType.optionValue}" 
-					                    th:selected="${traderType.optionId == offerClause.transport_costs_bearer}"></option>
+					                    th:selected="${traderType.optionId} == ${offerClause.transport_costs_bearer}"></option>
 					                </select>承担；
 					                若二程船提货，则水分检验费及其代理费由<select class="form-control" name="agency_fee_bearer" data-validetta="required" id="agency_fee_bearer">
 					                    <option value=""></option>
 					                    <option th:each="traderType : ${traderTypeList}" th:value="${traderType.optionId}" th:text="${traderType.optionValue}" 
-					                    th:selected="${traderType.optionId == offerClause.agency_fee_bearer}"></option>
+					                    th:selected="${traderType.optionId} == ${offerClause.agency_fee_bearer}"></option>
 					                </select>承担， 内贸港口建设费由<select class="form-control" name="port_construction_fee_bearer" data-validetta="required" id="port_construction_fee_bearer">
 					                    <option value=""></option>
 					                    <option th:each="traderType : ${traderTypeList}" th:value="${traderType.optionId}" th:text="${traderType.optionValue}" 
-					                    th:selected="${traderType.optionId == offerClause.port_construction_fee_bearer}"></option>
+					                    th:selected="${traderType.optionId} == ${offerClause.port_construction_fee_bearer}"></option>
 					                </select>承担，
 					                二程船运费由<select class="form-control" name="second_vessel_fee_bearer" data-validetta="required" id="second_vessel_fee_bearer">
 					                    <option value=""></option>
 					                    <option th:each="traderType : ${traderTypeList}" th:value="${traderType.optionId}" th:text="${traderType.optionValue}" 
-					                    th:selected="${traderType.optionId == offerClause.second_vessel_fee_bearer}"></option>
+					                    th:selected="${traderType.optionId} == ${offerClause.second_vessel_fee_bearer}"></option>
 					                </select>承担， 过磅费或水尺费由<select class="form-control" name="weighing_fee_bearer" data-validetta="required" id="weighing_fee_bearer">
 					                    <option value=""></option>
 					                    <option th:each="traderType : ${traderTypeList}" th:value="${traderType.optionId}" th:text="${traderType.optionValue}" 
-					                    th:selected="${traderType.optionId == offerClause.weighing_fee_bearer}"></option>
+					                    th:selected="${traderType.optionId} == ${offerClause.weighing_fee_bearer}"></option>
 					                </select>承担；
-					                自货权转移之日起，买方享有<input class="offer-rule-f-c mask-number"  maxlength="3" name="free_storage_several_days"/>天免堆期， 超期产生的堆存费由<select class="form-control" name="overdue_storage_fee_bearer" data-validetta="required" id="overdue_storage_fee_bearer">
+					                自货权转移之日起，买方享有<input class="offer-rule-f-c mask-number"  maxlength="3" name="free_storage_several_days" th:value="${offerClause.free_storage_several_days}"/>天免堆期， 超期产生的堆存费由<select class="form-control" name="overdue_storage_fee_bearer" data-validetta="required" id="overdue_storage_fee_bearer">
 					                    <option value=""></option>
 					                    <option th:each="traderType : ${traderTypeList}" th:value="${traderType.optionId}" th:text="${traderType.optionValue}" 
-					                    th:selected="${traderType.optionId == offerClause.free_storage_several_days}"></option>
+					                    th:selected="${traderType.optionId} == ${offerClause.free_storage_several_days}"></option>
 					                </select>承担。
 					            </div>
 					        </div>
@@ -252,7 +256,7 @@
 					            <label class="col-sm-2 control-label">发票条款</label>
 					            <div class="col-sm-10">
 					                在卖方收到全部货款后，卖方应向买方开出增值税发票，增值税发票一票结算。增值税发票品种以合同品种为准并且无其他要求。 其他发票条款<br/>
-					                <textarea class="form-control" maxlength="200" name="invoice_terms" th.value="${offerClause.invoice_terms}"></textarea>
+					                <textarea class="form-control" maxlength="200" name="invoice_terms" th:value="${offerClause.invoice_terms}"></textarea>
 					            </div>
 					        </div>
 					        <div class="form-group">
@@ -279,13 +283,13 @@
 					        <div class="form-group">
 					            <label class="col-sm-2 control-label">其他</label>
 					            <div class="col-sm-10">
-					                <textarea class="form-control" name="offerRemarks" th.value="${offer.offerRemarks}"></textarea>
+					                <textarea class="form-control" name="offerRemarks" th:value="${offer.offerRemarks}"></textarea>
 					            </div>
 					        </div>
 					        <div class="form-group">
 					            <label class="col-sm-2 control-label">匿名发布</label>
 					            <div class="col-sm-10">
-					                <div id="component-toggle-anonym" inputName="isAnonymous" inputValue="1"></div>
+					                <div id="component-toggle-anonym" inputName="isAnonymous" th:value="${offer.isAnonymous}"></div>
 					            </div>
 					        </div>
 					    </div>
@@ -295,6 +299,7 @@
 					        <button class="btn btn-primary" type="button" onclick="submit_offer()">立即发布</button>
 					    </div>
 					 
+					 	<input type="hidden" value="inStock" name="offerId" th:value="${offer.offerId}"/>
 					 	<input type="hidden" value="inStock" id="tradeMode"/>
 					 	<input type="hidden" name="offerStatus" value="draft" id="offerStatus"/>
 					</form>

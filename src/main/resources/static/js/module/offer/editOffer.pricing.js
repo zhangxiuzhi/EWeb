@@ -30,6 +30,9 @@ function JBSFrame_OfferEdit_Pricing() {
                 data:TradeCustomer_data
             }), $TradeCustomer[0]);
         }
+        
+        var offer = JSON.parse($("#offerJson").html());
+        var offerAttach = JSON.parse($("#offerAttachJson").html());
 
         //品名下拉
         var $ItemName = $("#component-selectBox-ItemName");
@@ -37,20 +40,9 @@ function JBSFrame_OfferEdit_Pricing() {
             this.selectBox_ItemName = ReactDOM.render(React.createElement(ComponentSelectBox,{
                 data:JSON.parse($("#ironCommodityJson").html()),
                 inputName:$ItemName.attr("inputName"),
-                inputValue:$ItemName.attr("inputValue"),
+                inputValue:offerAttach.commodityId,
                 validetta:$ItemName.data("validetta"),
-                onChange:changeIronAttributeLink
             }), $ItemName[0]);
-        }
-        //港口
-        var $Port = $("#component-selectBox-Port")
-        if($Port.length>0) {
-            this.selectBox_Port = ReactDOM.render(React.createElement(ComponentSelectBox, {
-                data:JSON.parse($("#portJson").html()),
-                inputName: $Port.attr("inputName"),
-                inputValue:$Port.attr("inputValue"),
-                validetta:$Port.data("validetta")
-            }), $Port[0]);
         }
         //点价交易港口
         var $Port = $("#component-selectBox-Port-Pricing")
@@ -58,7 +50,7 @@ function JBSFrame_OfferEdit_Pricing() {
             this.selectBox_Port = ReactDOM.render(React.createElement(ComponentSelectBox, {
                 data:JSON.parse($("#pricingPortJson").html()),
                 inputName: $Port.attr("inputName"),
-                inputValue:$Port.attr("inputValue"),
+                inputValue:offerAttach.portId,
                 validetta:$Port.data("validetta")
             }), $Port[0]);
         }
@@ -68,34 +60,17 @@ function JBSFrame_OfferEdit_Pricing() {
         if($Split.length>0) {
             this.toggle_Split = ReactDOM.render(React.createElement(ComponentToggle, {
                 inputName: $Split.attr("inputName"),
+                inputValue: offer.isSplit,
                 onChange:showQDL//显示起订量
             }), $Split[0]);
         }
         //匿名
         var $Anonym = $("#component-toggle-anonym");
         if($Anonym.length>0) {
-            this.toggle_anonym = ReactDOM.render(React.createElement(ComponentToggle, {inputName: $Anonym.attr("inputName")}), $Anonym[0]);
-        }
-        //计价方式
-        var pricingMethod = JSON.parse($("#pricingMethodJson").html());
-        for(var i=0;i<pricingMethod.length;i++){
-            $opt = $("<option></option>").text(pricingMethod[i].text).val(pricingMethod[i].value);
-            $("#select-Pricing_method").append($opt);
-        }
-
-        //交货数量标准港口
-<<<<<<< HEAD
-        var dischargePort = JSON.parse($("#portJson").html());
-        for(var i=0;i<dischargePort.length;i++){
-            $opt = $("<option></option>").text(dischargePort[i].text).val(dischargePort[i].value);
-            $("#offer-rules-port2").append($opt);
-        }
-
-        //计量方式
-        var measureMethod = JSON.parse($("#measureMethodJson").html());
-        for(var i=0;i<measureMethod.length;i++){
-            var $opt = $("<option></option>").text(measureMethod[i].text).val(measureMethod[i].value);
-            $("#select-measure_method").append($opt);
+            this.toggle_anonym = ReactDOM.render(React.createElement(ComponentToggle, {
+            	inputName: $Anonym.attr("inputName"),
+            	inputValue: offer.isAnonymous
+            }), $Anonym[0]);
         }
 
         //连铁合约
@@ -104,6 +79,8 @@ function JBSFrame_OfferEdit_Pricing() {
             var $opt = $("<option></option>").text(measureMethod[i].text).val(measureMethod[i].value);
             $("#select-ironContract").append($opt);
         }
+        
+        $("#select-ironContract").val(offerAttach.ironContract);
 
         this.renderDatetimepicker();
         this.renderNumberMask();
@@ -253,61 +230,6 @@ function submit_offer(){
 	    });
     }
 }
-
-//远期期货商品1联动指标
-function changeIronAttributeLink_1(node){
-    changeIronCommodityIndicator1(node,'1');
-}
-//远期期货商品1 指标类型选择，改变指标值
-function changeIndicatorValue1(value,label){
-    if(value == "26" && label =="典型值"){
-        //品名切换改变指标值
-        changeIronCommodityIndicator1(esteel_addOffer.selectBox_ItemName1.state.node,'');
-    }else{
-        //清空指标值
-        $(".offer-kip-table input.form-control").val("");
-    }
-}
-//远期期货商品1 品名联动
-function changeIronCommodityIndicator1(node,index){
-    var ironAttr = JSON.parse($("#ironAttributeLinkJson").html());
-    for(var attr in ironAttr){
-        if(attr == node.label){
-            var iron = ironAttr[attr];
-            for(var i=0;i<iron.length;i++){
-                $("#indicator"+index+"-"+iron[i].text+"-1").val(iron[i].value);
-            }
-        }
-    }
-}
-
-//期货商品2联动指标
-function changeIronAttributeLink_2(node) {
-    changeIronCommodityIndicator2(node,'2');
-}
-//期货商品2 指标类型选择，改变指标值
-function changeIndicatorValue2(value,label){
-    if(value == "26" && label =="典型值"){
-        //品名切换改变指标值
-        changeIronCommodityIndicator2(esteel_addOffer.selectBox_ItemName2.state.node,'');
-    }else{
-        //清空指标值
-        $(".offer-kip-table input.form-control").val("");
-    }
-}
-//期货商品2 品名联动
-function changeIronCommodityIndicator2(node,index){
-    var ironAttr = JSON.parse($("#ironAttributeLinkJson").html());
-    for(var attr in ironAttr){
-        if(attr == node.label){
-            var iron = ironAttr[attr];
-            for(var i=0;i<iron.length;i++){
-                $("#indicator"+index+"-"+iron[i].text+"-2").val(iron[i].value);
-            }
-        }
-    }
-}
-
 
 //显示隐藏起订量
 function showQDL(checked){

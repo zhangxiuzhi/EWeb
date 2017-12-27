@@ -3,6 +3,8 @@ package com.esteel.web.vo.offer;
 import java.io.Serializable;
 import java.util.List;
 
+import com.esteel.web.vo.offer.response.IronOfferResponse;
+
 public class IronOfferPage implements Serializable {
 	private static final long serialVersionUID = 1L;
 	

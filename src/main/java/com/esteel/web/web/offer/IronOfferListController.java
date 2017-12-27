@@ -27,9 +27,9 @@ import com.esteel.web.vo.base.CommodityVo;
 import com.esteel.web.vo.base.PortVo;
 import com.esteel.web.vo.offer.IronOfferMainVo;
 import com.esteel.web.vo.offer.IronOfferPage;
-import com.esteel.web.vo.offer.IronOfferResponse;
 import com.esteel.web.vo.offer.OfferIronAttachVo;
 import com.esteel.web.vo.offer.request.IronOfferQueryVo;
+import com.esteel.web.vo.offer.response.IronOfferResponse;
 import com.taobao.common.tfs.TfsManager;
 import com.taobao.tair.json.JSONArray;
 
@@ -322,7 +322,7 @@ public class IronOfferListController {
     	
         return page;
     }
-	
+/*	
     @RequestMapping(value = "/detailBySelf/{offerCode}", method = RequestMethod.GET)
     public String detailBySelf(@PathVariable("offerCode") String offerCode, Model model){
     	Assert.notNull(offerCode, "点击失败！");
@@ -343,7 +343,7 @@ public class IronOfferListController {
     	
         return "/myOffer/detail/inStock";
     }
-    
+*/    
     /**
      * 上架
      * @param offerCode

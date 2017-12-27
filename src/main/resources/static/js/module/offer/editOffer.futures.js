@@ -30,34 +30,44 @@ function JBSFrame_OfferEdit_Futures() {
                 data:TradeCustomer_data
             }), $TradeCustomer[0]);
         }
+        
+        var offer = JSON.parse($("#offerJson").html());
+        var offerAttachList = JSON.parse($("#offerAttachListJson").html());
+        
+        //一船俩货
+        var $1ship2goods = $("#component-radioBoxGroup-1ship2goods");
+        if($1ship2goods.length>0){
+            this.toggle_1ship2goods = ReactDOM.render(React.createElement(ComponentToggle,{
+                inputName:$1ship2goods.attr("inputName"),
+                inputValue:offer.isMultiCargo,
+                onChange:show2goods    //显示2个商品
+            }), $1ship2goods[0]);
+        }
         //是否拆分
         var $Split = $("#component-toggle-split");
         if($Split.length>0) {
             this.toggle_Split = ReactDOM.render(React.createElement(ComponentToggle, {
                 inputName: $Split.attr("inputName"),
+                inputValue: offer.isSplit,
                 onChange:showQDL//显示起订量
             }), $Split[0]);
         }
         //匿名
         var $Anonym = $("#component-toggle-anonym");
         if($Anonym.length>0) {
-            this.toggle_anonym = ReactDOM.render(React.createElement(ComponentToggle, {inputName: $Anonym.attr("inputName")}), $Anonym[0]);
+            this.toggle_anonym = ReactDOM.render(React.createElement(ComponentToggle, {
+            	inputName: $Anonym.attr("inputName"),
+                inputValue: offer.isAnonymous,
+            }), $Anonym[0]);
         }
-        //一船俩货
-        var $1ship2goods = $("#component-radioBoxGroup-1ship2goods");
-        if($1ship2goods.length>0){
-            this.toggle_1ship2goods = ReactDOM.render(React.createElement(ComponentToggle,{
-                inputName:$1ship2goods.attr("inputName"),
-                onChange:show2goods    //显示2个商品
-            }), $1ship2goods[0]);
-        }
+        
         //商品1品名下拉
         var $ItemName1 = $("#component-selectBox-ItemName-1");
         if($ItemName1.length>0){
             this.selectBox_ItemName1 = ReactDOM.render(React.createElement(ComponentSelectBox,{
             	data:JSON.parse($("#ironCommodityJson").html()),
                 inputName:$ItemName1.attr("inputName"),
-                inputValue:$ItemName1.attr("inputValue"),
+                inputValue:offerAttachList[0].commodityId,
                 validetta:$ItemName1.data("validetta"),
                 onChange:changeIronAttributeLink_1 //期货商品1联动指标
             }), $ItemName1[0]);
@@ -67,19 +77,20 @@ function JBSFrame_OfferEdit_Futures() {
         if($kpiType1.length>0) {
             this.radioBox_kpiType1 = ReactDOM.render(React.createElement(ComponentRadioBox, {
                 data: JSON.parse($("#indicatorTypeJson").html()),
-                value: "26",
+                value: offerAttachList[0].indicatorTypeId,
                 className: "TagStyle offerKpi",
                 name:$kpiType1.attr("inputName"),
                 onChange:changeIndicatorValue1 //指标类型选择，改变指标值
             }), $kpiType1[0]);
         }
+        
         //商品2品名下拉
         var $ItemName2 = $("#component-selectBox-ItemName-2");
         if($ItemName2.length>0){
             this.selectBox_ItemName2 = ReactDOM.render(React.createElement(ComponentSelectBox,{
             	data:JSON.parse($("#ironCommodityJson").html()),
                 inputName:$ItemName2.attr("inputName"),
-                inputValue:$ItemName2.attr("inputValue"),
+                inputValue:offerAttachList[1].commodityId,
                 validetta:$ItemName2.data("validetta"),
                 onChange:changeIronAttributeLink_2 //期货商品2联动指标
             }), $ItemName2[0]);
@@ -89,59 +100,21 @@ function JBSFrame_OfferEdit_Futures() {
         if($kpiType2.length>0) {
             this.radioBox_kpiType2 = ReactDOM.render(React.createElement(ComponentRadioBox, {
                 data: JSON.parse($("#indicatorTypeJson").html()),
-                value: "26",
+                value: offerAttachList[1].indicatorTypeId,
                 className: "TagStyle offerKpi",
                 name:$kpiType2.attr("inputName"),
                 onChange:changeIndicatorValue2 //指标类型选择，改变指标值
             }), $kpiType2[0]);
         }
-        //装货港
-        var loadingPort = JSON.parse($("#loadingPortJson").html());
-        for(var i=0;i<loadingPort.length;i++){
-            $opt = $("<option></option>").text(loadingPort[i].text).val(loadingPort[i].value);
-            $("#select-loadingPort").append($opt);
-        }
-
-        //目的港
-        var dischargePort = JSON.parse($("#portJson").html());
-        for(var i=0;i<dischargePort.length;i++){
-            $opt = $("<option></option>").text(dischargePort[i].text).val(dischargePort[i].value);
-            $("#select-dischargePort").append($opt);
-        }
-
+        
         //报税区
         var $bondedAreas = $("#component-radioBoxGroup-bondedAreas");
         if($bondedAreas.length>0){
             this.toggle_bondedAreas = ReactDOM.render(React.createElement(ComponentToggle,{
                 inputName:$bondedAreas.attr("inputName"),
+                inputValue:offerAttachList[0].isBondedArea,
                 onChange:changeBondedArea //指标类型选择，改变指标值
             }), $bondedAreas[0]);
-        }
-        
-        //报税区港口
-        var bondedAreaPort = JSON.parse($("#bondedAreaPortJson").html());
-        for(var i=0;i<bondedAreaPort.length;i++){
-            $opt = $("<option></option>").text(bondedAreaPort[i].text).val(bondedAreaPort[i].value);
-            $("#select-bondedAreasPort").append($opt);
-        }
-
-        //价格术语
-        var priceTerm = JSON.parse($("#priceTermJson").html());
-        for(var i=0;i<priceTerm.length;i++){
-            $opt = $("<option></option>").text(priceTerm[i].text).val(priceTerm[i].value);
-            $("#select-priceTerm").append($opt);
-        }
-
-        //价格术语 港口
-        for(var i=0;i<bondedAreaPort.length;i++){
-            $opt = $("<option></option>").text(bondedAreaPort[i].text).val(bondedAreaPort[i].value);
-            $("#select-priceTermPort").append($opt);
-        }
-
-        //交货港口
-        for(var i=0;i<dischargePort.length;i++){
-            $opt = $("<option></option>").text(dischargePort[i].text).val(dischargePort[i].value);
-            $("#offer-rules-port1").append($opt);
         }
 
         //价格模式
@@ -150,6 +123,8 @@ function JBSFrame_OfferEdit_Futures() {
             $opt = $("<option></option>").text(priceModel[i].text).val(priceModel[i].value);
             $("#offer-priceModel").append($opt);
         }
+        
+        $("#offer-priceModel").val(offerAttachList[0].priceModel,);
 
         this.renderDatetimepicker();
         this.renderNumberMask();
@@ -378,7 +353,7 @@ function show2goods(checked){
 //显示浮动价
 function showFloatPrice(evt){
 	// 价格模式 0:固定价, 1:浮动价
-    if(evt.selectedOptions[0].value == "1"){
+	if(evt.selectedOptions[0].value == "1"){
         $("#offer-fixedPrice-box").hide();
         $("#offer-floatPrice-box").show();
         $("#offer-floatPrice-desc").attr("data-validetta","required");
