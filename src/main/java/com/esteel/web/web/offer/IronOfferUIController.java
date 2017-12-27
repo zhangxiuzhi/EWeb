@@ -529,19 +529,19 @@ public class IronOfferUIController {
         		List<Map<String, String>> ironAttributes = new ArrayList<Map<String, String>>();
         		ironAttributeLinkMap.put(commodityVo.getCommodityName(), ironAttributes);
         		
-        		ironAttributeList.stream().filter(attribute -> attribute.getCommodityCode() != null && attribute.getCommodityCode().equals(commodityVo.getCommodityCode()))
-        			.forEach(attribute ->{
-        			Map<String, String> ironAttributeMap = new HashMap<>();
-        			ironAttributes.add(ironAttributeMap);
-        			ironAttributeMap.put("text", attribute.getAttributeCode());
-        			ironAttributeMap.put("value", attribute.getAttributeValue());
-        			ironAttributeMap.put("key", attribute.getAttributeCode());
-        		});
+        		for (IronAttributeLinkVo attribute : ironAttributeList) {
+        			if (attribute.getCommodityCode() != null && attribute.getCommodityCode().equals(commodityVo.getCommodityCode())) {
+        				Map<String, String> ironAttributeMap = new HashMap<>();
+            			ironAttributes.add(ironAttributeMap);
+            			ironAttributeMap.put("text", attribute.getAttributeCode());
+            			ironAttributeMap.put("value", attribute.getAttributeValue());
+            			ironAttributeMap.put("key", attribute.getAttributeCode());
+        			}
+        		}
         	}
         	// 页面数据传输
         	model.addAttribute("ironAttributeLinkJson", JSONObject.toJSONString(ironAttributeLinkMap));
     	}
-    	
     	
     	if (isPricing) {
     		/**

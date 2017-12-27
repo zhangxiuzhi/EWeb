@@ -52,8 +52,8 @@
 					        </div>
 					
 					        <!--商品1-->
-					        <div class="box-container" th:each="attachTmp,iterStat : ${offerAttachList}">
-					        <div th:if="${iterStat.index == 0 or (iterStat.index > 0 and offer.isMultiCargo == '1')}">
+					        <div th:each="attachTmp,iterStat : ${offerAttachList}">
+					        <div class="box-container" th:if="${iterStat.index == 0 or (iterStat.index > 0 and offer.isMultiCargo == '1')}">
 					            <div class="box-container-title"><span th:text="'商品'+(${iterStat.index}+1)"></span> <span class="fa fa-caret-down text-danger" ></span></div>
 					            <div class="form-group">
 					                <label class="col-sm-2 control-label">*品名</label>
