@@ -44,8 +44,11 @@ public class WebApplication extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.headers().frameOptions().disable().and().antMatcher("/**").authorizeRequests().anyRequest().authenticated()
-        .and().antMatcher("/register/**").csrf().disable()
+        http.headers().frameOptions().disable().
+                and()
+//                .antMatcher("/register/**").csrf().disable()
+                .antMatcher("/**").authorizeRequests().anyRequest().authenticated()
+//
         ;
     }
 
