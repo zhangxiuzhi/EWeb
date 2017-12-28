@@ -409,41 +409,21 @@ $(document).ready(function (e) {
 function save_offer(){
     if(validateOfferInfo()){
         esteel_addOffer.confirm(null,"该报盘将作为草稿保存到我的报盘记录",function(){
-        	var _url = "/offer/iron/validatedInStockOffer";
+        	var validatedUrl = "/offer/iron/validatedInStockOffer";
+        	if ($("#tradeMode").val() == 'pricing') {
+        		validatedUrl = "/offer/iron/validatedPricingOffer";
+        	} else if ($("#tradeMode").val() == 'futures') {
+        		validatedUrl = "/offer/iron/validatedFuturesOffer";
+        	}
+        	
+        	var saveUrl = "/offer/iron/saveInStockOffer";
 			if ($("#tradeMode").val() == 'pricing') {
-				_url = "/offer/iron/validatedPricingOffer";
+				saveUrl = "/offer/iron/savePricingOffer";
 			} else if ($("#tradeMode").val() == 'futures') {
-				_url = "/offer/iron/validatedFuturesOffer";
+				saveUrl = "/offer/iron/saveFuturesOffer";
 			}
 			
-			esteel_addOffer.ajaxRequest({
-     	    	url:_url,
-     	        data:$('#form-offer').serialize()
-     	    },function (data, msg) {
-     	    	if (msg == 'success') {
-     	    		
-     	    		var _url = "/offer/iron/saveInStockOffer";
-     				if ($("#tradeMode").val() == 'pricing') {
-     					_url = "/offer/iron/savedPricingOffer";
-     				} else if ($("#tradeMode").val() == 'futures') {
-     					_url = "/offer/iron/saveFuturesOffer";
-     				}
-     				
-     				var formData = new FormData($('form-offer')[0]);
-     	        	 esteel_addOffer.ajaxRequest({
-     	     	    	url:_url,
-     	     	        data:$('#form-offer').serialize()
-     	     	    }, function (data, msg) {
-     	     	    	alert(result.msg);
-     	     	    	if (msg == 'success') {
-     	     	    		window.location.href = "/offer/iron/myList";
-     	     	    	}
-     	     	    });
-     	    		
-     	    	} else {
-     	    		alert(result.msg);
-     	    	}
-     	    });
+			saveOffer(validatedUrl, saveUrl);
         });
     }
 }
@@ -453,51 +433,76 @@ function submit_offer(){
 	if(validateOfferInfo()){
 		esteel_addOffer.confirm(null,"确定要发布吗",function(){
 	        esteel_addOffer.confirm(null,"该报盘将作为草稿保存到我的报盘记录",function(){
-	        	var _url = "/offer/iron/validatedInStockOffer";
+	        	var validatedUrl = "/offer/iron/validatedInStockOffer";
+	        	if ($("#tradeMode").val() == 'pricing') {
+	        		validatedUrl = "/offer/iron/validatedPricingOffer";
+	        	} else if ($("#tradeMode").val() == 'futures') {
+	        		validatedUrl = "/offer/iron/validatedFuturesOffer";
+	        	}
+	        	
+	        	var saveUrl = "/offer/iron/saveInStockOffer";
 				if ($("#tradeMode").val() == 'pricing') {
-					_url = "/offer/iron/validatedPricingOffer";
+					saveUrl = "/offer/iron/savePricingOffer";
 				} else if ($("#tradeMode").val() == 'futures') {
-					_url = "/offer/iron/validatedFuturesOffer";
+					saveUrl = "/offer/iron/saveFuturesOffer";
 				}
 				
-				esteel_addOffer.ajaxRequest({
-	     	    	url:_url,
-	     	        data:$('#form-offer').serialize()
-	     	    },function (data, msg) {
-	     	    	if (msg == 'success') {
-	     	    		$("#offerStatus").val("publish");
-	     	    		
-	     	    		var _url = "/offer/iron/saveInStockOffer";
-	     				if ($("#tradeMode").val() == 'pricing') {
-	     					_url = "/offer/iron/savedPricingOffer";
-	     				} else if ($("#tradeMode").val() == 'futures') {
-	     					_url = "/offer/iron/saveFuturesOffer";
-	     				}
-	     				
-	     				var formData = new FormData($('form-offer')[0]);
-	     	        	 esteel_addOffer.ajaxRequest({
-	     	     	    	url:_url,
-	     	     	        data:$('#form-offer').serialize()
-	     	     	    }, function (data, msg) {
-	     	     	    	alert(result.msg);
-	     	     	    	if (msg == 'success') {
-	     	     	    		window.location.href = "/offer/iron/myList";
-	     	     	    	}
-	     	     	    });
-	     	    		
-	     	    	} else {
-	     	    		alert(result.msg);
-	     	    	}
-	     	    });
+				publishOffer(validatedUrl, saveUrl);
 	        });
 	    });
     }
 }
 
+function saveOffer(validatedUrl, saveUrl) {
+	esteel_addOffer.ajaxRequest({
+	    	url:validatedUrl,
+	        data:$('#form-offer').serialize()
+	    }, function(data, msg) {
+	    	if (msg == 'success') {
+	        	 esteel_addOffer.ajaxRequest({
+	     	    	url:saveUrl,
+	     	        data:$('#form-offer').serialize()
+	     	    }, function (data, msg) {
+	     	    	alert(msg);
+	     	    	if (msg == 'success') {
+	     	    		window.location.href = "/offer/iron/myList";
+	     	    	}
+	     	    });
+	    		
+	    	} else {
+	    		alert(msg);
+	    	}
+	    });
+}
+
+function publishOffer(validatedUrl, saveUrl) {
+	esteel_addOffer.ajaxRequest({
+	    	url:validatedUrl,
+	        data:$('#form-offer').serialize()
+	    }, function(data, msg) {
+	    	if (msg == 'success') {
+	    		$("#offerStatus").val("publish");
+	    		
+	        	 esteel_addOffer.ajaxRequest({
+	     	    	url:saveUrl,
+	     	        data:$('#form-offer').serialize()
+	     	    }, function (data, msg) {
+	     	    	alert(msg);
+	     	    	if (msg == 'success') {
+	     	    		window.location.href = "/offer/iron/myList";
+	     	    	}
+	     	    });
+	    		
+	    	} else {
+	    		alert(msg);
+	    	}
+	    });
+}
+
 //品名切换改变指标值
 function changeIronAttributeLink(node){
     //典型值
-    if($("input[name='indicatorTypeId']:checked").val() == "26"){
+    if($("input[name='indicatorTypeId']").val() == "26"){
         changeIronCommodityIndicator(node,'');
     }else{
         //清空指标值
@@ -512,6 +517,9 @@ function changeIronCommodityIndicator(node,index){
             var iron = ironAttr[attr];
             for(var i=0;i<iron.length;i++){
                 $("#indicator"+index+"-"+iron[i].text).val(iron[i].value);
+            }
+            if (iron[i].text == 'GRAIN') {
+            	$("sizeIndicators").val(iron[i].value);
             }
         }
     }
@@ -530,56 +538,59 @@ function changeIndicatorValue(value,label){
 /* 远期现货 品名指标联动  start***/
 //远期期货商品1联动指标
 function changeIronAttributeLink_1(node){
-    changeIronCommodityIndicator1(node,'1');
+	// 典型值
+	if($("input[name='indicatorTypeIdArr']").val() == "26"){
+		changeIronCommodityIndicatorIndex(node,'1');
+	}else{
+		// 清空指标值
+		$(".offer-kip-table input.form-control").val("");
+	}
 }
 //远期期货商品1 指标类型选择，改变指标值
 function changeIndicatorValue1(value,label){
-    if(value == "26" && label =="典型值"){
-        //品名切换改变指标值
-        changeIronCommodityIndicator1(esteel_addOffer.selectBox_ItemName1.state.node,'');
-    }else{
-        //清空指标值
-        $(".offer-kip-table input.form-control").val("");
-    }
-}
-//远期期货商品1 品名联动
-function changeIronCommodityIndicator1(node,index){
-    var ironAttr = JSON.parse($("#ironAttributeLinkJson").html());
-    for(var attr in ironAttr){
-        if(attr == node.label){
-            var iron = ironAttr[attr];
-            for(var i=0;i<iron.length;i++){
-                $("#indicator"+index+"-"+iron[i].text+"-1").val(iron[i].value);
-            }
-        }
-    }
+  if(value == "26" && label =="典型值"){
+      //品名切换改变指标值
+	  changeIronCommodityIndicatorIndex(esteel_addOffer.selectBox_ItemName1.state.node,'1');
+  }else{
+      //清空指标值
+      $("#indicator-table-1 input.form-control").val("");
+  }
 }
 
 //期货商品2联动指标
 function changeIronAttributeLink_2(node) {
-    changeIronCommodityIndicator2(node,'2');
+	// 典型值
+	if($("input[name='indicatorTypeIdArr']").val() == "26"){
+		changeIronCommodityIndicatorIndex(node,'2');
+	}else{
+		// 清空指标值
+		$(".offer-kip-table-1 input.form-control").val("");
+	}
 }
 //期货商品2 指标类型选择，改变指标值
 function changeIndicatorValue2(value,label){
-    if(value == "26" && label =="典型值"){
-        //品名切换改变指标值
-        changeIronCommodityIndicator2(esteel_addOffer.selectBox_ItemName2.state.node,'');
-    }else{
-        //清空指标值
-        $(".offer-kip-table input.form-control").val("");
-    }
+  if(value == "26" && label =="典型值"){
+      //品名切换改变指标值
+	  changeIronCommodityIndicatorIndex(esteel_addOffer.selectBox_ItemName2.state.node,'2');
+  }else{
+      //清空指标值
+      $("#indicator-table-2 input.form-control").val("");
+  }
 }
-//期货商品2 品名联动
-function changeIronCommodityIndicator2(node,index){
-    var ironAttr = JSON.parse($("#ironAttributeLinkJson").html());
-    for(var attr in ironAttr){
-        if(attr == node.label){
-            var iron = ironAttr[attr];
-            for(var i=0;i<iron.length;i++){
-                $("#indicator"+index+"-"+iron[i].text+"-2").val(iron[i].value);
-            }
-        }
-    }
+//远期期货商品 品名联动
+function changeIronCommodityIndicatorIndex(node,index){
+  var ironAttr = JSON.parse($("#ironAttributeLinkJson").html());
+  for(var attr in ironAttr){
+      if(attr == node.label){
+          var iron = ironAttr[attr];
+          for(var i=0;i<iron.length;i++){
+              $("#indicator-"+iron[i].text+"-"+index).val(iron[i].value);
+              if (iron[i].text == 'GRAIN') {
+                	$("sizeIndicators-"+index).val(iron[i].value);
+                }
+          }
+      }
+  }
 }
 /* 远期现货 品名指标联动  end***/
 

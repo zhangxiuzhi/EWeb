@@ -84,8 +84,9 @@ public class IronOfferUIController {
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
     public String addIronOfferUI(Model model) {
+		logger.info("跳转铁矿报盘新增页面 页面数据 加载开始");
 		loadData(true, true, true, model);
-		
+		logger.info("跳转铁矿报盘新增页面 页面数据 加载结束");
 		return "/offer/addOffer";
 	}
 	
@@ -97,12 +98,14 @@ public class IronOfferUIController {
 	 */
 	@RequestMapping(value = "/edit/{offerCode}", method = RequestMethod.GET)
 	public String editIronOfferUI(@PathVariable("offerCode") String offerCode, Model model) {
+		logger.info("跳转铁矿报盘编辑页面，参数{offerCode}" + offerCode);
 		Assert.notNull(offerCode, "点击失败！");
 
 		IronOfferQueryVo queryVo = new IronOfferQueryVo();
 		queryVo.setOfferCode(offerCode);
 
 		IronOfferMainVo offer = offerClient.getIronOffer(queryVo);
+		logger.info("跳转铁矿报盘编辑页面，根据参数{offerCode}获取铁矿报盘");
 		Assert.notNull(offer, "点击失败！");
 		
 		model.addAttribute("offerJson", JsonUtils.toJsonString(offer));
@@ -114,15 +117,17 @@ public class IronOfferUIController {
 		List<Long> counterpartyIdList = offer.getCounterpartyIdList();
 		List<Map<String, String>> counterpartyList = new ArrayList<Map<String, String>>();
 		if (counterpartyIdList != null && counterpartyIdList.size() > 0) {
-			offer.getCounterpartyIdList().forEach(counterpartyId -> {
+			logger.info("跳转铁矿港口现货报盘编辑页面 指定交易对手");
+			for (long counterpartyId : counterpartyIdList) {
 				MemberCompanyVo counterparty = memberClient.findCompany(counterpartyId);
-				
-				Map<String, String> counterpartyMap = new HashMap<>();
-				counterpartyList.add(counterpartyMap);
-				counterpartyMap.put("text", counterparty.getCompanyName());
-				counterpartyMap.put("value", counterparty.getCompanyId() + "");
-				counterpartyMap.put("key", counterparty.getCompanyName() + "," + counterparty.getCompanyNameEn());
-			});
+				if (counterparty != null) {
+					Map<String, String> counterpartyMap = new HashMap<>();
+					counterpartyList.add(counterpartyMap);
+					counterpartyMap.put("text", counterparty.getCompanyName());
+					counterpartyMap.put("value", counterparty.getCompanyId() + "");
+					counterpartyMap.put("key", counterparty.getCompanyName() + "," + counterparty.getCompanyNameEn());
+				}
+			}
 		}
 		
 		model.addAttribute("counterpartyJson", JSONArray.toJSONString(counterpartyList));
@@ -140,9 +145,9 @@ public class IronOfferUIController {
 				offerClause = JsonUtils.toObject(offer.getClauseTemplateJson(), IronOfferClauseVo.class);
 			}
 			model.addAttribute("offerClause", offerClause);
-			
+			logger.info("跳转铁矿港口现货报盘编辑页面 页面数据 加载开始");
 			loadData(true, false, false, model);
-
+			logger.info("跳转铁矿港口现货报盘编辑页面 页面数据 加载结束");
 			return "/offer/edit/inStock";
 		} else if (offer.getTradeMode() == EsteelConstant.TRADE_MODE_FUTURES) {
 			OfferIronAttachVo offerAttach = new OfferIronAttachVo();
@@ -167,9 +172,9 @@ public class IronOfferUIController {
 				offerTransport = JsonUtils.toObject(offerAttach.getTransportDescription(), IronFuturesTransportVo.class);
 			}
 			model.addAttribute("offerTransport", offerTransport);
-			
+			logger.info("跳转铁矿远期现货报盘编辑页面 页面数据 加载开始");
 			loadData(false, false, true, model);
-
+			logger.info("跳转铁矿远期现货报盘编辑页面 页面数据 加载结束");
 			return "/offer/edit/futures";
 		} else if (offer.getTradeMode() == EsteelConstant.TRADE_MODE_PRICING) {
 			OfferIronAttachVo offerAttach = new OfferIronAttachVo();
@@ -184,9 +189,9 @@ public class IronOfferUIController {
 				offerClause = JsonUtils.toObject(offer.getClauseTemplateJson(), IronOfferClauseVo.class);
 			}
 			model.addAttribute("offerClause", offerClause);
-			
+			logger.info("跳转铁矿点价报盘编辑页面 页面数据 加载开始");
 			loadData(false, true, false, model);
-			
+			logger.info("跳转铁矿点价报盘编辑页面 页面数据 加载结束");
 			return "/offer/edit/pricing";
 		}
 
@@ -195,6 +200,7 @@ public class IronOfferUIController {
 	
     @RequestMapping(value = "/detailBySelf/{offerCode}", method = RequestMethod.GET)
     public String detailBySelf(@PathVariable("offerCode") String offerCode, Model model){
+    	logger.info("跳转铁矿报盘详情页面，参数{offerCode}" + offerCode);
     	Assert.notNull(offerCode, "点击失败！");
 
 		IronOfferQueryVo queryVo = new IronOfferQueryVo();
@@ -341,8 +347,8 @@ public class IronOfferUIController {
     @RequestMapping(value = "/validatedFuturesOffer", method = RequestMethod.POST)
     @ResponseBody
     public WebReturnMessage validatedFuturesOffer(
-    		@Validated(IronFuturesOffer.class) IronFuturesOfferRequest futuresAttachRequest, BindingResult offerAttachResult, 
     		@Validated IronFuturesOfferRequest futuresOfferRequest, BindingResult offerResult, 
+    		@Validated(IronFuturesOffer.class) IronFuturesOfferRequest futuresAttachRequest, BindingResult offerAttachResult, 
     		@Validated IronFuturesTransportRequest transportRequest, BindingResult transportResult) {
     	WebReturnMessage webRetMesage = new WebReturnMessage(false, "提交失败！");
     	
@@ -542,15 +548,13 @@ public class IronOfferUIController {
         		List<Map<String, String>> ironAttributes = new ArrayList<Map<String, String>>();
         		ironAttributeLinkMap.put(commodityVo.getCommodityName(), ironAttributes);
         		
-        		for (IronAttributeLinkVo attribute : ironAttributeList) {
-        			if (attribute.getCommodityCode() != null && attribute.getCommodityCode().equals(commodityVo.getCommodityCode())) {
-        				Map<String, String> ironAttributeMap = new HashMap<>();
-            			ironAttributes.add(ironAttributeMap);
-            			ironAttributeMap.put("text", attribute.getAttributeCode());
-            			ironAttributeMap.put("value", attribute.getAttributeValue());
-            			ironAttributeMap.put("key", attribute.getAttributeCode());
-        			}
-        		}
+        		ironAttributeList.stream().
+        		filter(attribute -> attribute.getCommodityCode() != null && attribute.getCommodityCode().equals(commodityVo.getCommodityCode()))
+        		.forEach(attribute -> {Map<String, String> ironAttributeMap = new HashMap<>();
+    			ironAttributes.add(ironAttributeMap);
+    			ironAttributeMap.put("text", attribute.getAttributeCode());
+    			ironAttributeMap.put("value", attribute.getAttributeValue());
+    			ironAttributeMap.put("key", attribute.getAttributeCode());});
         	}
         	// 页面数据传输
         	model.addAttribute("ironAttributeLinkJson", JSONObject.toJSONString(ironAttributeLinkMap));

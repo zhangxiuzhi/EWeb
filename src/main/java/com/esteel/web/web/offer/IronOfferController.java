@@ -572,6 +572,15 @@ public class IronOfferController {
     		offerAttachVo.setPortName(portVo.getPortName());
     	}
     	
+    	if (inStockOfferRequest.getOfferStatus().equals("publish")) {
+    		// 铁矿报盘状态 :发布
+        	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_IN_SALE + "");
+        	offerMainVo.setPublishUser("王雁飞测试");
+    	} else {
+    		// 铁矿报盘状态 :草稿
+        	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_DRAFT + "");
+    	}
+    	
     	offerMainVo.setUpdateUser("王雁飞测试");
     	
     	// 交货结算条款Json
@@ -587,7 +596,7 @@ public class IronOfferController {
     	
 		if (inStockOfferRequest.getOfferStatus().equals("draft")) {
     		// 铁矿报盘状态 :草稿
-			Assert.notNull(offer, "新增失败！");
+			Assert.notNull(offer, "更新失败！");
     	} else {
     		// 铁矿报盘状态 :草稿
     		Assert.notNull(offer, "发布失败！");
@@ -645,6 +654,49 @@ public class IronOfferController {
     		offerMainVo.addOfferAffix(offerAffix);
     	}
     	
+    	// 是否在保税区 0:否, 1:是
+    	boolean isBondedArea = NumberUtils.toInt(futuresOfferRequest.getIsBondedArea()) == EsteelConstant.YES;
+    	
+    	PortVo queryport = new PortVo();
+    	PortVo port = null;
+    	
+    	// 交货结算条款Json
+    	IronFuturesTransportVo transportVo = new IronFuturesTransportVo();
+    	BeanUtils.copyProperties(transportRequest, transportVo);
+    	
+    	// 在保税区 没有这些数据: 价格术语, 目的港, 运输状态
+    	if (isBondedArea) {
+    		// 保税区港口
+        	long bondedAreaPortId = Long.parseLong(transportRequest.getBondedAreaPortId());
+    		futuresOfferRequest.setPortId(bondedAreaPortId + "");
+    		
+    		queryport.setPortId(bondedAreaPortId);
+    		port = baseClient.getPort(queryport);
+        	if (port != null) {
+        		futuresOfferRequest.setPortName(port.getPortName());
+        	}
+        	
+        	// 价格术语, 目的港, 运输状态
+        	futuresOfferRequest.setPriceTerm(null);
+    		futuresOfferRequest.setPriceTermPortId(null);
+    		futuresOfferRequest.setDischargePortId(null);
+    		futuresOfferRequest.setTransportDescription(null);
+    	} else {
+    		queryport.setPortId(NumberUtils.toLong(futuresOfferRequest.getPriceTermPortId()));
+    		port = baseClient.getPort(port);
+        	if (port != null) {
+        		futuresOfferRequest.setPriceTermPortName(port.getPortName());
+        	}
+        	
+        	queryport.setPortId(NumberUtils.toLong(futuresOfferRequest.getDischargePortId()));
+    		port = baseClient.getPort(port);
+        	if (port != null) {
+        		futuresOfferRequest.setDischargePortName(port.getPortName());
+        	}
+    		
+    		futuresOfferRequest.setTransportDescription(JsonUtils.toJsonString(transportVo));
+    	}
+    	
     	// 第一个货物报盘
     	OfferIronAttachVo firstCargo = getOne(futuresOfferRequest, 0);
     	
@@ -658,23 +710,8 @@ public class IronOfferController {
     		firstCargo.setCommodityName(commodityVo.getCommodityName());
     	}
     	
-    	// 港口
-    	PortVo port = new PortVo();
-    	port.setPortId(Long.parseLong(firstCargo.getPortId()));
-    	
-    	PortVo portVo = baseClient.getPort(port);
-    	if (portVo != null) {
-    		firstCargo.setPortName(portVo.getPortName());
-    	}
-    	
-    	// 交货结算条款Json
-    	IronFuturesTransportVo transportVo = new IronFuturesTransportVo();
-    	BeanUtils.copyProperties(transportRequest, transportVo);
-    	
-    	firstCargo.setTransportDescription(JsonUtils.toJsonString(transportVo));
-    	
     	// 一船两货
-    	if (futuresOfferRequest.getIsMultiCargo().equals(EsteelConstant.YES + "")) {
+    	if (isBondedArea) {
     		// 第二个货物报盘
     		OfferIronAttachVo secondCargo = getOne(futuresOfferRequest, 1);
     		
@@ -688,28 +725,19 @@ public class IronOfferController {
         		secondCargo.setCommodityName(commodityVo.getCommodityName());
         	}
         	
-        	// 港口
-        	port = new PortVo();
-        	port.setPortId(Long.parseLong(secondCargo.getPortId()));
-        	
-        	portVo = baseClient.getPort(port);
-        	if (portVo != null) {
-        		secondCargo.setPortName(portVo.getPortName());
-        	}
-        	
     		secondCargo.setTransportDescription(JsonUtils.toJsonString(transportVo));
     	}
     	
-    	offerMainVo.setUpdateUser("王雁飞测试");
+    	if (futuresOfferRequest.getOfferStatus().equals("publish")) {
+    		// 铁矿报盘状态 :发布
+        	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_IN_SALE + "");
+        	offerMainVo.setPublishUser("王雁飞测试");
+    	} else {
+    		// 铁矿报盘状态 :草稿
+        	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_DRAFT + "");
+    	}
     	
-/*    	// 报盘附件保存 tfs
-    	StatusMSGVo msg = getTfsFileName(offerAffix, "报盘备注附件", 
-    			EsteelConstant.AFFIX_TYPE_OFFER_REMARKS, offerMainVo);
-    	if (msg != null && msg.getStatus() != 0) {
-    		model.addAttribute("msg", msg.getMsg());
-    		
-    		return "/offer/addOffer";
-    	}*/
+    	offerMainVo.setUpdateUser("王雁飞测试");
     	
     	System.out.println(JsonUtils.toJsonString(offerMainVo));
     	
@@ -718,7 +746,7 @@ public class IronOfferController {
     	
 		if (futuresOfferRequest.getOfferStatus().equals("draft")) {
     		// 铁矿报盘状态 :草稿
-			Assert.notNull(offer, "新增失败！");
+			Assert.notNull(offer, "更新失败！");
     	} else {
     		// 铁矿报盘状态 :草稿
     		Assert.notNull(offer, "发布失败！");
@@ -807,33 +835,25 @@ public class IronOfferController {
     	if (portVo != null) {
     		offerAttachVo.setPortName(portVo.getPortName());
     	}
+    	
+    	if (pricingOfferRequest.getOfferStatus().equals("publish")) {
+    		// 铁矿报盘状态 :发布
+        	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_IN_SALE + "");
+        	offerMainVo.setPublishUser("王雁飞测试");
+    	} else {
+    		// 铁矿报盘状态 :草稿
+        	offerMainVo.setOfferStatus(EsteelConstant.OFFER_STATUS_DRAFT + "");
+    	}
 
     	offerMainVo.setUpdateUser("王雁飞测试");
-    	
-/*    	// 保存附件
-    	// tfs 报盘附件
-    	StatusMSGVo msg = getTfsFileName(offerAffix, "报盘备注附件", 
-    			EsteelConstant.AFFIX_TYPE_OFFER_REMARKS, offerMainVo);
-    	if (msg != null && msg.getStatus() != 0) {
-    		model.addAttribute("msg", msg.getMsg());
-    		
-    		return "/offer/addOffer";
-    	}
-    	
-    	// tfs 合同附件
-    	msg = getTfsFileName(contractAffix, "报盘合同附件", 
-    			EsteelConstant.AFFIX_TYPE_OFFER_CONTRACT, offerMainVo);
-    	if (msg != null && msg.getStatus() != 0) {
-    		model.addAttribute("msg", msg.getMsg());
-    		
-    		return "/offer/addOffer";
-    	}*/
     	
     	// 交货结算条款Json
     	IronOfferClauseVo offerClauseVo = new IronOfferClauseVo();
     	BeanUtils.copyProperties(clauseRequest, offerClauseVo);
     	offerClauseVo.setClear_within_several_working_days(
     			clauseRequest.getClear_within_several_working_daysArr()[NumberUtils.toInt(clauseRequest.getSettlement_method())]);
+    	
+    	offerMainVo.setClauseTemplateJson(JsonUtils.toJsonString(offerClauseVo));
     	
     	System.out.println(JsonUtils.toJsonString(offerMainVo));
     	
@@ -842,7 +862,7 @@ public class IronOfferController {
     	
 		if (pricingOfferRequest.getOfferStatus().equals("draft")) {
     		// 铁矿报盘状态 :草稿
-			Assert.notNull(offer, "新增失败！");
+			Assert.notNull(offer, "更新失败！");
     	} else {
     		// 铁矿报盘状态 :草稿
     		Assert.notNull(offer, "发布失败！");

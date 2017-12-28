@@ -25,21 +25,46 @@ import feign.hystrix.FallbackFactory;
 //@FeignClient(name = "Offer",url = "http://127.0.0.1:8880", fallbackFactory = OfferClientCallbackFactory.class, path = "offer")
 @FeignClient(name = "Offer",url = "http://10.0.1.234:8880", fallbackFactory = OfferClientCallbackFactory.class, path = "offer")
 public interface OfferClient {
+	/**
+	 * 铁矿报盘 保存/发布
+	 * @param ironOfferVo
+	 * @return
+	 */
 	@RequestMapping(value = "/saveIronOffer", method = RequestMethod.POST)
 	public IronOfferMainVo saveIronOffer(@RequestBody IronOfferMainVo ironOfferVo);
-	
+	/**
+	 * 铁矿报盘
+	 * @param queryVo
+	 * @return
+	 */
 	@RequestMapping(value = "/ironOffer", method = RequestMethod.POST)
 	public IronOfferMainVo getIronOffer(@RequestBody IronOfferQueryVo queryVo);
-	
+	/**
+	 * 铁矿报盘 更新全部相关信息
+	 * @param ironOfferVo
+	 * @return
+	 */
 	@RequestMapping(value = "/updateIronOffer", method = RequestMethod.POST)
 	public IronOfferMainVo updateIronOffer(@RequestBody IronOfferMainVo ironOfferVo);
-	
+	/**
+	 * 铁矿报盘分页
+	 * @param queryVo
+	 * @return
+	 */
 	@RequestMapping(value = "/ironOfferPage", method = RequestMethod.POST)
 	public IronOfferPage query(@RequestBody IronOfferQueryVo queryVo);
-	
+	/**
+	 * 铁矿报盘 更新主表
+	 * @param ironOfferVo
+	 * @return
+	 */
 	@RequestMapping(value = "/updateIronOfferMain", method = RequestMethod.POST)
 	public IronOfferMainVo updateIronOfferMain(@RequestBody IronOfferMainVo ironOfferVo);
-	
+	/**
+	 * 铁矿报盘 更新主表 附表
+	 * @param ironOfferVo
+	 * @return
+	 */
 	@RequestMapping(value = "/updateIronOfferMainAndAttach", method = RequestMethod.POST)
 	public IronOfferMainVo updateIronOfferMainAndAttach(@RequestBody IronOfferMainVo ironOfferVo);
 }
