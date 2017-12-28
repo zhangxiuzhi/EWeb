@@ -1,13 +1,12 @@
 package com.esteel.web.vo;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.sql.Timestamp;
 
 
 /**
  * The persistent class for the TB_MEMBER_COMPANY_ATTACH database table.
- * ��ҵ��Ա����
+ * 企业信息附表
  */
 public class MemberCompanyAttachVo implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -79,6 +78,20 @@ public class MemberCompanyAttachVo implements Serializable {
 	private Timestamp updateTime;
 
 	private String updateUser;
+	
+	private String agentName;
+	
+	private String agentIdCard;
+	
+	private String agentIdPathP;
+	
+	private String agentIdPathO;
+	
+	private String legalName;
+	
+	private String legalIdPathO;
+	
+	
 
 	public MemberCompanyAttachVo() {
 	}
@@ -353,6 +366,55 @@ public class MemberCompanyAttachVo implements Serializable {
 
 	public void setUpdateUser(String updateUser) {
 		this.updateUser = updateUser;
+	}
+	
+	
+	public String getAgentName() {
+		return agentName;
+	}
+
+	public void setAgentName(String agentName) {
+		this.agentName = agentName;
+	}
+
+	public String getAgentIdCard() {
+		return agentIdCard;
+	}
+
+	public void setAgentIdCard(String agentIdCard) {
+		this.agentIdCard = agentIdCard;
+	}
+
+	public String getAgentIdPathP() {
+		return agentIdPathP;
+	}
+
+	public void setAgentIdPathP(String agentIdPathP) {
+		this.agentIdPathP = agentIdPathP;
+	}
+
+	public String getAgentIdPathO() {
+		return agentIdPathO;
+	}
+
+	public void setAgentIdPathO(String agentIdPathO) {
+		this.agentIdPathO = agentIdPathO;
+	}
+
+	public String getLegalName() {
+		return legalName;
+	}
+
+	public void setLegalName(String legalName) {
+		this.legalName = legalName;
+	}
+
+	public String getLegalIdPathO() {
+		return legalIdPathO;
+	}
+
+	public void setLegalIdPathO(String legalIdPathO) {
+		this.legalIdPathO = legalIdPathO;
 	}
 
 	@Override

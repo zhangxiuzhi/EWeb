@@ -22,8 +22,8 @@ import com.esteel.web.vo.QueryPageVo;
  * @author chenshouye
  *
  */
-//@FeignClient(name = "User", url = "http://127.0.0.1:9930/",fallback = MemberUserClientCallback.class)
-@FeignClient(name = "User",url = "http://10.0.1.234:9930",fallback = MemberUserClientCallback.class)
+@FeignClient(name = "User", url = "http://127.0.0.1:9930/",fallback = MemberUserClientCallback.class)
+//@FeignClient(name = "User",url = "http://10.0.1.234:9930",fallback = MemberUserClientCallback.class)
 public interface MemberClient {
 	/**
 	 * 验证手机号
