@@ -1,12 +1,16 @@
 package com.esteel.web.web.offer;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.esteel.common.controller.WebReturnMessage;
 import com.esteel.common.util.EsteelConstant;
@@ -59,6 +64,8 @@ import reactor.core.support.Assert;
 @RequestMapping("/offer/iron")
 @Controller
 public class IronOfferUIController {
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	@Autowired
 	BaseClient baseClient;
 	@Autowired
@@ -788,6 +795,65 @@ public class IronOfferUIController {
     	// 是否匿名Json
     	model.addAttribute("isAnonymousJson", JSONArray.toJSONString(isAnonymousList));
     	/* 页面数据传输 结束 */
+    }
+    
+    /**
+     * 报盘页面上传附件保存 tfs
+     * @param file
+     * @return
+     */
+    @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
+    @ResponseBody
+    public WebReturnMessage uploadFile(MultipartFile file) {
+    	WebReturnMessage webRetMesage = new WebReturnMessage(true, "");
+    	
+    	if (file == null) {
+    		return webRetMesage;
+    	}
+    	
+		String fileName = file.getOriginalFilename();// 获取上传文件名,包括路径
+	    if (fileName == null || fileName.equals("")) {
+	    	return null;
+	    }
+	    
+	    webRetMesage = new WebReturnMessage(false, "上传失败：请上传有效文件！");
+	    
+	    long size = file.getSize();
+	    if ((fileName == null || fileName.equals("")) && size == 0) {
+	    	return webRetMesage;
+	    }
+	    
+	    String fileType = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
+	    
+		// 支持拓展名:doc,docx,xls,xlsx,pdf,zip,rar,7z
+	    if (!Pattern.matches("^((docx?)|(xlsx?)|(pdf)|(zip)|(rar)|(7z))$", fileType)) {
+	    	webRetMesage.setMsg("上传失败：请上传扩展名为：doc,docx,xls,xlsx,pdf,zip,rar,7z的文件！");
+	    	
+	    	return webRetMesage;
+	    }
+	    
+	    if (size > 1024 * 1024) {
+	    	webRetMesage.setMsg("上传失败：请上传小于1MB的文件！");
+	    	
+	    	return webRetMesage;
+	    }
+	    
+	    try {
+	    	String tfsFileName = tfsManager.saveFile(file.getBytes(), null, fileType);
+	    	List<Object> list = new ArrayList<>();
+			list.add(tfsFileName);
+			list.add("." + fileType);
+			logger.info("文件上传成功");
+			return new WebReturnMessage(true, "", list);// 成功返回文件id
+	    	
+		} catch (IOException e) {
+			e.printStackTrace();
+			logger.error("错误位置：" + this.getClass() + ".uploadFile" + e);
+			
+			webRetMesage.setMsg("上传失败：请稍后再操作！");
+			
+			return webRetMesage;
+		}
     }
 }
 

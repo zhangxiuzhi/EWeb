@@ -1,30 +1,26 @@
 package com.esteel.web.web.offer;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang.math.NumberUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.esteel.common.controller.WebReturnMessage;
 import com.esteel.common.util.EsteelConstant;
 import com.esteel.common.util.JsonUtils;
-import com.esteel.common.vo.StatusMSGVo;
 import com.esteel.web.service.BaseClient;
 import com.esteel.web.service.MemberClient;
 import com.esteel.web.service.OfferClient;
@@ -36,13 +32,11 @@ import com.esteel.web.vo.offer.IronOfferClauseVo;
 import com.esteel.web.vo.offer.IronOfferMainVo;
 import com.esteel.web.vo.offer.OfferAffixVo;
 import com.esteel.web.vo.offer.OfferIronAttachVo;
-import com.esteel.web.vo.offer.OfferIronAttachVo.IronPricingOffer;
 import com.esteel.web.vo.offer.request.IronFuturesOfferRequest;
 import com.esteel.web.vo.offer.request.IronFuturesTransportRequest;
 import com.esteel.web.vo.offer.request.IronInStockOfferRequest;
 import com.esteel.web.vo.offer.request.IronOfferClauseRequest;
 import com.esteel.web.vo.offer.request.IronPricingOfferRequest;
-import com.taobao.common.tfs.TfsManager;
 
 import reactor.core.support.Assert;
 
@@ -57,14 +51,14 @@ import reactor.core.support.Assert;
 @RequestMapping("/offer/iron")
 @Controller
 public class IronOfferController {
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	@Autowired
 	BaseClient baseClient;
 	@Autowired
 	MemberClient memberClient;
 	@Autowired
 	OfferClient offerClient;
-	@Autowired
-    TfsManager tfsManager;
 	
     /**
      * 现货报盘保存
@@ -76,13 +70,12 @@ public class IronOfferController {
      * @return
      */
     @RequestMapping(value = "/saveInStockOffer", method = RequestMethod.POST)
-    public String saveInStockOffer(IronInStockOfferRequest inStockOfferRequest, 
-    		@RequestParam("offerAffix") MultipartFile offerAffix,  IronOfferClauseRequest clauseRequest, 
-    		@RequestParam("contractAffix") MultipartFile contractAffix, Model model) {
+    @ResponseBody
+    public WebReturnMessage saveInStockOffer(IronInStockOfferRequest inStockOfferRequest, 
+    		IronOfferClauseRequest clauseRequest,  Model model) {
     	Assert.notNull(inStockOfferRequest, "提交失败！");
-    	
     	Assert.notNull(clauseRequest, "提交失败！");
-
+		
     	IronOfferMainVo offerMainVo = new IronOfferMainVo();
     	// 将request 复制到 offerMainVo
     	BeanUtils.copyProperties(inStockOfferRequest, offerMainVo);
@@ -102,6 +95,27 @@ public class IronOfferController {
     		// 是否指定 0:否, 1:是
     		offerMainVo.setIsDesignation("1");
     		offerMainVo.setCounterpartyIdList(counterpartyIdList);
+    	}
+    	
+    	// 保存附件
+    	// tfs 报盘附件
+    	if (inStockOfferRequest.getOfferAffixPath() != null && !inStockOfferRequest.getOfferAffixPath().trim().equals("")) {
+    		OfferAffixVo offerAffix = new OfferAffixVo();
+    		
+    		offerAffix.setAffixType(EsteelConstant.AFFIX_TYPE_OFFER_REMARKS);
+    		offerAffix.setAffixPath(inStockOfferRequest.getOfferAffixPath());
+    		
+    		offerMainVo.addOfferAffix(offerAffix);
+    	}
+    	
+    	// tfs 合同附件
+    	if (inStockOfferRequest.getContractAffixPath() != null && !inStockOfferRequest.getContractAffixPath().trim().equals("")) {
+    		OfferAffixVo oferAffix = new OfferAffixVo();
+    		
+    		oferAffix.setAffixType(EsteelConstant.AFFIX_TYPE_OFFER_CONTRACT);
+    		oferAffix.setAffixPath(inStockOfferRequest.getContractAffixPath());
+    		
+    		offerMainVo.addOfferAffix(oferAffix);
     	}
     	
     	OfferIronAttachVo offerAttachVo = new OfferIronAttachVo();
@@ -150,25 +164,6 @@ public class IronOfferController {
     	offerMainVo.setCreateUser("王雁飞测试");
     	offerMainVo.setUpdateUser("王雁飞测试");
     	
-    	// 保存附件
-    	// tfs 报盘附件
-    	StatusMSGVo msg = getTfsFileName(offerAffix, "报盘备注附件", 
-    			EsteelConstant.AFFIX_TYPE_OFFER_REMARKS, offerMainVo);
-    	if (msg != null && msg.getStatus() != 0) {
-    		model.addAttribute("msg", msg.getMsg());
-    		
-    		return "/offer/addOffer";
-    	}
-    	
-    	// tfs 合同附件
-    	msg = getTfsFileName(contractAffix, "报盘合同附件", 
-    			EsteelConstant.AFFIX_TYPE_OFFER_CONTRACT, offerMainVo);
-    	if (msg != null && msg.getStatus() != 0) {
-    		model.addAttribute("msg", msg.getMsg());
-    		
-    		return "/offer/addOffer";
-    	}
-    	
     	// 交货结算条款Json
     	IronOfferClauseVo offerClauseVo = new IronOfferClauseVo();
     	BeanUtils.copyProperties(clauseRequest, offerClauseVo);
@@ -190,7 +185,7 @@ public class IronOfferController {
     		Assert.notNull(offer, "发布失败！");
     	}
     	
-        return "redirect:/offer/iron//myList";
+        return new WebReturnMessage(true, "success");
     }
     
     /**
@@ -203,9 +198,9 @@ public class IronOfferController {
      * @return
      */
     @RequestMapping(value = "/saveFuturesOffer", method = RequestMethod.POST)
-    public String saveFuturesOffer(IronFuturesOfferRequest futuresOfferRequest, 
-    		IronFuturesTransportRequest transportRequest, 
-    		@RequestParam("offerAffix") MultipartFile offerAffix, Model model){
+    @ResponseBody
+    public WebReturnMessage saveFuturesOffer(IronFuturesOfferRequest futuresOfferRequest, 
+    		IronFuturesTransportRequest transportRequest, Model model){
     	Assert.notNull(futuresOfferRequest, "提交失败！");
     	
     	Assert.notNull(transportRequest, "提交失败！");
@@ -229,6 +224,17 @@ public class IronOfferController {
     		// 是否指定 0:否, 1:是
     		offerMainVo.setIsDesignation("1");
     		offerMainVo.setCounterpartyIdList(counterpartyIdList);
+    	}
+    	
+    	// 保存附件
+    	// tfs 报盘附件
+    	if (futuresOfferRequest.getOfferAffixPath() != null && !futuresOfferRequest.getOfferAffixPath().trim().equals("")) {
+    		OfferAffixVo offerAffix = new OfferAffixVo();
+    		
+    		offerAffix.setAffixType(EsteelConstant.AFFIX_TYPE_OFFER_REMARKS);
+    		offerAffix.setAffixPath(futuresOfferRequest.getOfferAffixPath().trim());
+    		
+    		offerMainVo.addOfferAffix(offerAffix);
     	}
     	
     	// 是否在保税区 0:否, 1:是
@@ -332,14 +338,14 @@ public class IronOfferController {
     	offerMainVo.setCreateUser("王雁飞测试");
     	offerMainVo.setUpdateUser("王雁飞测试");
     	
-    	// 报盘附件保存 tfs
+/*    	// 报盘附件保存 tfs
     	StatusMSGVo msg = getTfsFileName(offerAffix, "报盘备注附件", 
     			EsteelConstant.AFFIX_TYPE_OFFER_REMARKS, offerMainVo);
     	if (msg != null && msg.getStatus() != 0) {
     		model.addAttribute("msg", msg.getMsg());
     		
     		return "/offer/addOffer";
-    	}
+    	}*/
     	
     	System.out.println(JsonUtils.toJsonString(offerMainVo));
     	
@@ -354,7 +360,7 @@ public class IronOfferController {
     		Assert.notNull(offer, "发布失败！");
     	}
     	
-        return "redirect:/offer/iron//myList";
+        return new WebReturnMessage(true, "success");
     }
     
     /**
@@ -367,11 +373,10 @@ public class IronOfferController {
      * @return
      */
     @RequestMapping(value = "/savePricingOffer", method = RequestMethod.POST)
-    public String savePricingOffer(@Validated(IronPricingOffer.class) IronPricingOfferRequest pricingOfferRequest, BindingResult offerResult, 
-    		@RequestParam("offerAffix") MultipartFile offerAffix, IronOfferClauseRequest clauseRequest, 
-    		@RequestParam("contractAffix") MultipartFile contractAffix, Model model){
+    @ResponseBody
+    public WebReturnMessage savePricingOffer(IronPricingOfferRequest pricingOfferRequest, 
+    		IronOfferClauseRequest clauseRequest, Model model){
     	Assert.notNull(pricingOfferRequest, "提交失败！");
-    	
     	Assert.notNull(clauseRequest, "提交失败！");
     	
     	IronOfferMainVo offerMainVo = new IronOfferMainVo();
@@ -393,6 +398,27 @@ public class IronOfferController {
     		// 是否指定 0:否, 1:是
     		offerMainVo.setIsDesignation("1");
     		offerMainVo.setCounterpartyIdList(counterpartyIdList);
+    	}
+    	
+    	// 保存附件
+    	// tfs 报盘附件
+    	if (pricingOfferRequest.getOfferAffixPath() != null && !pricingOfferRequest.getOfferAffixPath().trim().equals("")) {
+    		OfferAffixVo offerAffix = new OfferAffixVo();
+    		
+    		offerAffix.setAffixType(EsteelConstant.AFFIX_TYPE_OFFER_REMARKS);
+    		offerAffix.setAffixPath(pricingOfferRequest.getOfferAffixPath());
+    		
+    		offerMainVo.addOfferAffix(offerAffix);
+    	}
+    	
+    	// tfs 合同附件
+    	if (pricingOfferRequest.getContractAffixPath() != null && !pricingOfferRequest.getContractAffixPath().trim().equals("")) {
+    		OfferAffixVo oferAffix = new OfferAffixVo();
+    		
+    		oferAffix.setAffixType(EsteelConstant.AFFIX_TYPE_OFFER_CONTRACT);
+    		oferAffix.setAffixPath(pricingOfferRequest.getContractAffixPath());
+    		
+    		offerMainVo.addOfferAffix(oferAffix);
     	}
     	
     	OfferIronAttachVo offerAttachVo = new OfferIronAttachVo();
@@ -440,25 +466,6 @@ public class IronOfferController {
     	offerMainVo.setCreateUser("王雁飞测试");
     	offerMainVo.setUpdateUser("王雁飞测试");
     	
-    	// 保存附件
-    	// tfs 报盘附件
-    	StatusMSGVo msg = getTfsFileName(offerAffix, "报盘备注附件", 
-    			EsteelConstant.AFFIX_TYPE_OFFER_REMARKS, offerMainVo);
-    	if (msg != null && msg.getStatus() != 0) {
-    		model.addAttribute("msg", msg.getMsg());
-    		
-    		return "/offer/addOffer";
-    	}
-    	
-    	// tfs 合同附件
-    	msg = getTfsFileName(contractAffix, "报盘合同附件", 
-    			EsteelConstant.AFFIX_TYPE_OFFER_CONTRACT, offerMainVo);
-    	if (msg != null && msg.getStatus() != 0) {
-    		model.addAttribute("msg", msg.getMsg());
-    		
-    		return "/offer/addOffer";
-    	}
-    	
     	// 交货结算条款Json
     	IronOfferClauseVo offerClauseVo = new IronOfferClauseVo();
     	BeanUtils.copyProperties(clauseRequest, offerClauseVo);
@@ -480,7 +487,7 @@ public class IronOfferController {
     		Assert.notNull(offer, "发布失败！");
     	}
     	
-        return "redirect:/offer/iron//myList";
+        return new WebReturnMessage(true, "success");
     }
     
     /**
@@ -493,11 +500,10 @@ public class IronOfferController {
      * @return
      */
     @RequestMapping(value = "/updateInStockOffer", method = RequestMethod.POST)
-    public String updateInStockOffer(IronInStockOfferRequest inStockOfferRequest, 
-    		@RequestParam("offerAffix") MultipartFile offerAffix,  IronOfferClauseRequest clauseRequest, 
-    		@RequestParam("contractAffix") MultipartFile contractAffix, Model model) {
+    @ResponseBody
+    public WebReturnMessage updateInStockOffer(IronInStockOfferRequest inStockOfferRequest, 
+    		IronOfferClauseRequest clauseRequest,  Model model) {
     	Assert.notNull(inStockOfferRequest, "提交失败！");
-    	
     	Assert.notNull(clauseRequest, "提交失败！");
 
     	IronOfferMainVo offerMainVo = new IronOfferMainVo();
@@ -519,6 +525,27 @@ public class IronOfferController {
     		// 是否指定 0:否, 1:是
     		offerMainVo.setIsDesignation("1");
     		offerMainVo.setCounterpartyIdList(counterpartyIdList);
+    	}
+    	
+    	// 保存附件
+    	// tfs 报盘附件
+    	if (inStockOfferRequest.getOfferAffixPath() != null && !inStockOfferRequest.getOfferAffixPath().trim().equals("")) {
+    		OfferAffixVo offerAffix = new OfferAffixVo();
+    		
+    		offerAffix.setAffixType(EsteelConstant.AFFIX_TYPE_OFFER_REMARKS);
+    		offerAffix.setAffixPath(inStockOfferRequest.getOfferAffixPath());
+    		
+    		offerMainVo.addOfferAffix(offerAffix);
+    	}
+    	
+    	// tfs 合同附件
+    	if (inStockOfferRequest.getContractAffixPath() != null && !inStockOfferRequest.getContractAffixPath().trim().equals("")) {
+    		OfferAffixVo oferAffix = new OfferAffixVo();
+    		
+    		oferAffix.setAffixType(EsteelConstant.AFFIX_TYPE_OFFER_CONTRACT);
+    		oferAffix.setAffixPath(inStockOfferRequest.getContractAffixPath());
+    		
+    		offerMainVo.addOfferAffix(oferAffix);
     	}
     	
     	OfferIronAttachVo offerAttachVo = new OfferIronAttachVo();
@@ -547,25 +574,6 @@ public class IronOfferController {
     	
     	offerMainVo.setUpdateUser("王雁飞测试");
     	
-    	// 保存附件
-    	// tfs 报盘附件
-    	StatusMSGVo msg = getTfsFileName(offerAffix, "报盘备注附件", 
-    			EsteelConstant.AFFIX_TYPE_OFFER_REMARKS, offerMainVo);
-    	if (msg != null && msg.getStatus() != 0) {
-    		model.addAttribute("msg", msg.getMsg());
-    		
-    		return "/offer/addOffer";
-    	}
-    	
-    	// tfs 合同附件
-    	msg = getTfsFileName(contractAffix, "报盘合同附件", 
-    			EsteelConstant.AFFIX_TYPE_OFFER_CONTRACT, offerMainVo);
-    	if (msg != null && msg.getStatus() != 0) {
-    		model.addAttribute("msg", msg.getMsg());
-    		
-    		return "/offer/addOffer";
-    	}
-    	
     	// 交货结算条款Json
     	IronOfferClauseVo offerClauseVo = new IronOfferClauseVo();
     	BeanUtils.copyProperties(clauseRequest, offerClauseVo);
@@ -585,7 +593,7 @@ public class IronOfferController {
     		Assert.notNull(offer, "发布失败！");
     	}
     	
-        return "redirect:/offer/myOffer";
+        return new WebReturnMessage(true, "success");
     }
     
     /**
@@ -598,9 +606,9 @@ public class IronOfferController {
      * @return
      */
     @RequestMapping(value = "/updateFuturesOffer", method = RequestMethod.POST)
-    public String updateFuturesOffer(IronFuturesOfferRequest futuresOfferRequest, 
-    		IronFuturesTransportRequest transportRequest, 
-    		@RequestParam("offerAffix") MultipartFile offerAffix, Model model){
+    @ResponseBody
+    public WebReturnMessage updateFuturesOffer(IronFuturesOfferRequest futuresOfferRequest, 
+    		IronFuturesTransportRequest transportRequest, Model model){
     	Assert.notNull(futuresOfferRequest, "提交失败！");
     	
     	Assert.notNull(transportRequest, "提交失败！");
@@ -624,6 +632,17 @@ public class IronOfferController {
     		// 是否指定 0:否, 1:是
     		offerMainVo.setIsDesignation("1");
     		offerMainVo.setCounterpartyIdList(counterpartyIdList);
+    	}
+    	
+    	// 保存附件
+    	// tfs 报盘附件
+    	if (futuresOfferRequest.getOfferAffixPath() != null && !futuresOfferRequest.getOfferAffixPath().trim().equals("")) {
+    		OfferAffixVo offerAffix = new OfferAffixVo();
+    		
+    		offerAffix.setAffixType(EsteelConstant.AFFIX_TYPE_OFFER_REMARKS);
+    		offerAffix.setAffixPath(futuresOfferRequest.getOfferAffixPath().trim());
+    		
+    		offerMainVo.addOfferAffix(offerAffix);
     	}
     	
     	// 第一个货物报盘
@@ -683,14 +702,14 @@ public class IronOfferController {
     	
     	offerMainVo.setUpdateUser("王雁飞测试");
     	
-    	// 报盘附件保存 tfs
+/*    	// 报盘附件保存 tfs
     	StatusMSGVo msg = getTfsFileName(offerAffix, "报盘备注附件", 
     			EsteelConstant.AFFIX_TYPE_OFFER_REMARKS, offerMainVo);
     	if (msg != null && msg.getStatus() != 0) {
     		model.addAttribute("msg", msg.getMsg());
     		
     		return "/offer/addOffer";
-    	}
+    	}*/
     	
     	System.out.println(JsonUtils.toJsonString(offerMainVo));
     	
@@ -705,7 +724,7 @@ public class IronOfferController {
     		Assert.notNull(offer, "发布失败！");
     	}
     	
-        return "redirect:/offer/myOffer";
+        return new WebReturnMessage(true, "success");
     }
     
     /**
@@ -718,26 +737,11 @@ public class IronOfferController {
      * @return
      */
     @RequestMapping(value = "/updatePricingOffer", method = RequestMethod.POST)
-    public String updatePricingOffer(@Validated(IronPricingOffer.class) IronPricingOfferRequest pricingOfferRequest, BindingResult offerResult, 
-    		@RequestParam("offerAffix") MultipartFile offerAffix, IronOfferClauseRequest clauseRequest, 
-    		@RequestParam("contractAffix") MultipartFile contractAffix, Model model){
+    @ResponseBody
+    public WebReturnMessage updatePricingOffer(IronPricingOfferRequest pricingOfferRequest, 
+    		IronOfferClauseRequest clauseRequest, Model model){
     	Assert.notNull(pricingOfferRequest, "提交失败！");
-    	
     	Assert.notNull(clauseRequest, "提交失败！");
-    	
-    	// 页面验证
-		if(offerResult.hasErrors()) {
-			StringBuilder sb = new StringBuilder();
-			List<ObjectError> errors = offerResult.getAllErrors();
-			for (ObjectError err : errors) {
-				sb.append(err.getDefaultMessage()+";");
-			}
-			
-			model.addAttribute("msg", sb.toString());
-			System.out.println(sb.toString());
-		    
-		    return "/offer/addOffer";
-		}
     	
     	IronOfferMainVo offerMainVo = new IronOfferMainVo();
     	// 将request 复制到 offerMainVo
@@ -758,6 +762,27 @@ public class IronOfferController {
     		// 是否指定 0:否, 1:是
     		offerMainVo.setIsDesignation("1");
     		offerMainVo.setCounterpartyIdList(counterpartyIdList);
+    	}
+    	
+    	// 保存附件
+    	// tfs 报盘附件
+    	if (pricingOfferRequest.getOfferAffixPath() != null && !pricingOfferRequest.getOfferAffixPath().trim().equals("")) {
+    		OfferAffixVo offerAffix = new OfferAffixVo();
+    		
+    		offerAffix.setAffixType(EsteelConstant.AFFIX_TYPE_OFFER_REMARKS);
+    		offerAffix.setAffixPath(pricingOfferRequest.getOfferAffixPath());
+    		
+    		offerMainVo.addOfferAffix(offerAffix);
+    	}
+    	
+    	// tfs 合同附件
+    	if (pricingOfferRequest.getContractAffixPath() != null && !pricingOfferRequest.getContractAffixPath().trim().equals("")) {
+    		OfferAffixVo oferAffix = new OfferAffixVo();
+    		
+    		oferAffix.setAffixType(EsteelConstant.AFFIX_TYPE_OFFER_CONTRACT);
+    		oferAffix.setAffixPath(pricingOfferRequest.getContractAffixPath());
+    		
+    		offerMainVo.addOfferAffix(oferAffix);
     	}
     	
     	OfferIronAttachVo offerAttachVo = new OfferIronAttachVo();
@@ -785,7 +810,7 @@ public class IronOfferController {
 
     	offerMainVo.setUpdateUser("王雁飞测试");
     	
-    	// 保存附件
+/*    	// 保存附件
     	// tfs 报盘附件
     	StatusMSGVo msg = getTfsFileName(offerAffix, "报盘备注附件", 
     			EsteelConstant.AFFIX_TYPE_OFFER_REMARKS, offerMainVo);
@@ -802,7 +827,7 @@ public class IronOfferController {
     		model.addAttribute("msg", msg.getMsg());
     		
     		return "/offer/addOffer";
-    	}
+    	}*/
     	
     	// 交货结算条款Json
     	IronOfferClauseVo offerClauseVo = new IronOfferClauseVo();
@@ -823,77 +848,9 @@ public class IronOfferController {
     		Assert.notNull(offer, "发布失败！");
     	}
     	
-        return "redirect:/offer/myOffer";
+        return new WebReturnMessage(true, "success");
     }
     
-    /**
-     * 报盘页面上传附件保存 tfs
-     * @param file
-     * @param multipartFile
-     * @param futuresOfferVo
-     * @param affixType
-     * @return
-     */
-    private StatusMSGVo getTfsFileName(MultipartFile file, String affixName, 
-    		int affixType, IronOfferMainVo  offerMainVo) {
-    	if (file == null) {
-    		return null;
-    	}
-    	
-    	StatusMSGVo vo = new StatusMSGVo();
-
-		String fileName = file.getOriginalFilename();// 获取上传文件名,包括路径
-	    if (fileName == null || fileName.equals("")) {
-	    	return null;
-	    }
-	    
-	    long size = file.getSize();
-	    if ((fileName == null || fileName.equals("")) && size == 0) {
-	    	vo.setStatus(1);
-	    	vo.setMsg(affixName + "上传失败：请上传有效文件！");
-	    	
-	    	return vo;
-	    }
-	    
-	    String fileType = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
-	    
-		// 支持拓展名:doc,docx,xls,xlsx,pdf,zip,rar,7z
-	    if (!Pattern.matches("^((docx?)|(xlsx?)|(pdf)|(zip)|(rar)|(7z))$", fileType)) {
-	    	vo.setStatus(1);
-	    	vo.setMsg(affixName + "上传失败：请上传扩展名为：doc,docx,xls,xlsx,pdf,zip,rar,7z的文件！");
-	    	
-	    	return vo;
-	    }
-	    
-	    if (size > 1024 * 1024) {
-	    	vo.setStatus(1);
-	    	vo.setMsg(affixName + "上传失败：请上传小于1MB的文件！");
-	    	
-	    	return vo;
-	    }
-	    
-	    try {
-	    	String tfsFileName = tfsManager.saveFile(file.getBytes(), null, fileType);
-	    	
-	    	vo.setStatus(0);
-	    	vo.setMsg(affixName + "保存成功！");
-	    	
-	    	// 记录 tfs返回ID
-	    	OfferAffixVo offerAffix = new OfferAffixVo();
-	    	offerAffix.setAffixType(affixType);
-	    	offerAffix.setAffixPath(tfsFileName);
-	    	
-	    	offerMainVo.addOfferAffix(offerAffix);
-		} catch (IOException e) {
-			e.printStackTrace();
-			
-			vo.setStatus(1);
-	    	vo.setMsg(affixName + "保存失败：请稍后再操作！");
-		}
-	    
-    	return vo;
-    }
-
     /**
 	 * 根据下标获取货物
 	 * @param index

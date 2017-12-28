@@ -124,7 +124,7 @@ public @interface IronFuturesOffer {
 			if (NumberUtils.toInt(futuresOfferRequest.getIsMultiCargo()) == EsteelConstant.YES) {
 				length = 2;
 				
-				if (futuresOfferRequest.getFeArr().length >= length) {
+				if (futuresOfferRequest.getFeArr().length < length) {
 					context.buildConstraintViolationWithTemplate("请填完 Fe指标。")  
 	                .addPropertyNode("feArr")  
 	                .addConstraintViolation();
@@ -132,7 +132,7 @@ public @interface IronFuturesOffer {
 					return false;
 				}
 				
-				if (futuresOfferRequest.getIndicatorTypeIdArr().length >= length) {
+				if (futuresOfferRequest.getIndicatorTypeIdArr().length < length) {
 					context.buildConstraintViolationWithTemplate("请选完 指标。")  
 	                .addPropertyNode("indicatorTypeIdArr")  
 	                .addConstraintViolation();
@@ -140,7 +140,7 @@ public @interface IronFuturesOffer {
 					return false;
 				}
 				
-				if (futuresOfferRequest.getOfferQuantityArr().length >= length) {
+				if (futuresOfferRequest.getOfferQuantityArr().length < length) {
 					context.buildConstraintViolationWithTemplate("请填完 报盘数量。")  
 	                .addPropertyNode("offerQuantityArr")  
 	                .addConstraintViolation();
@@ -148,7 +148,7 @@ public @interface IronFuturesOffer {
 					return false;
 				}
 				
-				if (futuresOfferRequest.getMoreOrLessArr().length >= length) {
+				if (futuresOfferRequest.getMoreOrLessArr().length < length) {
 					context.buildConstraintViolationWithTemplate("请填完 溢短装。")  
 	                .addPropertyNode("moreOrLessArr")  
 	                .addConstraintViolation();
@@ -157,7 +157,7 @@ public @interface IronFuturesOffer {
 				}
 				
 				if (fixPrice) {
-					if (futuresOfferRequest.getPriceValueArr().length >= length) {
+					if (futuresOfferRequest.getPriceValueArr().length < length) {
 						context.buildConstraintViolationWithTemplate("请填完 价格数值。")  
 		                .addPropertyNode("priceValueArr")  
 		                .addConstraintViolation();
@@ -165,7 +165,7 @@ public @interface IronFuturesOffer {
 						return false;
 					}
 					
-					if (futuresOfferRequest.getPriceBasisFeArr().length >= length) {
+					if (futuresOfferRequest.getPriceBasisFeArr().length < length) {
 						context.buildConstraintViolationWithTemplate("请填完 价格基数Fe。")  
 		                .addPropertyNode("priceBasisFeArr")  
 		                .addConstraintViolation();

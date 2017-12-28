@@ -54,7 +54,7 @@
 					        <div class="form-group">
 					            <label class="col-sm-2 control-label">指标类型</label>
 					            <div class="col-sm-8">
-					                <div id="component-radioBoxGroup-kpiType" inputName="indicatorTypeId" th:value="${offerAttach.indicatorTypeId}"></div>
+					                <div id="component-radioBoxGroup-kpiType" inputName="indicatorTypeId"></div>
 					            </div>
 					        </div>
 					 
@@ -148,11 +148,12 @@
 					                    <span class="btn btn-default btn-file btn-ghost">
 					                        <span class="fileupload-new"><i class="fa fa-folder-open-o"></i> 选择文件</span>
 					                        <span class="fileupload-exists"><i class="fa fa-folder-open-o"></i> 替换文件</span>
-					                        <input type="file" name="offerAffix" class="form-control uploadFile" accept=".doc,.docx,.xls,.xlsx,.pdf,.zip,.rar,.7z"/>
+					                        <input type="file" id="offerAffix" name="file" class="form-control uploadFile" accept=".doc,.docx,.xls,.xlsx,.pdf,.zip,.rar,.7z" onchange="upload(this)"/>
 					                    </span>
 					                    <span class="fileupload-preview"></span>
 					                    <a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none">×</a>
 					                </span>
+					                <input type="hidden" id="offerAffixPath" name="offerAffixPath"/>
 					            </div>
 					        </div>
 					 
@@ -273,11 +274,12 @@
 					                    <span class="btn btn-default btn-file btn-ghost">
 					                        <span class="fileupload-new"><i class="fa fa-folder-open-o"></i> 选择文件</span>
 					                        <span class="fileupload-exists"><i class="fa fa-folder-open-o"></i> 替换文件</span>
-					                        <input type="file" name="contractAffix" class="form-control uploadFile" accept=".doc,.docx,.xls,.xlsx,.pdf,.zip,.rar,.7z"/>
+					                        <input type="file" id="contractAffix" name="file" class="form-control uploadFile" accept=".doc,.docx,.xls,.xlsx,.pdf,.zip,.rar,.7z" onchange="upload(this)"/>
 					                    </span>
 					                    <span class="fileupload-preview"></span>
 					                    <a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none">×</a>
 					                </span>
+					                <input type="hidden" id="contractAffixPath" name="contractAffixPath"/>
 					            </div>
 					        </div>
 					        <div class="form-group">

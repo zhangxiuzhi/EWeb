@@ -90,7 +90,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">*品名</label>
                 <div class="col-sm-4">
-                    <div id="component-selectBox-ItemName-2" inputName="commodityIdArr" data-validetta="required"></div>
+                    <div id="component-selectBox-ItemName-2" inputName="commodityIdArr"></div>
                 </div>
             </div>
             
@@ -109,7 +109,7 @@
                             <th>Fe</th><th>SiO2</th><th>A12O3</th><th>Mn</th><th>LOI</th>
                         </tr>
                         <tr>
-                            <td><input type="text" class="form-control" name="feArr" id="indicator-FE-2" data-validetta="required"/></td>
+                            <td><input type="text" class="form-control" name="feArr" id="indicator-FE-2"/></td>
                             <td><input type="text" class="form-control" name="sio2Arr" id="indicator-SIO2-2"/></td>
                             <td><input type="text" class="form-control" name="al2o3Arr" id="indicator-AL2O3-2"/></td>
                             <td><input type="text" class="form-control" name="mnArr" id="indicator-MN-2"/></td>
@@ -139,12 +139,12 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">*数量</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" data-validetta="required" name="offerQuantityArr"/>
+                    <input type="text" class="form-control" name="offerQuantityArr"/>
                 </div>
 
                 <label class="col-sm-2 control-label">*溢短装</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" data-validetta="required" name="moreOrLessArr"/>
+                    <input type="text" class="form-control" name="moreOrLessArr"/>
                 </div>
             </div>
         </div>
@@ -301,11 +301,12 @@
                     <span class="btn btn-default btn-file btn-ghost">
                         <span class="fileupload-new"><i class="fa fa-folder-open-o"></i> 选择文件</span>
                         <span class="fileupload-exists"><i class="fa fa-folder-open-o"></i> 替换文件</span>
-                        <input type="file" name="offerAffix" class="form-control uploadFile" accept=".doc,.docx,.xls,.xlsx,.pdf,.zip,.rar,.7z"/>
+                        <input type="file" id="offerAffix" name="file" class="form-control uploadFile" accept=".doc,.docx,.xls,.xlsx,.pdf,.zip,.rar,.7z" onchange="upload(this)"/>
                     </span>
                     <span class="fileupload-preview"></span>
                     <a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none">×</a>
                 </span>
+                <input type="hidden" id="offerAffixPath" name="offerAffixPath"/>
             </div>
         </div>
 

@@ -243,9 +243,22 @@ function save_offer(){
         	 esteel_offerEdit_Futures.ajaxRequest({
      	    	url:_url,
      	        data:$('#form-offer').serialize()
-     	    },  function (result) {
-     	    	if (result.success) {
-     	    		$("#form-offer")[0].submit();
+     	    },  function (data, msg) {
+     	    	if (msg == 'success') {
+     	    		
+     	    		var _url = "/offer/iron/updateFuturesOffer";
+     				
+     				var formData = new FormData($('form-offer')[0]);
+     	        	 esteel_addOffer.ajaxRequest({
+     	     	    	url:_url,
+     	     	        data:$('#form-offer').serialize()
+     	     	    }, function (data, msg) {
+     	     	    	alert(result.msg);
+     	     	    	if (msg == 'success') {
+     	     	    		window.location.href = "/offer/iron/myList";
+     	     	    	}
+     	     	    });
+     	    		
      	    	} else {
      	    		alert(result.msg);
      	    	}
@@ -263,10 +276,23 @@ function submit_offer(){
 			esteel_offerEdit_Futures.ajaxRequest({
      	    	url:_url,
      	        data:$('#form-offer').serialize()
-     	    },  function (result) {
-     	    	if (result.success) {
+     	    },  function (data, msg) {
+     	    	if (msg == 'success') {
      	    		$("#offerStatus").val("publish");
-     	    		$("#form-offer")[0].submit();
+     	    		
+     	    		var _url = "/offer/iron/updateInStockOffer";
+     				
+     				var formData = new FormData($('form-offer')[0]);
+     	        	 esteel_addOffer.ajaxRequest({
+     	     	    	url:_url,
+     	     	        data:$('#form-offer').serialize()
+     	     	    }, function (data, msg) {
+     	     	    	alert(result.msg);
+     	     	    	if (msg == 'success') {
+     	     	    		window.location.href = "/offer/iron/myList";
+     	     	    	}
+     	     	    });
+     	    		
      	    	} else {
      	    		alert(result.msg);
      	    	}
@@ -284,7 +310,7 @@ function changeIronAttributeLink_1(node){
 function changeIndicatorValue1(value,label){
   if(value == "26" && label =="典型值"){
       //品名切换改变指标值
-      changeIronCommodityIndicator1(esteel_addOffer.selectBox_ItemName1.state.node,'');
+      changeIronCommodityIndicator1(esteel_offerEdit_Futures.selectBox_ItemName1.state.node,'');
   }else{
       //清空指标值
       $(".offer-kip-table input.form-control").val("");
@@ -311,7 +337,7 @@ function changeIronAttributeLink_2(node) {
 function changeIndicatorValue2(value,label){
   if(value == "26" && label =="典型值"){
       //品名切换改变指标值
-      changeIronCommodityIndicator2(esteel_addOffer.selectBox_ItemName2.state.node,'');
+      changeIronCommodityIndicator2(esteel_offerEdit_Futures.selectBox_ItemName2.state.node,'');
   }else{
       //清空指标值
       $(".offer-kip-table input.form-control").val("");
@@ -377,4 +403,31 @@ function changeBondedArea(checked){
         $("#offer-priceTerm-box").show();
         $("#offer-transportStatus-box").show();
     }
+}
+
+//文件上传
+function upload(elem) {
+	var fileId =elem.id; 
+	$.ajaxFileUpload({
+		url: '/offer/iron/uploadFile',
+		secureuri: false,
+		fileElementId: elem.id,// file标签的id
+		dataType: 'json',
+		beforeSend: function (xhr) {
+			xhr.setRequestHeader(header, token);
+		},
+		success: function (result) {
+			if (result.success) {
+				//返回文件id
+				if(result.data!=null){
+					//保存数据库的字符串
+					var saveStr = result.data[0]+result.data[1];
+					//赋值
+					$("#"+fileId+"Path").val(saveStr);
+				}
+			} else {
+				alert(result.msg);
+			}
+		}
+	});
 }

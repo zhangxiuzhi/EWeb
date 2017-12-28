@@ -14,7 +14,6 @@ import com.esteel.web.vo.offer.validator.IronFuturesTransport;
  * @date 2017年12月14日 下午2:03:44 
  *
  */
-@IronFuturesTransport()
 public class IronFuturesTransportVo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
