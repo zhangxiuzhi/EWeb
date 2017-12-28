@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -339,15 +341,19 @@ public class IronOfferUIController {
     @RequestMapping(value = "/validatedFuturesOffer", method = RequestMethod.POST)
     @ResponseBody
     public WebReturnMessage validatedFuturesOffer(
-    		@Validated(IronFuturesOffer.class) IronFuturesOfferRequest futuresOfferRequest, BindingResult offerResult, 
+    		@Validated(IronFuturesOffer.class) IronFuturesOfferRequest futuresAttachRequest, BindingResult offerAttachResult, 
+    		@Validated IronFuturesOfferRequest futuresOfferRequest, BindingResult offerResult, 
     		@Validated IronFuturesTransportRequest transportRequest, BindingResult transportResult) {
     	WebReturnMessage webRetMesage = new WebReturnMessage(false, "提交失败！");
     	
+    	Assert.notNull(futuresAttachRequest, "提交失败！");
     	Assert.notNull(futuresOfferRequest, "提交失败！");
-    	
     	Assert.notNull(transportRequest, "提交失败！");
     	
     	StringBuilder msgSB = new StringBuilder();
+    	if(offerAttachResult.hasErrors()) {
+    		offerAttachResult.getFieldErrors().forEach(fieldError -> msgSB.append(fieldError.getDefaultMessage()));
+		}
 		if(offerResult.hasErrors()) {
 			offerResult.getFieldErrors().forEach(fieldError -> msgSB.append(fieldError.getDefaultMessage()));
 		}

@@ -214,7 +214,7 @@ public @interface IronFuturesOffer {
 				
 				if (fixPrice) {
 					if (futuresOfferRequest.getPriceValueArr()[i] == null 
-							|| futuresOfferRequest.getMoreOrLessArr()[i].trim().equals("")) {
+							|| futuresOfferRequest.getPriceValueArr()[i].trim().equals("")) {
 						context.buildConstraintViolationWithTemplate("请填写商品"+ (i + 1) +"价格数值。")  
 		                .addPropertyNode("priceValueArr")  
 		                .addConstraintViolation();
@@ -223,7 +223,7 @@ public @interface IronFuturesOffer {
 					}
 					
 					if (futuresOfferRequest.getPriceBasisFeArr()[i] == null 
-							|| futuresOfferRequest.getMoreOrLessArr()[i].trim().equals("")) {
+							|| futuresOfferRequest.getPriceBasisFeArr()[i].trim().equals("")) {
 						context.buildConstraintViolationWithTemplate("请填写商品"+ (i + 1) +" 价格基数Fe。")  
 		                .addPropertyNode("priceBasisFeArr")  
 		                .addConstraintViolation();
