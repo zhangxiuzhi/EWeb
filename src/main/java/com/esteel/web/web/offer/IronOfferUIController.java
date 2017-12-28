@@ -84,9 +84,9 @@ public class IronOfferUIController {
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
     public String addIronOfferUI(Model model) {
-		logger.info("跳转铁矿报盘新增页面 页面数据 加载开始");
+		logger.info("IronOfferUIController.addIronOfferUI 页面数据 加载开始");
 		loadData(true, true, true, model);
-		logger.info("跳转铁矿报盘新增页面 页面数据 加载结束");
+		logger.info("IronOfferUIController.addIronOfferUI 页面数据 加载结束");
 		return "/offer/addOffer";
 	}
 	
@@ -98,14 +98,14 @@ public class IronOfferUIController {
 	 */
 	@RequestMapping(value = "/edit/{offerCode}", method = RequestMethod.GET)
 	public String editIronOfferUI(@PathVariable("offerCode") String offerCode, Model model) {
-		logger.info("跳转铁矿报盘编辑页面，参数{offerCode}" + offerCode);
+		logger.info("IronOfferUIController.editIronOfferUI，参数{offerCode}" + offerCode);
 		Assert.notNull(offerCode, "点击失败！");
 
 		IronOfferQueryVo queryVo = new IronOfferQueryVo();
 		queryVo.setOfferCode(offerCode);
 
 		IronOfferMainVo offer = offerClient.getIronOffer(queryVo);
-		logger.info("跳转铁矿报盘编辑页面，根据参数{offerCode}获取铁矿报盘");
+		logger.info("IronOfferUIController.editIronOfferUI，根据参数{offerCode}获取铁矿报盘");
 		Assert.notNull(offer, "点击失败！");
 		
 		model.addAttribute("offerJson", JsonUtils.toJsonString(offer));
@@ -117,7 +117,124 @@ public class IronOfferUIController {
 		List<Long> counterpartyIdList = offer.getCounterpartyIdList();
 		List<Map<String, String>> counterpartyList = new ArrayList<Map<String, String>>();
 		if (counterpartyIdList != null && counterpartyIdList.size() > 0) {
-			logger.info("跳转铁矿港口现货报盘编辑页面 指定交易对手");
+			logger.info("IronOfferUIController.editIronOfferUI 指定交易对手");
+			for (long counterpartyId : counterpartyIdList) {
+				MemberCompanyVo counterparty = memberClient.findCompany(counterpartyId);
+				if (counterparty != null) {
+					Map<String, String> counterpartyMap = new HashMap<>();
+					counterpartyList.add(counterpartyMap);
+					counterpartyMap.put("text", counterparty.getCompanyName());
+					counterpartyMap.put("value", counterparty.getCompanyId() + "");
+					counterpartyMap.put("key", counterparty.getCompanyName() + "," + counterparty.getCompanyNameEn());
+				}
+			}
+		}
+		
+		model.addAttribute("counterpartyJson", JSONArray.toJSONString(counterpartyList));
+
+		if (offer.getTradeMode() == EsteelConstant.TRADE_MODE_INSTOCK) {
+			OfferIronAttachVo offerAttach = new OfferIronAttachVo();
+			if (offer.getOfferAttachList() != null && offer.getOfferAttachList().size() > 0) {
+				offerAttach = offer.getOfferAttachList().get(0);
+			}
+			model.addAttribute("offerAttachJson", JsonUtils.toJsonString(offerAttach));
+			model.addAttribute("offerAttach", offerAttach);
+			
+			IronOfferClauseVo offerClause  = new IronOfferClauseVo();
+			if (offer.getClauseTemplateJson() != null && !offer.getClauseTemplateJson().trim().equals("")) {
+				logger.info("IronOfferUIController.editIronOfferUI 铁矿报盘条约Json解析");
+				offerClause = JsonUtils.toObject(offer.getClauseTemplateJson(), IronOfferClauseVo.class);
+			}
+			model.addAttribute("offerClause", offerClause);
+			
+			logger.info("IronOfferUIController.editIronOfferUI 页面数据 加载开始");
+			loadData(true, false, false, model);
+			logger.info("IronOfferUIController.editIronOfferUI 页面数据 加载结束");
+			
+			return "/offer/edit/inStock";
+		} else if (offer.getTradeMode() == EsteelConstant.TRADE_MODE_FUTURES) {
+			OfferIronAttachVo offerAttach = new OfferIronAttachVo();
+			List<OfferIronAttachVo> offerAttachList = new ArrayList<>();
+			if (offer.getOfferAttachList() != null && offer.getOfferAttachList().size() > 0) {
+				offerAttach = offer.getOfferAttachList().get(0);
+				offerAttachList = offer.getOfferAttachList();
+			} else {
+				offerAttachList.add(new OfferIronAttachVo());
+				offerAttachList.add(new OfferIronAttachVo());
+			}
+			model.addAttribute("offerAttach", offerAttach);
+			
+			if (offer.getOfferAttachList().size() == 1) {
+				offerAttachList.add(new OfferIronAttachVo());
+			}
+			model.addAttribute("offerAttachListJson", JsonUtils.toJsonString(offer.getOfferAttachList()));
+			model.addAttribute("offerAttachList", offer.getOfferAttachList());
+			
+			IronFuturesTransportVo offerTransport  = new IronFuturesTransportVo();
+			if (offerAttach.getTransportDescription() != null && !offerAttach.getTransportDescription().trim().equals("")) {
+				logger.info("IronOfferUIController.editIronOfferUI 铁矿运输信息Json解析");
+				offerTransport = JsonUtils.toObject(offerAttach.getTransportDescription(), IronFuturesTransportVo.class);
+			}
+			model.addAttribute("offerTransport", offerTransport);
+			
+			logger.info("IronOfferUIController.editIronOfferUI 页面数据 加载开始");
+			loadData(false, false, true, model);
+			logger.info("IronOfferUIController.editIronOfferUI 页面数据 加载结束");
+			
+			return "/offer/edit/futures";
+		} else if (offer.getTradeMode() == EsteelConstant.TRADE_MODE_PRICING) {
+			OfferIronAttachVo offerAttach = new OfferIronAttachVo();
+			if (offer.getOfferAttachList() != null && offer.getOfferAttachList().size() > 0) {
+				offerAttach = offer.getOfferAttachList().get(0);
+			}
+			model.addAttribute("offerAttachJson", JsonUtils.toJsonString(offerAttach));
+			model.addAttribute("offerAttach", offerAttach);
+			
+			IronOfferClauseVo offerClause  = new IronOfferClauseVo();
+			if (offer.getClauseTemplateJson() != null && !offer.getClauseTemplateJson().trim().equals("")) {
+				logger.info("IronOfferUIController.editIronOfferUI 铁矿报盘条约Json解析");
+				offerClause = JsonUtils.toObject(offer.getClauseTemplateJson(), IronOfferClauseVo.class);
+			}
+			model.addAttribute("offerClause", offerClause);
+			
+			logger.info("IronOfferUIController.editIronOfferUI 页面数据 加载开始");
+			loadData(false, true, false, model);
+			logger.info("IronOfferUIController.editIronOfferUI 页面数据 加载结束");
+			
+			return "/offer/edit/pricing";
+		}
+
+		return "/offer/edit/inStock";
+	}
+	
+	/**
+	 * 跳转铁矿报盘详情页面
+	 * @param offerCode
+	 * @param model
+	 * @return
+	 */
+    @RequestMapping(value = "/detailBySelf/{offerCode}", method = RequestMethod.GET)
+    public String detailBySelf(@PathVariable("offerCode") String offerCode, Model model){
+		logger.info("IronOfferUIController.detailBySelf，参数{offerCode}" + offerCode);
+		Assert.notNull(offerCode, "点击失败！");
+
+		IronOfferQueryVo queryVo = new IronOfferQueryVo();
+		queryVo.setOfferCode(offerCode);
+
+		IronOfferMainVo offer = offerClient.getIronOffer(queryVo);
+		logger.info("IronOfferUIController.detailBySelf，根据参数{offerCode}获取铁矿报盘");
+		Assert.notNull(offer, "点击失败！");
+		
+		model.addAttribute("offerJson", JsonUtils.toJsonString(offer));
+		model.addAttribute("offer", offer);
+		
+		/**
+		 * 指定交易对手
+		 */
+		List<Long> counterpartyIdList = offer.getCounterpartyIdList();
+		List<Map<String, String>> counterpartyList = new ArrayList<Map<String, String>>();
+		if (counterpartyIdList != null && counterpartyIdList.size() > 0) {
+			logger.info("IronOfferUIController.detailBySelf 指定交易对手");
 			for (long counterpartyId : counterpartyIdList) {
 				MemberCompanyVo counterparty = memberClient.findCompany(counterpartyId);
 				if (counterparty != null) {
@@ -145,10 +262,12 @@ public class IronOfferUIController {
 				offerClause = JsonUtils.toObject(offer.getClauseTemplateJson(), IronOfferClauseVo.class);
 			}
 			model.addAttribute("offerClause", offerClause);
-			logger.info("跳转铁矿港口现货报盘编辑页面 页面数据 加载开始");
+			
+			logger.info("IronOfferUIController.detailBySelf 页面数据 加载开始");
 			loadData(true, false, false, model);
-			logger.info("跳转铁矿港口现货报盘编辑页面 页面数据 加载结束");
-			return "/offer/edit/inStock";
+			logger.info("IronOfferUIController.detailBySelf 页面数据 加载结束");
+			
+			return "/myOffer/detail/inStock";
 		} else if (offer.getTradeMode() == EsteelConstant.TRADE_MODE_FUTURES) {
 			OfferIronAttachVo offerAttach = new OfferIronAttachVo();
 			List<OfferIronAttachVo> offerAttachList = new ArrayList<>();
@@ -172,10 +291,12 @@ public class IronOfferUIController {
 				offerTransport = JsonUtils.toObject(offerAttach.getTransportDescription(), IronFuturesTransportVo.class);
 			}
 			model.addAttribute("offerTransport", offerTransport);
-			logger.info("跳转铁矿远期现货报盘编辑页面 页面数据 加载开始");
+			
+			logger.info("IronOfferUIController.detailBySelf 页面数据 加载开始");
 			loadData(false, false, true, model);
-			logger.info("跳转铁矿远期现货报盘编辑页面 页面数据 加载结束");
-			return "/offer/edit/futures";
+			logger.info("IronOfferUIController.detailBySelf 页面数据 加载结束");
+			
+			return "/myOffer/detail/futures";
 		} else if (offer.getTradeMode() == EsteelConstant.TRADE_MODE_PRICING) {
 			OfferIronAttachVo offerAttach = new OfferIronAttachVo();
 			if (offer.getOfferAttachList() != null && offer.getOfferAttachList().size() > 0) {
@@ -189,113 +310,16 @@ public class IronOfferUIController {
 				offerClause = JsonUtils.toObject(offer.getClauseTemplateJson(), IronOfferClauseVo.class);
 			}
 			model.addAttribute("offerClause", offerClause);
-			logger.info("跳转铁矿点价报盘编辑页面 页面数据 加载开始");
+			
+			logger.info("IronOfferUIController.detailBySelf 页面数据 加载开始");
 			loadData(false, true, false, model);
-			logger.info("跳转铁矿点价报盘编辑页面 页面数据 加载结束");
-			return "/offer/edit/pricing";
+			logger.info("IronOfferUIController.detailBySelf 页面数据 加载结束");
+			
+			return "/myOffer/detail/pricing";
 		}
 
-		return "/offer/edit/inStock";
+		return "/myOffer/detail/nStock";
 	}
-	
-    @RequestMapping(value = "/detailBySelf/{offerCode}", method = RequestMethod.GET)
-    public String detailBySelf(@PathVariable("offerCode") String offerCode, Model model){
-    	logger.info("跳转铁矿报盘详情页面，参数{offerCode}" + offerCode);
-    	Assert.notNull(offerCode, "点击失败！");
-
-		IronOfferQueryVo queryVo = new IronOfferQueryVo();
-		queryVo.setOfferCode(offerCode);
-
-		IronOfferMainVo offer = offerClient.getIronOffer(queryVo);
-		Assert.notNull(offer, "点击失败！");
-		
-		model.addAttribute("offerJson", JsonUtils.toJsonString(offer));
-		model.addAttribute("offer", offer);
-		
-		/**
-		 * 指定交易对手
-		 */
-		List<Long> counterpartyIdList = offer.getCounterpartyIdList();
-		List<Map<String, String>> counterpartyList = new ArrayList<Map<String, String>>();
-		if (counterpartyIdList != null && counterpartyIdList.size() > 0) {
-			offer.getCounterpartyIdList().forEach(counterpartyId -> {
-				MemberCompanyVo counterparty = memberClient.findCompany(counterpartyId);
-				
-				Map<String, String> counterpartyMap = new HashMap<>();
-				counterpartyList.add(counterpartyMap);
-				counterpartyMap.put("text", counterparty.getCompanyName());
-				counterpartyMap.put("value", counterparty.getCompanyId() + "");
-				counterpartyMap.put("key", counterparty.getCompanyName() + "," + counterparty.getCompanyNameEn());
-			});
-		}
-		
-		model.addAttribute("counterpartyJson", JSONArray.toJSONString(counterpartyList));
-    	
-    	if (offer.getTradeMode() == EsteelConstant.TRADE_MODE_INSTOCK) {
-    		OfferIronAttachVo offerAttach = new OfferIronAttachVo();
-			if (offer.getOfferAttachList() != null && offer.getOfferAttachList().size() > 0) {
-				offerAttach = offer.getOfferAttachList().get(0);
-			}
-			model.addAttribute("offerAttachJson", JsonUtils.toJsonString(offerAttach));
-			model.addAttribute("offerAttach", offerAttach);
-			
-			IronOfferClauseVo offerClause  = new IronOfferClauseVo();
-			if (offer.getClauseTemplateJson() != null && !offer.getClauseTemplateJson().trim().equals("")) {
-				offerClause = JsonUtils.toObject(offer.getClauseTemplateJson(), IronOfferClauseVo.class);
-			}
-			model.addAttribute("offerClause", offerClause);
-			
-			loadData(true, false, false, model);
-			
-    		 return "/myOffer/detail/inStock";
-		} else if (offer.getTradeMode() == EsteelConstant.TRADE_MODE_FUTURES) {
-			OfferIronAttachVo offerAttach = new OfferIronAttachVo();
-			List<OfferIronAttachVo> offerAttachList = new ArrayList<>();
-			if (offer.getOfferAttachList() != null && offer.getOfferAttachList().size() > 0) {
-				offerAttach = offer.getOfferAttachList().get(0);
-				offerAttachList = offer.getOfferAttachList();
-			} else {
-				offerAttachList.add(new OfferIronAttachVo());
-				offerAttachList.add(new OfferIronAttachVo());
-			}
-			model.addAttribute("offerAttach", offerAttach);
-			
-			if (offer.getOfferAttachList().size() == 1) {
-				offerAttachList.add(new OfferIronAttachVo());
-			}
-			model.addAttribute("offerAttachListJson", JsonUtils.toJsonString(offer.getOfferAttachList()));
-			model.addAttribute("offerAttachList", offer.getOfferAttachList());
-			
-			IronFuturesTransportVo offerTransport  = new IronFuturesTransportVo();
-			if (offerAttach.getTransportDescription() != null && !offerAttach.getTransportDescription().trim().equals("")) {
-				offerTransport = JsonUtils.toObject(offerAttach.getTransportDescription(), IronFuturesTransportVo.class);
-			}
-			model.addAttribute("offerTransport", offerTransport);
-			
-			loadData(false, false, true, model);
-			
-			 return "/myOffer/detail/futures";
-		} else if (offer.getTradeMode() == EsteelConstant.TRADE_MODE_PRICING) {
-			OfferIronAttachVo offerAttach = new OfferIronAttachVo();
-			if (offer.getOfferAttachList() != null && offer.getOfferAttachList().size() > 0) {
-				offerAttach = offer.getOfferAttachList().get(0);
-			}
-			model.addAttribute("offerAttachJson", JsonUtils.toJsonString(offerAttach));
-			model.addAttribute("offerAttach", offerAttach);
-			
-			IronOfferClauseVo offerClause  = new IronOfferClauseVo();
-			if (offer.getClauseTemplateJson() != null && !offer.getClauseTemplateJson().trim().equals("")) {
-				offerClause = JsonUtils.toObject(offer.getClauseTemplateJson(), IronOfferClauseVo.class);
-			}
-			model.addAttribute("offerClause", offerClause);
-			
-			loadData(false, true, false, model);
-			
-			 return "/myOffer/detail/pricing";
-		}
-    	
-        return "/myOffer/detail/inStock";
-    }
 	
 	/**
      * 现货报盘验证
@@ -428,42 +452,64 @@ public class IronOfferUIController {
     private void loadData(boolean isInStock, boolean isPricing, boolean isFutures, Model model) {
     	/* 查询 开始 */
     	// 品名列表
+    	logger.info("IronOfferUIController.loadData 品名列表");
     	List<CommodityVo> ironCommoditys = baseClient.findCommodityListByIron();
+    	
     	// 铁矿品名属性值联动列表
     	CommodityVo queryVo = new CommodityVo();
     	queryVo.setCategoryId(CommodityCategoryEnum.getInstance().IRON.getId());
+    	logger.info("IronOfferUIController.loadData 铁矿品名属性值联动列表");
     	List<IronAttributeLinkVo> ironAttributeList = baseClient.findAttributeListByIron(queryVo);
+    	
     	// 装货港列表
+    	logger.info("IronOfferUIController.loadData 装货港列表");
     	List<PortVo> loadingPorts = baseClient.findLoadingPortListForOffer();
+    	
     	// 港口列表
+    	logger.info("IronOfferUIController.loadData 港口列表");
     	List<PortVo> ports = baseClient.findPortListForOffer();
+    	
     	// 点价交易港口列表
+    	logger.info("IronOfferUIController.loadData 点价交易港口列表");
     	List<PortVo> pricingPorts = baseClient.findPortListForPricingOffer();
+    	
     	// 保税区港口列表
+    	logger.info("IronOfferUIController.loadData 保税区港口列表");
     	List<PortVo> bondedAreaPorts = baseClient.findBondedAreaPortListForOffer();
+    	
     	// 指标类型列表
     	AttributeValueOptionVo attributeValueOptionVo = new AttributeValueOptionVo();
     	attributeValueOptionVo.setAttributeCode(EsteelConstant.ATTRIBUTE_CODE_IRON_INDICATOR_TYPE);
+    	logger.info("IronOfferUIController.loadData 指标类型列表");
 		List<AttributeValueOptionVo> indicatorTypes = baseClient
 				.findAttributeValueOptionListByAttributeCode(attributeValueOptionVo);
+		
 		// 价格术语列表
 		attributeValueOptionVo.setAttributeCode(EsteelConstant.ATTRIBUTE_CODE_PRICE_TERM);
+		logger.info("IronOfferUIController.loadData 价格术语列表");
 		List<AttributeValueOptionVo> priceTerms = baseClient
 				.findAttributeValueOptionListByAttributeCode(attributeValueOptionVo);
+		
 		// 计量方式列表
 		attributeValueOptionVo.setAttributeCode(EsteelConstant.ATTRIBUTE_CODE_IRON_MEASURE_METHOD);
+		logger.info("IronOfferUIController.loadData 计量方式列表");
 		List<AttributeValueOptionVo> measureMethods = baseClient
 				.findAttributeValueOptionListByAttributeCode(attributeValueOptionVo);
+		
 		// 计价方式列表
 		attributeValueOptionVo.setAttributeCode(EsteelConstant.ATTRIBUTE_CODE_IRON_PRICING_METHOD);
+		logger.info("IronOfferUIController.loadData 计价方式列表");
 		List<AttributeValueOptionVo> pricingMethods = baseClient
 				.findAttributeValueOptionListByAttributeCode(attributeValueOptionVo);
+		
 		// 交易者类型列表
 		attributeValueOptionVo.setAttributeCode(EsteelConstant.ATTRIBUTE_CODE_TRADER_TYPE);
+		logger.info("IronOfferUIController.loadData 交易者类型列表");
 		List<AttributeValueOptionVo> traderTypes = baseClient
 				.findAttributeValueOptionListByAttributeCode(attributeValueOptionVo);
 		/* 查询 结束 */
 		
+		logger.info("IronOfferUIController.loadData 数据组装/传输 开始");
     	/* 页面数据组装 开始 */
 		/**
 		 * 会员白名单列表
@@ -805,6 +851,7 @@ public class IronOfferUIController {
     	// 是否匿名Json
     	model.addAttribute("isAnonymousJson", JSONArray.toJSONString(isAnonymousList));
     	/* 页面数据传输 结束 */
+    	logger.info("IronOfferUIController.loadData 数据组装/传输 结束");
     }
     
     /**
@@ -815,6 +862,7 @@ public class IronOfferUIController {
     @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
     @ResponseBody
     public WebReturnMessage uploadFile(MultipartFile file) {
+    	logger.info("IronOfferUIController.uploadFile 开始");
     	WebReturnMessage webRetMesage = new WebReturnMessage(true, "");
     	
     	if (file == null) {
@@ -854,11 +902,12 @@ public class IronOfferUIController {
 			list.add(tfsFileName);
 			list.add("." + fileType);
 			logger.info("文件上传成功");
+			logger.info("IronOfferUIController.uploadFile 结束");
 			return new WebReturnMessage(true, "", list);// 成功返回文件id
 	    	
 		} catch (IOException e) {
 			e.printStackTrace();
-			logger.error("错误位置：" + this.getClass() + ".uploadFile" + e);
+			logger.error("IronOfferUIController.uploadFile 错误位置：" + e);
 			
 			webRetMesage.setMsg("上传失败：请稍后再操作！");
 			

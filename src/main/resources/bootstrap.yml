@@ -12,3 +12,8 @@ eureka:
     serviceUrl:
       defaultZone: http://user:8888@10.0.1.234:8761/eureka/
 debug: true
+logging:
+  level:
+    org:
+      springframework:
+        security: debug

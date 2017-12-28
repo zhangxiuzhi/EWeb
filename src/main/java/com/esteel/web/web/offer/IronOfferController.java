@@ -73,6 +73,7 @@ public class IronOfferController {
     @ResponseBody
     public WebReturnMessage saveInStockOffer(IronInStockOfferRequest inStockOfferRequest, 
     		IronOfferClauseRequest clauseRequest,  Model model) {
+    	logger.info("IronOfferController.saveInStockOffer 开始");
     	Assert.notNull(inStockOfferRequest, "提交失败！");
     	Assert.notNull(clauseRequest, "提交失败！");
 		
@@ -120,6 +121,7 @@ public class IronOfferController {
     	
     	OfferIronAttachVo offerAttachVo = new OfferIronAttachVo();
     	// 将request 复制到 offerAttachVo
+    	logger.info("IronOfferController.saveInStockOffer 将IronInStockOfferRequest 复制到 OfferIronAttachVo");
     	BeanUtils.copyProperties(inStockOfferRequest, offerAttachVo);
     	
     	offerMainVo.addOfferIronAttach(offerAttachVo);
@@ -166,15 +168,16 @@ public class IronOfferController {
     	
     	// 交货结算条款Json
     	IronOfferClauseVo offerClauseVo = new IronOfferClauseVo();
+    	logger.info("IronOfferController.saveInStockOffer 将IronOfferClauseRequest 复制到 IronOfferClauseVo");
     	BeanUtils.copyProperties(clauseRequest, offerClauseVo);
     	offerClauseVo.setClear_within_several_working_days(
     			clauseRequest.getClear_within_several_working_daysArr()[NumberUtils.toInt(clauseRequest.getSettlement_method())]);
     	
+    	logger.info("IronOfferController.saveInStockOffer 将IronOfferClauseVo 转成Json");
     	offerMainVo.setClauseTemplateJson(JsonUtils.toJsonString(offerClauseVo));
 
-    	System.out.println(JsonUtils.toJsonString(offerMainVo));
-		
 		// 保存
+    	logger.info("IronOfferController.saveInStockOffer saveIronOffer(" + JsonUtils.toJsonString(offerMainVo) + ")");
 		IronOfferMainVo offer = offerClient.saveIronOffer(offerMainVo);
     	
 		if (inStockOfferRequest.getOfferStatus().equals("draft")) {
@@ -185,6 +188,7 @@ public class IronOfferController {
     		Assert.notNull(offer, "发布失败！");
     	}
     	
+		logger.info("IronOfferController.saveInStockOffer 结束");
         return new WebReturnMessage(true, "success");
     }
     
@@ -201,6 +205,7 @@ public class IronOfferController {
     @ResponseBody
     public WebReturnMessage saveFuturesOffer(IronFuturesOfferRequest futuresOfferRequest, 
     		IronFuturesTransportRequest transportRequest, Model model){
+    	logger.info("IronOfferController.saveFuturesOffer 开始");
     	Assert.notNull(futuresOfferRequest, "提交失败！");
     	
     	Assert.notNull(transportRequest, "提交失败！");
@@ -276,11 +281,13 @@ public class IronOfferController {
         	if (port != null) {
         		futuresOfferRequest.setDischargePortName(port.getPortName());
         	}
-    		
+        	
+        	logger.info("IronOfferController.saveFuturesOffer 将IronFuturesTransportVo 转成Json");
     		futuresOfferRequest.setTransportDescription(JsonUtils.toJsonString(transportVo));
     	}
     	
     	// 第一个货物报盘
+    	logger.info("IronOfferController.saveFuturesOffer getOne(IronFuturesOfferRequest, 0)");
     	OfferIronAttachVo firstCargo = getOne(futuresOfferRequest, 0);
     	
     	offerMainVo.addOfferIronAttach(firstCargo);
@@ -301,6 +308,7 @@ public class IronOfferController {
     	// 一船两货
     	if (isBondedArea) {
     		// 第二个货物报盘
+    		logger.info("IronOfferController.saveFuturesOffer getOne(IronFuturesOfferRequest, 1)");
     		OfferIronAttachVo secondCargo = getOne(futuresOfferRequest, 1);
     		
     		offerMainVo.addOfferIronAttach(secondCargo);
@@ -318,6 +326,7 @@ public class IronOfferController {
         	// 价格单位 人民币/湿吨
         	secondCargo.setPriceUnitId(AttributeValueOptionEnum.getInstance().CNY_WMT.getId() + "");
         	
+        	logger.info("IronOfferController.saveFuturesOffer 将IronFuturesTransportVo 转成Json");
     		secondCargo.setTransportDescription(JsonUtils.toJsonString(transportVo));
     	}
     	
@@ -338,18 +347,8 @@ public class IronOfferController {
     	offerMainVo.setCreateUser("王雁飞测试");
     	offerMainVo.setUpdateUser("王雁飞测试");
     	
-/*    	// 报盘附件保存 tfs
-    	StatusMSGVo msg = getTfsFileName(offerAffix, "报盘备注附件", 
-    			EsteelConstant.AFFIX_TYPE_OFFER_REMARKS, offerMainVo);
-    	if (msg != null && msg.getStatus() != 0) {
-    		model.addAttribute("msg", msg.getMsg());
-    		
-    		return "/offer/addOffer";
-    	}*/
-    	
-    	System.out.println(JsonUtils.toJsonString(offerMainVo));
-    	
     	// 保存
+    	logger.info("IronOfferController.saveFuturesOffer saveIronOffer(" + JsonUtils.toJsonString(offerMainVo) + ")");
 		IronOfferMainVo offer = offerClient.saveIronOffer(offerMainVo);
     	
 		if (futuresOfferRequest.getOfferStatus().equals("draft")) {
@@ -360,6 +359,7 @@ public class IronOfferController {
     		Assert.notNull(offer, "发布失败！");
     	}
     	
+		logger.info("IronOfferController.saveFuturesOffer 结束");
         return new WebReturnMessage(true, "success");
     }
     
@@ -376,6 +376,7 @@ public class IronOfferController {
     @ResponseBody
     public WebReturnMessage savePricingOffer(IronPricingOfferRequest pricingOfferRequest, 
     		IronOfferClauseRequest clauseRequest, Model model){
+    	logger.info("IronOfferController.savePricingOffer 开始");
     	Assert.notNull(pricingOfferRequest, "提交失败！");
     	Assert.notNull(clauseRequest, "提交失败！");
     	
@@ -423,6 +424,7 @@ public class IronOfferController {
     	
     	OfferIronAttachVo offerAttachVo = new OfferIronAttachVo();
     	// 将request 复制到 offerAttachVo
+    	logger.info("IronOfferController.savePricingOffer 将IronPricingOfferRequest 复制到 OfferIronAttachVo");
     	BeanUtils.copyProperties(pricingOfferRequest, offerAttachVo);
     	
     	offerMainVo.addOfferIronAttach(offerAttachVo);
@@ -468,15 +470,16 @@ public class IronOfferController {
     	
     	// 交货结算条款Json
     	IronOfferClauseVo offerClauseVo = new IronOfferClauseVo();
+    	logger.info("IronOfferController.savePricingOffer 将IronOfferClauseRequest 复制到 IronOfferClauseVo");
     	BeanUtils.copyProperties(clauseRequest, offerClauseVo);
     	offerClauseVo.setClear_within_several_working_days(
     			clauseRequest.getClear_within_several_working_daysArr()[NumberUtils.toInt(clauseRequest.getSettlement_method())]);
     	
+    	logger.info("IronOfferController.savePricingOffer 将IronOfferClauseVo 转成Json");
     	offerMainVo.setClauseTemplateJson(JsonUtils.toJsonString(offerClauseVo));
     	
-    	System.out.println(JsonUtils.toJsonString(offerMainVo));
-    	
     	// 保存
+    	logger.info("IronOfferController.savePricingOffer saveIronOffer(" + JsonUtils.toJsonString(offerMainVo) + ")");
 		IronOfferMainVo offer = offerClient.saveIronOffer(offerMainVo);
     	
 		if (pricingOfferRequest.getOfferStatus().equals("draft")) {
@@ -487,6 +490,7 @@ public class IronOfferController {
     		Assert.notNull(offer, "发布失败！");
     	}
     	
+		logger.info("IronOfferController.savePricingOffer 结束");
         return new WebReturnMessage(true, "success");
     }
     
@@ -503,11 +507,14 @@ public class IronOfferController {
     @ResponseBody
     public WebReturnMessage updateInStockOffer(IronInStockOfferRequest inStockOfferRequest, 
     		IronOfferClauseRequest clauseRequest,  Model model) {
+    	logger.info("IronOfferController.updateInStockOffer 开始");
+    	
     	Assert.notNull(inStockOfferRequest, "提交失败！");
     	Assert.notNull(clauseRequest, "提交失败！");
 
     	IronOfferMainVo offerMainVo = new IronOfferMainVo();
     	// 将request 复制到 offerMainVo
+    	logger.info("IronOfferController.updateInStockOffer 将IronInStockOfferRequest 复制到 OfferIronAttachVo");
     	BeanUtils.copyProperties(inStockOfferRequest, offerMainVo);
     	
     	// 指定对手(多选值)
@@ -550,6 +557,7 @@ public class IronOfferController {
     	
     	OfferIronAttachVo offerAttachVo = new OfferIronAttachVo();
     	// 将request 复制到 offerAttachVo
+    	logger.info("IronOfferController.updateInStockOffer 将IronInStockOfferRequest 复制到 OfferIronAttachVo");
     	BeanUtils.copyProperties(inStockOfferRequest, offerAttachVo);
     	
     	offerMainVo.addOfferIronAttach(offerAttachVo);
@@ -585,13 +593,16 @@ public class IronOfferController {
     	
     	// 交货结算条款Json
     	IronOfferClauseVo offerClauseVo = new IronOfferClauseVo();
+    	logger.info("IronOfferController.updateInStockOffer 将IronOfferClauseRequest 复制到 IronOfferClauseVo");
     	BeanUtils.copyProperties(clauseRequest, offerClauseVo);
     	offerClauseVo.setClear_within_several_working_days(
     			clauseRequest.getClear_within_several_working_daysArr()[NumberUtils.toInt(clauseRequest.getSettlement_method())]);
 
-    	System.out.println(JsonUtils.toJsonString(offerMainVo));
-		
+    	logger.info("IronOfferController.updateInStockOffer 将IronOfferClauseVo 转成Json");
+    	offerMainVo.setClauseTemplateJson(JsonUtils.toJsonString(offerClauseVo));
+
 		// 保存
+    	logger.info("IronOfferController.updateInStockOffer saveIronOffer(" + JsonUtils.toJsonString(offerMainVo) + ")");
 		IronOfferMainVo offer = offerClient.updateIronOffer(offerMainVo);
     	
 		if (inStockOfferRequest.getOfferStatus().equals("draft")) {
@@ -602,6 +613,7 @@ public class IronOfferController {
     		Assert.notNull(offer, "发布失败！");
     	}
     	
+		logger.info("IronOfferController.updateInStockOffer 结束");
         return new WebReturnMessage(true, "success");
     }
     
@@ -618,8 +630,9 @@ public class IronOfferController {
     @ResponseBody
     public WebReturnMessage updateFuturesOffer(IronFuturesOfferRequest futuresOfferRequest, 
     		IronFuturesTransportRequest transportRequest, Model model){
-    	Assert.notNull(futuresOfferRequest, "提交失败！");
+    	logger.info("IronOfferController.updateFuturesOffer 开始");
     	
+    	Assert.notNull(futuresOfferRequest, "提交失败！");
     	Assert.notNull(transportRequest, "提交失败！");
     	
     	IronOfferMainVo offerMainVo = new IronOfferMainVo();
@@ -694,10 +707,12 @@ public class IronOfferController {
         		futuresOfferRequest.setDischargePortName(port.getPortName());
         	}
     		
+        	logger.info("IronOfferController.updateFuturesOffer 将IronFuturesTransportVo 转成Json");
     		futuresOfferRequest.setTransportDescription(JsonUtils.toJsonString(transportVo));
     	}
     	
     	// 第一个货物报盘
+    	logger.info("IronOfferController.updateFuturesOffer getOne(IronFuturesOfferRequest, 0)");
     	OfferIronAttachVo firstCargo = getOne(futuresOfferRequest, 0);
     	
     	offerMainVo.addOfferIronAttach(firstCargo);
@@ -713,6 +728,7 @@ public class IronOfferController {
     	// 一船两货
     	if (isBondedArea) {
     		// 第二个货物报盘
+    		logger.info("IronOfferController.updateFuturesOffer getOne(IronFuturesOfferRequest, 1)");
     		OfferIronAttachVo secondCargo = getOne(futuresOfferRequest, 1);
     		
     		offerMainVo.addOfferIronAttach(secondCargo);
@@ -725,6 +741,7 @@ public class IronOfferController {
         		secondCargo.setCommodityName(commodityVo.getCommodityName());
         	}
         	
+        	logger.info("IronOfferController.updateFuturesOffer 将IronFuturesTransportVo 转成Json");
     		secondCargo.setTransportDescription(JsonUtils.toJsonString(transportVo));
     	}
     	
@@ -739,9 +756,8 @@ public class IronOfferController {
     	
     	offerMainVo.setUpdateUser("王雁飞测试");
     	
-    	System.out.println(JsonUtils.toJsonString(offerMainVo));
-    	
     	// 保存
+    	logger.info("IronOfferController.updateFuturesOffer saveIronOffer(" + JsonUtils.toJsonString(offerMainVo) + ")");
 		IronOfferMainVo offer = offerClient.saveIronOffer(offerMainVo);
     	
 		if (futuresOfferRequest.getOfferStatus().equals("draft")) {
@@ -752,6 +768,7 @@ public class IronOfferController {
     		Assert.notNull(offer, "发布失败！");
     	}
     	
+		logger.info("IronOfferController.updateFuturesOffer 结束");
         return new WebReturnMessage(true, "success");
     }
     
@@ -768,6 +785,8 @@ public class IronOfferController {
     @ResponseBody
     public WebReturnMessage updatePricingOffer(IronPricingOfferRequest pricingOfferRequest, 
     		IronOfferClauseRequest clauseRequest, Model model){
+    	logger.info("IronOfferController.updatePricingOffer 开始");
+    	
     	Assert.notNull(pricingOfferRequest, "提交失败！");
     	Assert.notNull(clauseRequest, "提交失败！");
     	
@@ -815,6 +834,7 @@ public class IronOfferController {
     	
     	OfferIronAttachVo offerAttachVo = new OfferIronAttachVo();
     	// 将request 复制到 offerAttachVo
+    	logger.info("IronOfferController.updatePricingOffer 将IronPricingOfferRequest 复制到 OfferIronAttachVo");
     	BeanUtils.copyProperties(pricingOfferRequest, offerAttachVo);
     	
     	offerMainVo.addOfferIronAttach(offerAttachVo);
@@ -849,15 +869,16 @@ public class IronOfferController {
     	
     	// 交货结算条款Json
     	IronOfferClauseVo offerClauseVo = new IronOfferClauseVo();
+    	logger.info("IronOfferController.updatePricingOffer 将IronOfferClauseRequest 复制到 IronOfferClauseVo");
     	BeanUtils.copyProperties(clauseRequest, offerClauseVo);
     	offerClauseVo.setClear_within_several_working_days(
     			clauseRequest.getClear_within_several_working_daysArr()[NumberUtils.toInt(clauseRequest.getSettlement_method())]);
     	
+    	logger.info("IronOfferController.updatePricingOffer 将IronOfferClauseVo 转成Json");
     	offerMainVo.setClauseTemplateJson(JsonUtils.toJsonString(offerClauseVo));
-    	
-    	System.out.println(JsonUtils.toJsonString(offerMainVo));
-    	
-    	// 保存
+
+		// 保存
+    	logger.info("IronOfferController.updatePricingOffer saveIronOffer(" + JsonUtils.toJsonString(offerMainVo) + ")");
 		IronOfferMainVo offer = offerClient.saveIronOffer(offerMainVo);
     	
 		if (pricingOfferRequest.getOfferStatus().equals("draft")) {
@@ -868,6 +889,7 @@ public class IronOfferController {
     		Assert.notNull(offer, "发布失败！");
     	}
     	
+		logger.info("IronOfferController.updatePricingOffer 结束");
         return new WebReturnMessage(true, "success");
     }
     
@@ -877,6 +899,7 @@ public class IronOfferController {
 	 * @return
 	 */
 	private OfferIronAttachVo getOne(IronFuturesOfferRequest futuresOfferRequest, int index) {
+		logger.info("IronOfferController.getOne 开始");
 		if (futuresOfferRequest == null) {
 			return null;
 		}
@@ -891,6 +914,7 @@ public class IronOfferController {
 		
 		Map<String, String[]> valueMap = new HashMap<>();
 		
+		logger.info("IronOfferController.getOne IronFuturesOfferRequest.getClass().getDeclaredFields()");
 		Field[] fields = futuresOfferRequest.getClass().getDeclaredFields();
 		for (int j = 0; j < fields.length; j++) {
 			Field f = fields[j];
@@ -902,11 +926,11 @@ public class IronOfferController {
 				value = f.get(futuresOfferRequest);
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
-				
+				logger.error("IronOfferController.getOne 错误位置：" + e);
 				continue;
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();
-				
+				logger.error("IronOfferController.getOne 错误位置：" + e);
 				continue;
 			}
 			
@@ -917,8 +941,10 @@ public class IronOfferController {
 		}
 		
 		OfferIronAttachVo attach = new OfferIronAttachVo();
+		logger.info("IronOfferController.getOne 将IronFuturesOfferRequest 复制到 OfferIronAttachVo");
 		BeanUtils.copyProperties(futuresOfferRequest, attach);
 		
+		logger.info("IronOfferController.getOne OfferIronAttachVo.getClass().getDeclaredFields()");
 		fields = attach.getClass().getDeclaredFields();
 		for (int j = 0; j < fields.length; j++) {
 			Field f = fields[j];
@@ -930,16 +956,17 @@ public class IronOfferController {
 					f.set(attach, valueArr[index]);
 				} catch (IllegalArgumentException e) {
 					e.printStackTrace();
-					
+					logger.error("IronOfferController.getOne 错误位置：" + e);
 					continue;
 				} catch (IllegalAccessException e) {
 					e.printStackTrace();
-					
+					logger.error("IronOfferController.getOne 错误位置：" + e);
 					continue;
 				}
 			}
 		}
 		
+		logger.info("IronOfferController.getOne 结束");
 		return attach;
 	}
 }
