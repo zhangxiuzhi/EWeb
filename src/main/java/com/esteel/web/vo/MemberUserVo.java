@@ -55,6 +55,8 @@ public class MemberUserVo implements Serializable {
 	
 	private String dept;
 	
+	private Timestamp activationTime;
+	
 	public MemberUserVo() {
 	}
 
@@ -241,6 +243,14 @@ public class MemberUserVo implements Serializable {
 	public void setDept(String dept) {
 		this.dept = dept;
 	}
+	
+	public Timestamp getActivationTime() {
+		return activationTime;
+	}
+
+	public void setActivationTime(Timestamp activationTime) {
+		this.activationTime = activationTime;
+	}
 
 	@Override
 	public int hashCode() {
@@ -271,7 +281,7 @@ public class MemberUserVo implements Serializable {
 		result = prime * result + ((userStatus == null) ? 0 : userStatus.hashCode());
 		return result;
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -407,7 +417,7 @@ public class MemberUserVo implements Serializable {
 				+ userPicture + ", userStatus=" + userStatus + ", memberName=" + memberName + ", positon=" + positon
 				+ ", dept=" + dept + "]";
 	}
-
+	
 	
 	
 	

@@ -34,9 +34,9 @@ import com.esteel.web.vo.LogVerifyCodeVo;
 import com.esteel.web.vo.MemberUserVo;
 import com.taobao.common.tfs.TfsManager;
 
-
 /**
  * WEB-用户相关模块
+ * 
  * @author chenshouye
  *
  */
@@ -45,7 +45,7 @@ import com.taobao.common.tfs.TfsManager;
 public class MemberUserController {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+
 	@Autowired
 	MemberClient memberUserClient;
 
@@ -57,10 +57,10 @@ public class MemberUserController {
 
 	@Autowired
 	TfsManager tfsManager;
-	
 
 	/**
 	 * 注册页面
+	 * 
 	 * @param model
 	 * @return
 	 */
@@ -91,41 +91,45 @@ public class MemberUserController {
 	@RequestMapping(value = "/checkNo")
 	@ResponseBody
 	public WebReturnMessage checkNo(String mobile) {
-		logger.info("验证手机号码是否注册+参数{mobile}"+mobile);
+		logger.info("验证手机号码是否注册+参数{mobile}" + mobile);
 		List<Object> list = new ArrayList<>();
 		MemberUserVo checkNo = memberUserClient.checkNo(mobile);
-		//Assert.isNull(checkNo,"该号码已注册");
-		if(checkNo==null) {
+		// Assert.isNull(checkNo,"该号码已注册");
+		if (checkNo == null) {
 			return new WebReturnMessage(true, "");
-		}else {
-		list.add(1);
-		logger.info("验证手机号码是否注册,返回结果：WebReturnMessage"+new WebReturnMessage(true, "该号码已注册", list));
-		return new WebReturnMessage(true, "", list);
+		} else {
+			list.add(1);
+			logger.info("验证手机号码是否注册,返回结果：WebReturnMessage" + new WebReturnMessage(true, "该号码已被注册", list));
+			return new WebReturnMessage(true, "", list);
 		}
 	}
+
 	/**
 	 * 获取手机号码
+	 * 
 	 * @return
 	 */
 	@RequestMapping(value = "/getMobile")
 	@ResponseBody
-	public String  getUserMboile() {
+	public String getUserMboile() {
 		logger.info("获取登录用户的手机验证码");
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        MemberUserVo userVo = memberUserClient.findByAccount(authentication.getName());
-        String mobile = userVo.getMobile();
-        logger.info("获取手机号码+返回结果{mobile}"+mobile);
+		MemberUserVo userVo = memberUserClient.findByAccount(authentication.getName());
+		String mobile = userVo.getMobile();
+		logger.info("获取手机号码+返回结果{mobile}" + mobile);
 		return mobile;
 	}
+
 	/**
 	 * 保存并发送验证码
+	 * 
 	 * @param mobile
 	 * @return WebReturnMessage
 	 */
 	@RequestMapping(value = "/sendSms", method = RequestMethod.POST)
 	@ResponseBody
 	public WebReturnMessage sendSms(String mobile) {
-		logger.info("根据手机号码发送验证码+参数{mobile}"+mobile);
+		logger.info("根据手机号码发送验证码+参数{mobile}" + mobile);
 		LogVerifyCodeVo code = new LogVerifyCodeVo();
 		code.setVerifyType(0); // 验收为手机
 		Integer miMa = (int) ((Math.random() * 9 + 1) * 100000); // 随机生成六位验证码
@@ -135,7 +139,7 @@ public class MemberUserController {
 		code.setVerifyStatus(0); // 初始为0，未验证
 		long time = new Date().getTime();
 		code.setSendTime(new Timestamp(time)); // 时间
-		code.setValidTime(new Timestamp(time + 5*60 * 60 * 1000));// 有效时间3分钟
+		code.setValidTime(new Timestamp(time + 3 * 60 * 1000));// 有效时间3分钟
 		// 返回结果
 		try {
 			// 保存
@@ -166,10 +170,10 @@ public class MemberUserController {
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	@ResponseBody
 	public WebReturnMessage register(String mobile, String code, String password, Model model) {
-		logger.info(this.getClass()+"用户注册,参数{}"+mobile+code+password);
+		logger.info(this.getClass() + "用户注册,参数{}" + mobile + code + password);
 		WebReturnMessage webRetMsg = null;
 		List<Object> result = new ArrayList<>();
-		//验证码验证
+		// 验证码验证
 		LogVerifyCodeVo codeVo = logVerityCodeClient.checkCode(code, mobile);
 		try {
 			if (codeVo != null) {
@@ -185,22 +189,22 @@ public class MemberUserController {
 					user.setMobile(mobile); // 手机
 					user.setPassword(pwd); // 密码
 					user.setUserStatus(0); // 状态，初始为0
-					user.setUserGrade(0); //用户权级，默认普通会员 0
+					user.setUserGrade(0); // 用户权级，默认普通会员 0
 					user.setRegisteredTime(new Timestamp(System.currentTimeMillis())); // 注册时间
 					user.setLastLoginTime(new Timestamp(System.currentTimeMillis()));
 					// 调用保存
 					MemberUserVo userVo = memberUserClient.registerUser(user);
-					logger.debug("保存用户注册信息"+userVo);
+					logger.debug("保存用户注册信息" + userVo);
 					if (userVo != null) {
 						// 验证成功修改状态为验证通过1
 						codeVo.setVerifyStatus(1);
-						//logVerityCodeClient.saveLog(codeVo);
+						// logVerityCodeClient.saveLog(codeVo);
 						result.add(0);
-						webRetMsg = new WebReturnMessage(true, "注册成功",result);
+						webRetMsg = new WebReturnMessage(true, "注册成功", result);
 						// 注册成功，把对象存session作用域来模拟登录状态
 					} else {
 						// 验证成功修改状态为验证通过2,验证未通过
-						 //codeVo.setVerifyStatus(2);
+						// codeVo.setVerifyStatus(2);
 						// logVerityCodeClient.saveLog(codeVo);
 						webRetMsg = new WebReturnMessage(true, "注册失败");
 					}
@@ -220,7 +224,7 @@ public class MemberUserController {
 			webRetMsg = new WebReturnMessage(false, "注册失败,验证未通过");
 			logger.error(this.getClass() + "：注册失败，验证未通过" + e);
 		}
-		logger.info(this.getClass()+"用户注册返回结果"+webRetMsg);
+		logger.info(this.getClass() + "用户注册返回结果" + webRetMsg);
 		return webRetMsg;
 	}
 
@@ -257,35 +261,35 @@ public class MemberUserController {
 	@RequestMapping(value = "/resetPwd", method = RequestMethod.POST)
 	@ResponseBody
 	public WebReturnMessage updatePwd(String passwordA, String passwordB) {
-		logger.info("用户修改密码，参数{passwordA,passwordB}"+passwordA+passwordB);
+		logger.info("用户修改密码，参数{passwordA,passwordB}" + passwordA + passwordB);
 		WebReturnMessage webRetMesage = null;
 		List<Object> list = new ArrayList<>();
-		//比较两次密码输入是否一致
-		if(!passwordA.equals(passwordB)) {
+		// 比较两次密码输入是否一致
+		if (!passwordA.equals(passwordB)) {
 			list.add(0);
-			 webRetMesage = new WebReturnMessage(true, "两次密码输入不一致",list);
-			 logger.debug("修改密码，两次密码输入不一致");
+			webRetMesage = new WebReturnMessage(true, "两次密码输入不一致", list);
+			logger.debug("修改密码，两次密码输入不一致");
 			return webRetMesage;
 		}
-		//获取登录用户
+		// 获取登录用户
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		MemberUserVo userVo = memberUserClient.findByAccount(authentication.getName());
 		Assert.notNull(userVo, "用户登录已失效");
 		try {
-			//加密保存
+			// 加密保存
 			String password = Encrypt.EncoderByMd5(passwordB);
 			userVo.setPassword(password);
 			MemberUserVo userupd = memberUserClient.registerUser(userVo);
-			logger.debug("修改密码"+userupd);
+			logger.debug("修改密码" + userupd);
 			Assert.notNull(userupd, "修改失败");
 			return WebReturnMessage.sucess;
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.debug(this.getClass()+"修改密码失败"+e);
+			// e.printStackTrace();
+			logger.debug(this.getClass() + "修改密码失败" + e);
 			list.add(0);
-			return new WebReturnMessage(true, "修改密码失败",list);
+			return new WebReturnMessage(true, "修改密码失败", list);
 		}
-		
+
 	}
 
 	/**
@@ -298,36 +302,36 @@ public class MemberUserController {
 	@RequestMapping(value = "/checkIdentityPwd", method = RequestMethod.POST)
 	@ResponseBody
 	public WebReturnMessage testMail(String mobile, String code, String password) {
-		logger.info("验证码+密码验证登录身份，参数{mobile,code,password}"+mobile+code+password);
+		logger.info("验证码+密码验证登录身份，参数{mobile,code,password}" + mobile + code + password);
 		WebReturnMessage webRetMesage = null;
 		List<Object> list = new ArrayList<>();
-		//获取登录用户
+		// 获取登录用户
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		MemberUserVo userVo = memberUserClient.findByAccount(authentication.getName());
 		Assert.notNull(userVo, "未登录");
 		// 密码是否一致
 		boolean flag = userVo.getPassword().equals(Encrypt.EncoderByMd5(password));
-		if(flag) {
+		if (flag) {
 			list.add(0);
-			return new WebReturnMessage(true,"密码错误",list);
-		}	
+			return new WebReturnMessage(true, "密码错误", list);
+		}
 		// 根据验证码获取
 		LogVerifyCodeVo codeVo = logVerityCodeClient.checkCode(code, mobile);
 		Assert.notNull(codeVo, "验证码错误");
 		long newTime = new Date().getTime(); // 当前时间
 		long start = codeVo.getSendTime().getTime(); // 发送时间
 		long end = codeVo.getValidTime().getTime(); // 有效时间
-		//判断是否在有效时间之内
+		// 判断是否在有效时间之内
 		if (newTime > start && newTime <= end) {
-			//验证成功修改验证状态
+			// 验证成功修改验证状态
 			codeVo.setVerifyStatus(1);
-			//logVerityCodeClient.saveLog(codeVo);
-			logger.info(this.getClass()+"参数："+mobile+","+code+","+password+",返回结果：true");
+			// logVerityCodeClient.saveLog(codeVo);
+			logger.info(this.getClass() + "参数：" + mobile + "," + code + "," + password + ",返回结果：true");
 			return webRetMesage.sucess;
-		}else {
+		} else {
 			list.add(1);
 			logger.info("验证码失效");
-			return new WebReturnMessage(true, "验证码失效",list);
+			return new WebReturnMessage(true, "验证码失效", list);
 		}
 	}
 
@@ -342,12 +346,12 @@ public class MemberUserController {
 	@RequestMapping(value = "/checkIdentity")
 	@ResponseBody
 	public WebReturnMessage checkMail(String mobile, String code) {
-		logger.info("手机验证码验证用户身份，参数{mobile,code}"+mobile+"验证码："+code);
-		//获取用户登录信息
+		logger.info("手机验证码验证用户身份，参数{mobile,code}" + mobile + "验证码：" + code);
+		// 获取用户登录信息
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		MemberUserVo userVo = memberUserClient.findByAccount(authentication.getName());
 		Assert.notNull(userVo, "未登录");
-		//获取邮箱
+		// 获取邮箱
 		String email = userVo.getEmail();
 		Assert.notNull(email, "您还未进行邮箱验证，请先验证");
 		// 根据验证码获取
@@ -356,22 +360,23 @@ public class MemberUserController {
 		long newTime = new Date().getTime(); // 当前时间
 		long start = codeVo.getSendTime().getTime(); // 发送时间
 		long end = codeVo.getValidTime().getTime(); // 有效时间
-		//判断是否在有效时间之内
+		// 判断是否在有效时间之内
 		if (newTime > start && newTime <= end) {
-			//验证成功修改验证状态
+			// 验证成功修改验证状态
 			codeVo.setVerifyStatus(1);
-			//logVerityCodeClient.saveLog(codeVo);
+			// logVerityCodeClient.saveLog(codeVo);
 			List<Object> list = new ArrayList<>();
-			list.add(userVo.getEmail()+"");
+			list.add(userVo.getEmail() + "");
 			list.add(userVo.getMobile());
-			logger.info(this.getClass()+"参数："+mobile+","+code+",返回结果："+new WebReturnMessage(true));
-			return new WebReturnMessage(true,"",list);
+			logger.info(this.getClass() + "参数：" + mobile + "," + code + ",返回结果：" + new WebReturnMessage(true));
+			return new WebReturnMessage(true, "", list);
 		} else {
 			System.out.println("验证码失效了");
 			codeVo.setVerifyStatus(2);
-			//logVerityCodeClient.saveLog(codeVo);
-			logger.info(this.getClass()+"参数："+mobile+","+code+",返回结果："+new WebReturnMessage(false,"验证码已失效"));
-			return  new WebReturnMessage(true,"验证码已失效");
+			// logVerityCodeClient.saveLog(codeVo);
+			logger.info(
+					this.getClass() + "参数：" + mobile + "," + code + ",返回结果：" + new WebReturnMessage(false, "验证码已失效"));
+			return new WebReturnMessage(true, "验证码已失效");
 		}
 	}
 
@@ -384,13 +389,13 @@ public class MemberUserController {
 	@RequestMapping(value = "/sendMail", method = RequestMethod.POST)
 	@ResponseBody
 	public WebReturnMessage sendMail(String mail) {
-		logger.info("发送邮件验证，参数{mail}"+mail);
+		logger.info("发送邮件验证，参数{mail}" + mail);
 		WebReturnMessage webRetMesage = null;
 		// 设置验证信息
 		LogVerifyCodeVo code = new LogVerifyCodeVo();
 		code.setVerifyType(1); // 验证为邮箱
 		code.setVerifyTarget(mail);
-		code.setVerifyContent("【点钢网】  邮箱验证码为： ,请勿转发他人,如非本人操作请忽略。"); //邮件信息
+		code.setVerifyContent("【点钢网】  邮箱验证码为： ,请勿转发他人,如非本人操作请忽略。"); // 邮件信息
 		code.setVerifyCode("1"); // 验证码
 		code.setVerifyStatus(0); // 初始为0，未验证
 		long time = new Date().getTime();
@@ -402,19 +407,19 @@ public class MemberUserController {
 		Assert.notNull(saveLog, "发送失败，请重试");
 		String str = "您在点钢的账号已创建，请激活";
 		// 发送邮件
-		boolean sendMail = contactClient.sendMail(mail,str,"\"【点钢网】  邮箱验证码为：\" + miMa + \",请勿转发他人,如非本人操作请忽略。\"");
-		logger.debug("发送邮件状态"+sendMail);
+		boolean sendMail = contactClient.sendMail(mail, str, "\"【点钢网】  邮箱验证码为：\" + miMa + \",请勿转发他人,如非本人操作请忽略。\"");
+		logger.debug("发送邮件状态" + sendMail);
 		if (sendMail) {
 			List<Object> list = new ArrayList<>();
 			list.add("验证邮件30分钟内有效，请尽快登录您的邮箱点击验证链接完成验证");
-			String msg = "已发送邮件至"+mail;
-			webRetMesage = new WebReturnMessage(true,msg,list);
+			String msg = "已发送邮件至" + mail;
+			webRetMesage = new WebReturnMessage(true, msg, list);
 		} else {
 			webRetMesage = new WebReturnMessage(false, "邮件发送失败");
 		}
-		logger.info(this.getClass()+"参数："+mail+",返回结果："+webRetMesage);
+		logger.info(this.getClass() + "参数：" + mail + ",返回结果：" + webRetMesage);
 		return webRetMesage;
-		
+
 	}
 
 	/**
@@ -439,7 +444,7 @@ public class MemberUserController {
 		} else {
 			webRetMesage = new WebReturnMessage(false, "修改失败");
 		}
-		logger.info("修改邮箱返回结果："+webRetMesage);
+		logger.info("修改邮箱返回结果：" + webRetMesage);
 		return webRetMesage;
 
 	}
@@ -455,29 +460,29 @@ public class MemberUserController {
 	@RequestMapping(value = "/updMobile", method = RequestMethod.POST)
 	@ResponseBody
 	public WebReturnMessage modifyMobile(String code, String mobile) {
-		logger.info("修改手机号，参数{mobile,code}"+mobile);
+		logger.info("修改手机号，参数{mobile,code}" + mobile);
 		List<Object> list = new ArrayList<>();
-		//获取登录用户
+		// 获取登录用户
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		MemberUserVo userVo = memberUserClient.findByAccount(authentication.getName());
 		// 根据验证码获取
 		LogVerifyCodeVo codeVo = logVerityCodeClient.checkCode(code, mobile);
 		Assert.notNull(codeVo, "验证码错误");
-		//判断验证码是否过期
+		// 判断验证码是否过期
 		long newTime = new Date().getTime(); // 当前时间
 		long start = codeVo.getSendTime().getTime(); // 发送时间
 		long end = codeVo.getValidTime().getTime(); // 有效时间
 		if (newTime > start && newTime <= end) {
-			//保存
+			// 保存
 			userVo.setMobile(mobile);
 			MemberUserVo registerUser = memberUserClient.registerUser(userVo);
 			Assert.notNull(registerUser, "修改失败");
 			list.add("变更成功\r\n" + "您的手机号已经更改为" + mobile + "，需重新登录网站。\r\n" + "立即登录 ");
 			logger.debug("修改手机号成功");
-			return new WebReturnMessage(true,"",list);
-		}else {
+			return new WebReturnMessage(true, "", list);
+		} else {
 			logger.debug("修改手机号，验证码失效");
-			return  new WebReturnMessage(true,"验证码已失效");
+			return new WebReturnMessage(true, "验证码已失效");
 		}
 	}
 
@@ -502,7 +507,7 @@ public class MemberUserController {
 					list.add(filepath);
 					list.add(type);
 					logger.info("文件上传成功");
-					return new WebReturnMessage(true, "",list);// 成功返回文件id
+					return new WebReturnMessage(true, "", list);// 成功返回文件id
 				} else {
 					logger.info("文件上传失败");
 					return new WebReturnMessage(true, "文件上传失败");
@@ -516,25 +521,30 @@ public class MemberUserController {
 			return new WebReturnMessage(true, "文件不能为空");
 		}
 	}
+
 	/**
 	 * 图片回显
-	 * @param fileId  
-	 * @param type  文件类型
+	 * 
+	 * @param fileId
+	 * @param type
+	 *            文件类型
 	 * @return
 	 */
-	@RequestMapping(value="/export/{fileId}/{type}/html")
-	public ResponseEntity<byte[]> export(@PathVariable("fileId") String fileId,@PathVariable("type") String type){
-		logger.info("图片回显下载，参数{文件id+文件类型}"+fileId+"--"+type);
+	@RequestMapping(value = "/export/{fileId}/{type}/html")
+	public ResponseEntity<byte[]> export(@PathVariable("fileId") String fileId, @PathVariable("type") String type) {
+		logger.info("图片回显下载，参数{文件id+文件类型}" + fileId + "--" + type);
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.IMAGE_JPEG);
-		//生成一个uuid做文件名
+		// 生成一个uuid做文件名
 		String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-		headers.setContentDispositionFormData("attachment", uuid+type);
+		headers.setContentDispositionFormData("attachment", uuid + type);
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		tfsManager.fetchFile(fileId,type,out);
-		logger.info("图片回显下载，返回参数{ResponseEntity}"+new ResponseEntity<byte[]>(out.toByteArray(),headers, HttpStatus.CREATED));
-		return new ResponseEntity<byte[]>(out.toByteArray(),headers, HttpStatus.CREATED);
+		tfsManager.fetchFile(fileId, type, out);
+		logger.info("图片回显下载，返回参数{ResponseEntity}"
+				+ new ResponseEntity<byte[]>(out.toByteArray(), headers, HttpStatus.CREATED));
+		return new ResponseEntity<byte[]>(out.toByteArray(), headers, HttpStatus.CREATED);
 	}
+
 	/**
 	 * 普通会员头像编辑
 	 * 

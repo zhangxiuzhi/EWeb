@@ -5,8 +5,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.esteel.web.vo.MemberCompanyAttachVo;
 import com.esteel.web.vo.MemberCompanyVo;
 import com.esteel.web.vo.MemberUserVo;
+import com.esteel.web.vo.QueryPageVo;
 
 /**
  * 服务调用
@@ -46,7 +45,7 @@ public interface MemberClient {
 	 * @return
 	 */
 	@RequestMapping(value = "/checkMobile", method = RequestMethod.POST)
-	public MemberUserVo checkNo(@RequestBody MemberUserVo user);
+	public MemberUserVo checkUserByNo(@RequestBody MemberUserVo user);
 	
 	/**
 	 * 保存企业认证信息
@@ -75,18 +74,18 @@ public interface MemberClient {
 	 * @return
 	 */
 	@RequestMapping(value = "/findCompanyById", method = RequestMethod.POST)
-	public MemberCompanyVo findCompany(@RequestParam("companyId") long companyId);
+	public MemberCompanyVo findCompany(@RequestParam("companyId") Long companyId);
 	/**
 	 * 根据企业id获取企业信息---分页
 	 * @param companyId
 	 * @return
 	 */
 	@RequestMapping(value = "/findMembersPage", method = RequestMethod.POST)
-	public String findmember(
-			@RequestParam("companyId") int companyId,
-			@RequestParam("userId") long userId,
-			@RequestParam("page") int page,
-			@RequestParam("size") long size);
+	public QueryPageVo findmember(
+			@RequestParam("companyId") Integer companyId,
+			@RequestParam("userId") Long userId,
+			@RequestParam("page") Integer page,
+			@RequestParam("size") Integer size);
 	/**
 	 * 根据企业id获取子账号
 	 * @param companyId
@@ -99,8 +98,8 @@ public interface MemberClient {
 	 * @param userId
 	 * @return
 	 */
-	@RequestMapping(value = "/findUser", method = RequestMethod.POST)
-	public MemberUserVo findUser( long userId);
+	@RequestMapping(value = "/findUserById", method = RequestMethod.POST)
+	public MemberUserVo findUser(@RequestParam("userId") Long userId);
 	/**
 	 * 根据用户的帐号获取用户对象
 	 * @param account
@@ -117,13 +116,19 @@ public interface MemberClient {
 	@RequestMapping(value = "/findByUserName", method = RequestMethod.POST)
 	public MemberUserVo findByUserName(@RequestParam("userName") String userName);
 	/**
+	 * 根据用户名和id查找对象
+	 * @param memberName
+	 * @return
+	 */
+	@RequestMapping(value = "/findUserByIdName", method = RequestMethod.POST)
+	public MemberUserVo findByMemberNameId(@RequestParam("userId") int userId,@RequestParam("memberName") String memberName);
+	/**
 	 * 根据用户名查找对象
 	 * @param memberName
 	 * @return
 	 */
 	@RequestMapping(value = "/findByMemberName", method = RequestMethod.POST)
-	public MemberUserVo findByMemberName(@RequestParam("userId") int userId,@RequestParam("memberName") String memberName);
-	
+	public MemberUserVo findByMemberName(@RequestParam("memberName") String memberName);
 	
 	/**
 	 * 根据企业名称获取企业对象
@@ -148,6 +153,7 @@ class MemberUserClientCallback implements MemberClient {
 	 */
 	@Override
 	public MemberUserVo checkNo(String mobile) {
+		logger.warn("checkNo:验收手机号验证失败");
 		return null;
 	}
 	/**
@@ -155,14 +161,7 @@ class MemberUserClientCallback implements MemberClient {
 	 */
 	@Override
 	public MemberUserVo registerUser(MemberUserVo user) {
-		logger.debug(this.getClass()+":用户注册调用失败");
-		return null;
-	}
-	/**
-	 * 验证用户
-	 */
-	@Override
-	public MemberUserVo checkNo(MemberUserVo user) {
+		logger.warn(this.getClass()+":用户注册调用失败");
 		return null;
 	}
 	/**
@@ -170,6 +169,7 @@ class MemberUserClientCallback implements MemberClient {
 	 */
 	@Override
 	public MemberCompanyVo saveComp(MemberCompanyVo user) {
+		logger.warn("saveComp:保存企业主表信息调用失败");
 		return null;
 	}
 	/**
@@ -177,6 +177,7 @@ class MemberUserClientCallback implements MemberClient {
 	 */
 	@Override
 	public MemberCompanyAttachVo saveComAtt(MemberCompanyAttachVo comAtt) {
+		logger.warn("saveComAtt:保存企业信息调用失败");
 		return null;
 	}
 	/*
@@ -184,7 +185,8 @@ class MemberUserClientCallback implements MemberClient {
 	 * @see com.esteel.web.service.MemberClient#findCompany(long)
 	 */
 	@Override
-	public MemberCompanyVo findCompany(long comanyId) {
+	public MemberCompanyVo findCompany(Long comanyId) {
+		logger.warn("findCompany:根据企业id信息调用失败");
 		return null;
 	}
 	/*
@@ -192,7 +194,8 @@ class MemberUserClientCallback implements MemberClient {
 	 * @see com.esteel.web.service.MemberClient#findUser(long)
 	 */
 	@Override
-	public MemberUserVo findUser(long userId) {
+	public MemberUserVo findUser(Long userId) {
+		logger.warn("findUser:根据用户id用户信息调用失败");
 		return null;
 	}
 	/**
@@ -200,6 +203,7 @@ class MemberUserClientCallback implements MemberClient {
 	 */
 	@Override
 	public MemberUserVo findByAccount(String account) {
+		logger.warn("findByAccount：根据用户帐号获取用户信息失败");
 		return null;
 	}
 	/**
@@ -207,13 +211,7 @@ class MemberUserClientCallback implements MemberClient {
 	 */
 	@Override
 	public MemberUserVo findByUserName(String userName) {
-		return null;
-	}
-	/**
-	 * 根据用户名查找失败
-	 */
-	@Override
-	public MemberUserVo findByMemberName(int userId,String memberName) {
+		logger.warn("findByUserName：根据用户信息查询失败");
 		return null;
 	}
 	/**
@@ -221,6 +219,7 @@ class MemberUserClientCallback implements MemberClient {
 	 */
 	@Override
 	public MemberCompanyVo findByCompanyName(String companyName) {
+		logger.warn("findByCompanyName：企业认证信息保存失败");
 		return null;
 	}
 	/**
@@ -230,8 +229,7 @@ class MemberUserClientCallback implements MemberClient {
 	 */
 	@Override
 	public int saveCompanyInfo(@RequestBody MemberCompanyVo company) {
-		System.out.println(company);
-		logger.warn("企业认证信息保存失败");
+		logger.warn("saveCompanyInfo：企业认证信息保存失败");
 		return 0;
 	}
 	/**
@@ -239,17 +237,41 @@ class MemberUserClientCallback implements MemberClient {
 	 */
 	@Override
 	public List<MemberUserVo> findmembers(int companyId) {
-		logger.warn("获取企业下属子账号");
+		logger.warn("findmembers：获取企业下属子账号");
 		return null;
 	}
 	/**
 	 * 子账号分页
 	 */
 	@Override
-	public String findmember(int companyId, long userId, int page, long size) {
-		logger.warn("获取企业下属子账号分页");
+	public QueryPageVo findmember(Integer companyId, Long userId, Integer page, Integer size) {
+		logger.warn("findmember：获取企业下属子账号分页失败");
 		return null;
 	}
+	/**
+	 * 根据id和用户名查询用户信息
+	 */
+	@Override
+	public MemberUserVo findByMemberNameId(int userId, String memberName) {
+		logger.warn("findByMemberNameId：根据id和用户名查询用户信息失败");
+		return null;
+	}
+	@Override
+	public MemberUserVo findByMemberName(String memberName) {
+		logger.warn("findByMemberName：根据用户名查询用户信息失败");
+		return null;
+	}
+	/**
+	 * 手机验证
+	 */
+	@Override
+	public MemberUserVo checkUserByNo(MemberUserVo user) {
+		logger.warn("checkUserByNo：手机验证调用失败");
+		return null;
+	}
+	
+	
+	
 	
 
 }
