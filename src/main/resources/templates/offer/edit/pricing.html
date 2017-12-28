@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="./fragments/frontCode::frontCode" />
+<head th:replace="/fragments/frontCode::frontCode" />
 
 <body class="member myIron">
 
 <!--页头，菜单-->
-<div th:replace="./fragments/head::header"></div>
+<div th:replace="/fragments/head::header"></div>
 
 <!--内容-->
 <div class="main">
     <div class="container">
         <!--侧栏-->
-        <div th:replace="./fragments/sidebar::sidebar"></div>
+        <div th:replace="/fragments/sidebar::sidebar"></div>
 
         <!--内容-->
         <div class="content">
@@ -338,7 +338,7 @@
 </div>
 
 <!--页脚，链接-->
-<div th:replace="./fragments/foot::footer"></div>
+<div th:replace="/fragments/foot::footer"></div>
 
 <!--控制-->
 <script th:src="@{/js/module/offer/editOffer.pricing.js}"></script>
