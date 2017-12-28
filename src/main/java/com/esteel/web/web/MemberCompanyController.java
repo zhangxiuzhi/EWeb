@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.esteel.common.controller.WebReturnMessage;
 import com.esteel.web.service.BaseClient;
+import com.esteel.web.service.ContactClient;
 import com.esteel.web.service.MemberClient;
 import com.esteel.web.vo.CityVo;
 import com.esteel.web.vo.DistrictVo;
@@ -28,9 +29,16 @@ import com.esteel.web.vo.MemberCompanyAttachVo;
 import com.esteel.web.vo.MemberCompanyVo;
 import com.esteel.web.vo.MemberUserVo;
 import com.esteel.web.vo.ProvinceVo;
+import com.esteel.web.vo.QueryPageVo;
 import com.esteel.web.vo.ResultJson;
 import com.google.gson.Gson;
 
+/**
+ * 企业相关模块
+ * 
+ * @author chenshouye
+ *
+ */
 @Controller
 @RequestMapping("/company")
 public class MemberCompanyController {
@@ -42,6 +50,9 @@ public class MemberCompanyController {
 
 	@Autowired
 	BaseClient baseClient;
+
+	@Autowired
+	ContactClient contactClient;
 
 	/**
 	 * 跳转企业logo编辑页面
@@ -63,6 +74,7 @@ public class MemberCompanyController {
 	public String findAddress(Model model) {
 		// 所有身份信息
 		List<ProvinceVo> province = baseClient.findAllPro();
+		Assert.notNull(province, "获取所有省份失败");
 		// 存放封装数据
 		List<ResultJson> result = new ArrayList<>();
 		ResultJson state = null;
@@ -77,6 +89,7 @@ public class MemberCompanyController {
 		Gson gson = new Gson();
 		String jsonProvince = gson.toJson(result);
 		model.addAttribute("provinces", jsonProvince);
+		logger.info("findAddress:企业认证获取省份,结果+" + jsonProvince);
 		return "/member/approve";
 	}
 
@@ -89,7 +102,9 @@ public class MemberCompanyController {
 	@RequestMapping("/findCity")
 	@ResponseBody
 	public WebReturnMessage findCity(int provinceId) {
+		logger.info("findDistrict:获取省下属所有的市区，参数cityId" + provinceId);
 		List<CityVo> Cities = baseClient.findAllCity(provinceId);
+		Assert.notNull(Cities, "获取市下属所有的区县失败");
 		// 存放封装数据
 		List<ResultJson> city = new ArrayList<>();
 		List<String> data = new ArrayList<>();
@@ -102,6 +117,7 @@ public class MemberCompanyController {
 			city.add(state);
 		}
 		data.add(new Gson().toJson(city));
+		logger.info("findDistrict:获取省下属所有的市区,结果+" + data);
 		return new WebReturnMessage(true, "", data);
 	}
 
@@ -114,7 +130,9 @@ public class MemberCompanyController {
 	@RequestMapping("/findDistrict")
 	@ResponseBody
 	public WebReturnMessage findDistrict(int cityId) {
+		logger.info("findDistrict:获取市下属所有的区县，参数cityId" + cityId);
 		List<DistrictVo> dists = baseClient.findAllDistrict(cityId);
+		Assert.notNull(dists, "获取市下属所有的区县失败");
 		// 存放封装数据
 		List<ResultJson> city = new ArrayList<>();
 		List<String> data = new ArrayList<>();
@@ -127,6 +145,7 @@ public class MemberCompanyController {
 			city.add(state);
 		}
 		data.add(new Gson().toJson(city));
+		logger.info("findDistrict:获取市下属所有的区县,结果+" + data);
 		return new WebReturnMessage(true, "", data);
 	}
 
@@ -174,8 +193,9 @@ public class MemberCompanyController {
 		logger.info(this.getClass() + "企业认证入口,参数{}" + companyName + agentName);
 		// 获取用户登录信息
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		logger.debug("companyAttest:登录用户信息Authentication " + authentication);
 		MemberUserVo userVo = memberClient.findByAccount(authentication.getName());
-		Assert.notNull(userVo, "用户未登录");
+		Assert.notNull(userVo, "获取登录信息失败");
 		// 设置企业基本信息
 		MemberCompanyVo company = new MemberCompanyVo();
 		company.setCountryCode("China"); // 国家编码
@@ -237,7 +257,7 @@ public class MemberCompanyController {
 		// 根据登录用户获取到企业id查询企业信息
 		MemberUserVo user = (MemberUserVo) session.getAttribute("userVo");
 		Integer companyId = user.getCompanyId();
-		MemberCompanyVo company = memberClient.findCompany(companyId);
+		MemberCompanyVo company = memberClient.findCompany((long) companyId);
 		if (company != null) {
 			company.setCompanyNameEn(englishName);// 设置英文名
 			company.setLogo(license); // 外贸资质文件id
@@ -261,16 +281,23 @@ public class MemberCompanyController {
 	 */
 	@RequestMapping(value = "/findMembers", method = RequestMethod.POST)
 	@ResponseBody
-	public String memebers(@RequestParam(defaultValue="0") int page,@RequestParam(defaultValue="10") int size) {
+	public QueryPageVo memebers(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+			@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+		logger.info("memebers:子账号列表，参数{pageNum,pageSize}" + pageNum);
 		// 获取用户登录信息
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		logger.debug("addMember:登录用户信息Authentication " + authentication);
 		MemberUserVo userVo = memberClient.findByAccount(authentication.getName());
+		Assert.notNull(userVo, "获取登录用户信息失败");
 		// 获取企业id
 		Integer companyId = userVo.getCompanyId();
-		long userId = userVo.getUserId();
-		// 获取到企业子账号
-		String members = memberClient.findmember(companyId, userId, page, size);
-		return members;
+		Long userId = userVo.getUserId();
+		// 获取到企业子账号分页
+		QueryPageVo findmember = memberClient.findmember(companyId, userId, pageNum - 1, pageSize);
+		if (findmember == null) {
+			return new QueryPageVo();
+		}
+		return findmember;
 	}
 
 	/**
@@ -281,32 +308,46 @@ public class MemberCompanyController {
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value = "/addMember", method = RequestMethod.GET)
+	@RequestMapping(value = "/addMember", method = RequestMethod.POST)
 	@ResponseBody
-	public WebReturnMessage addMember(String mobile) {
-		WebReturnMessage webRetMesage = null;
+	public WebReturnMessage addMember(String mobile, String userName) {
+		logger.info("addMember:添加子账号,参数{}" + mobile + userName);
 		// 获取用户登录信息
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		logger.debug("addMember:登录用户信息Authentication " + authentication);
 		MemberUserVo userVo = memberClient.findByAccount(authentication.getName());
 		// 获取企业id
 		Integer companyId = userVo.getCompanyId();
 		// 创建保存信息
 		MemberUserVo user = new MemberUserVo();
-		user.setAccount("E0000062");// 设置帐号
+		user.setAccount(mobile);// 设置帐号
 		user.setMobile(mobile);// 手机号
-		String str = Encrypt.EncoderByMd5("123456");
+		// 设置密码
+		Integer miMa = (int) ((Math.random() * 9 + 1) * 10000000); // 随机生成8位验证码
+		String str = Encrypt.EncoderByMd5(miMa.toString());
 		user.setPassword(str); // 设置密码
-		user.setUserStatus(1); // 认证
+		user.setUserName(userName);
+		user.setRegisteredTime(new Timestamp(System.currentTimeMillis())); // 注册时间
+		user.setLastLoginTime(new Timestamp(System.currentTimeMillis()));
+		user.setUserStatus(3); // 激活中
 		user.setCompanyId(companyId);// 企业id
+		user.setMemberName(mobile);
 		user.setUserGrade(2);// 设置子账号权级 2 普通企业会员
+		long time = new Date().getTime();
+		user.setActivationTime(new Timestamp(time + 60 * 60 * 1000)); // 有效时间
 		// 保存子账号信息
 		MemberUserVo registerUser = memberClient.registerUser(user);
-		if (registerUser != null) {
-			webRetMesage = new WebReturnMessage(true, "添加成功");
+		Assert.notNull(registerUser, "添加子账号失败");
+		// 发送短信
+		MemberCompanyVo company = memberClient.findCompany((long) companyId);
+		String msg = company.getCompanyName() + "申请添加您为该企业的子账号，请于1小时内使用密码" + miMa + "登录激活账号，1小时后该密码失效。";
+		boolean sendSms = contactClient.sendSms(mobile, msg);
+		logger.info("removeMember:添加子账号，发送短信状态" + sendSms);
+		if (sendSms) {
+			return new WebReturnMessage(true);
 		} else {
-			webRetMesage = new WebReturnMessage(false, "添加失败");
+			return new WebReturnMessage(true, "短信发送失败");
 		}
-		return webRetMesage;
 	}
 
 	/**
@@ -315,23 +356,27 @@ public class MemberCompanyController {
 	 * @param userId
 	 * @return
 	 */
-	@RequestMapping(value = "/romoveMember", method = RequestMethod.GET)
+	@RequestMapping(value = "/romoveMember", method = RequestMethod.POST)
 	@ResponseBody
 	public WebReturnMessage removeMember(Long userId) {
-		WebReturnMessage webRetMesage = null;
+		logger.info("removeMember:移除子账号，参数{}" + userId);
+		// 根据用户id获取帐号信息
 		MemberUserVo member = memberClient.findUser(userId);
-		if (member != null) {
-			member.setCompanyId(null);// 设置企业号为null
-			MemberUserVo memuser = memberClient.registerUser(member);
-			if (memuser != null) {
-				webRetMesage = new WebReturnMessage(true, "移除成功");
-			} else {
-				webRetMesage = new WebReturnMessage(false, "保存失败");
-			}
-		} else {
-			webRetMesage = new WebReturnMessage(false, "获取子账号信息失败");
-		}
-		return webRetMesage;
+		logger.debug("removeMember:移除子账号" + member.hashCode());
+		Assert.notNull(member, "无此帐号");
+		// 设置用户信息
+		member.setCompanyId(null);// 设置企业号为null
+		member.setUserStatus(0);
+		member.setUserGrade(0);
+		member.setMemberName(" ");
+		member.setPositon(" ");
+		member.setDept(" ");
+		// 保存
+		MemberUserVo memuser = memberClient.registerUser(member);
+		logger.debug("removeMember:去除子账号企业信息" + member.hashCode());
+		Assert.notNull(memuser, "移除帐号失败");
+		logger.info("removeMember:移除子账号" + new WebReturnMessage(true, "1"));
+		return new WebReturnMessage(true, "1");
 	}
 
 	/**
@@ -351,28 +396,63 @@ public class MemberCompanyController {
 	 *            邮箱
 	 * @return
 	 */
-	@RequestMapping(value = "/Member", method = RequestMethod.GET)
+	@RequestMapping(value = "/updMember", method = RequestMethod.POST)
 	@ResponseBody
-	public WebReturnMessage editMember(Long userId, String mobile, String userName, String dept, String position,
-			String email) {
-		WebReturnMessage webRetMesage = null;
+	public WebReturnMessage editMember(Long userId, String userName, String dept, String position) {
+		logger.info("editMember:修改子账号信息，参数{}" + userId);
 		// 获取子账号对象
 		MemberUserVo member = memberClient.findUser(userId);
-		if (member != null) {
-			// 更改信息
-			member.setMobile(mobile);
-			member.setUserName(userName);
-			member.setEmail(email);
-			// 更新用户信息
-			MemberUserVo user = memberClient.registerUser(member);
-			if (user != null) {
-				webRetMesage = new WebReturnMessage(true, "更改成功");
-			} else {
-				webRetMesage = new WebReturnMessage(false, "更改失败");
-			}
-		} else {
-			webRetMesage = new WebReturnMessage(false, "无此帐号");
-		}
-		return webRetMesage;
+		logger.debug("editMember:获取子账号信息，MemberUserVo：" + member.hashCode());
+		Assert.notNull(member, "无此帐号");
+		member.setUserName(userName);
+		member.setDept(dept);
+		member.setPositon(position);
+		// 更新用户信息
+		MemberUserVo registerUser = memberClient.registerUser(member);
+		logger.debug("editMember:保存子账号信息，user：" + registerUser.hashCode());
+		Assert.notNull(registerUser, "修改失败");
+		logger.info("removeMember:修改子账号子账号" + new WebReturnMessage(true, "1"));
+		return new WebReturnMessage(true, "1");
 	}
+
+	/**
+	 * 重新添加子账号，重新发送密码短信
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping(value = "/reAddUser", method = RequestMethod.POST)
+	@ResponseBody
+	public WebReturnMessage reSendMsg(Long userId) {
+		logger.info("reSendMsg:重新发送激活短信，参数{}" + userId);
+		// 获取子账号对象
+		MemberUserVo member = memberClient.findUser(userId);
+		logger.debug("reSendMsg:获取子账号信息，MemberUserVo：" + member.hashCode());
+		Assert.notNull(member, "无此帐号");
+		// 设置用户信息
+		long times = new Date().getTime();
+		Integer miMa = (int) ((Math.random() * 9 + 1) * 10000000); // 随机生成8位验证码
+		String str = Encrypt.EncoderByMd5(miMa.toString());
+		member.setPassword(str); // 设置密码
+		member.setActivationTime(new Timestamp(times + 60 * 60 * 1000));// 1小时有效
+		// 保存子账号信息
+		MemberUserVo registerUser = memberClient.registerUser(member);
+		logger.debug("reSendMsg:保存子账号信息，registerUser：" + registerUser.hashCode());
+		Assert.notNull(registerUser, "重新添加失败");
+		// 根据用户获取企业信息
+		long companyId = member.getCompanyId();
+		MemberCompanyVo company = memberClient.findCompany(companyId);
+		logger.debug("reSendMsg:获取用户所在企业信息，company：" + company.hashCode());
+		String msg = company.getCompanyName() + "申请添加您为该企业的子账号，请于1小时内使用密码" + miMa + "登录激活账号，1小时后该密码失效。";
+		// 发送短信
+		boolean sendSms = contactClient.sendSms(member.getMobile(), msg);
+		logger.info("removeMember:添加子账号，发送短信状态" + sendSms);
+		if (sendSms) {
+			return new WebReturnMessage(true, "1");
+		} else {
+			return new WebReturnMessage(true, "重新添加失败，请重试");
+		}
+
+	}
+
 }

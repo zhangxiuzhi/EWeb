@@ -9,7 +9,7 @@ class SubAccountList extends React.Component{
 		super(props);
 
 		this.thead = [
-			{ dataField: "indexId", dataName: "序号",width: 60 },
+			{ dataField: "userId", dataName: "序号",width: 60 },
 			{ dataField: "account", dataName: "账号", width: 160, dataFormat: format_subAccount },
 			{ dataField: "userName", dataName: "姓名", width: 160 },
 			{ dataField: "dept", dataName: "部门",  },
@@ -22,13 +22,20 @@ class SubAccountList extends React.Component{
 				
 			]
 		}
+		this.reloadTable = this.reloadTable.bind(this);
 	}
 
+	reloadTable(_searchData){
+		this.refs.jtable.refs.jtable.setState({
+			searchData:_searchData
+		});
+		this.refs.jtable.refs.jtable.ajaxRequestData()
+	}
 
 	render() {
 		var datas = this.state.data;
 		var options = {
-			url:"/company/findMembers?_csrf=b7aac0fa-df63-4570-bb02-901ac2f51c03",
+			url:"/company/findMembers",
 			thead: this.thead,
 			status: this.props.status,
 			page: 1,
@@ -42,29 +49,46 @@ class SubAccountList extends React.Component{
 
 //格式化账号
 function format_subAccount(cell,row){
-
-	return cell;
+	if(row.activationTime!=null){
+		var newTime = new Date().getTime();
+		if(newTime>row.activationTime){
+			return cell +"&ensp;密码过期";
+		}
+		else {
+			return cell +"&ensp;待激活";
+		}
+	}else{
+		return cell;
+	}
 }
 
 //格式化操作
 function format_operation(cell,row){
 	//if (row.status == 0) {
-	var html = "<a class='text-info' onclick=show_subAccountEditModal('"+row.userId+"')>移除</a>";
-	html+= "<a class='text-info' onclick=show_subAccountEditModal('"+row.userId+"')>编辑</a>";
-	html+= "<a class='text-info' onclick=show_subAccountEditModal('"+row.userId+"')>编辑</a>";
-	return html;
+	var html = "<a class='text-info' data-id='"+row.userId+"' onclick=romove_subAccountEditModal(this)>移除</a>&ensp;";
+	html+= "<a class='text-info'  data-id='"+row.userId+"' data-name='"+row.userName+"' data-dept='"+row.dept+"' data-job='"+row.positon+"' onclick=show_subAccountEditModal(this)>编辑</a>&ensp;";
+	if(row.activationTime!=null){
+		var newTime = new Date().getTime();
+		if(newTime>row.activationTime){
+			return html+= "<a class='text-info' data-id='"+row.userId+"' onclick=reSubAccountAdd(this)>再次添加</a>";
+		}
+		else {
+			return html;
+		}
+	}else{
+		return html;
+	}
+	
 	//}
 
 }
-
 //显示子账号编辑窗口
-function show_subAccountEditModal(id){
-	alert(id)
-	/*var data = JSON.parse(rowData);
+function show_subAccountEditModal(_link){
 	$("#subaccoumt-edit-modal").modal("show");
 	//显示当前值
-	$("#subAccount-name").val(data.name);
-	$("#subAccount-department").val(data.department);
-	$("#subAccount-job").val(data.job);*/
+	$("#subAccount-Id").val($(_link).data("id"));
+	$("#subAccount-name").val($(_link).data("name"));
+	$("#subAccount-department").val($(_link).data("dept"));
+	$("#subAccount-job").val($(_link).data("job"));
 }
 
