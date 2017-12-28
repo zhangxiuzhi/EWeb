@@ -54,7 +54,7 @@
 					        <div class="form-group">
 					            <label class="col-sm-2 control-label">指标类型</label>
 					            <div class="col-sm-8">
-					                <div id="component-radioBoxGroup-kpiType" inputName="indicatorTypeId" th:value="${offerAttach.indicatorTypeId}"></div>
+					                <div id="component-radioBoxGroup-kpiType" inputName="indicatorTypeId"></div>
 					            </div>
 					        </div>
 					 
@@ -89,7 +89,7 @@
 					        <div class="form-group">
 					            <label class="col-sm-2 control-label">粒度</label>
 					            <div class="col-sm-4">
-					                <input type="text" class="form-control" maxlength="32" name="sizeIndicators" th:value="${offerAttach.sizeIndicators}"/>
+					                <input type="text" class="form-control" maxlength="32" id="sizeIndicators" name="sizeIndicators" th:value="${offerAttach.sizeIndicators}"/>
 					            </div>
 					        </div>
 					 
@@ -148,11 +148,12 @@
 					                    <span class="btn btn-default btn-file btn-ghost">
 					                        <span class="fileupload-new"><i class="fa fa-folder-open-o"></i> 选择文件</span>
 					                        <span class="fileupload-exists"><i class="fa fa-folder-open-o"></i> 替换文件</span>
-					                        <input type="file" name="offerAffix" class="form-control uploadFile" accept=".doc,.docx,.xls,.xlsx,.pdf,.zip,.rar,.7z"/>
+					                        <input type="file" id="offerAffix" name="file" class="form-control uploadFile" accept=".doc,.docx,.xls,.xlsx,.pdf,.zip,.rar,.7z" onchange="upload(this)"/>
 					                    </span>
 					                    <span class="fileupload-preview"></span>
 					                    <a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none">×</a>
 					                </span>
+					                <input type="hidden" id="offerAffixPath" name="offerAffixPath"/>
 					            </div>
 					        </div>
 					 
@@ -248,7 +249,7 @@
 					                自货权转移之日起，买方享有<input class="offer-rule-f-c mask-number"  maxlength="3" name="free_storage_several_days" th:value="${offerClause.free_storage_several_days}"/>天免堆期， 超期产生的堆存费由<select class="form-control" name="overdue_storage_fee_bearer" data-validetta="required" id="overdue_storage_fee_bearer">
 					                    <option value=""></option>
 					                    <option th:each="traderType : ${traderTypeList}" th:value="${traderType.optionId}" th:text="${traderType.optionValue}" 
-					                    th:selected="${traderType.optionId} == ${offerClause.free_storage_several_days}"></option>
+					                    th:selected="${traderType.optionId} == ${offerClause.overdue_storage_fee_bearer}"></option>
 					                </select>承担。
 					            </div>
 					        </div>
@@ -273,11 +274,12 @@
 					                    <span class="btn btn-default btn-file btn-ghost">
 					                        <span class="fileupload-new"><i class="fa fa-folder-open-o"></i> 选择文件</span>
 					                        <span class="fileupload-exists"><i class="fa fa-folder-open-o"></i> 替换文件</span>
-					                        <input type="file" name="contractAffix" class="form-control uploadFile" accept=".doc,.docx,.xls,.xlsx,.pdf,.zip,.rar,.7z"/>
+					                        <input type="file" id="contractAffix" name="file" class="form-control uploadFile" accept=".doc,.docx,.xls,.xlsx,.pdf,.zip,.rar,.7z" onchange="upload(this)"/>
 					                    </span>
 					                    <span class="fileupload-preview"></span>
 					                    <a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none">×</a>
 					                </span>
+					                <input type="hidden" id="contractAffixPath" name="contractAffixPath"/>
 					            </div>
 					        </div>
 					        <div class="form-group">
