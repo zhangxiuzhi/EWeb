@@ -404,8 +404,8 @@ function JBSFrame() {
 
 	//ajax请求
 	this.ajaxRequest = function(config, callback,errCallback){
-		var header = $("meta[name='_csrf_header']").attr("content");
-		var token = $("meta[name='_csrf']").attr("content");
+		var csrf_header = $("meta[name='_csrf_header']").attr("content");
+		var csrf = $("meta[name='_csrf']").attr("content");
 		var cfg = $.extend({
 			url:config.url,
 			method:config.method == undefined ? 'post' : config.method,
@@ -422,7 +422,9 @@ function JBSFrame() {
 			dataType:cfg.dataType,
 			async: cfg.async,
 			beforeSend: function(xhr){
-			 xhr.setRequestHeader(header, token);
+                if(csrf_header !=undefined) {
+            			xhr.setRequestHeader(csrf_header, csrf);
+        			}
 			 },
 			success:function(msg,str,response){
 
