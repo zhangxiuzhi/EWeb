@@ -110,7 +110,7 @@ public class IronFuturesOfferRequest extends OfferIronAttachVo implements Serial
 	 * 化学元素指标 Al2O3 数组
 	 * 扩展字段
 	 */
-	@DigitsHasEmpty(groups = {IronFuturesOffer.class}, integer = 2, fraction = 3, message = "Al2O3指标：请填写有效数字。小数位支持1-3位。")
+	@DigitsHasEmpty(integer = 2, fraction = 3, message = "Al2O3指标：请填写有效数字。小数位支持1-3位。")
 	private String[] al2o3Arr;
 	/**
 	 * 其他化学元素指标 Json数据 数组
@@ -121,8 +121,8 @@ public class IronFuturesOfferRequest extends OfferIronAttachVo implements Serial
 	 * 品名ID 数组
 	 * 扩展字段
 	 */
-	@Array(groups = {IronFuturesOffer.class}, min=1, message = "请选择品名")
-	@PatternHasEmpty(groups = {IronFuturesOffer.class}, regexp = "^\\d+$", message = "请选择品名")
+	@Array(min=1, message = "请选择品名")
+	@PatternHasEmpty(regexp = "^\\d+$", message = "请选择品名")
 	private String[] commodityIdArr;
 	/**
 	 * 品名名称 数组
@@ -133,21 +133,21 @@ public class IronFuturesOfferRequest extends OfferIronAttachVo implements Serial
 	 * 化学元素指标 Fe 数组
 	 * 扩展字段
 	 */
-	@Array(groups = {IronFuturesOffer.class}, min=1, message = "请填写Fe指标")
-	@DigitsHasEmpty(groups = {IronFuturesOffer.class}, integer = 2, fraction = 3, message = "Fe指标：请填写有效数字。小数位支持1-3位。")
+	@Array(min=1, message = "请填写Fe指标")
+	@DigitsHasEmpty(integer = 2, fraction = 3, message = "Fe指标：请填写有效数字。小数位支持1-3位。")
 	private String[] feArr;
 	/**
 	 * 化学元素指标 H2O 数组
 	 * 扩展字段
 	 */
-	@DigitsHasEmpty(groups = {IronFuturesOffer.class}, integer = 2, fraction = 3, message = "H2O指标：请填写有效数字。小数位支持1-3位。")
+	@DigitsHasEmpty(integer = 2, fraction = 3, message = "H2O指标：请填写有效数字。小数位支持1-3位。")
 	private String[] h2oArr;
 	/**
 	 * 指标类型ID 数组
 	 * 扩展字段
 	 */
-	@Array(groups = {IronFuturesOffer.class}, min=1, message = "请新选择指标")
-	@PatternHasEmpty(groups = {IronFuturesOffer.class}, regexp = "^\\d+$", message = "请重新选择指标")
+	@Array(min=1, message = "请新选择指标")
+	@PatternHasEmpty(regexp = "^\\d+$", message = "请重新选择指标")
 	private String[] indicatorTypeIdArr;
 	/**
 	 * 指标类型 数组
@@ -158,20 +158,20 @@ public class IronFuturesOfferRequest extends OfferIronAttachVo implements Serial
 	 * 化学元素指标 LOI 数组
 	 * 扩展字段
 	 */
-	@DigitsHasEmpty(groups = {IronFuturesOffer.class}, integer = 2, fraction = 3, message = "LOI指标：请填写有效数字。小数位支持1-3位。")
+	@DigitsHasEmpty(integer = 2, fraction = 3, message = "LOI指标：请填写有效数字。小数位支持1-3位。")
 	private String[] LOIArr;
 	/**
 	 * 化学元素指标 Mn 数组
 	 * 扩展字段
 	 */
-	@DigitsHasEmpty(groups = {IronFuturesOffer.class}, integer = 2, fraction = 3, message = "Mn指标：请填写有效数字。小数位支持1-3位。")
+	@DigitsHasEmpty(integer = 2, fraction = 3, message = "Mn指标：请填写有效数字。小数位支持1-3位。")
 	private String[] mnArr;
 	/**
 	 * 溢短装 数组
 	 * 扩展字段
 	 */
-	@Array(groups = {IronFuturesOffer.class}, min=1, message = "请填写溢短装")
-	@DigitsHasEmpty(groups = {IronFuturesOffer.class}, integer = 2, fraction = 1, message = "溢短装：请填写有效数字。小数位支持1位。")
+	@Array(min=1, message = "请填写溢短装")
+	@DigitsHasEmpty(integer = 2, fraction = 1, message = "溢短装：请填写有效数字。小数位支持1位。")
 	private String[] moreOrLessArr;
 	/**
 	 * 铁矿报盘附表编码 数组
@@ -182,20 +182,20 @@ public class IronFuturesOfferRequest extends OfferIronAttachVo implements Serial
 	 * 报盘重量 数组
 	 * 扩展字段
 	 */
-	@Array(groups = {IronFuturesOffer.class}, min=1, message = "请填写报盘数量")
-	@PatternHasEmpty(groups = {IronFuturesOffer.class}, regexp = "^\\d{1,6}00$", message = "数量：必须为100的正整数倍。")
+	@Array(min=1, message = "请填写报盘数量")
+	@PatternHasEmpty(regexp = "^\\d{1,6}00$", message = "数量：必须为100的正整数倍。")
 	private String[] offerQuantityArr;
 	/**
 	 *  化学元素指标 P 数组
 	 *  扩展字段
 	 */
-	@DigitsHasEmpty(groups = {IronFuturesOffer.class}, integer = 2, fraction = 3, message = "P指标：请填写有效数字。小数位支持1-3位。")
+	@DigitsHasEmpty(integer = 2, fraction = 3, message = "P指标：请填写有效数字。小数位支持1-3位。")
 	private String[] pArr;
 	/**
 	 * 价格基数 铁 数组
 	 * 扩展字段
 	 */
-	@DigitsHasEmpty(groups = {IronFuturesOffer.class}, integer = 2, fraction = 3, message = "价格基数 铁：请填写有效数字。小数位支持1-3位。")
+	@DigitsHasEmpty(integer = 2, fraction = 3, message = "价格基数 铁：请填写有效数字。小数位支持1-3位。")
 	private String[] priceBasisFeArr;
 	/**
 	 * 价格描述 数组
@@ -211,25 +211,25 @@ public class IronFuturesOfferRequest extends OfferIronAttachVo implements Serial
 	 * 价格数值 数组
 	 * 扩展字段
 	 */
-	@DigitsHasEmpty(groups = {IronFuturesOffer.class}, integer = 4, fraction = 1, message = "价格基数 铁：请填写有效数字。小数位支持1位。")
+	@DigitsHasEmpty(integer = 4, fraction = 1, message = "价格基数 铁：请填写有效数字。小数位支持1位。")
 	private String[] priceValueArr;
 	/**
 	 * 化学元素指标 S 数组
 	 * 扩展字段
 	 */
-	@DigitsHasEmpty(groups = {IronFuturesOffer.class}, integer = 2, fraction = 3, message = "S指标：请填写有效数字。小数位支持1-3位。")
+	@DigitsHasEmpty(integer = 2, fraction = 3, message = "S指标：请填写有效数字。小数位支持1-3位。")
 	private String[] sArr;
 	/**
 	 * 化学元素指标 SiO2 数组
 	 * 扩展字段
 	 */
-	@DigitsHasEmpty(groups = {IronFuturesOffer.class}, integer = 2, fraction = 3, message = "SiO2指标：请填写有效数字。小数位支持1-3位。")
+	@DigitsHasEmpty(integer = 2, fraction = 3, message = "SiO2指标：请填写有效数字。小数位支持1-3位。")
 	private String[] sio2Arr;
 	/**
 	 * 粒度指标 数组
 	 * 扩展字段
 	 */
-	@LengthForEach(groups = {IronFuturesOffer.class}, min=0, max=32, message="粒度指标:32字符以内")
+	@LengthForEach(min=0, max=32, message="粒度指标:32字符以内")
 	private String[] sizeIndicatorsArr;
 	/**
 	 * 报盘备注附件

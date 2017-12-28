@@ -248,19 +248,18 @@ function save_offer(){
      	    		
      	    		var _url = "/offer/iron/updateInStockOffer";
      				
-     				var formData = new FormData($('form-offer')[0]);
-     	        	 esteel_addOffer.ajaxRequest({
+     				esteel_offerEdit_INStock.ajaxRequest({
      	     	    	url:_url,
      	     	        data:$('#form-offer').serialize()
      	     	    }, function (data, msg) {
-     	     	    	alert(result.msg);
+     	     	    	alert(msg);
      	     	    	if (msg == 'success') {
      	     	    		window.location.href = "/offer/iron/myList";
      	     	    	}
      	     	    });
      	    		
      	    	} else {
-     	    		alert(result.msg);
+     	    		alert(msg);
      	    	}
      	    });
         });
@@ -282,19 +281,18 @@ function submit_offer(){
      	    		
      	    		var _url = "/offer/iron/updateInStockOffer";
      				
-     				var formData = new FormData($('form-offer')[0]);
      	        	 esteel_addOffer.ajaxRequest({
      	     	    	url:_url,
      	     	        data:$('#form-offer').serialize()
      	     	    }, function (data, msg) {
-     	     	    	alert(result.msg);
+     	     	    	alert(msg);
      	     	    	if (msg == 'success') {
      	     	    		window.location.href = "/offer/iron/myList";
      	     	    	}
      	     	    });
      	    		
      	    	} else {
-     	    		alert(result.msg);
+     	    		alert(msg);
      	    	}
      	    });
 	    });

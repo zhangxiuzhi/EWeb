@@ -1,6 +1,5 @@
 /**
- * Created by wzj on 2017/12/24.
- *    更新报盘
+ * Created by wzj on 2017/12/24. 更新报盘
  */
 function JBSFrame_OfferEdit_Futures() {
     JBSFrame.call(this);
@@ -79,7 +78,7 @@ function JBSFrame_OfferEdit_Futures() {
                 data: JSON.parse($("#indicatorTypeJson").html()),
                 value: offerAttachList[0].indicatorTypeId,
                 className: "TagStyle offerKpi",
-                name:$kpiType1.attr("inputName"),
+                inputName:$kpiType1.attr("inputName"),
                 onChange:changeIndicatorValue1 //指标类型选择，改变指标值
             }), $kpiType1[0]);
         }
@@ -90,7 +89,7 @@ function JBSFrame_OfferEdit_Futures() {
             this.selectBox_ItemName2 = ReactDOM.render(React.createElement(ComponentSelectBox,{
             	data:JSON.parse($("#ironCommodityJson").html()),
                 inputName:$ItemName2.attr("inputName"),
-                inputValue:offerAttachList[1].commodityId,
+                inputValue:offer.isMultiCargo=='0'?$ItemName1.attr("inputValue"):offerAttachList[1].commodityId,
                 validetta:$ItemName2.data("validetta"),
                 onChange:changeIronAttributeLink_2 //期货商品2联动指标
             }), $ItemName2[0]);
@@ -100,9 +99,9 @@ function JBSFrame_OfferEdit_Futures() {
         if($kpiType2.length>0) {
             this.radioBox_kpiType2 = ReactDOM.render(React.createElement(ComponentRadioBox, {
                 data: JSON.parse($("#indicatorTypeJson").html()),
-                value: offerAttachList[1].indicatorTypeId,
+                value: offer.isMultiCargo=='0'?"26":offerAttachList[1].indicatorTypeId,
                 className: "TagStyle offerKpi",
-                name:$kpiType2.attr("inputName"),
+                inputName:$kpiType2.attr("inputName"),
                 onChange:changeIndicatorValue2 //指标类型选择，改变指标值
             }), $kpiType2[0]);
         }
@@ -248,19 +247,18 @@ function save_offer(){
      	    		
      	    		var _url = "/offer/iron/updateFuturesOffer";
      				
-     				var formData = new FormData($('form-offer')[0]);
-     	        	 esteel_addOffer.ajaxRequest({
+     				esteel_offerEdit_Futures.ajaxRequest({
      	     	    	url:_url,
      	     	        data:$('#form-offer').serialize()
      	     	    }, function (data, msg) {
-     	     	    	alert(result.msg);
+     	     	    	alert(msg);
      	     	    	if (msg == 'success') {
      	     	    		window.location.href = "/offer/iron/myList";
      	     	    	}
      	     	    });
      	    		
      	    	} else {
-     	    		alert(result.msg);
+     	    		alert(msg);
      	    	}
      	    });
         });
@@ -280,77 +278,78 @@ function submit_offer(){
      	    	if (msg == 'success') {
      	    		$("#offerStatus").val("publish");
      	    		
-     	    		var _url = "/offer/iron/updateInStockOffer";
+     	    		var _url = "/offer/iron/updateFuturesOffer";
      				
-     				var formData = new FormData($('form-offer')[0]);
-     	        	 esteel_addOffer.ajaxRequest({
+     				esteel_offerEdit_Futures.ajaxRequest({
      	     	    	url:_url,
      	     	        data:$('#form-offer').serialize()
      	     	    }, function (data, msg) {
-     	     	    	alert(result.msg);
+     	     	    	alert(msg);
      	     	    	if (msg == 'success') {
      	     	    		window.location.href = "/offer/iron/myList";
      	     	    	}
      	     	    });
      	    		
      	    	} else {
-     	    		alert(result.msg);
+     	    		alert(msg);
      	    	}
      	    });
 	    });
     }
 }
 
-
 //远期期货商品1联动指标
 function changeIronAttributeLink_1(node){
-  changeIronCommodityIndicator1(node,'1');
+	// 典型值
+	if($("input[name='indicatorTypeIdArr']").val() == "26"){
+		changeIronCommodityIndicatorIndex(node,'1');
+	}else{
+		// 清空指标值
+		$(".offer-kip-table input.form-control").val("");
+	}
 }
 //远期期货商品1 指标类型选择，改变指标值
 function changeIndicatorValue1(value,label){
   if(value == "26" && label =="典型值"){
       //品名切换改变指标值
-      changeIronCommodityIndicator1(esteel_offerEdit_Futures.selectBox_ItemName1.state.node,'');
+	  changeIronCommodityIndicatorIndex(esteel_addOffer.selectBox_ItemName1.state.node,'1');
   }else{
       //清空指标值
-      $(".offer-kip-table input.form-control").val("");
-  }
-}
-//远期期货商品1 品名联动
-function changeIronCommodityIndicator1(node,index){
-  var ironAttr = JSON.parse($("#ironAttributeLinkJson").html());
-  for(var attr in ironAttr){
-      if(attr == node.label){
-          var iron = ironAttr[attr];
-          for(var i=0;i<iron.length;i++){
-              $("#indicator"+index+"-"+iron[i].text+"-1").val(iron[i].value);
-          }
-      }
+      $("#indicator-table-1 input.form-control").val("");
   }
 }
 
 //期货商品2联动指标
 function changeIronAttributeLink_2(node) {
-  changeIronCommodityIndicator2(node,'2');
+	// 典型值
+	if($("input[name='indicatorTypeIdArr']").val() == "26"){
+		changeIronCommodityIndicatorIndex(node,'2');
+	}else{
+		// 清空指标值
+		$(".offer-kip-table-1 input.form-control").val("");
+	}
 }
 //期货商品2 指标类型选择，改变指标值
 function changeIndicatorValue2(value,label){
   if(value == "26" && label =="典型值"){
       //品名切换改变指标值
-      changeIronCommodityIndicator2(esteel_offerEdit_Futures.selectBox_ItemName2.state.node,'');
+	  changeIronCommodityIndicatorIndex(esteel_addOffer.selectBox_ItemName2.state.node,'2');
   }else{
       //清空指标值
-      $(".offer-kip-table input.form-control").val("");
+      $("#indicator-table-2 input.form-control").val("");
   }
 }
-//期货商品2 品名联动
-function changeIronCommodityIndicator2(node,index){
+//远期期货商品 品名联动
+function changeIronCommodityIndicatorIndex(node,index){
   var ironAttr = JSON.parse($("#ironAttributeLinkJson").html());
   for(var attr in ironAttr){
       if(attr == node.label){
           var iron = ironAttr[attr];
           for(var i=0;i<iron.length;i++){
-              $("#indicator"+index+"-"+iron[i].text+"-2").val(iron[i].value);
+              $("#indicator-"+iron[i].text+"-"+index).val(iron[i].value);
+              if (iron[i].text == 'GRAIN') {
+              	$("sizeIndicators-"+index).val(iron[i].value);
+            }
           }
       }
   }
