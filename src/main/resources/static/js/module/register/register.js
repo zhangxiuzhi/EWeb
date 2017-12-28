@@ -62,7 +62,7 @@ function sendSms() {
 		return;
 	}
 	esteel_register.ajaxRequest({
-		url : "/user/sendSms",
+		url : "/register/sendSms",
 		data : {
 			mobile : phone
 		}
@@ -83,7 +83,7 @@ function checkNo(){
 				phone = $("#mobile").val();
 				// 数据库验证
 				esteel_register.ajaxRequest({
-					url : "/user/checkNo",
+					url : "/register/checkNo",
 					data : {
 						mobile : phone
 					}
@@ -145,7 +145,7 @@ function register() {
 		return;
 	}
 	// 注册
-	esteel_register.ajaxRequest({ url : "/user/register",
+	esteel_register.ajaxRequest({ url : "/register/register",
 		data : {
 			mobile : phone,
 			code : codes,

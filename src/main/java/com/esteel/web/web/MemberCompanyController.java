@@ -166,15 +166,16 @@ public class MemberCompanyController {
 			String regAddress, // 注册详细地址
 			String conAddress, // 联系地址
 			// 待确认
-			String agentName, // 代理人姓名
-			String agentCardId, // 代理人身份证号
-			String positive, // 代理人身份证正面
+			String agentName, // 代理人姓名**
+			String agentCardId, // 代理人身份证号**
+			String positive, // 代理人身份证正面**
 			String opposite, // 代理人身份证号反面
 			// ----------------
-			String legalName, // 法人姓名 ---
+			String legalName, // 法人姓名 **
+			
 			String legalCardId, // 法人身份证号
-			String legalPositive, // 法人身份证正面 --
-			String legalOpposite, // 法人身份证号反面
+			String legalPositive, // 法人身份证正面 **
+			String legalOpposite, // 法人身份证号反面**
 
 			String authorize, // 主联系人授权书
 			Integer certificate, // 是否三证合一
@@ -209,13 +210,11 @@ public class MemberCompanyController {
 		company.setRegisteredTime(new Timestamp(new Date().getTime())); // 注册时间
 		company.setRegisteredUserId((int) userVo.getUserId());// --
 		company.setRegisteredUser(userVo.getUserName()); // --
-		company.setApprovalStatus(0);// 审核状态
-		company.setCompanyStatus(0);// 企业状态
+		company.setApprovalStatus(0);// 审核状态 0待审核 1驳回 2通过
+		company.setCompanyStatus(1);// 状态 0正常(默认) 1审核 99锁定
 		// 设置企业附件信息
 		MemberCompanyAttachVo companyAtt = new MemberCompanyAttachVo();
 		companyAtt.setRegisteredProvince(provincesr);// 省
-		companyAtt.setLegalIdCard(legalCardId);// 法人身份证号
-		companyAtt.setLegalIdPath(opposite);// 身份证号图片
 		companyAtt.setRegisteredCity(cityr);// 市
 		companyAtt.setRegisteredDistrict(dictristor);// 区县
 		companyAtt.setRegisteredAddress(regAddress);// 联系地址
@@ -229,6 +228,17 @@ public class MemberCompanyController {
 		companyAtt.setOrganizationPath(organizationImg);// 组织结构图片
 		companyAtt.setTaxRegistrationPath(taxationImg);// 税务登记证图片
 		companyAtt.setUpdateTime(new Timestamp(new Date().getTime()));// 更新时间
+		//法人
+		companyAtt.setLegalName(legalName); //企业法人姓名
+		companyAtt.setLegalIdCard(legalCardId);// 法人身份证号
+		companyAtt.setLegalIdPath(legalPositive);// 业法人身份证附件正面
+		companyAtt.setLegalIdPathO(legalOpposite); //企业法人身份证附件反面
+		//代理人
+		companyAtt.setAgentName(agentName);
+		companyAtt.setAgentIdCard(agentCardId);
+		companyAtt.setAgentIdPathP(positive);
+		companyAtt.setAgentIdPathO(opposite);
+		
 		company.setComAtt(companyAtt);
 		// 保存企业信息，同时返回保存后的对象信息
 		int status = memberClient.saveCompanyInfo(company);
