@@ -10,6 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.esteel.web.vo.offer.OfferIronAttachVo;
 import com.esteel.web.vo.offer.validator.Array;
 import com.esteel.web.vo.offer.validator.DigitsHasEmpty;
+import com.esteel.web.vo.offer.validator.IronFuturesOffer;
 import com.esteel.web.vo.offer.validator.LengthForEach;
 import com.esteel.web.vo.offer.validator.PatternHasEmpty;
 
@@ -21,6 +22,7 @@ import com.esteel.web.vo.offer.validator.PatternHasEmpty;
  * @date 2017年12月6日 下午1:28:25 
  *
  */
+@IronFuturesOffer()
 public class IronFuturesOfferRequest extends OfferIronAttachVo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -229,6 +231,11 @@ public class IronFuturesOfferRequest extends OfferIronAttachVo implements Serial
 	 */
 	@LengthForEach(groups = {IronFuturesOffer.class}, min=0, max=32, message="粒度指标:32字符以内")
 	private String[] sizeIndicatorsArr;
+	/**
+	 * 报盘备注附件
+	 * 报盘扩展字段
+	 */
+	private String offerAffixPath;
 
 	public IronFuturesOfferRequest() {
 		// 默认:不在保税区
@@ -464,5 +471,13 @@ public class IronFuturesOfferRequest extends OfferIronAttachVo implements Serial
 
 	public void setPriceValueArr(String[] priceValueArr) {
 		this.priceValueArr = priceValueArr;
+	}
+
+	public String getOfferAffixPath() {
+		return offerAffixPath;
+	}
+
+	public void setOfferAffixPath(String offerAffixPath) {
+		this.offerAffixPath = offerAffixPath;
 	}
 }

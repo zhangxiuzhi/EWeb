@@ -63,13 +63,15 @@ public @interface IronFuturesTransport {
 				return true;
 			}
 			
-			if (transport.getTransport_load_start() != null && transport.getTransport_load_end() == null) {
+			if ((transport.getTransport_load_start() != null && !transport.getTransport_load_start().trim().equals("")) 
+					&& (transport.getTransport_load_end() == null || transport.getTransport_load_end().trim().equals(""))) {
 				context.buildConstraintViolationWithTemplate("请填完 装船期。")  
                 .addPropertyNode("transport_load_start")  
                 .addConstraintViolation();
 				
 				 return false;
-	        } else if (transport.getTransport_load_start() == null && transport.getTransport_load_end() != null) {
+	        } else if ((transport.getTransport_load_start() == null || transport.getTransport_load_start().trim().equals("")) 
+	        		&& (transport.getTransport_load_end() != null && !transport.getTransport_load_end().trim().equals(""))) {
 	        	context.buildConstraintViolationWithTemplate("请填完 装船期。")  
                 .addPropertyNode("transport_load_start")  
                 .addConstraintViolation();
@@ -77,7 +79,8 @@ public @interface IronFuturesTransport {
 	        	 return false;
 	        }
 			
-			if (transport.getTransport_arrive_month() != null && transport.getTransport_half_month() == null) {
+			if ((transport.getTransport_arrive_month() != null && !transport.getTransport_arrive_month().trim().equals("")) 
+					&& (transport.getTransport_half_month() == null || transport.getTransport_half_month().trim().equals(""))) {
 				context.buildConstraintViolationWithTemplate("请填完到港月。")  
                 .addPropertyNode("transport_load_start")  
                 .addConstraintViolation();
@@ -86,27 +89,29 @@ public @interface IronFuturesTransport {
 	        }
 			
 			boolean flag = false;
-			if (transport.getTransport_load_start() != null && transport.getTransport_load_end() != null) {
+			if ((transport.getTransport_load_start() != null && !transport.getTransport_load_start().trim().equals(""))
+					&& (transport.getTransport_load_end() != null && !transport.getTransport_load_end().trim().equals(""))) {
 				flag = true;
 	        }
 			
-			if (transport.getTransport_bill() != null) {
+			if (transport.getTransport_bill() != null && !transport.getTransport_bill().trim().equals("")) {
 				flag = true;
 			}
 			
-			if (transport.getTransport_arrive_month() != null && transport.getTransport_half_month() != null) {
+			if ((transport.getTransport_arrive_month() != null && !transport.getTransport_arrive_month().trim().equals(""))  
+					&& (transport.getTransport_half_month() != null && !transport.getTransport_half_month().trim().equals(""))) {
 				flag = true;
 	        } 
 			
-			if (transport.getTransport_etaxjb() != null) {
+			if (transport.getTransport_etaxjb() != null && !transport.getTransport_etaxjb().trim().equals("")) {
 				flag = true;
 			}
 			
-			if (transport.getTransport_etaqdg() != null) {
+			if (transport.getTransport_etaqdg() != null && !transport.getTransport_etaqdg().trim().equals("")) {
 				flag = true;
 			}
 			
-			if (transport.getTransport_remark() != null) {
+			if (transport.getTransport_remark() != null && !transport.getTransport_remark().trim().equals("")) {
 				flag = true;
 			}
 			

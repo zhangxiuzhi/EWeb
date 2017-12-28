@@ -9,7 +9,6 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.esteel.web.vo.offer.OfferIronAttachVo;
-import com.esteel.web.vo.offer.OfferIronAttachVo.IronInStockOffer;
 
 /**
  * 
@@ -98,6 +97,16 @@ public class IronInStockOfferRequest extends OfferIronAttachVo implements Serial
 	 * 报盘扩展字段
 	 */
 	private String counterpartyIdMulti;
+	/**
+	 * 报盘备注附件
+	 * 报盘扩展字段
+	 */
+	private String offerAffixPath;
+	/**
+	 * 报盘合同附件
+	 * 报盘扩展字段
+	 */
+	private String contractAffixPath;
 	
 	public IronInStockOfferRequest() {
 		// 默认:在保税区
@@ -240,5 +249,21 @@ public class IronInStockOfferRequest extends OfferIronAttachVo implements Serial
 
 	public void setCounterpartyIdMulti(String counterpartyIdMulti) {
 		this.counterpartyIdMulti = counterpartyIdMulti;
+	}
+
+	public String getOfferAffixPath() {
+		return offerAffixPath;
+	}
+
+	public void setOfferAffixPath(String offerAffixPath) {
+		this.offerAffixPath = offerAffixPath;
+	}
+
+	public String getContractAffixPath() {
+		return contractAffixPath;
+	}
+
+	public void setContractAffixPath(String contractAffixPath) {
+		this.contractAffixPath = contractAffixPath;
 	}
 }

@@ -36,7 +36,7 @@ class RadioBox extends React.Component {
 				onChange: this.props.onChange,
 				checked: this.props.isChecked == radio.value ? true : false,
 				id: inputId,
-				name: radio.name || this.props.name,
+				name: "react-rbg-"+this.props.name,
 				value: radio.value,
 				label: radio.text,
 				ref: "radio" }),

@@ -228,11 +228,32 @@ function JBSFrame_addOffer() {
         for(var i=0;i<traderType.length;i++){
             var $opt = $("<option></option>").text(traderType[i].text).val(traderType[i].value);
             $("#select-trader_type").append($opt);
-            $("#transport_costs_bearer").append($opt);
+
+        }
+        
+        for(var i=0;i<traderType.length;i++){
+            var $opt = $("<option></option>").text(traderType[i].text).val(traderType[i].value);
             $("#agency_fee_bearer").append($opt);
+        }
+
+        for(var i=0;i<traderType.length;i++){
+            var $opt = $("<option></option>").text(traderType[i].text).val(traderType[i].value);
+            $("#transport_costs_bearer").append($opt);
+        }
+        for(var i=0;i<traderType.length;i++){
+            var $opt = $("<option></option>").text(traderType[i].text).val(traderType[i].value);
             $("#port_construction_fee_bearer").append($opt);
+        }
+        for(var i=0;i<traderType.length;i++){
+            var $opt = $("<option></option>").text(traderType[i].text).val(traderType[i].value);
             $("#second_vessel_fee_bearer").append($opt);
+        }
+        for(var i=0;i<traderType.length;i++){
+            var $opt = $("<option></option>").text(traderType[i].text).val(traderType[i].value);
             $("#weighing_fee_bearer").append($opt);
+        }
+        for(var i=0;i<traderType.length;i++){
+            var $opt = $("<option></option>").text(traderType[i].text).val(traderType[i].value);
             $("#overdue_storage_fee_bearer").append($opt);
         }
 
@@ -395,13 +416,30 @@ function save_offer(){
 				_url = "/offer/iron/validatedFuturesOffer";
 			}
 			
-			var formData = new FormData($('form-offer')[0]);
-        	 esteel_addOffer.ajaxRequest({
+			esteel_addOffer.ajaxRequest({
      	    	url:_url,
      	        data:$('#form-offer').serialize()
-     	    }, function (data, msg) {
+     	    },function (data, msg) {
      	    	if (msg == 'success') {
-     	    		$("#form-offer")[0].submit();
+     	    		
+     	    		var _url = "/offer/iron/saveInStockOffer";
+     				if ($("#tradeMode").val() == 'pricing') {
+     					_url = "/offer/iron/savedPricingOffer";
+     				} else if ($("#tradeMode").val() == 'futures') {
+     					_url = "/offer/iron/saveFuturesOffer";
+     				}
+     				
+     				var formData = new FormData($('form-offer')[0]);
+     	        	 esteel_addOffer.ajaxRequest({
+     	     	    	url:_url,
+     	     	        data:$('#form-offer').serialize()
+     	     	    }, function (data, msg) {
+     	     	    	alert(result.msg);
+     	     	    	if (msg == 'success') {
+     	     	    		window.location.href = "/offer/iron/myList";
+     	     	    	}
+     	     	    });
+     	    		
      	    	} else {
      	    		alert(result.msg);
      	    	}
@@ -414,23 +452,44 @@ function save_offer(){
 function submit_offer(){
 	if(validateOfferInfo()){
 		esteel_addOffer.confirm(null,"确定要发布吗",function(){
-			var _url = "/offer/iron/validatedInStockOffer";
-			if ($("#tradeMode").val() == 'pricing') {
-				_url = "/offer/iron/validatedPricingOffer";
-			} else if ($("#tradeMode").val() == 'futures') {
-				_url = "/offer/iron/validatedFuturesOffer";
-			}
-			
-			esteel_addOffer.ajaxRequest({
-     	    	url:_url,
-     	        data:$('#form-offer').serialize()
-     	    },function (data, msg) {
-     	    	if (msg == 'success') {
-     	    		$("#form-offer")[0].submit();
-     	    	} else {
-     	    		alert(result.msg);
-     	    	}
-     	    });
+	        esteel_addOffer.confirm(null,"该报盘将作为草稿保存到我的报盘记录",function(){
+	        	var _url = "/offer/iron/validatedInStockOffer";
+				if ($("#tradeMode").val() == 'pricing') {
+					_url = "/offer/iron/validatedPricingOffer";
+				} else if ($("#tradeMode").val() == 'futures') {
+					_url = "/offer/iron/validatedFuturesOffer";
+				}
+				
+				esteel_addOffer.ajaxRequest({
+	     	    	url:_url,
+	     	        data:$('#form-offer').serialize()
+	     	    },function (data, msg) {
+	     	    	if (msg == 'success') {
+	     	    		$("#offerStatus").val("publish");
+	     	    		
+	     	    		var _url = "/offer/iron/saveInStockOffer";
+	     				if ($("#tradeMode").val() == 'pricing') {
+	     					_url = "/offer/iron/savedPricingOffer";
+	     				} else if ($("#tradeMode").val() == 'futures') {
+	     					_url = "/offer/iron/saveFuturesOffer";
+	     				}
+	     				
+	     				var formData = new FormData($('form-offer')[0]);
+	     	        	 esteel_addOffer.ajaxRequest({
+	     	     	    	url:_url,
+	     	     	        data:$('#form-offer').serialize()
+	     	     	    }, function (data, msg) {
+	     	     	    	alert(result.msg);
+	     	     	    	if (msg == 'success') {
+	     	     	    		window.location.href = "/offer/iron/myList";
+	     	     	    	}
+	     	     	    });
+	     	    		
+	     	    	} else {
+	     	    		alert(result.msg);
+	     	    	}
+	     	    });
+	        });
 	    });
     }
 }
@@ -571,4 +630,31 @@ function changeBondedArea(checked){
         $("#offer-priceTerm-box").show();
         $("#offer-transportStatus-box").show();
     }
+}
+
+//文件上传
+function upload(elem) {
+	var fileId =elem.id; 
+	$.ajaxFileUpload({
+		url: '/offer/iron/uploadFile',
+		secureuri: false,
+		fileElementId: elem.id,// file标签的id
+		dataType: 'json',
+		beforeSend: function (xhr) {
+			xhr.setRequestHeader(header, token);
+		},
+		success: function (result) {
+			if (result.success) {
+				//返回文件id
+				if(result.data!=null){
+					//保存数据库的字符串
+					var saveStr = result.data[0]+result.data[1];
+					//赋值
+					$("#"+fileId+"Path").val(saveStr);
+				}
+			} else {
+				alert(result.msg);
+			}
+		}
+	});
 }
