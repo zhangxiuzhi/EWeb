@@ -195,7 +195,7 @@ public class MemberCompanyController {
 		// 获取用户登录信息
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		logger.debug("companyAttest:登录用户信息Authentication " + authentication);
-		MemberUserVo userVo = memberClient.findByAccount(authentication.getName());
+		MemberUserVo userVo = memberClient.checkNo(authentication.getName());
 		Assert.notNull(userVo, "获取登录信息失败");
 		// 设置企业基本信息
 		MemberCompanyVo company = new MemberCompanyVo();
@@ -211,7 +211,7 @@ public class MemberCompanyController {
 		company.setRegisteredUserId((int) userVo.getUserId());// --
 		company.setRegisteredUser(userVo.getUserName()); // --
 		company.setApprovalStatus(0);// 审核状态 0待审核 1驳回 2通过
-		company.setCompanyStatus(1);// 状态 0正常(默认) 1审核 99锁定
+		//company.setCompanyStatus(1);// 状态 0正常(默认) 1审核 99锁定
 		// 设置企业附件信息
 		MemberCompanyAttachVo companyAtt = new MemberCompanyAttachVo();
 		companyAtt.setRegisteredProvince(provincesr);// 省
@@ -297,7 +297,7 @@ public class MemberCompanyController {
 		// 获取用户登录信息
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		logger.debug("addMember:登录用户信息Authentication " + authentication);
-		MemberUserVo userVo = memberClient.findByAccount(authentication.getName());
+		MemberUserVo userVo = memberClient.checkNo(authentication.getName());
 		Assert.notNull(userVo, "获取登录用户信息失败");
 		// 获取企业id
 		Integer companyId = userVo.getCompanyId();
@@ -325,7 +325,7 @@ public class MemberCompanyController {
 		// 获取用户登录信息
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		logger.debug("addMember:登录用户信息Authentication " + authentication);
-		MemberUserVo userVo = memberClient.findByAccount(authentication.getName());
+		MemberUserVo userVo = memberClient.checkNo(authentication.getName());
 		// 获取企业id
 		Integer companyId = userVo.getCompanyId();
 		// 创建保存信息
@@ -372,7 +372,7 @@ public class MemberCompanyController {
 		logger.info("removeMember:移除子账号，参数{}" + userId);
 		// 根据用户id获取帐号信息
 		MemberUserVo member = memberClient.findUser(userId);
-		logger.debug("removeMember:移除子账号" + member.hashCode());
+		logger.debug("removeMember:移除子账号" + member );
 		Assert.notNull(member, "无此帐号");
 		// 设置用户信息
 		member.setCompanyId(null);// 设置企业号为null
@@ -383,7 +383,7 @@ public class MemberCompanyController {
 		member.setDept(" ");
 		// 保存
 		MemberUserVo memuser = memberClient.registerUser(member);
-		logger.debug("removeMember:去除子账号企业信息" + member.hashCode());
+		logger.debug("removeMember:去除子账号企业信息" + member );
 		Assert.notNull(memuser, "移除帐号失败");
 		logger.info("removeMember:移除子账号" + new WebReturnMessage(true, "1"));
 		return new WebReturnMessage(true, "1");
@@ -412,14 +412,14 @@ public class MemberCompanyController {
 		logger.info("editMember:修改子账号信息，参数{}" + userId);
 		// 获取子账号对象
 		MemberUserVo member = memberClient.findUser(userId);
-		logger.debug("editMember:获取子账号信息，MemberUserVo：" + member.hashCode());
+		logger.debug("editMember:获取子账号信息，MemberUserVo：" + member );
 		Assert.notNull(member, "无此帐号");
 		member.setUserName(userName);
 		member.setDept(dept);
 		member.setPositon(position);
 		// 更新用户信息
 		MemberUserVo registerUser = memberClient.registerUser(member);
-		logger.debug("editMember:保存子账号信息，user：" + registerUser.hashCode());
+		logger.debug("editMember:保存子账号信息，user：" + registerUser );
 		Assert.notNull(registerUser, "修改失败");
 		logger.info("removeMember:修改子账号子账号" + new WebReturnMessage(true, "1"));
 		return new WebReturnMessage(true, "1");
@@ -437,7 +437,7 @@ public class MemberCompanyController {
 		logger.info("reSendMsg:重新发送激活短信，参数{}" + userId);
 		// 获取子账号对象
 		MemberUserVo member = memberClient.findUser(userId);
-		logger.debug("reSendMsg:获取子账号信息，MemberUserVo：" + member.hashCode());
+		logger.debug("reSendMsg:获取子账号信息，MemberUserVo：" + member );
 		Assert.notNull(member, "无此帐号");
 		// 设置用户信息
 		long times = new Date().getTime();
@@ -447,12 +447,12 @@ public class MemberCompanyController {
 		member.setActivationTime(new Timestamp(times + 60 * 60 * 1000));// 1小时有效
 		// 保存子账号信息
 		MemberUserVo registerUser = memberClient.registerUser(member);
-		logger.debug("reSendMsg:保存子账号信息，registerUser：" + registerUser.hashCode());
+		logger.debug("reSendMsg:保存子账号信息，registerUser：" + registerUser );
 		Assert.notNull(registerUser, "重新添加失败");
 		// 根据用户获取企业信息
 		long companyId = member.getCompanyId();
 		MemberCompanyVo company = memberClient.findCompany(companyId);
-		logger.debug("reSendMsg:获取用户所在企业信息，company：" + company.hashCode());
+		logger.debug("reSendMsg:获取用户所在企业信息，company：" + company );
 		String msg = company.getCompanyName() + "申请添加您为该企业的子账号，请于1小时内使用密码" + miMa + "登录激活账号，1小时后该密码失效。";
 		// 发送短信
 		boolean sendSms = contactClient.sendSms(member.getMobile(), msg);

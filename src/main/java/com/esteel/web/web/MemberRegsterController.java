@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -209,4 +211,46 @@ public class MemberRegsterController {
 
 		}
 	}
+	/**
+	 * 验证邮箱
+	 * @param uuid
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "/check/{uuid}/{id}/html")
+	@ResponseBody
+	public WebReturnMessage verification(@PathVariable("uuid") String uuid,@PathVariable("id") long id) {
+		logger.info("verification:邮箱验证，参数｛uuid,id｝"+uuid+",用户id:"+id);
+		//获取Log
+		LogVerifyCodeVo codeVo = logVerityCodeClient.checkCodeByUuid(uuid);
+		Assert.notNull(codeVo, "验证失败");
+		//验证是否在有效时间之内
+		long newTime = new Date().getTime(); // 当前时间
+		long start = codeVo.getSendTime().getTime(); // 发送时间
+		long end = codeVo.getValidTime().getTime(); // 有效时间
+		if (newTime > start && newTime <= end) {
+			//根据id获取用户的信息
+			MemberUserVo findUser = memberUserClient.findUser(id);
+			logger.debug("verification:邮箱验证,获取用户信息"+findUser);
+			Assert.notNull(findUser, "验证失败");
+			//从log中获取邮箱设置用户邮箱信息
+			findUser.setEmail(codeVo.getVerifyTarget());
+			//保存
+			MemberUserVo registerUser = memberUserClient.registerUser(findUser);
+			logger.debug("verification:邮箱验证,保存用户邮箱信息"+registerUser);
+			Assert.notNull(registerUser, "验证失败");
+			//验证通过
+			codeVo.setVerifyStatus(1);
+			logVerityCodeClient.saveLog(codeVo);
+			return  new WebReturnMessage(true,"验证成功");
+		}else {
+			//验证不通过
+			codeVo.setVerifyStatus(2);
+			logVerityCodeClient.saveLog(codeVo);
+			return  new WebReturnMessage(true,"验证失败，已过有效期");
+		}
+	}
+	
+	
+	
 }

@@ -122,21 +122,20 @@ $(document).ready(function(e) {
 	esteel_safe_updateMobile.initUI();
 	// 初始化路由
 	esteel_safe_updateMobile.initRouter();
+	//获取用户手机号码
+	esteel_safe_updateMobile.ajaxRequest({
+		url : "/user/getMobile"
+	}, function(data, msg) {
+		document.getElementById('phone').innerHTML = msg;
+	});
+	
 });
 
-// 页面加载获取登录用户手机号码
-$(document).ready(function(){ 
-//window.onload = function() {
-	// var csrf = $("#csrf").val();{_csrf:csrf},
-	$.get("/user/getMobile", function(data) {
-		document.getElementById('phone').innerHTML = data;
-	});
-});
 // 获取验证码
 function getCode() {
 	var phone = document.getElementById('phone').innerHTML;
 	esteel_safe_updateMobile.ajaxRequest({
-		url : "/user/sendSms",
+		url : "/register/sendSms",
 		data : {
 			mobile : phone
 		}
@@ -156,7 +155,7 @@ function getNewCode() {
 	}
 	// 验证手机号是否被注册
 	esteel_safe_updateMobile.ajaxRequest({
-		url : "/user/checkNo",
+		url : "/register/checkNo",
 		async : false,
 		data : {
 			mobile : phone
@@ -174,7 +173,7 @@ function getNewCode() {
 		return false;
 	}
 	esteel_safe_updateMobile.ajaxRequest({
-		url : "/user/sendSms",
+		url : "/register/sendSms",
 		async : false,
 		data : {
 			mobile : phone

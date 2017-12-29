@@ -284,7 +284,6 @@ function chenckForm() {
 	}, function(data,msg) {
 		if(data!=null){
 			//跳转成功页面
-			alert("保存成功");
 			window.location.href = "/member/userInfo";
 		}else{
 			alert(msg);

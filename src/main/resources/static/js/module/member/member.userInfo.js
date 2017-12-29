@@ -21,11 +21,11 @@ function JBSFrame_member_userInfo() {
 		var $gender = $("#component-gender");
 		this.grade =  ReactDOM.render(React.createElement(ComponentRadioBox, {
 			data : [
-				{text: "男", value: "man",name:"user-grade"},
-				{ text: "女", value: "female",name:"user-grade"}
+				{text: "男", value: "1",name:"user-grade"},
+				{ text: "女", value: "2",name:"user-grade"}
 			],
-			name:$gender.attr("inputName"),
-			value:"man"
+			inputName:$gender.attr("inputName"),
+			value:""
 		}), $gender[0]);
 
 	}
@@ -89,6 +89,7 @@ $(document).ready(function(e) {
 });
 
 // 修改帐号信息，用户名验证userId
+var status = true;
 function checkForm() {
 	var username = $("#username").val();
 	var userid = $("#userId").val();
@@ -99,7 +100,12 @@ function checkForm() {
 			memberName : username
 		}
 	}, function(data, msg) {
-		
+		if(msg=="1"){
+			alert("用户名已被占用,请重新输入");
+			status = false;
+		}else{
+			status = true;
+		}
 	});
 }
 
@@ -114,9 +120,34 @@ function apply(){
 			username : username
 		}
 	}, function(data, msg) {
-		 $("#change").html(msg);
+		if(msg=="1"){
+			window.location.href="/member/userInfo";
+		}
+		/*$("#applyName").modal("hide")
+		 $("#change").html(msg);*/
 	});
-	
-	
-	
+}
+//保存数据
+function submitUpd() {
+	if(status=="false"){
+		alert("用户名已被占用,用户名已被占用,请重新输入");
+		return;
+	}
+	var username = $("#username").val();
+	var userid = $("#userId").val();
+	var gender = $("[name='gender']").val();
+	esteel_member_userInfo.ajaxRequest({
+		url : "/member/updMemberName",
+		data : {
+			userId : userid,
+			memberName : username,
+			gender : gender
+		}
+	}, function(data, msg) {
+		if(msg=="1"){
+			window.location.href="/member/userInfo";
+		}else{
+			alert("保存失败，请重试");
+		}
+	});
 }
