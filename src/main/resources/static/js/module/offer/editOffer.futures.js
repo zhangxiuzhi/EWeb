@@ -42,6 +42,9 @@ function JBSFrame_OfferEdit_Futures() {
                 onChange:show2goods    //显示2个商品
             }), $1ship2goods[0]);
         }
+        
+        show2goods(offer.isMultiCargo == '1')
+        
         //是否拆分
         var $Split = $("#component-toggle-split");
         if($Split.length>0) {
@@ -51,6 +54,9 @@ function JBSFrame_OfferEdit_Futures() {
                 onChange:showQDL//显示起订量
             }), $Split[0]);
         }
+        
+        showQDL(offer.isSplit == '1');
+        
         //匿名
         var $Anonym = $("#component-toggle-anonym");
         if($Anonym.length>0) {
@@ -89,7 +95,7 @@ function JBSFrame_OfferEdit_Futures() {
             this.selectBox_ItemName2 = ReactDOM.render(React.createElement(ComponentSelectBox,{
             	data:JSON.parse($("#ironCommodityJson").html()),
                 inputName:$ItemName2.attr("inputName"),
-                inputValue:offer.isMultiCargo=='0'?$ItemName1.attr("inputValue"):offerAttachList[1].commodityId,
+                inputValue:offer.isMultiCargo=='0'?$ItemName2.attr("inputValue"):offerAttachList[1].commodityId,
                 validetta:$ItemName2.data("validetta"),
                 onChange:changeIronAttributeLink_2 //期货商品2联动指标
             }), $ItemName2[0]);
@@ -115,6 +121,8 @@ function JBSFrame_OfferEdit_Futures() {
                 onChange:changeBondedArea //指标类型选择，改变指标值
             }), $bondedAreas[0]);
         }
+        
+        changeBondedArea(offerAttachList[0].isBondedArea == '1');
 
         //价格模式
         var priceModel = JSON.parse($("#priceModelJson").html());
@@ -124,7 +132,8 @@ function JBSFrame_OfferEdit_Futures() {
         }
         
         $("#offer-priceModel").val(offerAttachList[0].priceModel);
-
+        showFloatPrice($("#offer-priceModel"))
+        
         this.renderDatetimepicker();
         this.renderNumberMask();
     }
@@ -378,7 +387,7 @@ function show2goods(checked){
 //显示浮动价
 function showFloatPrice(evt){
 	// 价格模式 0:固定价, 1:浮动价
-	if(evt.selectedOptions[0].value == "1"){
+	if($(evt.selector).val() == "1"){
         $("#offer-fixedPrice-box").hide();
         $("#offer-floatPrice-box").show();
         $("#offer-floatPrice-desc").attr("data-validetta","required");
