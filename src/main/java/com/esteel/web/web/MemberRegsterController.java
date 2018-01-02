@@ -171,7 +171,7 @@ public class MemberRegsterController {
 						//注册成功之后自动登录
 						List<GrantedAuthority> authorities = new ArrayList<>();
 				        User users = new User(userVo.getMobile(),userVo.getPassword(),authorities);
-				        Authentication auth = new UsernamePasswordAuthenticationToken("system", "", users.getAuthorities());
+				        Authentication auth = new UsernamePasswordAuthenticationToken(userVo.getMobile(), "", users.getAuthorities());
 				        SecurityContextHolder.getContext().setAuthentication(auth);
 				        request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
 						
