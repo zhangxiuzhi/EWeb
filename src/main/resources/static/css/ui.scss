@@ -128,7 +128,8 @@ a {
     background: $color-theme;
     border: 1px solid $color-theme;
   }
-  &.disabled{
+  &.disabled,
+  &.disabled:hover{
     background: $color-theme;
     border: 1px solid $color-theme;
     opacity: 0.5;

@@ -576,6 +576,7 @@ body.register .form-register {
   margin: 92px auto; }
   body.register .form-register .form-group {
     margin-bottom: 30px;
+    position: relative;
     /* 使用webkit内核的浏览器 */
     /* Firefox版本4-18 */
     /* Firefox版本19+ */
@@ -594,7 +595,7 @@ body.register .form-register {
         padding: 2px; }
       body.register .form-register .form-group .input-group .input-group-btn > .btn,
       body.register .form-register .form-group .input-group .input-group-btn > .btn:hover {
-        width: 100px;
+        width: 120px;
         border: none;
         height: 48px;
         padding: 6px 10px; }
@@ -614,6 +615,14 @@ body.register .form-register {
       color: #ccc; }
     body.register .form-register .form-group .form-control:-ms-input-placeholder {
       color: #ccc; }
+  body.register .form-register .validetta-msg {
+    position: absolute;
+    display: table;
+    top: 0;
+    left: 0;
+    padding-left: 22px;
+    font-size: 12px;
+    vertical-align: middle; }
 body.register.success {
   color: #787878; }
   body.register.success .form-register {
