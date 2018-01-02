@@ -4,6 +4,9 @@ import com.esteel.common.controller.WebReturnMessage;
 import org.springframework.beans.propertyeditors.PropertiesEditor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +20,8 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- *
  * 统一的错误处理页面
- *
+ * <p>
  * Created by zhangxiuzhi on 2017/6/19.
  */
 @ControllerAdvice
@@ -30,7 +32,6 @@ public class CommonControllerAdvice {
     public static final SimpleDateFormat sf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public static final NumberFormat nf = NumberFormat.getInstance(Locale.CHINA);
-
 
 
     @ExceptionHandler(Exception.class)
@@ -50,9 +51,20 @@ public class CommonControllerAdvice {
     }
 
     @ModelAttribute
-    public void modelAttribute(Model model,HttpServletRequest request) {
+    public void modelAttribute(Model model, HttpServletRequest request) {
 
-        model.addAttribute("rootPath",request.getContextPath());
+        model.addAttribute("rootPath", request.getContextPath());
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null) {
+            model.addAttribute("isAuthed", false);
+        } else {
+            String userName = authentication.getName();
+            model.addAttribute("isAuthed", true);
+            model.addAttribute("userName", userName);
+        }
+
+
     }
 
     @InitBinder
@@ -64,21 +76,20 @@ public class CommonControllerAdvice {
     }
 
 
-
     class DoubleEditor extends PropertiesEditor {
 
         @Override
         public void setAsText(String text) throws IllegalArgumentException {
             if (text == null || text.equals("")) {
                 setValue(null);
-            }else {
+            } else {
                 setValue(Double.parseDouble(text.replaceAll(",", "")));
             }
         }
 
         @Override
         public String getAsText() {
-            if (getValue()==null){
+            if (getValue() == null) {
                 return null;
             }
             return nf.format((Double) getValue());
@@ -94,14 +105,14 @@ public class CommonControllerAdvice {
         public void setAsText(String text) throws IllegalArgumentException {
             if (text == null || text.equals("")) {
                 setValue(null);
-            }else {
+            } else {
                 setValue(Long.parseLong(text.replaceAll(",", "")));
             }
         }
 
         @Override
         public String getAsText() {
-            if (getValue()==null){
+            if (getValue() == null) {
                 return null;
             }
             return getValue().toString();

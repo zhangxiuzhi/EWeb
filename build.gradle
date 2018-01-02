@@ -44,6 +44,10 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 	compile('org.springframework.boot:spring-boot-starter-web')
 
+	compile("org.thymeleaf:thymeleaf:3.0.2.RELEASE")
+	compile("org.thymeleaf:thymeleaf-spring4:3.0.2.RELEASE")
+	compile("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.1.1")
+
 //	compile('com.cuisongliu:druid-spring-boot-starter:1.0.31.04')
 //	compile('oracle.jdbc:oracle:11.2')
 

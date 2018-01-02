@@ -4,6 +4,7 @@ import com.esteel.web.service.IndexService;
 import com.esteel.web.vo.ProvinceVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,6 +32,9 @@ public class IndexController {
 
     @Autowired
     IndexService indexService;
+
+    @Autowired
+    AuthenticationManager authenticationManager;
 
     /**
      * web系统首页
@@ -68,11 +72,16 @@ public class IndexController {
     @ResponseBody
     public String dologin(HttpServletRequest request){
 
+
         List<GrantedAuthority> authorities = new ArrayList<>();
 
         User user = new User("zxz","",authorities);
         Authentication auth = new UsernamePasswordAuthenticationToken("system", "", user.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(auth);
+
+//        Authentication authenticate = authenticationManager.authenticate(auth);
+//
+//        System.out.println(authenticate);
 
         request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
         return "ok";
