@@ -129,8 +129,13 @@ function JBSFrame() {
 	//所有含有datetimepicker元素生成时间控件
 	this.renderDatetimepicker =  function(){
 		$(".datetimepicker").each(function(index,element){
-			var _format = $(element).hasClass("notime")? 'YYYY-MM-DD':'YYYY-MM-DD HH:mm:ss';
-			_format = $(element).hasClass("noday")? 'YYYY-MM':'YYYY-MM-DD';
+			var _format = 'YYYY-MM-DD HH:mm:ss';
+			if($(element).hasClass("notime")){
+				_format = 'YYYY-MM-DD';
+			}
+			if($(element).hasClass("notime")){
+				_format = 'YYYY-MM';
+			}
 
 			$(element).datetimepicker({
 				locale: 'zh-cn',
