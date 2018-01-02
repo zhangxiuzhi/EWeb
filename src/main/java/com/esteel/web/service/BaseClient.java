@@ -3,6 +3,8 @@ package com.esteel.web.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -154,112 +156,9 @@ public interface BaseClient {
     
 }
 
-/*@Component
-class BaseClientCallback implements BaseClient {
-
-    @Override
-    public PortVo getPort(PortVo vo){
-		return null;
-    }
-
-    @Override
-	public List<ProvinceVo> findAll() {
-		ArrayList<ProvinceVo> vos = new ArrayList<>();
-		return vos;
-	}
-
-    @Override
-    public SimpePageImpl<ProvinceVo> findProvince(BaseQueryVo vo) {
-    	if (vo == null) {
-    		vo = new BaseQueryVo();
-    	}
-    	
-		return new SimpePageImpl<>(new ArrayList<>(), vo.getPageable(), 0);
-    }
-
-	@Override
-	public List<CityVo> findAllCity(int provinceId) {
-		return null;
-	}
-
-	@Override
-	public List<DistrictVo> findAllDistrict(int cityId) {
-		return null;
-	}
-
-
-	@Override
-	public List<PortVo> findPortListForOffer() {
-		ArrayList<PortVo> vos = new ArrayList<>();
-		return vos;
-	}
-
-	@Override
-	public List<PortVo> findBondedAreaPortListForOffer() {
-		ArrayList<PortVo> vos = new ArrayList<>();
-		return vos;
-	}
-
-	@Override
-	public List<PortVo> findLoadingPortListForOffer(CommodityVo commodityVo) {
-		ArrayList<PortVo> vos = new ArrayList<>();
-		return vos;
-	}
-
-	@Override
-	public List<CommodityVo> findCommodityListByName(CommodityVo commodityVo) {
-		ArrayList<CommodityVo> vos = new ArrayList<>();
-		return vos;
-	}
-
-	@Override
-	public List<IronAttributeLinkVo> findAttributeListByIron(CommodityVo commodityVo) {
-		ArrayList<IronAttributeLinkVo> vos = new ArrayList<>();
-		return vos;
-	}
-
-	@Override
-	public List<AttributeValueOptionVo> findAttributeValueOptionListByAttributeCode(AttributeValueOptionVo attributeValueOptionVo) {
-		ArrayList<AttributeValueOptionVo> vos = new ArrayList<>();
-		return vos;
-	}
-
-	@Override
-	public AttributeValueOptionVo getAttributeValueOption(AttributeValueOptionVo vo) {
-		return null;
-	}
-
-	@Override
-	public CommodityCategoryVo getCommodityCategory(CommodityCategoryVo vo) {
-		return null;
-	}
-	
-	@Override
-	public CommodityVo getCommodity(CommodityVo vo) {
-		return null;
-	}
-
-	@Override
-	public List<CommodityVo> findCommodityListByIron() {
-		ArrayList<CommodityVo> vos = new ArrayList<>();
-		return vos;
-	}
-
-	@Override
-	public String getPort(long portId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<ProvinceVo> findAllPro() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-}*/
 @Component
 class BaseClientFallbackFactory implements FallbackFactory<BaseClient>{
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
     public BaseClient create(Throwable cause) {

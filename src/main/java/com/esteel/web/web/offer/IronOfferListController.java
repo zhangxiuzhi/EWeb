@@ -126,19 +126,19 @@ public class IronOfferListController {
     	offerStatusMap = new HashMap<>();
     	offerStatusList.add(offerStatusMap);
     	offerStatusMap.put("text", EsteelConstant.OFFER_STATUS_NAME(EsteelConstant.OFFER_STATUS_IN_SALE));
-    	offerStatusMap.put("value", EsteelConstant.OFFER_STATUS_DRAFT + "");
+    	offerStatusMap.put("value", EsteelConstant.OFFER_STATUS_IN_SALE + "");
     	offerStatusMap.put("key", EsteelConstant.OFFER_STATUS_NAME(EsteelConstant.OFFER_STATUS_IN_SALE));
     	
     	offerStatusMap = new HashMap<>();
     	offerStatusList.add(offerStatusMap);
     	offerStatusMap.put("text", EsteelConstant.OFFER_STATUS_NAME(EsteelConstant.OFFER_STATUS_SOLD_OUT));
-    	offerStatusMap.put("value", EsteelConstant.OFFER_STATUS_DRAFT + "");
+    	offerStatusMap.put("value", EsteelConstant.OFFER_STATUS_SOLD_OUT + "");
     	offerStatusMap.put("key", EsteelConstant.OFFER_STATUS_NAME(EsteelConstant.OFFER_STATUS_SOLD_OUT));
     	
     	offerStatusMap = new HashMap<>();
     	offerStatusList.add(offerStatusMap);
     	offerStatusMap.put("text", EsteelConstant.OFFER_STATUS_NAME(EsteelConstant.OFFER_STATUS_OFF_SHELVES));
-    	offerStatusMap.put("value", EsteelConstant.OFFER_STATUS_DRAFT + "");
+    	offerStatusMap.put("value", EsteelConstant.OFFER_STATUS_OFF_SHELVES + "");
     	offerStatusMap.put("key", EsteelConstant.OFFER_STATUS_NAME(EsteelConstant.OFFER_STATUS_OFF_SHELVES));
     	
     	offerStatusMap = new HashMap<>();
@@ -303,7 +303,7 @@ public class IronOfferListController {
     			String pricingPeriod = 
     					firstAttach.getPricingPeriodStart() == null ? "" : dateFormat.format(firstAttach.getPricingPeriodStart());
     			pricingPeriod += "-";
-    			if (secondAttach != null && secondAttach.getDeliveryPeriodEnd() != null) {
+    			if (firstAttach.getDeliveryPeriodEnd() != null) {
     				pricingPeriod += 
     						firstAttach.getDeliveryPeriodEnd() == null ? "" : dateFormat.format(firstAttach.getDeliveryPeriodEnd());
     			}
@@ -312,7 +312,7 @@ public class IronOfferListController {
     			String deliveryPeriod = 
     					firstAttach.getDeliveryPeriodStart() == null ? "" : dateFormat.format(firstAttach.getDeliveryPeriodStart());
     			deliveryPeriod += "-";
-    			if (secondAttach != null && secondAttach.getDeliveryPeriodEnd() != null) {
+    			if (firstAttach.getDeliveryPeriodEnd() != null) {
     				deliveryPeriod += 
     						firstAttach.getDeliveryPeriodEnd() == null ? "" : dateFormat.format(firstAttach.getDeliveryPeriodEnd());
     			}
