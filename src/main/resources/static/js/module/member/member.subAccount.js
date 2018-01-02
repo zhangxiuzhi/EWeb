@@ -162,7 +162,7 @@ function chenkUerName() {
 		status = false;
 	}
 }
-
+//手机验证
 function checkMobile() {
 	var name = $("#name").val();
 	var phone = $("#mobile").val();
@@ -177,7 +177,7 @@ function checkMobile() {
 				phone = $("#mobile").val();
 				// 数据库验证
 				esteel_member_account.ajaxRequest({
-					url : "/user/checkNo",
+					url : "/register/checkNo",
 					data : {
 						mobile : phone
 					}
