@@ -5,11 +5,21 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -126,7 +136,7 @@ public class MemberRegsterController {
 	 */
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	@ResponseBody
-	public WebReturnMessage register(String mobile, String code, String password, Model model) {
+	public WebReturnMessage register(String mobile, String code, String password,HttpServletRequest request) {
 		logger.info(this.getClass() + "用户注册,参数{}" + mobile + code + password);
 		WebReturnMessage webRetMsg = null;
 		List<Object> result = new ArrayList<>();
@@ -158,34 +168,46 @@ public class MemberRegsterController {
 						codeVo.setVerifyStatus(1);
 						logVerityCodeClient.saveLog(codeVo);
 						result.add(0);
-						webRetMsg = new WebReturnMessage(true, "注册成功", result);
+						//注册成功之后自动登录
+						List<GrantedAuthority> authorities = new ArrayList<>();
+				        User users = new User(userVo.getMobile(),userVo.getPassword(),authorities);
+				        Authentication auth = new UsernamePasswordAuthenticationToken(userVo.getMobile(), "", users.getAuthorities());
+				        SecurityContextHolder.getContext().setAuthentication(auth);
+				        request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
+						
+						return new WebReturnMessage(true, "注册成功", result);
 						// 注册成功，把对象存session作用域来模拟登录状态
 					} else {
 						// 保存用户注册信息失败验证码状态不处理
 						// codeVo.setVerifyStatus(2);
 						// logVerityCodeClient.saveLog(codeVo);
-						webRetMsg = new WebReturnMessage(true, "注册失败");
+						return new WebReturnMessage(true, "注册失败");
 					}
 				} else {
 					// 验证码已过有效期，修改状态为2.失效
 					codeVo.setVerifyStatus(2);
 					logVerityCodeClient.saveLog(codeVo);
-					webRetMsg = new WebReturnMessage(true, "注册失败,验证码已失效");
+					return new WebReturnMessage(true, "注册失败,验证码已失效");
 				}
 			} else {
-				webRetMsg = new WebReturnMessage(true, "注册失败,验证码错误");
+				return new WebReturnMessage(true, "注册失败,验证码错误");
 			}
 		} catch (Exception e) {
 			// 验证成功修改状态为验证通过2
 			codeVo.setVerifyStatus(2);
 			logVerityCodeClient.saveLog(codeVo);
-			webRetMsg = new WebReturnMessage(false, "注册失败,验证未通过");
 			logger.error(this.getClass() + "：注册失败，验证未通过" + e);
+			return new WebReturnMessage(false, "注册失败,验证未通过");
 		}
-		logger.info(this.getClass() + "用户注册返回结果" + webRetMsg);
-		return webRetMsg;
 	}
-
+	/**
+	 * 跳转找回密码页面
+	 * @return
+	 */
+	@RequestMapping(value = "/getBackPwd")
+	public String getBackPwd() {
+		return "/register/getBackPwd";
+	}
 	/**
 	 * 找回密码
 	 * 
@@ -209,4 +231,46 @@ public class MemberRegsterController {
 
 		}
 	}
+	/**
+	 * 验证邮箱
+	 * @param uuid
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "/check/{uuid}/{id}/html")
+	@ResponseBody
+	public WebReturnMessage verification(@PathVariable("uuid") String uuid,@PathVariable("id") long id) {
+		logger.info("verification:邮箱验证，参数｛uuid,id｝"+uuid+",用户id:"+id);
+		//获取Log
+		LogVerifyCodeVo codeVo = logVerityCodeClient.checkCodeByUuid(uuid);
+		Assert.notNull(codeVo, "验证失败");
+		//验证是否在有效时间之内
+		long newTime = new Date().getTime(); // 当前时间
+		long start = codeVo.getSendTime().getTime(); // 发送时间
+		long end = codeVo.getValidTime().getTime(); // 有效时间
+		if (newTime > start && newTime <= end) {
+			//根据id获取用户的信息
+			MemberUserVo findUser = memberUserClient.findUser(id);
+			logger.debug("verification:邮箱验证,获取用户信息"+findUser);
+			Assert.notNull(findUser, "验证失败");
+			//从log中获取邮箱设置用户邮箱信息
+			findUser.setEmail(codeVo.getVerifyTarget());
+			//保存
+			MemberUserVo registerUser = memberUserClient.registerUser(findUser);
+			logger.debug("verification:邮箱验证,保存用户邮箱信息"+registerUser);
+			Assert.notNull(registerUser, "验证失败");
+			//验证通过
+			codeVo.setVerifyStatus(1);
+			logVerityCodeClient.saveLog(codeVo);
+			return  new WebReturnMessage(true,"验证成功");
+		}else {
+			//验证不通过
+			codeVo.setVerifyStatus(2);
+			logVerityCodeClient.saveLog(codeVo);
+			return  new WebReturnMessage(true,"验证失败，已过有效期");
+		}
+	}
+	
+	
+	
 }

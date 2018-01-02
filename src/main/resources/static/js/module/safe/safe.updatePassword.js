@@ -119,23 +119,20 @@ $(document).ready(function (e) {
 	esteel_safe_updatePassword.initUI();
 	//初始化路由
 	esteel_safe_updatePassword.initRouter();
-});
-
-
-
-//页面加载获取登录用户手机号码
-$(document).ready(function(){
-	//var csrf = $("#csrf").val();{_csrf:csrf},
-	$.get("/user/getMobile",function(data){
-		document.getElementById('phone').innerHTML=data;
+	//获取用户手机号码
+	esteel_safe_updatePassword.ajaxRequest({
+		url : "/user/getMobile",
+		data : {}
+	}, function(data, msg) {
+		document.getElementById('phone').innerHTML = msg;
 	});
-	
 });
+
 //获取验证码
 function getCode(){
 	var phone = document.getElementById('phone').innerHTML;
 	esteel_safe_updatePassword.ajaxRequest({
-		url : "/user/sendSms",
+		url : "/register/sendSms",
 		data : {
 			mobile : phone
 		}
@@ -148,7 +145,7 @@ function getCode(){
 function validate(){
 	var result = false;
 	var csrf = $("#csrf").val()
-	var phone = document.getElementById('phone').value;
+	var phone = document.getElementById('phone').innerHTML;
 	var code  = $("#code1").val();
 	var passwd  = $("#code2").val();
 	var len = code.length;

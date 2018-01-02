@@ -77,7 +77,7 @@ a {
   .btn-primary:active, .btn-primary:focus {
     background: #de211d;
     border: 1px solid #de211d; }
-  .btn-primary.disabled {
+  .btn-primary.disabled, .btn-primary.disabled:hover {
     background: #de211d;
     border: 1px solid #de211d;
     opacity: 0.5; }

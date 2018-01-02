@@ -689,6 +689,7 @@ body.register{
     margin: 92px auto;
     .form-group{
       margin-bottom: 30px;
+      position: relative;
       .input-group{
         border:1px solid $color-border;
         border-radius: 4px;
@@ -703,7 +704,7 @@ body.register{
         .input-group-btn{padding:2px;}
         .input-group-btn>.btn,
         .input-group-btn>.btn:hover{
-          width: 100px;
+          width: 120px;
           border: none;
           height: 48px;
           padding: 6px 10px;
@@ -723,6 +724,15 @@ body.register{
       .form-control:-moz-placeholder{color:#ccc;}                  /* Firefox版本4-18 */
       .form-control::-moz-placeholder{color:#ccc;}                  /* Firefox版本19+ */
       .form-control:-ms-input-placeholder{color:#ccc;}           /* IE浏览器 */
+    }
+    .validetta-msg{
+      position: absolute;
+      display: table;
+      top:0;
+      left:0;
+      padding-left: 22px;
+      font-size: 12px;
+      vertical-align:middle;
     }
   }
 

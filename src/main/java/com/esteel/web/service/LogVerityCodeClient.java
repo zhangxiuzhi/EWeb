@@ -28,6 +28,13 @@ public interface LogVerityCodeClient {
 	 */
 	@RequestMapping(value = "/checkCode", method = RequestMethod.POST)
 	public LogVerifyCodeVo checkCode(@RequestParam("code") String code,@RequestParam("target") String target); 
+	/**
+	 * 验证邮箱根据uuid唯一标识来验证
+	 * @param code
+	 * @return
+	 */
+	@RequestMapping(value = "/checkCodeByUid", method = RequestMethod.POST)
+	public LogVerifyCodeVo checkCodeByUuid(@RequestParam("code") String code);
 	
 }
 
@@ -41,7 +48,7 @@ class LogVerityCodeClientCallback implements LogVerityCodeClient {
 	@Override
 	public LogVerifyCodeVo saveLog(@RequestBody LogVerifyCodeVo logCode) {
 		System.out.println("服务调用失败");
-		logger.debug("错误位置：LogVerityCodeClientCallback,错误内容:服务调用失败");
+		logger.warn("错误位置：LogVerityCodeClientCallback.saveLog,错误内容:服务调用失败");
 		return null;
 	}
 	/**
@@ -49,6 +56,12 @@ class LogVerityCodeClientCallback implements LogVerityCodeClient {
 	 */
 	@Override
 	public LogVerifyCodeVo checkCode(String code, String mobile) {
+		logger.warn("错误位置：LogVerityCodeClientCallback.checkCode,错误内容:服务调用失败"+mobile+code);
+		return null;
+	}
+	@Override
+	public LogVerifyCodeVo checkCodeByUuid(String code) {
+		logger.warn("错误位置：LogVerityCodeClientCallback.checkCodeByUuid,错误内容:服务调用失败"+code);
 		return null;
 	}
 	

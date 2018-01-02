@@ -54,6 +54,7 @@
 					        <!--商品1-->
 					        <div th:each="attachTmp,iterStat : ${offerAttachList}">
 					        <div class="box-container" th:if="${iterStat.index == 0 or (iterStat.index > 0 and offer.isMultiCargo == '1')}">
+					        	<input type="hidden" name="offerAttachIdArr" th:value="${attachTmp.offerAttachId}"/>
 					            <div class="box-container-title"><span th:text="'商品'+(${iterStat.index}+1)"></span> <span class="fa fa-caret-down text-danger" ></span></div>
 					            <div class="form-group">
 					                <label class="col-sm-2 control-label">*品名</label>
@@ -246,14 +247,14 @@
 					        <div class="form-group" id="offer-priceTerm-box">
 					            <label class="col-sm-2 control-label">*价格术语</label>
 					            <div class="col-sm-2">
-					                <select class="form-control" data-validetta="required" id="select-priceTerm" name="priceTerm">
+					                <select class="form-control" id="select-priceTerm" name="priceTerm">
 					                	<option value=""></option>
 					                	<option th:each="priceTermTmp : ${priceTermList}" th:value="${priceTermTmp.optionValue}" th:text="${priceTermTmp.optionValue}" 
 					                    th:selected="${priceTermTmp.optionValue} == ${offerAttach.priceTerm}"></option>
 					                </select>
 					            </div>
 					            <div class="col-sm-3">
-					                <select class="form-control" data-validetta="required" id="select-priceTermPort" name="priceTermPortId">
+					                <select class="form-control" id="select-priceTermPort" name="priceTermPortId">
 					                	<option value=""></option>
 					                	<option th:each="bondedAreaPort : ${bondedAreaPortList}" th:value="${bondedAreaPort.portId}" th:text="${bondedAreaPort.portName}" 
 					                    th:selected="${bondedAreaPort.portId} == ${offerAttach.priceTermPortId}"></option>

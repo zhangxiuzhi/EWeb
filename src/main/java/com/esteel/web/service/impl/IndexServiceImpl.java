@@ -116,7 +116,6 @@ public class IndexServiceImpl implements IndexService {
         System.out.println(tfsManager.isEnable());
 
 
-
 //        tfsManager.fetchFile("T13RZTB5xT1RXrhCrK","jpg","e:\\1111.jpg");
 
     }

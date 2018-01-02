@@ -189,13 +189,14 @@ function upload(elem) {
 			//返回文件id
 			if(result.data!=null){
 				//图片回写
-				reloadUploadImage(fileId,result);
+				if(fileId =="file1"||fileId =="file2"||fileId =="file3"||fileId =="file4"){
+					reloadUploadImage(fileId,result);
+				}
 				//保存数据库的字符串
 				var saveStr = result.data[0]+result.data[1];
 				//赋值
 				$("#"+fileId+"-text").val(saveStr);
 			}else{
-				alert(result.msg);
 			}
 		}
 	});
@@ -284,7 +285,6 @@ function chenckForm() {
 	}, function(data,msg) {
 		if(data!=null){
 			//跳转成功页面
-			alert("保存成功");
 			window.location.href = "/member/userInfo";
 		}else{
 			alert(msg);

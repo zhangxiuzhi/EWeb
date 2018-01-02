@@ -123,21 +123,21 @@ $(document).ready(function(e) {
 	esteel_safe_verifyMail.initUI();
 	// 初始化路由
 	esteel_safe_verifyMail.initRouter();
-});
-
-// 页面加载获取登录用户手机号码
-$(document).ready(function() {
-	// var csrf = $("#csrf").val();{_csrf:csrf},
-	$.get("/user/getMobile", function(data) {
-		document.getElementById('phone').innerHTML = data;
+	//获取用户手机号码
+	esteel_safe_verifyMail.ajaxRequest({
+		url : "/user/getMobile",
+		data : {}
+	}, function(data, msg) {
+		document.getElementById('phone').innerHTML = msg;
 	});
-
+	
 });
+
 // 获取验证码
 function getCode() {
 	var phone = document.getElementById('phone').innerHTML;
 	esteel_safe_verifyMail.ajaxRequest({
-		url : "/user/sendSms",
+		url : "/register/sendSms",
 		data : {
 			mobile : phone
 		}
@@ -163,7 +163,8 @@ function checkIddity() {
 		async : false,
 		data : {
 			mobile : phone,
-			code : code
+			code : code,
+			isNull : 1
 		}
 	}, function(data, msg) {
 		if (data != null) {
