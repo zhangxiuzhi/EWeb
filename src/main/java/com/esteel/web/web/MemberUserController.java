@@ -367,7 +367,7 @@ public class MemberUserController {
 			}
 		} else {
 			logger.warn("上传文件为空");
-			return new WebReturnMessage(true, "文件不能为空");
+			return new WebReturnMessage(true, "请重新上传附件");
 		}
 	}
 
