@@ -189,7 +189,9 @@ function upload(elem) {
 			//返回文件id
 			if(result.data!=null){
 				//图片回写
-				reloadUploadImage(fileId,result);
+				if(fileId =="file1"||fileId =="file2"||fileId =="file3"||fileId =="file4"){
+					reloadUploadImage(fileId,result);
+				}
 				//保存数据库的字符串
 				var saveStr = result.data[0]+result.data[1];
 				//赋值

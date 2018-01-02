@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -216,7 +215,7 @@ public class MemberCompanyController {
 		company.setRegisteredUserId((int) userVo.getUserId());// --
 		company.setRegisteredUser(userVo.getUserName()); // --
 		company.setApprovalStatus(0);// 审核状态 0待审核 1驳回 2通过
-		// company.setCompanyStatus(1);// 状态 0正常(默认) 1审核 99锁定
+		company.setCompanyStatus(1);// 状态 0正常(默认) 1审核 99锁定
 		// 设置企业附件信息
 		MemberCompanyAttachVo companyAtt = new MemberCompanyAttachVo();
 		companyAtt.setRegisteredProvince(provincesr);// 省
