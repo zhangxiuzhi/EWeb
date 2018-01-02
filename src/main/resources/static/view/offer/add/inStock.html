@@ -9,11 +9,11 @@
         </div>
  
         <div class="form-group">
-            <label class="col-sm-2 control-label">*品名</label>
+            <label class="col-sm-2 control-label"><i class="text-danger">*</i>品名</label>
             <div class="col-sm-4">
                 <div id="component-selectBox-ItemName" inputName="commodityId" data-validetta="required"></div>
             </div>
-            <label class="col-sm-2 control-label">*港口</label>
+            <label class="col-sm-2 control-label"><i class="text-danger">*</i>港口</label>
             <div class="col-sm-4">
                 <div id="component-selectBox-Port" inputName="portId" data-validetta="required"></div>
             </div>
@@ -34,19 +34,19 @@
                         <th>Fe</th><th>SiO2</th><th>A12O3</th><th>Mn</th><th>LOI</th>
                     </tr>
                     <tr>
-                        <td><input type="text" class="form-control mask-number" name="fe" id="indicator-FE" data-validetta="required"/></td>
-                        <td><input type="text" class="form-control" name="sio2" id="indicator-SIO2"/></td>
-                        <td><input type="text" class="form-control" name="al2o3" id="indicator-AL2O3"/></td>
-                        <td><input type="text" class="form-control" name="mn" id="indicator-MN"/></td>
-                        <td><input type="text" class="form-control" name="LOI" id="indicator-LOI"/></td>
+                        <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="fe" id="indicator-FE" maxlength="6" data-validetta="required"/></td>
+                        <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="sio2" id="indicator-SIO2" maxlength="6" data-validetta="required"/></td>
+                        <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="al2o3" id="indicator-AL2O3" maxlength="6" data-validetta="required"/></td>
+                        <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="mn" id="indicator-MN" maxlength="6" data-validetta="required"/></td>
+                        <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="LOI" id="indicator-LOI" maxlength="6" data-validetta="required"/></td>
                     </tr>
                     <tr>
                         <th>P</th><th>S</th><th>H20</th><th>&nbsp;</th><th>&nbsp;</th>
                     </tr>
                     <tr>
-                        <td><input type="text" class="form-control" name="p" id="indicator-P"/></td>
-                        <td><input type="text" class="form-control" name="s" id="indicator-S"/></td>
-                        <td><input type="text" class="form-control" name="h2o" id="indicator-H2O"/></td>
+                        <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="p" id="indicator-P" maxlength="6" data-validetta="required"/></td>
+                        <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="s" id="indicator-S" maxlength="6" data-validetta="required"/></td>
+                        <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="h2o" id="indicator-H2O" maxlength="6" data-validetta="required"/></td>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                     </tr>
@@ -62,40 +62,40 @@
         </div>
  
         <div class="form-group">
-            <label class="col-sm-2 control-label">*数量</label>
+            <label class="col-sm-2 control-label"><i class="text-danger">*</i>数量</label>
             <div class="col-sm-4">
                 <input type="text" class="form-control mask-number"  data-validetta="required" name="offerQuantity" maxlength="100"/>
             </div>
  
-            <label class="col-sm-2 control-label">*溢短装</label>
+            <label class="col-sm-2 control-label"><i class="text-danger">*</i>溢短装</label>
             <div class="col-sm-4">
                 <input type="text" class="form-control mask-number"  data-validetta="required" maxlength="4" name="moreOrLess"/>
             </div>
         </div>
  
         <div class="form-group">
-            <label class="col-sm-2 control-label">*可否拆分</label>
+            <label class="col-sm-2 control-label"><i class="text-danger">*</i>可否拆分</label>
             <div class="col-sm-4">
                 <div id="component-toggle-split" inputName="isSplit" inputValue="0"></div>
             </div>
  
             <div id="offer-qdl-box">
-                <label class="col-sm-2 control-label">*起订量</label>
+                <label class="col-sm-2 control-label"><i class="text-danger">*</i>起订量</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control mask-number" id="minQuantity" name="minQuantity"/>
+                    <input type="text" class="form-control mask-number" id="minQuantity" name="minQuantity"  data-validetta="required"/>
                 </div>
             </div>
         </div>
  
         <div class="form-group">
-            <label class="col-sm-2 control-label">*价格</label>
+            <label class="col-sm-2 control-label"><i class="text-danger">*</i>价格</label>
             <div class="col-sm-4">
                 <input type="text" class="form-control mask-number" name="priceValue" data-validetta="required" maxlength="6"/>
             </div>
         </div>
  
         <div class="form-group">
-            <label class="col-sm-2 control-label">*报盘有效期：</label>
+            <label class="col-sm-2 control-label"><i class="text-danger">*</i>报盘有效期：</label>
             <div class="col-sm-4">
                 <input type="text" class="form-control datetimepicker" name="validTime" data-validetta="required"/>
             </div>
@@ -132,33 +132,33 @@
     <!--交货结算条款-->
     <div class="form-horizontal offer-rule">
         <div class="form-group">
-            <label class="col-sm-2 control-label">*结算方式</label>
+            <label class="col-sm-2 control-label"><i class="text-danger">*</i>结算方式</label>
             <div class="col-sm-10">
-                <input type="radio" value="0" name="settlement_method" checked/>签订合同后<input class="offer-rule-f-c  mask-number" maxlength="3" name="clear_within_several_working_daysArr"/>个工作日内付全款<br/>
-                <input type="radio" value="1" name="settlement_method"/>签订合同后<input class="offer-rule-f-c  mask-number" maxlength="3" name="after_sign_several_working_days"/>个工作日内付合同款的<input class="offer-rule-f-c  mask-number" maxlength="5" name="contract_funds_percentage"/>%作为定金，剩余货款在<input class="offer-rule-f-c  mask-number" maxlength="3" name="clear_within_several_working_daysArr"/>个工作日内结清。
+                <input type="radio" value="0" id="settlement_method-0" name="settlement_method" checked/>签订合同后<input class="offer-rule-f-c  mask-number" maxlength="3" name="clear_within_several_working_daysArr" id="clear_within_several_working_daysArr-0"/>个工作日内付全款<br/>
+                <input type="radio" value="1" id="settlement_method-1" name="settlement_method"/>签订合同后<input class="offer-rule-f-c  mask-number" maxlength="3" name="after_sign_several_working_days"/>个工作日内付合同款的<input class="offer-rule-f-c  mask-digits" digits="2" maxlength="5" name="contract_funds_percentage"/>%作为定金，剩余货款在<input class="offer-rule-f-c  mask-number" maxlength="3" name="clear_within_several_working_daysArr" id="clear_within_several_working_daysArr-1"/>个工作日内结清。
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">*交货期</label>
+            <label class="col-sm-2 control-label"><i class="text-danger">*</i>交货期</label>
             <div class="col-sm-10">
                 买方付全款后<input class="offer-rule-f-c mask-number"  data-validetta="required" maxlength="3" name="after_pay_off_several_working_days"/>个工作日内完成货权转移
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">*交货方式</label>
+            <label class="col-sm-2 control-label"><i class="text-danger">*</i>交货方式</label>
             <div class="col-sm-10">
-                <select class="offer-rule-f-c" id="offer-rules-port1" name="delivery_Method_port">
+                <select class="form-control id="offer-rules-port1" name="delivery_Method_port"  data-validetta="required">
                 	<option value=""></option>
                 </select>（港口）
-                <select class="form-control" name="pricing_method" id="select-Pricing_method">
+                <select class="form-control" name="pricing_method" id="select-Pricing_method"  data-validetta="required">
                     <option value=""></option>
                 </select>（计价方式）交货
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">*交货数量标准</label>
+            <label class="col-sm-2 control-label"><i class="text-danger">*</i>交货数量标准</label>
             <div class="col-sm-10">
-                以<select class="offer-rule-f-c" id="offer-rules-port2" name="delivery_quantity_port">
+                以<select class="form-control" id="offer-rules-port2" name="delivery_quantity_port" >
                 <option value=""></option>
           </select>（港口）
           <select class="form-control" name="measure_method" data-validetta="required" id="select-measure_method">
@@ -167,7 +167,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">*货物规格标准</label>
+            <label class="col-sm-2 control-label"><i class="text-danger">*</i>货物规格标准</label>
             <div class="col-sm-10">
                 以<select class="form-control" name="trader_type" data-validetta="required" id="select-trader_type">
                     <option value=""></option>
@@ -175,7 +175,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">*费用条款</label>
+            <label class="col-sm-2 control-label"><i class="text-danger">*</i>费用条款</label>
             <div class="col-sm-10">
                 费用条款：若火车或车板提货，则产生的港口费差价、运费由<select class="form-control" name="transport_costs_bearer" data-validetta="required" id="transport_costs_bearer">
                     <option value=""></option>
@@ -190,7 +190,7 @@
                 </select>承担， 过磅费或水尺费由<select class="form-control" name="weighing_fee_bearer" data-validetta="required" id="weighing_fee_bearer">
                     <option value=""></option>
                 </select>承担；
-                自货权转移之日起，买方享有<input class="offer-rule-f-c mask-number"  maxlength="3" name="free_storage_several_days"/>天免堆期， 超期产生的堆存费由<select class="form-control" name="overdue_storage_fee_bearer" data-validetta="required" id="overdue_storage_fee_bearer">
+                自货权转移之日起，买方享有<input class="offer-rule-f-c mask-number"  maxlength="3" name="free_storage_several_days" data-validetta="required"/>天免堆期， 超期产生的堆存费由<select class="form-control" name="overdue_storage_fee_bearer" data-validetta="required" id="overdue_storage_fee_bearer">
                     <option value=""></option>
                 </select>承担。
             </div>

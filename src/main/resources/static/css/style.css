@@ -983,6 +983,9 @@ body.member {
     width: 120px;
     margin: 0 20px; }
 
+#form-offer i.text-danger {
+  margin-right: 4px; }
+
 /*--------------------------------------
 member
 用户信息,头像，手机号编辑

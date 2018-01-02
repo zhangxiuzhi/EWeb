@@ -223,10 +223,23 @@ function JBSFrame() {
 		//$(element).val($(element).val().replace(/[\-\d]|[\-\d\.\d]/g,''));
 	}
 
-	//数量控制
+	//数字控制
 	this.renderNumberMask = function(){
 		$(".mask-number").inputmask("decimal", {groupSeparator:"",autoGroup: true});
+		$(".mask-digits").each(function(index,element){
+			var d = Number($(element).attr("digits"));
+			$(element).inputmask({
+				'alias': 'numeric',
+				'groupSeparator': '',
+				'autoGroup': true,
+				'digits': d,
+				'digitsOptional': false,
+				'prefix': '',
+				'placeholder': '0'
+			});
+		});
 	}
+
 
 
 	//系统提示框

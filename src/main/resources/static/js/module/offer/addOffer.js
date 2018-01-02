@@ -257,6 +257,41 @@ function JBSFrame_addOffer() {
             $("#overdue_storage_fee_bearer").append($opt);
         }
 
+        //结算方式切换
+        $("input[type=radio][name=settlement_method]").click(function(){
+            clearOtherSettlement_method(this.value)
+        });
+        //方式0
+        $("input#clear_within_several_working_daysArr-0").focus(function(){
+            $("#settlement_method-0").prop("checked",true);
+            clearOtherSettlement_method(0);
+        })
+        //方式1
+        $("input[name=after_sign_several_working_days]").focus(function(){
+            $("#settlement_method-1").prop("checked",true);
+            clearOtherSettlement_method(1);
+        });
+        $("input[name=contract_funds_percentage]").focus(function(){
+            $("#settlement_method-1").prop("checked",true);
+            clearOtherSettlement_method(1);
+        });
+        $("input#clear_within_several_working_daysArr-1").focus(function(){
+            $("#settlement_method-1").prop("checked",true);
+            clearOtherSettlement_method(1);
+        });
+        //清空其他结算方式填写
+        function clearOtherSettlement_method(value){
+            //方式0,清空方式1填写
+            if(value == "0"){
+                $("input[name=after_sign_several_working_days]").val("");
+                $("input[name=contract_funds_percentage]").val("");
+                $("input#clear_within_several_working_daysArr-1").val("");
+            }else{
+                //方式1,清空方式0填写
+                $("input#clear_within_several_working_daysArr-0").val("");
+            }
+        }
+
         this.renderDatetimepicker();
         this.renderNumberMask();
     }
@@ -517,9 +552,9 @@ function changeIronCommodityIndicator(node,index){
             var iron = ironAttr[attr];
             for(var i=0;i<iron.length;i++){
                 $("#indicator"+index+"-"+iron[i].text).val(iron[i].value);
-            }
-            if (iron[i].text == 'GRAIN') {
-            	$("sizeIndicators").val(iron[i].value);
+                if (iron[i].text == 'GRAIN') {
+                    $("#sizeIndicators").val(iron[i].value);    //设置粒度值
+                }
             }
         }
     }
