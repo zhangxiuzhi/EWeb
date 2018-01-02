@@ -197,7 +197,6 @@ function upload(elem) {
 				//赋值
 				$("#"+fileId+"-text").val(saveStr);
 			}else{
-				alert(result.msg);
 			}
 		}
 	});
