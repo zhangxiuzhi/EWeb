@@ -301,7 +301,8 @@
 					        <button class="btn btn-primary" type="button" onclick="submit_offer()">立即发布</button>
 					    </div>
 					 
-					 	<input type="hidden" value="inStock" name="offerId" th:value="${offer.offerId}"/>
+					 	<input type="hidden" name="offerId" th:value="${offer.offerId}"/>
+					 	<input type="hidden" name="offerAttachId" th:value="${offerAttach.offerAttachId}"/>
 					 	<input type="hidden" value="inStock" id="tradeMode"/>
 					 	<input type="hidden" name="offerStatus" value="draft" id="offerStatus"/>
 					</form>

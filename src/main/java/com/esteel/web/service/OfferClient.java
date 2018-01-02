@@ -2,6 +2,8 @@ package com.esteel.web.service;
 
 import java.util.ArrayList;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -69,41 +71,30 @@ public interface OfferClient {
 	public IronOfferMainVo updateIronOfferMainAndAttach(@RequestBody IronOfferMainVo ironOfferVo);
 }
 
-//@Component
-//class OfferClientCallback implements OfferClient {
-//
-//	@Override
-//	public IronOfferMainVo saveIronOffer(IronOfferMainVo ironOfferVo) {
-//		IronOfferMainVo offer = new IronOfferMainVo();
-//
-//		offer.setStatus(1);
-//		offer.setMsg("保存失败!");
-//		offer.setMsgEn("Save failed.");
-//		
-//		return offer;
-//	}
-//}
-
 @Component
 class OfferClientCallbackFactory implements FallbackFactory<OfferClient> {
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Override
 	public OfferClient create(Throwable cause) {
 		return new OfferClient() {
 			@Override
 			public IronOfferMainVo saveIronOffer(IronOfferMainVo ironOfferVo) {
+				logger.warn("OfferClient.saveIronOffer：铁矿报盘 保存/发布 失败");
 				cause.printStackTrace();
 				return null;
 			}
 
 			@Override
 			public IronOfferMainVo getIronOffer(IronOfferQueryVo queryVo) {
+				logger.warn("OfferClient.saveIronOffer：铁矿报盘调用 失败");
 				cause.printStackTrace();
 				return null;
 			}
 
 			@Override
 			public IronOfferPage query(IronOfferQueryVo queryVo) {
+				logger.warn("OfferClient.query：铁矿报盘分页 失败");
 				cause.printStackTrace();
 				
 				if (queryVo == null) {
@@ -118,18 +109,21 @@ class OfferClientCallbackFactory implements FallbackFactory<OfferClient> {
 
 			@Override
 			public IronOfferMainVo updateIronOffer(IronOfferMainVo ironOfferVo) {
+				logger.warn("OfferClient.updateIronOffer：铁矿报盘 更新全部相关信息 失败");
 				cause.printStackTrace();
 				return null;
 			}
 
 			@Override
 			public IronOfferMainVo updateIronOfferMain(IronOfferMainVo ironOfferVo) {
+				logger.warn("OfferClient.updateIronOfferMain：铁矿报盘 更新主表 失败");
 				cause.printStackTrace();
 				return null;
 			}
 
 			@Override
 			public IronOfferMainVo updateIronOfferMainAndAttach(IronOfferMainVo ironOfferVo) {
+				logger.warn("OfferClient.updateIronOfferMainAndAttach: 铁矿报盘 更新主表 附表 失败");
 				cause.printStackTrace();
 				return null;
 			}

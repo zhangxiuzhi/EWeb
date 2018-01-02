@@ -123,7 +123,7 @@ function JBSFrame_OfferEdit_Futures() {
             $("#offer-priceModel").append($opt);
         }
         
-        $("#offer-priceModel").val(offerAttachList[0].priceModel,);
+        $("#offer-priceModel").val(offerAttachList[0].priceModel);
 
         this.renderDatetimepicker();
         this.renderNumberMask();
@@ -312,7 +312,7 @@ function changeIronAttributeLink_1(node){
 function changeIndicatorValue1(value,label){
   if(value == "26" && label =="典型值"){
       //品名切换改变指标值
-	  changeIronCommodityIndicatorIndex(esteel_addOffer.selectBox_ItemName1.state.node,'1');
+	  changeIronCommodityIndicatorIndex(esteel_offerEdit_Futures.selectBox_ItemName1.state.node,'1');
   }else{
       //清空指标值
       $("#indicator-table-1 input.form-control").val("");
@@ -333,7 +333,7 @@ function changeIronAttributeLink_2(node) {
 function changeIndicatorValue2(value,label){
   if(value == "26" && label =="典型值"){
       //品名切换改变指标值
-	  changeIronCommodityIndicatorIndex(esteel_addOffer.selectBox_ItemName2.state.node,'2');
+	  changeIronCommodityIndicatorIndex(esteel_offerEdit_Futures.selectBox_ItemName2.state.node,'2');
   }else{
       //清空指标值
       $("#indicator-table-2 input.form-control").val("");
