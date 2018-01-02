@@ -147,6 +147,7 @@ function checkNo(){
 						esteel_register.insertErrorBubble("mobile", "该号码已被注册");
 					}else{
 						status= true;
+						esteel_register.insertCorrectBubble("mobile", "该号码可用");
 					}
 				});
 			} else {
