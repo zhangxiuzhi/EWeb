@@ -74,11 +74,11 @@ $(document).ready(function (e) {
 	esteel_member_headSet.initRouter();
 });
 
-
+//文件上传
 function upload(elem){
 	var fileId =elem.id; 
 	$.ajaxFileUpload({
-		url: '/user/uploadFileCut',
+		url: '/user/uploadFile',
 		secureuri: false,
 		fileElementId: elem.id,// file标签的id
 		dataType: 'json',
@@ -86,16 +86,30 @@ function upload(elem){
 			xhr.setRequestHeader(header, token);
 		},
 		success: function (result) {
-            var status=data.status;
-            var message=data.message;
-            if(status){
-                window.location.href = "/member/headCut.htm?imgUrl="+message;
-            }else{
-                alert("上传失败");
-                $("#uploadFile").change(function(){
-                    upload();
-                });
-            }
-        }
+			//返回文件id
+			if(result.data!=null){
+				//图片回写
+				//reloadUploadImage(fileId,result);
+				//保存数据库的字符串
+				var saveStr = result.data[0]+result.data[1];
+				//赋值
+				$("#fileType").val(saveStr);
+			}
+		}
     });
 }
+//保存
+function confirm(){
+	
+}
+
+
+
+
+
+
+
+
+
+
+
