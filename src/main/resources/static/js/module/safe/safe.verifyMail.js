@@ -25,6 +25,15 @@ function JBSFrame_safe_verifyMail() {
 
 		// 渲染步骤
 		this.renderStep();
+
+		//获取用户手机号码
+		esteel_safe_verifyMail.ajaxRequest({
+			url : "/user/getMobile",
+			data : {}
+		}, function(data, msg) {
+			document.getElementById('phone').innerHTML = msg;
+		});
+
 	}
 
 	// 渲染步骤
@@ -123,14 +132,7 @@ $(document).ready(function(e) {
 	esteel_safe_verifyMail.initUI();
 	// 初始化路由
 	esteel_safe_verifyMail.initRouter();
-	//获取用户手机号码
-	esteel_safe_verifyMail.ajaxRequest({
-		url : "/user/getMobile",
-		data : {}
-	}, function(data, msg) {
-		document.getElementById('phone').innerHTML = msg;
-	});
-	
+
 });
 
 // 获取验证码

@@ -375,7 +375,6 @@ function validateOfferInfo(){
 }
 
 function insertErrorBubble($element,errorText){
-    $element.next(".validetta-bubble").remove();
 
     var pos, W = 0, H = 0;
     var $bubble = $("<div class='validetta-bubble validetta-bubble--bottom'></div>");
@@ -384,12 +383,12 @@ function insertErrorBubble($element,errorText){
     //组件下拉
     if($element.parents(".react-selectbox").length>0) {
         //品名
-        if($element[0].name =="ItemName"){
-            esteel_addOffer.selectBox_ItemName.addValidettaBubble();
+        if($element[0].name =="commodityId"){
+            esteel_addOffer.selectBox_ItemName.insertErrorBubble("此项为必填项");
         }
         //港口
-        if($element[0].name =="Port"){
-            esteel_addOffer.selectBox_Port.addValidettaBubble();
+        if($element[0].name =="portId"){
+           esteel_addOffer.selectBox_Port.insertErrorBubble("此项为必填项");
         }
     }
     else if($element.hasClass("uploadFile")) {
@@ -399,6 +398,7 @@ function insertErrorBubble($element,errorText){
             top:pos.top + H + 0,
             left:pos.left + W + 15
         });
+        $element.parent(".btn.btn-file").find(".validetta-bubble").remove();
         $element.parent(".btn.btn-file").after($bubble);
     }else{
         pos = $element.position();
@@ -407,6 +407,7 @@ function insertErrorBubble($element,errorText){
             top:pos.top + H + 0,
             left:pos.left + W + 15
         });
+        $element.next(".validetta-bubble").remove();
         $element.after($bubble);
     }
     $element.on("change",function(e){
@@ -542,6 +543,9 @@ function changeIronAttributeLink(node){
     }else{
         //清空指标值
         $(".offer-kip-table input.form-control").val("");
+    }
+    if(node.value !=""){
+        selectBox_ItemName.remove
     }
 }
 //品名联动
