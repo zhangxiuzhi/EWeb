@@ -187,8 +187,20 @@ public class IronOfferListController {
     public IronOfferPage ironOfferPage(IronOfferQueryVo queryVo){
 		Assert.notNull(queryVo, "查询失败！");
 		
-		if (queryVo.getSizePerPage() == 0) {
+		if (queryVo.getPageNum() == null) {
+			queryVo.setPage(0);
+		} else {
+			int page = NumberUtils.toInt(queryVo.getPageNum());
+			if (page > 0) {
+				page = page - 1;
+			}
+			queryVo.setPage(page);
+		}
+		
+		if (queryVo.getPageSize() == null) {
 			queryVo.setSizePerPage(10);
+		} else {
+			queryVo.setSizePerPage(NumberUtils.toInt(queryVo.getPageSize()));
 		}
 
     	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
