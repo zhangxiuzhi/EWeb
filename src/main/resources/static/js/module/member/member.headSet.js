@@ -74,3 +74,28 @@ $(document).ready(function (e) {
 	esteel_member_headSet.initRouter();
 });
 
+
+function upload(elem){
+	var fileId =elem.id; 
+	$.ajaxFileUpload({
+		url: '/user/uploadFileCut',
+		secureuri: false,
+		fileElementId: elem.id,// file标签的id
+		dataType: 'json',
+		beforeSend: function (xhr) {
+			xhr.setRequestHeader(header, token);
+		},
+		success: function (result) {
+            var status=data.status;
+            var message=data.message;
+            if(status){
+                window.location.href = "/member/headCut.htm?imgUrl="+message;
+            }else{
+                alert("上传失败");
+                $("#uploadFile").change(function(){
+                    upload();
+                });
+            }
+        }
+    });
+}
