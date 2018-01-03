@@ -18,6 +18,7 @@ import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -68,10 +69,11 @@ public class Oauth2ClientConfig {
         filter.setTokenServices(services);
 
 
+
         //设置回调成功的页面
-        filter.setAuthenticationSuccessHandler(new SimpleUrlAuthenticationSuccessHandler() {
+        filter.setAuthenticationSuccessHandler(new SavedRequestAwareAuthenticationSuccessHandler() {
             public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-                this.setDefaultTargetUrl("/");
+//                this.setDefaultTargetUrl("/");
                 this.setTargetUrlParameter("_target");
                 super.onAuthenticationSuccess(request, response, authentication);
             }
