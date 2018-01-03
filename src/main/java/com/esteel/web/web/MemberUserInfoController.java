@@ -87,10 +87,14 @@ public class MemberUserInfoController {
 	public String headSet(Model model) {
 		return "/member/headSet";
 	}
-
-	@RequestMapping("/headUpload")
+	/**
+	 * 
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/logoSet")
 	public String headUpload(Model model) {
-		return "/member/headUpload";
+		return "/member/logoSet";
 	}
 
 	/**
