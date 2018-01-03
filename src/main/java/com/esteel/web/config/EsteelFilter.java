@@ -22,7 +22,7 @@ import java.io.IOException;
  * Date: 2018-01-03
  * Time: 09:37
  */
-public class EsteelRedirectFilter extends GenericFilterBean
+public class EsteelFilter extends GenericFilterBean
         implements ApplicationEventPublisherAware, MessageSourceAware {
 
     @Override

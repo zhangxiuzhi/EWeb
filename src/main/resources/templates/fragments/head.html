@@ -15,7 +15,7 @@
             </ul>
             <ul class="topbar-right">
                 <li><a th:text="${userName}" th:if="${isAuthed}"></a></li>
-                <li th:if="${not isAuthed}"><a class="text-danger" th:href="@{/login}">请登录</a></li>
+                <li th:if="${not isAuthed}"><a class="text-danger" th:href="@{/login?_target=sss}">请登录</a></li>
                 <li th:if="${not isAuthed}"><a class="text-danger" th:href="@{/register/}">免费注册</a></li>
                 <li class="topbar-gap-line">|</li>
                 <li><a>我的点钢网</a></li>
