@@ -8,12 +8,17 @@
             仅支持JPG、PNG、JPEG、BMP格式，文件小于4M
         </div>
         <div class="img-big img-count">
-            <form name="dataForm" enctype="multipart/form-data">
-                <a href="javascript:;" class="btn-file">选择你要上传的图像
-                    <input id="uploadFile" name="uploadFile" type="file"></a>
-            </form>
+           <form name="dataForm" enctype="multipart/form-data"> 
+           		<a href="javascript:;" class="btn-file">选择你要上传的图像
+                    <input id="file1" name="file" type="file" onchange="upload(this)">
+                     <input type="hidden" id="file1-text"/>
+           		 </a>
+           </form>
         </div>
-        <div class="save"><button type="button" id="save_btn" class="btn btn-primary ">确定</button></div>
+        <div>
+           	<input type="text" id="fileType"/>
+        </div>
+        <div class="save"><button type="button" id="save_btn" class="btn btn-primary" onclick="confirm()">确定</button></div>
     </div>
 
     <div class="uh-right">
@@ -38,34 +43,15 @@
 <script src="/jq/ImgCutter/jquery.Jcrop.min.js"></script>
 <script src="/jq/ImgCutter/jQuery.UtrialAvatarCutter.js"></script>
 <script>
-    $(document).ready(function(){
+   /*  $(document).ready(function(){
 
         $("#uploadFile").change(function(){
             upload();
         });
 
     });
-
-    function upload(){
-        $.ajaxFileUpload({
-            url:'/member/headUpload.html',
-            secureuri:false,
-            fileElementId:"uploadFile",//file标签的id
-            dataType: 'json',
-            success: function (data) {
-                var status=data.status;
-                var message=data.message;
-                if(status){
-                    window.location.href = "/member/headCut.htm?imgUrl="+message;
-                }else{
-                    alert("上传失败");
-                    $("#uploadFile").change(function(){
-                        upload();
-                    });
-                }
-            }
-        });
-    }
+ */
+   
     /*
     var cutter = new jQuery.UtrialAvatarCutter(
             {

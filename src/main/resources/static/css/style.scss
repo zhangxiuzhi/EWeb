@@ -1027,20 +1027,26 @@ body.member{
 }
 
 .box-container{
-  border:1px solid #ccc;
+  border:1px solid rgba(0, 0, 0, 0.075);
   padding:15px 10px 0px 10px;
   position: relative;
   margin-bottom: 15px;
-  .box-container-title{
-    background: #fff;
-    width: 100px;
-    height: 30px;
-    border-bottom: 1px solid #ccc;
-    border-right:1px solid #ccc;
-    margin-left: -11px;
-    margin-top: -16px;
-    text-align: center;
-    margin-bottom: 20px;
+}
+.box-container-title{
+  background: #fff;
+  width: 100%;
+  padding: 10px 15px;
+  line-height: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.075);
+  background: rgba(0, 0, 0, 0.025);
+  border-bottom:none;
+  cursor: pointer;
+}
+.box-container-title.collapsed{
+  border-bottom: 1px solid rgba(0, 0, 0, 0.075);
+  margin-bottom: 15px;
+  .fa-caret-down:before{
+    content:"\f0d8";
   }
 }
 
@@ -1147,6 +1153,11 @@ body.member{
   .btn{
     width: 120px;
     margin: 0 20px;
+  }
+}
+#form-offer{
+  i.text-danger{
+    margin-right: 4px;
   }
 }
 

@@ -29,17 +29,7 @@
             <div class="size">50*50像素</div>
         </div>
     </div>
-
-
-
-
 </div>
-
-
-
-
-
-
 <link rel="Stylesheet" href="/jq/ImgCutter//jquery.Jcrop.css"/>
 <script src="/jq/ImgCutter/jquery.Jcrop.min.js"></script>
 <script src="/jq/ImgCutter/jQuery.UtrialAvatarCutter.js"></script>
@@ -54,7 +44,7 @@
 
     function upload(){
         $.ajaxFileUpload({
-            url:'/member/user_head_upload.htm',
+            url:'/user/uploadFile',
             secureuri:false,
             fileElementId:"uploadFile",//file标签的id
             dataType: 'json',

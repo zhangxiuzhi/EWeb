@@ -80,7 +80,7 @@ public class MemberUserController {
 	public WebReturnMessage getUserMboile() {
 		logger.info("获取登录用户的手机验证码");
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String phone = authentication.getName();
+		logger.debug("getUserMboile:获取手机号码,获取登陆用户信息"+authentication);
 		MemberUserVo userVo = memberUserClient.checkNo(authentication.getName());
 		String mobile = userVo.getMobile();
 		logger.info("获取手机号码+返回结果{mobile}" + mobile);
@@ -417,4 +417,43 @@ public class MemberUserController {
 		}
 		return webRetMesage;
 	}
+	
+	
+	/**
+	 * 文件上传
+	 * 
+	 * @param file
+	 * @return
+	 */
+	@RequestMapping(value = "/uploadFileCut", method = RequestMethod.POST)
+	@ResponseBody
+	public WebReturnMessage uploadFileCut(MultipartFile file) {
+		logger.info("uploadFile:文件上传");
+		if (file != null && !file.isEmpty()) {
+			// 获取文件后缀
+			String type = file.getOriginalFilename().substring(file.getOriginalFilename().indexOf("."));
+			try {
+				// 文件ID
+				String filepath = tfsManager.saveFile(file.getBytes(), null, type);
+				if (filepath != null && filepath != "") {
+					List<Object> list = new ArrayList<>();
+					list.add(filepath);
+					list.add(type);
+					logger.debug("文件上传成功");
+					return new WebReturnMessage(true, "", list);// 成功返回文件id
+				} else {
+					logger.debug("文件上传失败");
+					return new WebReturnMessage(true, "文件上传失败");
+				}
+			} catch (Exception e) {
+				logger.error("错误位置：" + this.getClass() + ".uploadFile" + e);
+				return new WebReturnMessage(true, "文件上传失败");
+			}
+		} else {
+			logger.warn("上传文件为空");
+			return new WebReturnMessage(true, "请重新上传附件");
+		}
+	}
+	
+	
 }

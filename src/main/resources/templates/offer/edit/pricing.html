@@ -54,12 +54,12 @@
 					        <div class="form-group">
 					            <label class="col-sm-2 control-label">*数量</label>
 					            <div class="col-sm-4">
-					                <input type="text" class="form-control mask-number"  data-validetta="required" name="offerQuantity" maxlength="100" th:value="${offerAttach.offerQuantity}"/>
+					                <input type="text" class="form-control mask-number" data-validetta="required" name="offerQuantity" maxlength="100" th:value="${offerAttach.offerQuantity}"/>
 					            </div>
 					
 					            <label class="col-sm-2 control-label">*溢短装</label>
 					            <div class="col-sm-4">
-					                 <input type="text" class="form-control mask-number"  data-validetta="required" maxlength="4" name="moreOrLess" th:value="${offerAttach.moreOrLess}"/>
+					                 <input type="text" class="form-control mask-digits" digits="1" data-validetta="required" maxlength="4" name="moreOrLess" th:value="${offerAttach.moreOrLess}"/>
 					            </div>
 					        </div>
 					
@@ -85,7 +85,7 @@
 					
 					            <label class="col-sm-2 control-label">*基差</label>
 					            <div class="col-sm-4">
-					                <input type="text" class="form-control mask-number" name="baseDifference" data-validetta="required" maxlength="6" th:value="${offerAttach.baseDifference}"/>
+					                <input type="text" class="form-control mask-digits" digits="2" name="baseDifference" data-validetta="required" maxlength="6" th:value="${offerAttach.baseDifference}"/>
 					            </div>
 					        </div>
 					

@@ -78,19 +78,19 @@
 					                            <th>Fe</th><th>SiO2</th><th>A12O3</th><th>Mn</th><th>LOI</th>
 					                        </tr>
 					                        <tr>
-					                            <td><input type="text" class="form-control" name="feArr" th:id="'indicator-FE-'+(${iterStat.index}+1)" data-validetta="required" th:value="${attachTmp.fe}"/></td>
-					                            <td><input type="text" class="form-control" name="sio2Arr" th:id="'indicator-SIO2-'+(${iterStat.index}+1)" th:value="${attachTmp.sio2}"/></td>
-					                            <td><input type="text" class="form-control" name="al2o3Arr" th:id="'indicator-AL2O3-'+(${iterStat.index}+1)" th:value="${attachTmp.al2o3}"/></td>
-					                            <td><input type="text" class="form-control" name="mnArr" th:id="'indicator-MN-'+(${iterStat.index}+1)" th:value="${attachTmp.mn}"/></td>
-					                            <td><input type="text" class="form-control" name="LOIArr" th:id="'indicator-LOI-'+(${iterStat.index}+1)" th:value="${attachTmp.LOI}"/></td>
+					                            <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="feArr" th:id="'indicator-FE-'+(${iterStat.index}+1)" data-validetta="required" th:value="${attachTmp.fe}"/></td>
+					                            <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="sio2Arr" th:id="'indicator-SIO2-'+(${iterStat.index}+1)" th:value="${attachTmp.sio2}"/></td>
+					                            <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="al2o3Arr" th:id="'indicator-AL2O3-'+(${iterStat.index}+1)" th:value="${attachTmp.al2o3}"/></td>
+					                            <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="mnArr" th:id="'indicator-MN-'+(${iterStat.index}+1)" th:value="${attachTmp.mn}"/></td>
+					                            <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="LOIArr" th:id="'indicator-LOI-'+(${iterStat.index}+1)" th:value="${attachTmp.LOI}"/></td>
 					                        </tr>
 					                        <tr>
 					                            <th>P</th><th>S</th><th>H20</th><th>&nbsp;</th><th>&nbsp;</th>
 					                        </tr>
 					                        <tr>
-					                            <td><input type="text" class="form-control" name="pArr" th:id="'indicator-P-'+(${iterStat.index}+1)" th:value="${attachTmp.p}"/></td>
-					                            <td><input type="text" class="form-control" name="sArr" th:id="'indicator-S-'+(${iterStat.index}+1)" th:value="${attachTmp.s}"/></td>
-					                            <td><input type="text" class="form-control" name="h2oArr" th:id="'indicator-H2O-'+(${iterStat.index}+1)" th:value="${attachTmp.h2o}"/></td>
+					                            <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="pArr" th:id="'indicator-P-'+(${iterStat.index}+1)" th:value="${attachTmp.p}"/></td>
+					                            <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="sArr" th:id="'indicator-S-'+(${iterStat.index}+1)" th:value="${attachTmp.s}"/></td>
+					                            <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="h2oArr" th:id="'indicator-H2O-'+(${iterStat.index}+1)" th:value="${attachTmp.h2o}"/></td>
 					                            <td>&nbsp;</td>
 					                            <td>&nbsp;</td>
 					                        </tr>
@@ -101,19 +101,19 @@
 					            <div class="form-group">
 					                <label class="col-sm-2 control-label">粒度</label>
 					                <div class="col-sm-4">
-					                    <input type="text" class="form-control" th:id="'sizeIndicators-'+(${iterStat.index}+1)" name="sizeIndicatorsArr" th:value="${attachTmp.sizeIndicators}"/>
+					                    <input type="text" class="form-control" th:id="'sizeIndicators-'+(${iterStat.index}+1)" name="sizeIndicatorsArr" th:value="${attachTmp.sizeIndicators}" maxlength="32"/>
 					                </div>
 					            </div>
 					
 					            <div class="form-group">
 					                <label class="col-sm-2 control-label">*数量</label>
 					                <div class="col-sm-4">
-					                    <input type="text" class="form-control" data-validetta="required" name="offerQuantityArr" th:value="${attachTmp.offerQuantity}"/>
+					                    <input type="text" class="form-control mask-number" data-validetta="required" name="offerQuantityArr" th:value="${attachTmp.offerQuantity}" maxlength="100"/>
 					                </div>
 					
 					                <label class="col-sm-2 control-label">*溢短装</label>
 					                <div class="col-sm-4">
-					                    <input type="text" class="form-control" data-validetta="required" name="moreOrLessArr" th:value="${attachTmp.moreOrLess}"/>
+					                    <input type="text" class="form-control mask-digits" digits="1" data-validetta="required" name="moreOrLessArr" th:value="${attachTmp.moreOrLess}" maxlength="4"/>
 					                </div>
 					            </div>
 							</div>
@@ -144,19 +144,19 @@
 					                            <th>Fe</th><th>SiO2</th><th>A12O3</th><th>Mn</th><th>LOI</th>
 					                        </tr>
 					                        <tr>
-					                            <td><input type="text" class="form-control" name="feArr" id="indicator-FE-2"/></td>
-					                            <td><input type="text" class="form-control" name="sio2Arr" id="indicator-SIO2-2"/></td>
-					                            <td><input type="text" class="form-control" name="al2o3Arr" id="indicator-AL2O3-2"/></td>
-					                            <td><input type="text" class="form-control" name="mnArr" id="indicator-MN-2"/></td>
-					                            <td><input type="text" class="form-control" name="LOIArr" id="indicator-LOI-2"/></td>
+					                            <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="feArr" id="indicator-FE-2"/></td>
+					                            <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="sio2Arr" id="indicator-SIO2-2"/></td>
+					                            <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="al2o3Arr" id="indicator-AL2O3-2"/></td>
+					                            <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="mnArr" id="indicator-MN-2"/></td>
+					                            <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="LOIArr" id="indicator-LOI-2"/></td>
 					                        </tr>
 					                        <tr>
 					                            <th>P</th><th>S</th><th>H20</th><th>&nbsp;</th><th>&nbsp;</th>
 					                        </tr>
 					                        <tr>
-					                            <td><input type="text" class="form-control" name="pArr" id="indicator-P-2"/></td>
-					                            <td><input type="text" class="form-control" name="sArr" id="indicator-S-2"/></td>
-					                            <td><input type="text" class="form-control" name="h2oArr" id="indicator-H2O-2"/></td>
+					                            <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="pArr" id="indicator-P-2"/></td>
+					                            <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="sArr" id="indicator-S-2"/></td>
+					                            <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="h2oArr" id="indicator-H2O-2"/></td>
 					                            <td>&nbsp;</td>
 					                            <td>&nbsp;</td>
 					                        </tr>
@@ -167,19 +167,19 @@
 					            <div class="form-group">
 					                <label class="col-sm-2 control-label">粒度</label>
 					                <div class="col-sm-4">
-					                    <input type="text" class="form-control" id="sizeIndicators-2" name="sizeIndicatorsArr"/>
+					                    <input type="text" class="form-control" id="sizeIndicators-2" name="sizeIndicatorsArr" maxlength="32"/>
 					                </div>
 					            </div>
 					
 					            <div class="form-group">
 					                <label class="col-sm-2 control-label">*数量</label>
 					                <div class="col-sm-4">
-					                    <input type="text" class="form-control" name="offerQuantityArr"/>
+					                    <input type="text" class="form-control mask-number" name="offerQuantityArr" maxlength="100"/>
 					                </div>
 					
 					                <label class="col-sm-2 control-label">*溢短装</label>
 					                <div class="col-sm-4">
-					                    <input type="text" class="form-control" name="moreOrLessArr"/>
+					                    <input type="text" class="form-control mask-digits" digits="1" name="moreOrLessArr" maxlength="4"/>
 					                </div>
 					            </div>
 					        </div>
@@ -198,22 +198,22 @@
 					                <div class="form-group" th:id="'offer-fixedPrice-goods-'+(${iterStat.index}+1)" th:if="${iterStat.index == 0 or (iterStat.index > 0 and offer.isMultiCargo == '1')}">
 					                    <label class="col-sm-2 control-label"><span th:text="'商品'+(${iterStat.index}+1)"></span></label>
 					                    <div class="col-sm-5">
-					                        <input type="text" class="form-control mask-number width130 inline-block margin-right-10" id="offer-fixPrice-value" name="priceValueArr" th:value="${attachTmp.priceValue}"/>美元/干吨
+					                        <input type="text" class="form-control mask-digits width130 inline-block margin-right-10" digits="1" id="offer-fixPrice-value" name="priceValueArr" th:value="${attachTmp.priceValue}"/>美元/干吨
 					                    </div>
 					                    <label class="col-sm-2 control-label">基于Fe%：</label>
 					                    <div class="col-sm-3">
-					                       <input type="text" class="form-control mask-number" id="offer-fixPrice-value" name="priceBasisFeArr" th:value="${attachTmp.priceBasisFe}"/>
+					                       <input type="text" class="form-control mask-digits" digits="2" id="offer-fixPrice-value" name="priceBasisFeArr" th:value="${attachTmp.priceBasisFe}"/>
 					                    </div>
 					                </div>
 					                </div>
 					                <div class="form-group" id="offer-fixedPrice-goods-2" style="display: none;" th:if="${offer.isMultiCargo == '0'}">
 					                    <label class="col-sm-2 control-label">商品2</label>
 					                    <div class="col-sm-5">
-					                        <input type="text" class="form-control mask-number width130 inline-block margin-right-10" id="offer-fixPrice-value" name="priceValueArr"/>美元/干吨
+					                        <input type="text" class="form-control mask-digits width130 inline-block margin-right-10" digits="1" id="offer-fixPrice-value" name="priceValueArr"/>美元/干吨
 					                    </div>
 					                    <label class="col-sm-2 control-label">基于Fe%：</label>
 					                    <div class="col-sm-3">
-					                        <input type="text" class="form-control mask-number" id="offer-fixPrice-value" name="priceBasisFeArr"/>
+					                        <input type="text" class="form-control mask-digits" digits="2" id="offer-fixPrice-value" name="priceBasisFeArr"/>
 					                    </div>
 					                </div>
 					            </div>

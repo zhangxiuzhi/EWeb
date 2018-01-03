@@ -576,6 +576,46 @@ select
     margin: 0; }
 
 /*--------------------------------
+checkbox,radio
+-----------------------------------------*/
+input.ui-radio {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  margin: 0 5px; }
+  input.ui-radio:before {
+    background: #fff;
+    content: "";
+    position: relative;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    border: 2px solid #aaa;
+    padding: 0;
+    margin: 0px 5px 0 0px;
+    vertical-align: middle; }
+  input.ui-radio:checked:before {
+    border-color: #de211d; }
+  input.ui-radio:checked:after {
+    content: "";
+    width: 10px;
+    height: 10px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    background: #de211d;
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -5px;
+    margin-top: -5px; }
+
+/*--------------------------------
 验证
  -----------------------------------------*/
 .validetta-bubble {

@@ -59,9 +59,10 @@ function formatStatus(cell, row){
 	
 	var html = "";
 	html += "<div><span>"+cell+"</span></div>";
-	html += "<div><a href='/offer/iron/detailBySelf/"+row.offerCode+"' target='_blank'>查看详情</a></div>";
 	if (_editAble) {
 		html += "<div><a href='/offer/iron/edit/"+row.offerCode+"' target='_blank'>编辑</a></div>";
+	} else {
+		html += "<div><a href='/offer/iron/detailBySelf/"+row.offerCode+"' target='_blank'>查看详情</a></div>";
 	}
 	
 	return html;

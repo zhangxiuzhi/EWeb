@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="/fragments/frontCode::frontCode" />
+<body class="register">
+
+<!--页头-->
+<div class="header">
+    <div class="container">
+        <div class="logo"><a href="/"><img th:src="@{/images/logo.png}"/></a></div>
+        <div class="logo-title">找回密码</div>
+        <div class="have-account">已有账号？<a>请登录</a></div>
+    </div>
+</div>
+
+<div class=" container">
+    <form id="form-register" class="form-register">
+
+        <input id="num" type="hidden"/>
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon">手机号码</div>
+                <input type="text" id="mobile" class="form-control" placeholder="请输入手机号码"  onblur="checkNo()"/>
+            </div>
+        </div>
+         <div class="form-group">
+            <div id="dragValidate" class="dragValidate"></div>
+        </div>
+         <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon">验证码</div>
+                <input type="text" class="form-control" id="code" placeholder="请输入短信验证码" onblur="checkCode()"/>
+                <div class="input-group-btn" id=""><button id="register-btn-getValidateCode" class="btn btn-primary disabled" type="button" onclick="sendSms()">获取验证码</button></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary btn-block disabled" id="register-submit" onclick="submitDate()" type="button">下一步</button>
+        </div>
+    </form>
+</div>
+
+
+<div class="footer">
+<div th:replace="/fragments/foot::link"></div>
+</div>
+
+<link rel="stylesheet" th:href="@{/jq/dragValidate/dragValidate.css}"/>
+<script th:src="@{/jq/dragValidate/dragValidate.js}"></script>
+<!-- <script th:src="@{/js/module/register/member.userInfo.js}"></script> -->
+<script th:src="@{/js/module/register/findPwd.js}"></script>
+</body>
+</html>

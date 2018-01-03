@@ -129,8 +129,13 @@ function JBSFrame() {
 	//所有含有datetimepicker元素生成时间控件
 	this.renderDatetimepicker =  function(){
 		$(".datetimepicker").each(function(index,element){
-			var _format = $(element).hasClass("notime")? 'YYYY-MM-DD':'YYYY-MM-DD HH:mm:ss';
-			_format = $(element).hasClass("noday")? 'YYYY-MM':'YYYY-MM-DD';
+			var _format = 'YYYY-MM-DD HH:mm:ss';
+			if($(element).hasClass("notime")){
+				_format = 'YYYY-MM-DD';
+			}
+			if($(element).hasClass("notime")){
+				_format = 'YYYY-MM';
+			}
 
 			$(element).datetimepicker({
 				locale: 'zh-cn',
@@ -223,10 +228,23 @@ function JBSFrame() {
 		//$(element).val($(element).val().replace(/[\-\d]|[\-\d\.\d]/g,''));
 	}
 
-	//数量控制
+	//数字控制
 	this.renderNumberMask = function(){
 		$(".mask-number").inputmask("decimal", {groupSeparator:"",autoGroup: true});
+		$(".mask-digits").each(function(index,element){
+			var d = Number($(element).attr("digits"));
+			$(element).inputmask({
+				'alias': 'numeric',
+				'groupSeparator': '',
+				'autoGroup': true,
+				'digits': d,
+				'digitsOptional': false,
+				'prefix': '',
+				'placeholder': '0'
+			});
+		});
 	}
+
 
 
 	//系统提示框

@@ -1,7 +1,5 @@
 package com.esteel.web.vo.offer.request;
 
-import java.math.BigDecimal;
-
 import com.esteel.common.vo.BaseQueryVo;
 
 /**
@@ -60,6 +58,14 @@ public class IronOfferQueryVo extends BaseQueryVo {
 	 * 排序规则
 	 */
 	private String orderRule = "desc";
+	/**
+	 * 页码
+	 */
+	public String pageNum = "1";
+	/**
+	 * 每页数据总数
+	 */
+    public String pageSize = "10";
 	
 	public String getCreateUser() {
 		if (createUser == null || createUser.trim().equals("")) {
@@ -155,5 +161,17 @@ public class IronOfferQueryVo extends BaseQueryVo {
 	}
 	public void setOrderRule(String orderRule) {
 		this.orderRule = orderRule;
+	}
+	public String getPageNum() {
+		return pageNum;
+	}
+	public void setPageNum(String pageNum) {
+		this.pageNum = pageNum;
+	}
+	public String getPageSize() {
+		return pageSize;
+	}
+	public void setPageSize(String pageSize) {
+		this.pageSize = pageSize;
 	}
 }

@@ -48,13 +48,19 @@ public class MemberUserInfoController {
 		Integer companyId = userVo.getCompanyId();
 		if (companyId != null) {
 			MemberCompanyVo company = memberUserClient.findCompany((long) userVo.getCompanyId());
-			logger.debug("userInfo:个人信息页面,获取企业信息MemberCompanyVo："+company );
-			model.addAttribute("company", company);
+			logger.debug("userInfo:个人信息页面,获取企业信息MemberCompanyVo："+company);
 			
+			if(company==null) {
+				MemberCompanyVo companys = new MemberCompanyVo();
+				companys.setApprovalStatus(1);
+				model.addAttribute("company", companys);
+			}else {
+				model.addAttribute("company", company);
+			}
 			//如果是企业子账号，则获取管理员姓名
 			if(userVo.getUserGrade()==2) {
 				List<MemberUserVo> findmembers = memberUserClient.findmembers(companyId);
-				//获取企业管理员的妹子
+				//获取企业管理员的名字
 				for (MemberUserVo memberUserVo : findmembers) {
 					if(memberUserVo.getUserGrade()==1) {
 						model.addAttribute("admin", memberUserVo.getUserName());

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="/fragments/frontCode::frontCode" />
+<body class="register">
+
+<!--页头-->
+<div class="header">
+    <div class="container">
+        <div class="logo"><a href="/"><img th:src="@{/images/logo.png}"/></a></div>
+        <div class="logo-title">密码重置</div>
+        <div class="have-account">已有账号？<a>请登录</a></div>
+    </div>
+</div>
+
+<div class=" container">
+    <form id="form-register" class="form-register">
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon">设置密码</div>
+                <input type="password" class="form-control" placeholder="请输入6-20位密码（支持数字、字母输入）" id="password" onblur="checkPwd()"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon">确认密码</div>
+                <input type="password" class="form-control" placeholder="请再次输入密码" id="firmPwd" onblur="confirmPwd()"/>
+            </div>
+        </div>
+       <div class="form-group">
+            <button class="btn btn-primary" type="button" id="register-submit" onclick="resetPwd()">完成</button>
+        </div>
+    </form>
+</div>
+
+
+<div class="footer">
+<div th:replace="/fragments/foot::link"></div>
+</div>
+
+<link rel="stylesheet" th:href="@{/jq/dragValidate/dragValidate.css}"/>
+<script th:src="@{/jq/dragValidate/dragValidate.js}"></script>
+<!-- <script th:src="@{/js/module/register/member.userInfo.js}"></script> -->
+<script th:src="@{/js/module/register/resetPwd.js}"></script>
+</body>
+</html>
