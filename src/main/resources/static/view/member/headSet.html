@@ -10,13 +10,15 @@
         <div class="img-big img-count">
            <form name="dataForm" enctype="multipart/form-data"> 
            		<a href="javascript:;" class="btn-file">选择你要上传的图像
-                    <input id="uploadFile" name="uploadFiles" type="file" onchange="upload(this)">
+                    <input id="file1" name="file" type="file" onchange="upload(this)">
+                     <input type="hidden" id="file1-text"/>
            		 </a>
-           
            </form>
-           
         </div>
-        <div class="save"><button type="button" id="save_btn" class="btn btn-primary ">确定</button></div>
+        <div>
+           	<input type="text" id="fileType"/>
+        </div>
+        <div class="save"><button type="button" id="save_btn" class="btn btn-primary" onclick="confirm()">确定</button></div>
     </div>
 
     <div class="uh-right">
