@@ -332,7 +332,7 @@ class SelectBox extends React.Component {
 
 		//选项
 		var option = React.createElement.bind(null, 'option');
-		var empty = option({ key: '', value: '' }, 'No Selection');
+		var empty = option({ key: '', value: '' }, '');
 		var options = [empty].concat(this.props.children);
 		if (this.props.children == undefined && this.props.data.length > 0) {
 			for (var i = 0; i < this.props.data.length; i++) {
@@ -359,10 +359,13 @@ class SelectBox extends React.Component {
 			),
 			React.createElement(
 				'select',
-				{ id: id,
+				{
+					ref:'select',
+					id: id,
 					name: this.props.name,
 					multiple: multiple,
 					value: value || (multiple ? [] : ''),
+					"data-validetta":this.props.validetta,
 					onChange: this.handleNativeChange
 				},
 				options

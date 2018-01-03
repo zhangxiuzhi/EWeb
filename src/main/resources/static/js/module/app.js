@@ -553,18 +553,15 @@ function JBSFrame() {
 		var $bubble = $("<div class='validetta-bubble validetta-bubble--bottom'></div>");
 		$bubble.html(errorText);
 
-		//组件下拉
-		if($element.parents(".react-selectbox").length>0) {
-
-		}
-		else if($element.hasClass("uploadFile")) {
-			pos = $element.parent(".btn.btn-file").position();
-			H = $element.parent(".btn.btn-file")[0].offsetHeight;
+		//上传组件
+		if($element.hasClass("uploadFile") || $element.parents(".img-uploadPhoto").length>0) {
+			pos = $element.parent(".btn-file").position();
+			H = $element.parent(".btn-file")[0].offsetHeight;
 			$bubble.css({
 				top:pos.top + H + 0,
 				left:pos.left + W + 15
 			});
-			$element.parent(".btn.btn-file").after($bubble);
+			$element.parent(".btn-file").after($bubble);
 		}else{
 			pos = $element.position();
 			H = $element[0].offsetHeight;

@@ -26,7 +26,7 @@
             </div>
             <div id="offer-goods-1-items" class="box-container collapse in">
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">*品名</label>
+                    <label class="col-sm-2 control-label"><i class="text-danger">*</i>品名</label>
                     <div class="col-sm-4">
                         <div id="component-selectBox-ItemName-1" inputName="commodityIdArr" data-validetta="required"></div>
                     </div>
@@ -75,12 +75,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">*数量</label>
+                    <label class="col-sm-2 control-label"><i class="text-danger">*</i>数量</label>
                     <div class="col-sm-4">
                         <input type="text" class="form-control" data-validetta="required" name="offerQuantityArr"/>
                     </div>
 
-                    <label class="col-sm-2 control-label">*溢短装</label>
+                    <label class="col-sm-2 control-label"><i class="text-danger">*</i>溢短装</label>
                     <div class="col-sm-4">
                         <input type="text" class="form-control" data-validetta="required" name="moreOrLessArr"/>
                     </div>
@@ -94,7 +94,7 @@
             </div>
             <div id="offer-goods-2-items" class="box-container collapse in">
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">*品名</label>
+                    <label class="col-sm-2 control-label"><i class="text-danger">*</i>品名</label>
                     <div class="col-sm-4">
                         <div id="component-selectBox-ItemName-2" inputName="commodityIdArr"></div>
                     </div>
@@ -143,12 +143,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">*数量</label>
+                    <label class="col-sm-2 control-label"><i class="text-danger">*</i>数量</label>
                     <div class="col-sm-4">
                         <input type="text" class="form-control" name="offerQuantityArr"/>
                     </div>
 
-                    <label class="col-sm-2 control-label">*溢短装</label>
+                    <label class="col-sm-2 control-label"><i class="text-danger">*</i>溢短装</label>
                     <div class="col-sm-4">
                         <input type="text" class="form-control" name="moreOrLessArr"/>
                     </div>
@@ -157,7 +157,7 @@
         </div>
 
         <div class="form-group">
-            <label class="col-sm-2 control-label">*价格</label>
+            <label class="col-sm-2 control-label"><i class="text-danger">*</i>价格</label>
             <div class="col-sm-2">
                 <select class="form-control" onchange="showFloatPrice(this)" name="priceModel" id="offer-priceModel">
                 </select>
@@ -190,7 +190,7 @@
         </div>
 
         <div class="form-group">
-            <label class="col-sm-2 control-label">*装货港</label>
+            <label class="col-sm-2 control-label"><i class="text-danger">*</i>装货港</label>
             <div class="col-sm-3">
                 <select class="form-control" data-validetta="required" id="select-loadingPort" name="loadingPortId">
                 	<option value=""></option>
@@ -199,9 +199,9 @@
         </div>
 
         <div class="form-group">
-            <label class="col-sm-2 control-label">*保税区</label>
+            <label class="col-sm-2 control-label"><i class="text-danger">*</i>保税区</label>
             <div class="col-sm-8">
-                <div id="component-radioBoxGroup-bondedAreas" inputName="isBondedArea" inputValue="0"></div>
+                <div id="component-radioBoxGroup-bondedAreas" inputName="isBondedArea" inputValue="0" data-validetta="required"></div>
             </div>
             <div class="col-sm-3" id="offer-bondedAreasPort-box" style="display: none;">
                 <select class="form-control" id="select-bondedAreasPort" name="bondedAreaPortId">
@@ -211,9 +211,9 @@
         </div>
 
         <div class="form-group" id="offer-priceTerm-box">
-            <label class="col-sm-2 control-label">*价格术语</label>
+            <label class="col-sm-2 control-label"><i class="text-danger">*</i>价格术语</label>
             <div class="col-sm-2">
-                <select class="form-control" id="select-priceTerm" name="priceTerm">
+                <select class="form-control" id="select-priceTerm" name="priceTerm" data-validetta="required">
                 	<option value=""></option>
                 </select>
             </div>
@@ -231,12 +231,12 @@
         </div>
 
         <div class="form-group">
-            <label class="col-sm-2 control-label">*报盘有效期</label>
+            <label class="col-sm-2 control-label"><i class="text-danger">*</i>报盘有效期</label>
             <div class="col-sm-4">
                 <input type="text" class="form-control datetimepicker" name="validTime" data-validetta="required"/>
             </div>
 
-            <label class="col-sm-2 control-label">*信用证交单期</label>
+            <label class="col-sm-2 control-label"><i class="text-danger">*</i>信用证交单期</label>
             <div class="col-sm-4">
                 <input type="text" class="form-control mask-number" name="lcPresentationPeriod" data-validetta="required"/>
             </div>
