@@ -54,17 +54,11 @@ public class MemberCompanyController {
 	ContactClient contactClient;
 
 	/**
-	 * 跳转企业logo编辑页面
-	 * 
+	 * 跳转企业外贸资质认证页面
 	 * @return
 	 */
-	@RequestMapping("/editLogo")
-	public String editLogo() {
-		return "/";
-	}
-
 	@RequestMapping("/attest")
-	public String sttest() {
+	public String attest() {
 		return "/member/attestation";
 	}
 

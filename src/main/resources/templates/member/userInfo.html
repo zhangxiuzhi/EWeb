@@ -17,71 +17,73 @@
 			<!--内容-->
 			<div class="content">
 				<!--认证提示，根据用户的企业信息和userGrade权级来判断显示-->
-					<div th:if="${userVo.companyId}==null">
-						<div class="ui-infoTip collapse in" id="ui-tip-approve">
-							<em class="ui-infoTip-icon fa fa-volume-up "></em>
-							<div class="ui-infoTip-close">
-								<em class="fa fa-close" data-toggle="collapse"
-									data-target="#ui-tip-approve"></em>
-							</div>
-							<div class="ui-infoTip-box">
-								您还没有认证成为企业会员<a class="ui-infoTip-link" href="/company/company">立即认证</a>
-							</div>
+				<div th:if="${userVo.companyId}==null">
+					<div class="ui-infoTip collapse in" id="ui-tip-approve">
+						<em class="ui-infoTip-icon fa fa-volume-up "></em>
+						<div class="ui-infoTip-close">
+							<em class="fa fa-close" data-toggle="collapse"
+								data-target="#ui-tip-approve"></em>
+						</div>
+						<div class="ui-infoTip-box">
+							您还没有认证成为企业会员<a class="ui-infoTip-link" href="/company/company">立即认证</a>
 						</div>
 					</div>
-					<div th:unless="${userVo.companyId}==null">
-						<div th:if="${userVo.userGrade}==1">
-							<div th:switch="${company.approvalStatus}">
-								<div  th:case="'0'" class="ui-infoTip collapse in" id="ui-tip-approve">
-									<em class="ui-infoTip-icon fa fa-volume-up "></em>
-									<div class="ui-infoTip-close">
-										<em class="fa fa-close" data-toggle="collapse"
-											data-target="#ui-tip-approve"></em>
-									</div>
-									<div class="ui-infoTip-box">
-										您已认证企业会员<a class="ui-infoTip-link">已提交审核</a>
-									</div>
+				</div>
+				<div th:unless="${userVo.companyId}==null">
+					<div th:if="${userVo.userGrade}==1">
+						<div th:switch="${company.approvalStatus}">
+							<div th:case="'0'" class="ui-infoTip collapse in"
+								id="ui-tip-approve">
+								<em class="ui-infoTip-icon fa fa-volume-up "></em>
+								<div class="ui-infoTip-close">
+									<em class="fa fa-close" data-toggle="collapse"
+										data-target="#ui-tip-approve"></em>
 								</div>
-								<div  th:case="'1'" class="ui-infoTip collapse in" id="ui-tip-approve">
-									<em class="ui-infoTip-icon fa fa-volume-up "></em>
-									<div class="ui-infoTip-close">
-										<em class="fa fa-close" data-toggle="collapse"
-											data-target="#ui-tip-approve"></em>
-									</div>
-									<div class="ui-infoTip-box">
-										您还没有认证成为企业会员<a class="ui-infoTip-link" href="/company/company">立即认证</a>
-									</div>
-								</div>
-								<div th:case="'2'">
-									
-								</div>
+								<div class="ui-infoTip-box">
+									您已认证企业会员<a class="ui-infoTip-link">已提交审核</a>
 								</div>
 							</div>
+							<div th:case="'1'" class="ui-infoTip collapse in"
+								id="ui-tip-approve">
+								<em class="ui-infoTip-icon fa fa-volume-up "></em>
+								<div class="ui-infoTip-close">
+									<em class="fa fa-close" data-toggle="collapse"
+										data-target="#ui-tip-approve"></em>
+								</div>
+								<div class="ui-infoTip-box">
+									您还没有认证成为企业会员<a class="ui-infoTip-link" href="/company/company">立即认证</a>
+								</div>
+							</div>
+							<div th:case="'2'"></div>
 						</div>
+					</div>
+				</div>
 				<!--申请成为企业会员提示，根据用户企业id来判断显示  -->
 				<div th:switch="${userVo.companyId}">
-					<div th:case="null" class="ui-infoTip collapse in" id="ui-tip-subAccount">
+					<div th:case="null" class="ui-infoTip collapse in"
+						id="ui-tip-subAccount">
 						<em class="ui-infoTip-icon  fa fa-volume-up "></em>
-							<div class="ui-infoTip-close">
-								<em class="fa fa-close" data-toggle="collapse"
-									data-target="#ui-tip-subAccount"></em>
-							</div>
-							<div class="ui-infoTip-box">
-								您还可以申请成为企业会员子账号<a href="javascript:void(0)"
-									class="ui-infoTip-link" data-toggle="modal"
-									data-target="#subMember-modal">申请</a>
-							</div>
+						<div class="ui-infoTip-close">
+							<em class="fa fa-close" data-toggle="collapse"
+								data-target="#ui-tip-subAccount"></em>
+						</div>
+						<div class="ui-infoTip-box">
+							您还可以申请成为企业会员子账号<a href="javascript:void(0)"
+								class="ui-infoTip-link" data-toggle="modal"
+								data-target="#subMember-modal">申请</a>
+						</div>
 					</div>
 					<div th:case="*">
 						<div th:unless="${userVo.userGrade}==1">
 							<div th:switch="${userVo.userStatus}">
-								<div th:case="'2'" class="ui-infoTip collapse in" id="ui-tip-subAccount">
+								<div th:case="'2'" class="ui-infoTip collapse in"
+									id="ui-tip-subAccount">
 									<em class="ui-infoTip-icon  fa fa-volume-up "></em>
 									<div class="ui-infoTip-close">
 										<em class="fa fa-close" data-toggle="collapse"
 											data-target="#ui-tip-subAccount"></em>
 									</div>
-									<div  class="ui-infoTip-box">
+									<div class="ui-infoTip-box">
 										您已申请成为企业会员子账号<a class="ui-infoTip-link">已提交审核</a>
 									</div>
 								</div>
@@ -89,7 +91,7 @@
 							</div>
 						</div>
 					</div>
-					</div>
+				</div>
 				<div class="userContent">
 
 					<!--分类-->
@@ -125,22 +127,20 @@
 								<div class="form-group" th:switch="${userVo.userGrade}">
 									<div th:case="'0'">
 										<label class="col-sm-2 control-label">用户名</label>
-										<div class="col-sm-8">
+										<div class="col-sm-4">
 											<input type="hidden" id="userId" name="userId"
-												th:value="${userVo.userId}" />  
-												<input type="text"
-													id="username" name="memberName" class="form-control"
-															th:value="${userVo.memberName}" onblur="checkForm()"/>
+												th:value="${userVo.userId}" /> <input type="text"
+												id="username" name="memberName" class="form-control"
+												th:value="${userVo.memberName}" onblur="checkForm()" />
 										</div>
 									</div>
 									<div th:case="'1'">
 										<label class="col-sm-2 control-label">管理员姓名</label>
-										<div class="col-sm-8">
+										<div class="col-sm-4">
 											<input type="hidden" id="userId" name="userId"
 												th:value="${userVo.userId}" /> <input type="text"
 												id="username" class="form-control"
-												th:value="${userVo.memberName}" readonly="readonly" />
-												<span>更换管理员请联系客服</span>
+												th:value="${userVo.memberName}" readonly="readonly" /> <span>更换管理员请联系客服</span>
 										</div>
 									</div>
 									<div th:case="'2'">
@@ -148,7 +148,7 @@
 										<div class="col-sm-8">
 											<input type="hidden" id="userId" name="userId"
 												th:value="${userVo.userId}" /> <input type="text"
-												id="username"  class="form-control"
+												id="username" class="form-control"
 												th:value="${userVo.memberName}" readonly="readonly" />
 										</div>
 									</div>
@@ -169,21 +169,27 @@
 											th:value="${userVo.mobile}" readonly="readonly" />
 									</div>
 									<div class="col-sm-5">
-										<div class="form-control-static"><a href="/safe/updateMobile">修改手机号</a></div>
+										<div class="form-control-static">
+											<a href="/safe/updateMobile">修改手机号</a>
+										</div>
 									</div>
 								</div>
 								<div class="form-group" th:switch="${userVo.email}">
 									<!-- 邮箱显示 -->
 									<label class="col-sm-2 control-label">电子邮箱</label>
-									<div th:case="null" class="col-sm-5" >
-										<div class="form-control-static"><a href="/safe/verifyMail">点击验证</a></div>
+									<div th:case="null" class="col-sm-5">
+										<div class="form-control-static">
+											<a href="/safe/verifyMail">点击验证</a>
+										</div>
 									</div>
-									<div th:case="*"  class="col-sm-5" >
-										<input type="text" class="form-control" th:value="${userVo.email}" readonly="readonly"/>
+									<div th:case="*" class="col-sm-5">
+										<input type="text" class="form-control"
+											th:value="${userVo.email}" readonly="readonly" />
+										<div class="form-control-static">
+											<a href="/safe/updateMail">更改邮箱</a>
+										</div>
 									</div>
-									<div th:case="*"  class="col-sm-5" >
-										<a href="/safe/updateMail">更改邮箱</a>
-									</div>
+
 								</div>
 
 								<div class="form-group"></div>
@@ -192,70 +198,71 @@
 
 								<!--   *****************************************企业信息 *********************************    -->
 								<div class="form-horizontal" id="company"
-									th:unless="${company.companyId} == 0">
-									<div class="form-group">
-										<label class="col-sm-2 control-label">公司形象:</label>
-										<div class="col-sm-3">
-											<div class="thumbnail">
-												<img src="/images/member-portrait.png" alt="" />
-												<div class="caption text-center" th:unless="${company.companyStatus} == 1">
-													<a href="/member/headSet" class="btn btn-default"
-														role="button">编辑</a>
+									th:unless="${company.companyId} == 0"> 
+										<div class="form-group">
+											<label class="col-sm-2 control-label">公司形象:</label>
+											<div class="col-sm-3">
+												<div class="thumbnail">
+													<img src="/images/member-portrait.png" alt="" />
+													<div class="caption text-center"
+														th:unless="${company.companyStatus} == 1">
+														<a href="/member/headSet" class="btn btn-default"
+															role="button">编辑</a>
+													</div>
+												</div>
+												<div th:unless="${company.logo} == null">
+													<div th:if="${company.companyStatus} == 1">
+														<span>审核中</span>
+													</div>
 												</div>
 											</div>
-											<div th:unless="${company.logo} == null">
-												<div th:if="${company.companyStatus} == 1">
-														<span >审核中</span>
-												</div >
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label">企业帐号</label>
+											<div class="col-sm-8">
+												<input type="text" class="form-control"
+													th:value="${userVo.account}" />
 											</div>
 										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-sm-2 control-label">企业帐号</label>
-										<div class="col-sm-8">
-											<input type="text" class="form-control"
-												th:value="${userVo.account}"/>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-sm-2 control-label">企业名称</label>
-										<div class="col-sm-8">
-											<input type="hidden" id="companyId"
-												th:value="${company.companyId}" /> <input type="text"
-												class="form-control" th:value="${company.companyName}" />
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-sm-2 control-label">外贸资质</label>
-										<div class="col-sm-8" th:switch="${company.isForeignTrade}">
-											<div th:case="'0'">
-												<input value="不具备" /> <a href="/member/headSet">认证外贸资质</a>
-											</div>
-											<div th:case="'1'">
-												<input value="具备" />
-											</div>
-											<div th:case="*">
-												<input value="审核中" />
+										<div class="form-group">
+											<label class="col-sm-2 control-label">企业名称</label>
+											<div class="col-sm-8">
+												<input type="hidden" id="companyId"
+													th:value="${company.companyId}" /> <input type="text"
+													class="form-control" th:value="${company.companyName}" />
 											</div>
 										</div>
-									</div>
-									<div class="form-group" th:unless="${admin} == null">
-										<label class="col-sm-2 control-label">企业名称</label>
-										<div class="col-sm-8">
-											 <input type="text"
-												class="form-control" th:value="${admin}" />
+										<div class="form-group">
+											<label class="col-sm-2 control-label">外贸资质</label>
+											<div class="col-sm-8" th:switch="${company.isForeignTrade}">
+												<div th:case="'0'">
+													<input value="不具备" />
+													<div th:if="${userVo.userGrade} == 1">
+														<a href="/company/attest">认证外贸资质</a>
+													</div>
+												</div>
+												<div th:case="'1'">
+													<input value="具备" />
+												</div>
+												<div th:case="*">
+													<input value="审核中" />
+												</div>
+											</div>
 										</div>
+										<div class="form-group" th:unless="${admin} == null">
+											<label class="col-sm-2 control-label">企业名称</label>
+											<div class="col-sm-8">
+												<input type="text" class="form-control" th:value="${admin}" />
+											</div>
 									</div>
-									
-									
 								</div>
 								<div class="form-group text-center form-group-btns">
-									<button class="btn btn-primary" type="button" onclick="submitUpd()">提交</button>
+									<button class="btn btn-primary" type="button"
+										onclick="submitUpd()">提交</button>
 								</div>
 							</div>
 						</form>
 					</div>
-
 				</div>
 			</div>
 		</div>
@@ -278,13 +285,15 @@
 						<div class="form-group">
 							<label class="col-sm-2 control-label">企业全称</label>
 							<div class="col-sm-8">
-								<input type="text" id="tradeName" class="form-control" />
+								<input type="text" id="tradeName" class="form-control"
+									placeholder="请输入企业全称" />
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">姓名</label>
 							<div class="col-sm-8">
-								<input type="text" id="applyName" class="form-control" />
+								<input type="text" id="applyName" class="form-control"
+									placeholder="请输入申请人真实姓名" />
 							</div>
 						</div>
 						<div class="form-group">
@@ -299,14 +308,11 @@
 			</div>
 		</div>
 	</div>
-
 	<!--页脚，链接-->
 	<div th:replace="/fragments/foot::footer"></div>
 
 	<!--控制-->
 	<script th:src="@{/js/module/member/member.userInfo.js}"></script>
-
-
 </body>
 </html>
 
