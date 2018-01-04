@@ -79,19 +79,24 @@ function JBSFrame_addOffer() {
         if($Split.length>0) {
             this.toggle_Split = ReactDOM.render(React.createElement(ComponentToggle, {
                 inputName: $Split.attr("inputName"),
+                inputValue:$ItemName.attr("inputValue"),
                 onChange:showQDL//显示起订量
             }), $Split[0]);
         }
         //匿名
         var $Anonym = $("#component-toggle-anonym");
         if($Anonym.length>0) {
-            this.toggle_anonym = ReactDOM.render(React.createElement(ComponentToggle, {inputName: $Anonym.attr("inputName")}), $Anonym[0]);
+            this.toggle_anonym = ReactDOM.render(React.createElement(ComponentToggle, {
+            	inputName: $Anonym.attr("inputName"),
+            	inputValue:$ItemName.attr("inputValue")
+            	}), $Anonym[0]);
         }
         //一船俩货
         var $1ship2goods = $("#component-radioBoxGroup-1ship2goods");
         if($1ship2goods.length>0){
             this.toggle_1ship2goods = ReactDOM.render(React.createElement(ComponentToggle,{
                 inputName:$1ship2goods.attr("inputName"),
+                inputValue:$ItemName.attr("inputValue"),
                 onChange:show2goods    //显示2个商品
             }), $1ship2goods[0]);
         }
@@ -614,18 +619,23 @@ function changeIndicatorValue2(value,label){
 }
 //远期期货商品 品名联动
 function changeIronCommodityIndicatorIndex(node,index){
-  var ironAttr = JSON.parse($("#ironAttributeLinkJson").html());
-  for(var attr in ironAttr){
-      if(attr == node.label){
-          var iron = ironAttr[attr];
-          for(var i=0;i<iron.length;i++){
-              $("#indicator-"+iron[i].text+"-"+index).val(iron[i].value);
-              if (iron[i].text == 'GRAIN') {
-                	$("sizeIndicators-"+index).val(iron[i].value);
-                }
-          }
-      }
-  }
+	if (!node || node == undefined) {
+		$("#indicator-table-"+ index +" input.form-control").val("");
+	}
+	else {
+		var ironAttr = JSON.parse($("#ironAttributeLinkJson").html());
+		  for(var attr in ironAttr){
+		      if(attr == node.label){
+		          var iron = ironAttr[attr];
+		          for(var i=0;i<iron.length;i++){
+		              $("#indicator-"+iron[i].text+"-"+index).val(iron[i].value);
+		              if (iron[i].text == 'GRAIN') {
+		                	$("sizeIndicators-"+index).val(iron[i].value);
+		                }
+		          }
+		      }
+		  }
+	}
 }
 /* 远期现货 品名指标联动  end***/
 

@@ -350,18 +350,23 @@ function changeIndicatorValue2(value,label){
 }
 //远期期货商品 品名联动
 function changeIronCommodityIndicatorIndex(node,index){
-  var ironAttr = JSON.parse($("#ironAttributeLinkJson").html());
-  for(var attr in ironAttr){
-      if(attr == node.label){
-          var iron = ironAttr[attr];
-          for(var i=0;i<iron.length;i++){
-              $("#indicator-"+iron[i].text+"-"+index).val(iron[i].value);
-              if (iron[i].text == 'GRAIN') {
-              	$("sizeIndicators-"+index).val(iron[i].value);
-            }
-          }
-      }
-  }
+	if (!node || node == undefined) {
+		$("#indicator-table-"+ index +" input.form-control").val("");
+	}
+	else {
+		var ironAttr = JSON.parse($("#ironAttributeLinkJson").html());
+		  for(var attr in ironAttr){
+		      if(attr == node.label){
+		          var iron = ironAttr[attr];
+		          for(var i=0;i<iron.length;i++){
+		              $("#indicator-"+iron[i].text+"-"+index).val(iron[i].value);
+		              if (iron[i].text == 'GRAIN') {
+		                	$("sizeIndicators-"+index).val(iron[i].value);
+		                }
+		          }
+		      }
+		  }
+	}
 }
 
 //显示隐藏起订量

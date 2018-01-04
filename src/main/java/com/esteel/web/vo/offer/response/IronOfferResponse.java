@@ -26,14 +26,40 @@ public class IronOfferResponse extends IronOfferMainVo implements Serializable {
 	 */
 	private String offerStatusText;
 	/**
-	 * 是否匿名文本
+	 * 是否匿名 文本
+	 * 扩展字段
 	 */
 	private String isAnonymousText;
+	/**
+	 * 是否指定 文本
+	 * 扩展字段
+	 */
+	private String isDesignationText;
+	/**
+	 * 是否议价 文本
+	 * 扩展字段
+	 */
+	private String isDiscussPriceText;
+	/**
+	 * 是否一船多货 文本
+	 * 扩展字段
+	 */
+	private String isMultiCargoText;
+	/**
+	 * 是否拆分 文本
+	 * 扩展字段
+	 */
+	private String isSplitText;
 	/**
 	 * 发布时间 文本
 	 * 扩展字段
 	 */
 	private String publishTimeText;
+	/**
+	 * 交易方向 文本
+	 * 扩展字段
+	 */
+	private String tradeDirectionText;
 	/**
 	 * 交易方式 文本
 	 * 扩展字段
@@ -206,5 +232,35 @@ public class IronOfferResponse extends IronOfferMainVo implements Serializable {
 	}
 	public void setDeliveryPeriod(String deliveryPeriod) {
 		this.deliveryPeriod = deliveryPeriod;
+	}
+	public String getIsDesignationText() {
+		return isDesignationText;
+	}
+	public void setIsDesignationText(String isDesignationText) {
+		this.isDesignationText = isDesignationText;
+	}
+	public String getIsDiscussPriceText() {
+		return isDiscussPriceText;
+	}
+	public void setIsDiscussPriceText(String isDiscussPriceText) {
+		this.isDiscussPriceText = isDiscussPriceText;
+	}
+	public String getIsMultiCargoText() {
+		return isMultiCargoText;
+	}
+	public void setIsMultiCargoText(String isMultiCargoText) {
+		this.isMultiCargoText = isMultiCargoText;
+	}
+	public String getIsSplitText() {
+		return isSplitText;
+	}
+	public void setIsSplitText(String isSplitText) {
+		this.isSplitText = isSplitText;
+	}
+	public String getTradeDirectionText() {
+		return tradeDirectionText;
+	}
+	public void setTradeDirectionText(String tradeDirectionText) {
+		this.tradeDirectionText = tradeDirectionText;
 	}
 }

@@ -69,32 +69,32 @@ public class IronOfferClauseVo implements Serializable {
 	@Digits(integer = 10, fraction = 0, message = "请填完 交货数量标准。")
 	private String measure_method;
 	/**
-	 * 交易者类型 0:卖方, 1:买方
+	 * 交易者类型 数据范围:option
 	 */
 	@Digits(integer = 10, fraction = 0, message = "请填完 货物规格标准。")
 	private String trader_type;
 	/**
-	 * 运输费承担方
+	 * 运输费承担方 数据范围:option
 	 */
 	@Digits(integer = 10, fraction = 0, message = "请填完 费用条款。")
 	private String transport_costs_bearer;
 	/**
-	 * 代理费承担方
+	 * 代理费承担方 数据范围:option
 	 */
 	@Digits(integer = 10, fraction = 0, message = "请填完 费用条款。")
 	private String agency_fee_bearer;
 	/**
-	 * 内贸港口建设费承担方
+	 * 内贸港口建设费承担方 数据范围:option
 	 */
 	@Digits(integer = 10, fraction = 0, message = "请填完 费用条款。")
 	private String port_construction_fee_bearer;
 	/**
-	 * 二程船运费承担方
+	 * 二程船运费承担方 数据范围:option
 	 */
 	@Digits(integer = 10, fraction = 0, message = "请填完 费用条款。")
 	private String second_vessel_fee_bearer;
 	/**
-	 * 过磅或水尺费承担方
+	 * 过磅或水尺费承担方 数据范围:option
 	 */
 	@Digits(integer = 10, fraction = 0, message = "请填完 费用条款。")
 	private String weighing_fee_bearer;
@@ -105,7 +105,7 @@ public class IronOfferClauseVo implements Serializable {
 	@Pattern(regexp = "^\\d{1,3}$", message = "免堆期：必须为整数。")
 	private String free_storage_several_days;
 	/**
-	 * 超期产生的堆存费承担方
+	 * 超期产生的堆存费承担方 数据范围:option
 	 */
 	@Digits(integer = 10, fraction = 0, message = "请填完 费用条款。")
 	private String overdue_storage_fee_bearer;

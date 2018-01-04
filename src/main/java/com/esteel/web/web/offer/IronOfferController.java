@@ -89,7 +89,7 @@ public class IronOfferController {
     		counterpartyIdList = 
     				Arrays.asList(counterpartyIdArr).stream()
     				.filter(counterpartyId -> counterpartyId != null && counterpartyId.trim().matches("^\\d+$"))
-    				.map(counterpartyId -> Long.parseLong(counterpartyId.trim())).collect(Collectors.toList()); 
+    				.map(counterpartyId -> NumberUtils.toLong(counterpartyId.trim())).collect(Collectors.toList()); 
     	}
     	
     	if (counterpartyIdList != null && !counterpartyIdList.isEmpty()) {
@@ -128,7 +128,7 @@ public class IronOfferController {
     	
     	// 品名
     	CommodityVo commodity = new CommodityVo();
-    	commodity.setCommodityId(Long.parseLong(inStockOfferRequest.getCommodityId()));
+    	commodity.setCommodityId(NumberUtils.toLong(inStockOfferRequest.getCommodityId()));
     	
     	CommodityVo commodityVo = baseClient.getCommodity(commodity);
     	if (commodityVo != null) {
@@ -137,7 +137,7 @@ public class IronOfferController {
     	
     	// 港口
     	PortVo port = new PortVo();
-    	port.setPortId(Long.parseLong(inStockOfferRequest.getPortId()));
+    	port.setPortId(NumberUtils.toLong(inStockOfferRequest.getPortId()));
     	
     	PortVo portVo = baseClient.getPort(port);
     	if (portVo != null) {
@@ -222,7 +222,7 @@ public class IronOfferController {
     		counterpartyIdList = 
     				Arrays.asList(counterpartyIdArr).stream()
     				.filter(counterpartyId -> counterpartyId != null && counterpartyId.trim().matches("^\\d+$"))
-    				.map(counterpartyId -> Long.parseLong(counterpartyId.trim())).collect(Collectors.toList()); 
+    				.map(counterpartyId -> NumberUtils.toLong(counterpartyId.trim())).collect(Collectors.toList()); 
     	}
     	
     	if (counterpartyIdList != null && !counterpartyIdList.isEmpty()) {
@@ -260,7 +260,7 @@ public class IronOfferController {
     	// 在保税区 没有这些数据: 价格术语, 目的港, 运输状态
     	if (isBondedArea) {
     		// 保税区港口
-        	long bondedAreaPortId = Long.parseLong(transportRequest.getBondedAreaPortId());
+        	long bondedAreaPortId = NumberUtils.toLong(transportRequest.getBondedAreaPortId());
     		futuresOfferRequest.setPortId(bondedAreaPortId + "");
     		
     		queryport.setPortId(bondedAreaPortId);
@@ -299,7 +299,7 @@ public class IronOfferController {
     	
     	// 品名
     	CommodityVo commodity = new CommodityVo();
-    	commodity.setCommodityId(Long.parseLong(firstCargo.getCommodityId()));
+    	commodity.setCommodityId(NumberUtils.toLong(firstCargo.getCommodityId()));
     	CommodityVo commodityVo = baseClient.getCommodity(commodity);
     	if (commodityVo != null) {
     		firstCargo.setCommodityName(commodityVo.getCommodityName());
@@ -315,7 +315,7 @@ public class IronOfferController {
     		
     		// 品名
         	commodity = new CommodityVo();
-        	commodity.setCommodityId(Long.parseLong(secondCargo.getCommodityId()));
+        	commodity.setCommodityId(NumberUtils.toLong(secondCargo.getCommodityId()));
         	commodityVo = baseClient.getCommodity(commodity);
         	if (commodityVo != null) {
         		secondCargo.setCommodityName(commodityVo.getCommodityName());
@@ -384,7 +384,7 @@ public class IronOfferController {
     		counterpartyIdList = 
     				Arrays.asList(counterpartyIdArr).stream()
     				.filter(counterpartyId -> counterpartyId != null && counterpartyId.trim().matches("^\\d+$"))
-    				.map(counterpartyId -> Long.parseLong(counterpartyId.trim())).collect(Collectors.toList()); 
+    				.map(counterpartyId -> NumberUtils.toLong(counterpartyId.trim())).collect(Collectors.toList()); 
     	}
     	
     	if (counterpartyIdList != null && !counterpartyIdList.isEmpty()) {
@@ -423,7 +423,7 @@ public class IronOfferController {
     	
     	// 品名
     	CommodityVo commodity = new CommodityVo();
-    	commodity.setCommodityId(Long.parseLong(pricingOfferRequest.getCommodityId()));
+    	commodity.setCommodityId(NumberUtils.toLong(pricingOfferRequest.getCommodityId()));
     	CommodityVo commodityVo = baseClient.getCommodity(commodity);
     	if (commodityVo != null) {
     		offerAttachVo.setCommodityName(commodityVo.getCommodityName());
@@ -431,7 +431,7 @@ public class IronOfferController {
     	
     	// 港口
     	PortVo port = new PortVo();
-    	port.setPortId(Long.parseLong(pricingOfferRequest.getPortId()));
+    	port.setPortId(NumberUtils.toLong(pricingOfferRequest.getPortId()));
     	
     	PortVo portVo = baseClient.getPort(port);
     	if (portVo != null) {
@@ -517,7 +517,7 @@ public class IronOfferController {
     		counterpartyIdList = 
     				Arrays.asList(counterpartyIdArr).stream()
     				.filter(counterpartyId -> counterpartyId != null && counterpartyId.trim().matches("^\\d+$"))
-    				.map(counterpartyId -> Long.parseLong(counterpartyId.trim())).collect(Collectors.toList()); 
+    				.map(counterpartyId -> NumberUtils.toLong(counterpartyId.trim())).collect(Collectors.toList()); 
     	}
     	
     	if (counterpartyIdList != null && !counterpartyIdList.isEmpty()) {
@@ -556,7 +556,7 @@ public class IronOfferController {
     	
     	// 品名
     	CommodityVo commodity = new CommodityVo();
-    	commodity.setCommodityId(Long.parseLong(inStockOfferRequest.getCommodityId()));
+    	commodity.setCommodityId(NumberUtils.toLong(inStockOfferRequest.getCommodityId()));
     	
     	CommodityVo commodityVo = baseClient.getCommodity(commodity);
     	if (commodityVo != null) {
@@ -565,7 +565,7 @@ public class IronOfferController {
     	
     	// 港口
     	PortVo port = new PortVo();
-    	port.setPortId(Long.parseLong(inStockOfferRequest.getPortId()));
+    	port.setPortId(NumberUtils.toLong(inStockOfferRequest.getPortId()));
     	
     	PortVo portVo = baseClient.getPort(port);
     	if (portVo != null) {
@@ -639,7 +639,7 @@ public class IronOfferController {
     		counterpartyIdList = 
     				Arrays.asList(counterpartyIdArr).stream()
     				.filter(counterpartyId -> counterpartyId != null && counterpartyId.trim().matches("^\\d+$"))
-    				.map(counterpartyId -> Long.parseLong(counterpartyId.trim())).collect(Collectors.toList()); 
+    				.map(counterpartyId -> NumberUtils.toLong(counterpartyId.trim())).collect(Collectors.toList()); 
     	}
     	
     	if (counterpartyIdList != null && !counterpartyIdList.isEmpty()) {
@@ -672,7 +672,7 @@ public class IronOfferController {
     	// 在保税区 没有这些数据: 价格术语, 目的港, 运输状态
     	if (isBondedArea) {
     		// 保税区港口
-        	long bondedAreaPortId = Long.parseLong(transportRequest.getBondedAreaPortId());
+        	long bondedAreaPortId = NumberUtils.toLong(transportRequest.getBondedAreaPortId());
     		futuresOfferRequest.setPortId(bondedAreaPortId + "");
     		
     		queryport.setPortId(bondedAreaPortId);
@@ -711,7 +711,7 @@ public class IronOfferController {
     	
     	// 品名
     	CommodityVo commodity = new CommodityVo();
-    	commodity.setCommodityId(Long.parseLong(firstCargo.getCommodityId()));
+    	commodity.setCommodityId(NumberUtils.toLong(firstCargo.getCommodityId()));
     	CommodityVo commodityVo = baseClient.getCommodity(commodity);
     	if (commodityVo != null) {
     		firstCargo.setCommodityName(commodityVo.getCommodityName());
@@ -727,7 +727,7 @@ public class IronOfferController {
     		
     		// 品名
         	commodity = new CommodityVo();
-        	commodity.setCommodityId(Long.parseLong(secondCargo.getCommodityId()));
+        	commodity.setCommodityId(NumberUtils.toLong(secondCargo.getCommodityId()));
         	commodityVo = baseClient.getCommodity(commodity);
         	if (commodityVo != null) {
         		secondCargo.setCommodityName(commodityVo.getCommodityName());
@@ -791,7 +791,7 @@ public class IronOfferController {
     		counterpartyIdList = 
     				Arrays.asList(counterpartyIdArr).stream()
     				.filter(counterpartyId -> counterpartyId != null && counterpartyId.trim().matches("^\\d+$"))
-    				.map(counterpartyId -> Long.parseLong(counterpartyId.trim())).collect(Collectors.toList()); 
+    				.map(counterpartyId -> NumberUtils.toLong(counterpartyId.trim())).collect(Collectors.toList()); 
     	}
     	
     	if (counterpartyIdList != null && !counterpartyIdList.isEmpty()) {
@@ -830,7 +830,7 @@ public class IronOfferController {
     	
     	// 品名
     	CommodityVo commodity = new CommodityVo();
-    	commodity.setCommodityId(Long.parseLong(pricingOfferRequest.getCommodityId()));
+    	commodity.setCommodityId(NumberUtils.toLong(pricingOfferRequest.getCommodityId()));
     	CommodityVo commodityVo = baseClient.getCommodity(commodity);
     	if (commodityVo != null) {
     		offerAttachVo.setCommodityName(commodityVo.getCommodityName());
@@ -838,7 +838,7 @@ public class IronOfferController {
     	
     	// 港口
     	PortVo port = new PortVo();
-    	port.setPortId(Long.parseLong(pricingOfferRequest.getPortId()));
+    	port.setPortId(NumberUtils.toLong(pricingOfferRequest.getPortId()));
     	
     	PortVo portVo = baseClient.getPort(port);
     	if (portVo != null) {
