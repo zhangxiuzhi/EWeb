@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.esteel.web.config.EsteelFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
@@ -35,6 +36,9 @@ import java.io.IOException;
 //@EnableOAuth2Sso
 //@EnableOAuth2Client
 public class WebApplication extends WebSecurityConfigurerAdapter {
+
+    @Value("${ssourl}")
+    private String ssourl;
 
     @Autowired
     OAuth2ClientAuthenticationProcessingFilter oauth2ClientAuthenticationProcessingFilter;
@@ -73,8 +77,19 @@ public class WebApplication extends WebSecurityConfigurerAdapter {
             @Override
             public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
                 String target = request.getParameter("_target");
+
                 if (!StringUtils.isEmpty(target)){
-                    response.sendRedirect(target);
+                    //退出sso服务器
+                    if (!target.toUpperCase().startsWith("HTTP://")){
+                        String requestUrl = request.getRequestURL().toString();
+                        String requestUri = request.getRequestURI();
+                        int p = requestUrl.indexOf(requestUri);
+                        String serverUrl = requestUrl.substring(0, p);
+                        target = serverUrl+target;
+
+                    }
+                    response.sendRedirect(ssourl+"/logout?_target="+target);
+//                    response.sendRedirect(target);
                 }
             }
         };
