@@ -34,7 +34,7 @@ jQuery.UtrialAvatarCutter = function(config){
 	}
 
 	/*
-	 *	ÖØĞÂ¼ÓÔØÍ¼Æ¬
+	 *
 	 */
 	this.reload = function(img_url){
 		if(img_url!=null && img_url != ""){
@@ -51,6 +51,10 @@ jQuery.UtrialAvatarCutter = function(config){
 	$("#"+img_content_id+" img").attr("id",img_id);
 
 	var preview = function(c) {
+		//è‡ªå®šçš„äº‹ä»¶
+		if(config.onChange){
+			config.onChange(c);
+		}
 		if ( c.w == 0 || c.h == 0 ) {
 			api.setSelect([ x, y, x+w, y+h ]);
 			api.animateTo([ x, y, x+w, y+h ]);
@@ -71,6 +75,7 @@ jQuery.UtrialAvatarCutter = function(config){
 				marginTop: '-' + Math.round(ry * y) + 'px'
 			});
 		}
+
 	}
 
 	this.init = function(){
@@ -98,13 +103,13 @@ jQuery.UtrialAvatarCutter = function(config){
 		
 		x = ((ow - select_width) / 2);
 		y = ((oh - select_height) / 2);
-		//ÕâÊÇÔ­JcropÅäÖÃ,ĞŞ¸Ä´Ë´¦¿ÉĞŞ¸ÄJcropµÄÆäËü¸÷ÖÖ¹¦ÄÜ
+		//jcrop
 		api = $.Jcrop('#'+img_id,{ 
-			aspectRatio: 1,
+			//aspectRatio: 1,
 			onChange: preview,
 			onSelect: preview
 		});
-		//ÉèÖÃÑ¡Ôñ¿òÄ¬ÈÏÎ»ÖÃ
+		//
 		api.animateTo([ x, y, x+select_width, y+select_height ]);
 		
 	}
