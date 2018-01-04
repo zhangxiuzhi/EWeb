@@ -100,10 +100,10 @@ function upload(elem){
 		}
     });
 }
-//普通会员操作
+//企业会员操作
 function confirm(){
 	//参数
-	var rank = 1; //表示操作为普通会员
+	var rank = 2; //表示操作为企业会员
 	var fileId = $("#filestr"); //文件类型
 	var imgType = $("#filetype"); //文件字符串
 	
@@ -116,7 +116,7 @@ function confirm(){
 	esteel_member_headSet.ajaxRequest({
 		url : "/user/imageCut",
 		data : {
-			rank : 1,
+			rank : 2,
 			fileId : 1,
 			imgType : 1,
 			x : 1,
