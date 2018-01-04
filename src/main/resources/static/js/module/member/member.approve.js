@@ -242,15 +242,19 @@ function chenckForm() {
 		status = false;
 	}
 	if (r1 == "" && r2 == "") {
-		esteel_member_approve.insertErrorBubble("shshixianr", "请选择注册地址");
+		//esteel_member_approve.insertErrorBubble("shshixianr", "请选择注册地址");
+		esteel_member_approve.selectBox_provinces.insertErrorBubble("请选择注册地址");
+		esteel_member_approve.selectBox_city.insertErrorBubble("请选择注册地址");
 		status = false;
 	}
 	if (c1 == "" && c2 == "") {
-		esteel_member_approve.insertErrorBubble("shshixianc", "请选择联系地址");
+		//esteel_member_approve.insertErrorBubble("shshixianc", "请选择联系地址");
+		esteel_member_approve.selectBox_ConProvince.insertErrorBubble("请选择联系地址");
+		esteel_member_approve.selectBox_ConCity.insertErrorBubble("请选择联系地址");
 		status = false;
 	}
 	if (conAddr == null || conAddr == "") {
-		esteel_member_approve.insertErrorBubble("regAddress", "通信地址不能为空");
+		esteel_member_approve.insertErrorBubble("conAddress", "通信地址不能为空");
 		status = false;
 	}
 	if (agent == null || agent == "") {
@@ -263,7 +267,9 @@ function chenckForm() {
 		status = false;
 	}
 	if (file1 == "" || file2 == "") {
-		alert("请上传身份证附件正反面");
+		//alert("请上传身份证附件正反面");
+		esteel_member_approve.insertErrorBubble("file1", "请上传身份证附件正面");
+		esteel_member_approve.insertErrorBubble("file2", "请上传身份证附件反面");
 		status = false;
 	}
 	if (legal == null || legal == "") {

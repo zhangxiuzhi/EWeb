@@ -81,16 +81,6 @@ $(document).ready(function(e) {
 
 });
 
-
-// 确认注册协议
-function confirmRegisterRule(ckb) {
-	if (!ckb.checked) {
-		$("#register-submit").addClass("disabled");
-	} else {
-		$("#register-submit").removeClass("disabled");
-	}
-}
-
 // 发送验证码
 function sendSms() {
 	var phone = $("#mobile").val();
@@ -105,12 +95,12 @@ function sendSms() {
 		}
 	}, function(result) {
 		alert("已发送");
+		$("#register-btn-getValidateCode").addClass("disabled");
 		countDownSendSms();
 	});
 }
 //验证码倒计时
 function countDownSendSms(){
-	$("#register-btn-getValidateCode").addClass("disabled");
 	var s = 60;
 	var clock = setInterval(function(){
 		if(s ==0){
@@ -123,13 +113,13 @@ function countDownSendSms(){
 	},1000)
 
 }
-
+//手机验证
 var status = true;
 function checkNo(){
 	var phone = $("#mobile").val();
 	if (phone.length == 0) {
 		status = false;
-		esteel_register.insertErrorBubble("mobile", "手机号码不能空");
+		esteel_register.insertErrorBubble("mobile", "请输入手机号");
 	} else {
 		if (phone.length == 11) {
 			// 正则验证
@@ -143,11 +133,12 @@ function checkNo(){
 					}
 				}, function(data,msg) {
 					if(data!=null){
-						status = false;
-						esteel_register.insertErrorBubble("mobile", "该号码已被注册");
+						status = true;
+						esteel_register.insertErrorBubble("mobile", "");
 					}else{
-						status= true;
-						esteel_register.insertCorrectBubble("mobile", "该号码可用");
+						status= false;
+						alert("该号码还未注册，请您先注册");
+						esteel_register.insertErrorBubble("mobile", "该号码还未注册，请您先注册");
 					}
 				});
 			} else {
@@ -160,56 +151,37 @@ function checkNo(){
 		}
 	}
 }
-// 注册
-function register() {
+function checkCode(){
+	var codes = $("#code").val();
+	if(codes==""){
+		esteel_register.insertErrorBubble("code", "请输入验证码");
+		status = false;
+	}
+	if(codes.length!=6){
+		esteel_register.insertErrorBubble("code", "请输入6为验证码");
+		status = false;
+	}else{
+		esteel_register.insertErrorBubble("code", "");
+	}
+	
+}
+//验证身份
+function submitDate() {
+	if(status=="false"){
+		return;
+	}
 	var phone = $("#mobile").val();
 	var codes = $("#code").val();
-	var pwd = $("#password").val();
-	var vcsrf = $("#_csrf").val();
-	// 手机号码验证
-	// 验证码验证
-	if (codes.length == 0) {
-		esteel_register.insertErrorBubble("code", "验证码不能为空");
-	}else if(codes.length !=6){
-		esteel_register.insertErrorBubble("code", "请输入6位验证码");
-	}
-	// 密码验证
-	var firm = $("#firmPwd").val();
-	var len = $("#password").val().length;
-	if (len == 0) {
-		esteel_register.insertErrorBubble("password", "请输入密码");
-	} else {
-		if (pwd.length >= 6 && pwd.length <= 20) {
-
-		} else {
-			esteel_register.insertErrorBubble("password", "密码格式不正确");
-			return;
-		}
-	}
-	if (firm.length == 0) {
-		esteel_register.insertErrorBubble("firmPwd", "请输入确认密码");
-		return;
-	} else {
-		if (firm != pwd) {
-			esteel_register.insertErrorBubble("firmPwd", "两次密码输入不一致");
-			return;
-		}
-	}
-	if(status=='false'){
-		alert("请确保手机号正确且未被注册");
-		return;
-	}
 	// 注册
-	esteel_register.ajaxRequest({ url : "/register/register",
+	esteel_register.ajaxRequest({ url : "/register/findPwd",
 		data : {
 			mobile : phone,
 			code : codes,
-			password : pwd
 		}
 	}, function(data,msg) { 
-		if (data!=null) {
+		if (msg=="1") {
 			// 跳转注册成功页面
-			window.location.href = "/user/success";
+			window.location.href = "/register/resetPwd";
 		} else {
 			alert("注册失败，请确保验证码和密码正确");
 		}

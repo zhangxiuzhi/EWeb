@@ -1,6 +1,6 @@
 .react-radioBox {
   position: relative;
-  margin-bottom: 15px; }
+  margin-bottom: 0px; }
   .react-radioBox .radio-inline {
     position: relative;
     display: inline-block;
@@ -16,7 +16,8 @@
     clip: rect(0 0 0 0); }
   .react-radioBox label {
     margin: 0;
-    cursor: pointer; }
+    cursor: pointer;
+    vertical-align: -webkit-baseline-middle; }
   .react-radioBox .radio {
     position: relative;
     display: inline-block;
@@ -29,7 +30,7 @@
     border: 2px solid #aaa;
     padding: 0;
     margin: 0 5px 0 0;
-    vertical-align: bottom; }
+    vertical-align: -webkit-baseline-middle; }
     .react-radioBox .radio .point {
       position: absolute;
       display: block;

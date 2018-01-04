@@ -8,53 +8,51 @@
             仅支持JPG、PNG、JPEG、BMP格式，文件小于4M
         </div>
         <div class="img-big img-count">
-            <img id="picture_original" src="http://files.jb51.net/demoimg/201003/634030306987187500.jpg"/>
+           <form name="dataForm" enctype="multipart/form-data"> 
+           		<a href="javascript:;" class="btn-file">选择你要上传的图像
+                    <input id="file1" name="file" type="file" onchange="upload(this)">
+                     <input type="hidden" id="file1-text"/>
+           		 </a>
+           </form>
         </div>
-        <div class="save"><button type="button" id="save_btn">确定</button></div>
-        <div id="picture_original">
-            <img src="/images/111.jpg" alt="" style="width: 50%;height:50%;">
+        <div>
+           	<input type="text" id="filestr"/>
+           	<input type="text" id="filetype"/>
         </div>
+        <div class="save"><button type="button" id="save_btn" class="btn btn-primary" onclick="confirm()">确定</button></div>
     </div>
 
     <div class="uh-right">
         <h3>效果预览</h3>
-        你上传的图片会自动生成2种尺寸，请注意小尺寸的头像是否清晰
+            你上传的图片会自动生成2种尺寸，请注意小尺寸的头像是否清晰
         <!--缩略图-->
         <div class="preview-container">
-            <div id="picture_100"></div>
+            <div id="picture_100" class="preview-container1 img-count">暂无预览</div>
             <div class="size">100*100像素</div>
         </div>
         <div class="preview-container">
-            <div id="picture_50"></div>
+            <div id="picture_50" class="preview-container2 img-count">暂无预览</div>
             <div class="size">50*50像素</div>
         </div>
     </div>
+
+
+
+
 </div>
 <link rel="Stylesheet" href="/jq/ImgCutter//jquery.Jcrop.css"/>
 <script src="/jq/ImgCutter/jquery.Jcrop.min.js"></script>
 <script src="/jq/ImgCutter/jQuery.UtrialAvatarCutter.js"></script>
 <script>
+   /*  $(document).ready(function(){
 
-    function upload(){
-        $.ajaxFileUpload({
-            url:'/user/uploadFile',
-            secureuri:false,
-            fileElementId:"uploadFile",//file标签的id
-            dataType: 'json',
-            success: function (data) {
-                var status=data.status;
-                var message=data.message;
-                if("success"==status){
-                    window.location.href = "/member/user_head_cut.htm?imgUrl="+message;
-                }else{
-                    alert("上传失败");
-                    $("#uploadFile").change(function(){
-                        upload();
-                    });
-                }
-            }
+        $("#uploadFile").change(function(){
+            upload();
         });
-    }
+
+    });
+ */
+   
     /*
     var cutter = new jQuery.UtrialAvatarCutter(
             {

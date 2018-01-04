@@ -25,7 +25,7 @@ function JBSFrame_member_userInfo() {
 				{ text: "女", value: "2",name:"user-grade"}
 			],
 			inputName:$gender.attr("inputName"),
-			value:""
+			value:"1"
 		}), $gender[0]);
 
 	}

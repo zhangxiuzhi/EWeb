@@ -62,7 +62,7 @@ ul, li {
   color: #999999; }
 
 .text-info {
-  color: #20b0de !important; }
+  color: #5c90d2 !important; }
 
 .text-danger {
   color: #de211d !important; }
@@ -331,6 +331,8 @@ header
     width: 100%;
     height: 39px;
     border-bottom: 1px solid #e7e7e7; }
+  .header a {
+    color: #4B4C4D; }
 
 .main-nav ul, .main-nav li {
   padding: 0;
@@ -726,6 +728,14 @@ body.member {
       background: #323232;
       color: #b3b5ba;
       border-top: 1px solid #444; }
+  body.member .validetta-msg {
+    position: absolute;
+    display: table;
+    top: 0;
+    left: 0;
+    padding-left: 22px;
+    font-size: 12px;
+    vertical-align: middle; }
 
 /*侧栏*/
 .sidebar {
@@ -874,20 +884,26 @@ body.member {
   color: #ced4e0; }
 
 .box-container {
-  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.075);
   padding: 15px 10px 0px 10px;
   position: relative;
   margin-bottom: 15px; }
-  .box-container .box-container-title {
-    background: #fff;
-    width: 100px;
-    height: 30px;
-    border-bottom: 1px solid #ccc;
-    border-right: 1px solid #ccc;
-    margin-left: -11px;
-    margin-top: -16px;
-    text-align: center;
-    margin-bottom: 20px; }
+
+.box-container-title {
+  background: #fff;
+  width: 100%;
+  padding: 10px 15px;
+  line-height: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.075);
+  background: rgba(0, 0, 0, 0.025);
+  border-bottom: none;
+  cursor: pointer; }
+
+.box-container-title.collapsed {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.075);
+  margin-bottom: 15px; }
+  .box-container-title.collapsed .fa-caret-down:before {
+    content: "\f0d8"; }
 
 /*--------------------------------------
 
@@ -1012,7 +1028,10 @@ member
     margin-bottom: 20px; }
   .update-head .img-big {
     width: 602px;
-    height: 300px; }
+    height: 300px;
+    position: relative; }
+    .update-head .img-big img {
+      margin: 0 auto; }
   .update-head .btn-file {
     position: relative;
     display: inline-block;
@@ -1046,13 +1065,21 @@ member
       position: relative;
       margin-top: 20px; }
     .update-head .uh-right .preview-container1 {
-      width: 150px;
-      height: 150px;
-      margin-top: 0; }
-    .update-head .uh-right .preview-container2 {
       width: 100px;
       height: 100px;
       margin-top: 0; }
+      .update-head .uh-right .preview-container1 img {
+        position: absolute;
+        left: 0;
+        top: 0; }
+    .update-head .uh-right .preview-container2 {
+      width: 50px;
+      height: 50px;
+      margin-top: 0; }
+      .update-head .uh-right .preview-container2 img {
+        position: absolute;
+        left: 0;
+        top: 0; }
     .update-head .uh-right .size {
       margin-top: 2px; }
 

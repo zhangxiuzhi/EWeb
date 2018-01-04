@@ -1,12 +1,12 @@
 package com.esteel.web.web;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,9 @@ import com.esteel.web.service.LogVerityCodeClient;
 import com.esteel.web.service.MemberClient;
 import com.esteel.web.vo.Encrypt;
 import com.esteel.web.vo.LogVerifyCodeVo;
+import com.esteel.web.vo.MemberCompanyVo;
 import com.esteel.web.vo.MemberUserVo;
+import com.esteel.web.vo.WebUtils;
 import com.taobao.common.tfs.TfsManager;
 
 /**
@@ -80,7 +82,7 @@ public class MemberUserController {
 	public WebReturnMessage getUserMboile() {
 		logger.info("获取登录用户的手机验证码");
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String phone = authentication.getName();
+		logger.debug("getUserMboile:获取手机号码,获取登陆用户信息" + authentication);
 		MemberUserVo userVo = memberUserClient.checkNo(authentication.getName());
 		String mobile = userVo.getMobile();
 		logger.info("获取手机号码+返回结果{mobile}" + mobile);
@@ -278,10 +280,10 @@ public class MemberUserController {
 	 * @param mobile
 	 * @return
 	 */
-	@RequestMapping(value = "/updMail", method = RequestMethod.GET)
+	@RequestMapping(value = "/updMail", method = RequestMethod.POST)
 	@ResponseBody
 	public WebReturnMessage modifyMail(String email, String mobile) {
-		logger.info("修改邮箱，参数{email,mobile}");
+		logger.info("修改邮箱，参数{}", email, mobile);
 		WebReturnMessage webRetMesage = null;
 		// 获取登录用户
 		MemberUserVo user = memberUserClient.checkNo(mobile);
@@ -395,26 +397,69 @@ public class MemberUserController {
 	}
 
 	/**
-	 * 普通会员头像编辑
+	 * 图片裁剪
 	 * 
+	 * @param rank
+	 *            操作的会员等级 1 普通会员 2 企业
 	 * @param fileId
-	 * @param mobile
+	 *            文件id
+	 * @param imgType
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
 	 * @return
+	 * @throws IOException
 	 */
-	@RequestMapping(value = "/memberIgm", method = RequestMethod.POST)
+	@RequestMapping(value = "/imageCut", method = RequestMethod.POST)
 	@ResponseBody
-	public WebReturnMessage userImg(String fileId, String mobile) {
-		WebReturnMessage webRetMesage = null;
-		// 获取当前用户
-		MemberUserVo user = memberUserClient.checkNo(mobile);
-		user.setUserPicture(fileId);
-		// 保存
-		MemberUserVo registerUser = memberUserClient.registerUser(user);
-		if (registerUser != null) {
-			webRetMesage = new WebReturnMessage(true, "保存成功");
-		} else {
-			webRetMesage = new WebReturnMessage(false, "保存失败");
+	public WebReturnMessage uploadFileCut(int rank, String fileId, String imgType, int x, int y, int width,
+			int height) {
+		logger.info("uploadFileCut:图片裁剪,参数{}", fileId, imgType, x, y, width, height);
+		// 获取登录用户
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		logger.debug("uploadFileCut:图片裁剪-用户登录信息", authentication);
+		MemberUserVo userVo = memberUserClient.checkNo(authentication.getName());
+		logger.debug("uploadFileCut:图片裁剪-用户信息", userVo);
+
+		try {
+			// 获取图像流文件
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			boolean fetchFile = tfsManager.fetchFile(fileId, imgType, out);
+			if (fetchFile) {
+				// 图片处理
+				byte[] imgCut = WebUtils.imgCut(out, imgType, x, y, width, height);
+				out.close();
+				Assert.notNull(imgCut, "保存失败");
+				// 保存处理后的图片得到fileid
+				String fileid = tfsManager.saveFile(imgCut, null, ".JPEG");
+				logger.debug("uploadFileCut:图片裁剪-保存结果", fileid);
+				Assert.notNull(fileid, "保存失败");
+				// 根据前端传递的rank参数来判断头像设置的是普通会员还是企业
+				if (rank == 1) {
+					// 设置用户信息
+					userVo.setUserPicture(fileid + "JPEG");
+					MemberUserVo saveUser = memberUserClient.registerUser(userVo);
+					Assert.notNull(saveUser, "保存失败");
+					return new WebReturnMessage(true, "1");
+				} else {
+					// 设置企业信息
+					MemberCompanyVo company = memberUserClient.findCompany((long) userVo.getCompanyId());
+					Assert.notNull(company, "保存失败");
+					company.setLogo(fileid + "JPEG");
+					userVo.getCompanyId();
+					MemberCompanyVo saveComp = memberUserClient.saveComp(company);
+					Assert.notNull(saveComp, "保存失败");
+					return new WebReturnMessage(true, "1");
+				}
+
+			} else {
+				// 获取图片失败
+				return new WebReturnMessage(true, "0");
+			}
+		} catch (Exception e) {
+			logger.error("uploadFileCut:图片裁剪-图片流处理异常");
+			return new WebReturnMessage(true, "0");
 		}
-		return webRetMesage;
 	}
 }

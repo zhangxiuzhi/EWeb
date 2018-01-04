@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="/fragments/frontCode::frontCode" />
+
+<body class="member">
+
+	<!--页头，菜单-->
+	<div th:replace="/fragments/head::header"></div>
+
+	<!--内容-->
+	<div class="main">
+		<div class="container">
+			<!--侧栏-->
+			<div th:replace="/fragments/sidebar::sidebar"></div>
+
+			<!--内容-->
+			<div class="content">
+				<div class="userContent">
+
+					<!--分类-->
+					<div class="type-title">
+						<div class="t-title" id="router-linkNode">
+							<a href="#/attest" linkNode="approve" class="selected">企业外贸资质认证</a>
+						</div>
+					</div>
+
+					<!--分类页面-->
+					<div id="router-pageCotainer"
+						class="padding-left-10 padding-right-10 padding-bottom-10">
+						<!-- 资质证书上传 -->
+						<div class="form-group">
+							<label class="col-sm-2 control-label">对外贸易经营许可证</label>
+							<div class="col-sm-10">
+								<div id=""></div>
+								<span class="fileupload fileupload-new"
+									data-provides="fileupload"> <span
+									class="btn btn-default btn-file btn-ghost"> <span
+										class="fileupload-new"><i class="fa fa-folder-open-o"></i>
+											选择文件</span> <span class="fileupload-exists"><i
+											class="fa fa-folder-open-o"></i> 替换文件</span> <input id="file5"
+										type="file" name="file" class="form-control  uploadFile"
+										accept=".zip,.rar,.doc,.docx,.pdf,.jpg,.png"
+										onchange="upload(this)" />
+								</span> <span class="fileupload-preview"></span> <a href="#"
+									class="close fileupload-exists" data-dismiss="fileupload"
+									style="float: none">×</a>
+								</span> <input type="text" id="file5-text" name="attestation" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">公司英文名</label>
+							<div class="col-sm-8">
+								<input type="text" id="companyEn" name="companyName"
+									class="form-control" />
+							</div>
+						</div>
+						
+						<div class="form-group text-center form-group-btns">
+									<button class="btn btn-primary" type="button" onclick="attest()">提交</button>
+									 <a class="btn btn-default" href="/member/userInfo">返回</a>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--页脚，链接-->
+	<div th:replace="/fragments/foot::footer"></div>
+
+	<!--控制-->
+	<script th:src="@{/js/module/member/member.attestation.js}"></script>
+
+
+</body>
+</html>
+
+

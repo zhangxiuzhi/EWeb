@@ -16,10 +16,12 @@ body {
 超链接
 -----------------------------------------*/
 a {
-  color: #4B4C4D;
-  text-decoration: none; }
-  a :hover {
-    color: #f1280f; }
+  color: #5c90d2;
+  text-decoration: none;
+  transition: all 0.5s linear; }
+  a:hover {
+    color: #3169b1;
+    text-decoration: none; }
 
 /*--------------------------------
 按钮
@@ -109,14 +111,14 @@ a {
 
 /*信息色*/
 .btn-info {
-  background: #20b0de;
-  border: 1px solid #20b0de; }
+  background: #5c90d2;
+  border: 1px solid #5c90d2; }
   .btn-info:hover, .btn-info:focus {
-    background: #20b0de;
-    border: 1px solid #20b0de; }
+    background: #3169b1;
+    border: 1px solid #3169b1; }
   .btn-info.disabled {
-    background: #20b0de;
-    border: 1px solid #20b0de;
+    background: #5c90d2;
+    border: 1px solid #5c90d2;
     opacity: 0.5; }
 
 /*幽灵按钮，没有填充色*/
@@ -130,7 +132,7 @@ a {
   .btn-ghost.btn-primary {
     color: #de211d; }
   .btn-ghost.btn-info {
-    color: #20b0de; }
+    color: #5c90d2; }
   .btn-ghost.btn-success {
     color: #3DC18E; }
   .btn-ghost.btn-warning {
@@ -144,9 +146,9 @@ a {
     background: #fff;
     border-color: #de211d; }
   .btn-ghost.btn-info:active, .btn-ghost.btn-info:focus {
-    color: #20b0de;
+    color: #5c90d2;
     background: #fff;
-    border-color: #20b0de; }
+    border-color: #5c90d2; }
   .btn-ghost.btn-danger:active, .btn-ghost.btn-danger:focus {
     color: #de211d;
     background: #fff;
@@ -217,6 +219,16 @@ a {
   .form-group .form-control:focus,
   .form-group .form-control-static:focus {
     border-color: #aaa; }
+.form-group .form-control-static {
+  border: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none; }
+.form-group .form-control[disabled], .form-group .form-control[readonly], .form-group fieldset[disabled] .form-control {
+  background-color: #eee;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none; }
 .form-group select.form-control {
   height: 40px; }
 .form-group.form-group-btns .btn {
@@ -230,12 +242,6 @@ a {
   border-radius: 3px; }
 
 /*水平排列标签*/
-.form-horizontal .form-group .control-label,
-.form-horizontal .form-group .control-assist {
-  text-align: right;
-  padding-top: 7px;
-  margin-bottom: 0; }
-
 .form-horizontal {
   /*水平排列辅助*/
   /*水平表单按钮排列*/
@@ -244,7 +250,8 @@ a {
   .form-horizontal .form-group .control-assist {
     text-align: right;
     padding-top: 7px;
-    margin-bottom: 0; }
+    margin-bottom: 0;
+    line-height: 28px; }
   .form-horizontal .form-group .control-assist {
     text-align: left; }
   .form-horizontal .form-action-left > .btn {
@@ -271,7 +278,7 @@ a {
 .input-group .input-group-btn .btn {
   padding: 6px 22px;
   line-height: 1.42857143;
-  height: 32px; }
+  height: 42px; }
 
 /*标签嵌入输入框*/
 .form-subline {
@@ -386,9 +393,9 @@ a {
   .alert > .fa {
     margin-right: 5px; }
   .alert.alert-info {
-    border: 1px solid #20b0de;
+    border: 1px solid #5c90d2;
     background: rgba(58, 141, 192, 0.1);
-    color: #20b0de; }
+    color: #5c90d2; }
 
 /*--------------------------------
   模态框
@@ -454,11 +461,11 @@ a {
 .bootstrap-datetimepicker-widget table td.active,
 .bootstrap-datetimepicker-widget table td.active:hover,
 .bootstrap-datetimepicker-widget table td span.active {
-  background-color: #20b0de; }
+  background-color: #5c90d2; }
 .bootstrap-datetimepicker-widget a:hover,
 .bootstrap-datetimepicker-widget .picker-switch td span:hover,
 .bootstrap-datetimepicker-widget table td span:hover {
-  color: #20b0de; }
+  color: #5c90d2; }
 .bootstrap-datetimepicker-widget table td.disabled, .bootstrap-datetimepicker-widget table td.disabled:hover {
   color: #ccc; }
 
@@ -487,7 +494,7 @@ a {
   .growl > .growl-message {
     text-align: center; }
     .growl > .growl-message > .fa {
-      color: #20b0de;
+      color: #5c90d2;
       margin-right: 10px;
       display: none; }
   .growl.growl-large {
@@ -555,7 +562,7 @@ select
   border-radius: 0; }
 
 .select2-container--default .select2-results__option--highlighted[aria-selected] {
-  background-color: #20b0de; }
+  background-color: #5c90d2; }
 
 .ui-autocomplete {
   height: 250px;
@@ -569,7 +576,7 @@ select
     background: #fff; }
   .ui-autocomplete.ui-menu .ui-menu-item a.ui-state-focus,
   .ui-autocomplete.ui-menu .ui-menu-item a.ui-state-active {
-    background: #20b0de;
+    background: #5c90d2;
     color: #fff;
     border: none;
     border-radius: 0;

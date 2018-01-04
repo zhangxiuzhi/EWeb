@@ -6,10 +6,14 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.data.redis.core.RedisKeyValueTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,6 +34,8 @@ import com.esteel.web.service.MemberClient;
 import com.esteel.web.vo.Encrypt;
 import com.esteel.web.vo.LogVerifyCodeVo;
 import com.esteel.web.vo.MemberUserVo;
+import com.netflix.hystrix.contrib.javanica.cache.annotation.CacheResult;
+import com.netflix.ribbon.proxy.annotation.CacheProvider;
 import com.taobao.common.tfs.TfsManager;
 
 /**
@@ -52,6 +58,9 @@ public class MemberRegsterController {
 
 	@Autowired
 	TfsManager tfsManager;
+	
+	@Autowired
+    CacheManager cacheManager;
 
 	/**
 	 * 注册页面
@@ -138,7 +147,6 @@ public class MemberRegsterController {
 	@ResponseBody
 	public WebReturnMessage register(String mobile, String code, String password,HttpServletRequest request) {
 		logger.info(this.getClass() + "用户注册,参数{}" + mobile + code + password);
-		WebReturnMessage webRetMsg = null;
 		List<Object> result = new ArrayList<>();
 		// 验证码验证
 		LogVerifyCodeVo codeVo = logVerityCodeClient.checkCode(code, mobile);
@@ -204,33 +212,97 @@ public class MemberRegsterController {
 	 * 跳转找回密码页面
 	 * @return
 	 */
-	@RequestMapping(value = "/getBackPwd")
+	@RequestMapping(value = "/findPwd")
 	public String getBackPwd() {
-		return "/register/getBackPwd";
+		return "/register/findPwd";
 	}
 	/**
 	 * 找回密码
 	 * 
 	 * @param mobile
 	 * @param code
-	 * @return
+	 * @return 
 	 */
 	@RequestMapping(value = "/findPwd", method = RequestMethod.POST)
-	public String findPassword(String mobile, String code, Model model) {
+	@ResponseBody
+	public WebReturnMessage findPassword(String mobile, String code,HttpSession session) {
+		logger.info("findPassword:找回密码，参数{mobile,code}");
 		// 根据验证码确认
 		LogVerifyCodeVo codeVo = logVerityCodeClient.checkCode(code, mobile);
-		// 根据手机号码确认是否有这个用户
-		MemberUserVo checkNo = memberUserClient.checkNo(mobile);
-		if (codeVo != null && checkNo != null) {
-			// 验证成功把对象信息放入session,初期模拟登录状态
-			return "/register/recover";
-		} else {
-			model.addAttribute("false", new WebReturnMessage(false, "系统无此用户或验证码错误"));
-			model.addAttribute("mobile", mobile);
+		logger.debug("findPassword:找回密码,验证"+codeVo);
+		Assert.notNull(codeVo, "验证码错误");
+		//是否过期
+		long newTime = new Date().getTime(); // 当前时间
+		long start = codeVo.getSendTime().getTime(); // 发送时间
+		long end = codeVo.getValidTime().getTime(); // 有效时间
+		if (newTime > start && newTime <= end) {
+			//放作用域,有效时间一个
+			codeVo.setVerifyStatus(1);
+			logVerityCodeClient.saveLog(codeVo);
+			session.setAttribute("codeVo", codeVo);
+			session.setMaxInactiveInterval(30*60);
+			return  new WebReturnMessage(true,"1");
+		}else {
+			//验证码失效
+			codeVo.setVerifyStatus(2);
+			logVerityCodeClient.saveLog(codeVo);
+			return  new WebReturnMessage(true,"验证码已失效");
+		}
+		
+	}
+	
+	/**
+	 * 跳转处重置密码
+	 * @return
+	 */
+	@RequestMapping(value = "/resetPwd")
+	public String getBackPwd(HttpSession session) {
+		LogVerifyCodeVo codeVo =(LogVerifyCodeVo) session.getAttribute("codeVo");
+		if(codeVo!=null) {
+			return "/register/resetPwd";
+		}else {
 			return "/register/findPwd";
-
 		}
 	}
+	/**
+	 * 重置密码
+	 * @param resetPwd
+	 * @param firmPwd
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "/resetPwd", method = RequestMethod.POST)
+	@ResponseBody
+	public WebReturnMessage resetPassword(String resetPwd, String firmPwd,HttpSession session) {
+		List<Object> list = new ArrayList<>();
+		//确认密码正确
+		if(!resetPwd.equals(firmPwd)) {
+			list.add(1);
+			return new WebReturnMessage(true, "1",list);
+		}
+		//获取验证的信息
+		LogVerifyCodeVo codeVo = (LogVerifyCodeVo) session.getAttribute("codeVo");
+		if(codeVo!=null){
+			String mobile = codeVo.getVerifyTarget();
+			//获取用户信息
+			MemberUserVo checkNo = memberUserClient.checkNo(mobile);
+			Assert.notNull(checkNo, "重置密码失败");
+			//修改保存
+			checkNo.setPassword(resetPwd);
+			MemberUserVo user = memberUserClient.registerUser(checkNo);
+			Assert.notNull(user, "重置密码失败");
+			//移除验证身份信息
+			session.removeAttribute("codeVo");
+			return new WebReturnMessage(true, "2");
+		}else {
+			list.add(2);
+			return new WebReturnMessage(true, "1",list);
+		}
+		
+	}
+	
+	
+	
 	/**
 	 * 验证邮箱
 	 * @param uuid

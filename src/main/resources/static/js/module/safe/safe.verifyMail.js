@@ -25,6 +25,15 @@ function JBSFrame_safe_verifyMail() {
 
 		// 渲染步骤
 		this.renderStep();
+
+		//获取用户手机号码
+		esteel_safe_verifyMail.ajaxRequest({
+			url : "/user/getMobile",
+			data : {}
+		}, function(data, msg) {
+			document.getElementById('phone').innerHTML = msg;
+		});
+
 	}
 
 	// 渲染步骤
@@ -123,14 +132,7 @@ $(document).ready(function(e) {
 	esteel_safe_verifyMail.initUI();
 	// 初始化路由
 	esteel_safe_verifyMail.initRouter();
-	//获取用户手机号码
-	esteel_safe_verifyMail.ajaxRequest({
-		url : "/user/getMobile",
-		data : {}
-	}, function(data, msg) {
-		document.getElementById('phone').innerHTML = msg;
-	});
-	
+
 });
 
 // 获取验证码
@@ -151,12 +153,16 @@ function checkIddity() {
 	var phone = document.getElementById('phone').innerHTML;
 	var code = $("#code").val();
 	if (code == '') {
-		alert("请输入验证码");
+		esteel_safe_verifyMail.insertErrorBubble("code","请输入验证码");
 		return false;
+	}else{
+		esteel_safe_verifyMail.insertCorrectBubble("code");
 	}
 	if (code.length != 6) {
-		alert("请输入6位验证码");
+		esteel_safe_verifyMail.insertErrorBubble("code","请输入6位验证码");
 		return false;
+	}else{
+		esteel_safe_verifyMail.insertCorrectBubble("code");
 	}
 	esteel_safe_verifyMail.ajaxRequest({
 		url : "/user/checkIdentity",
@@ -167,6 +173,8 @@ function checkIddity() {
 			isNull : 1
 		}
 	}, function(data, msg) {
+		esteel_safe_verifyMail.removeBubble("code1");
+		esteel_safe_verifyMail.removeBubble("code2");
 		if (data != null) {
 			result = true;
 		} else {
@@ -183,13 +191,16 @@ function checkMail() {
 	var reg =  /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 	var email = $("#email").val();
 	if (email == '') {
-		alert("请输入新邮箱地址");
+		esteel_safe_verifyMail.insertErrorBubble("email","请输入新邮箱地址");
 		return false;
+	}else{
+		esteel_safe_verifyMail.insertCorrectBubble("email");
 	}
 	if(reg.test(email)){
-	}else{
-		alert("邮箱格式错误");
+		esteel_safe_verifyMail.insertErrorBubble("email","邮箱格式错误");
 		return false;
+	}else{
+		esteel_safe_verifyMail.insertCorrectBubble("email");
 	}
 	//提交发送邮件
 	esteel_safe_verifyMail.ajaxRequest({
@@ -210,3 +221,23 @@ function checkMail() {
 	return result;
 
 }
+
+
+//验证码倒计时
+function countDownSendSms(){
+	$("#register-btn-getValidateCode").addClass("disabled");
+	var s = 60;
+	var clock = setInterval(function(){
+		if(s ==0){
+			clearInterval(clock);
+			$("#register-btn-getValidateCode").removeClass("disabled").text("获取验证码");
+			return false;
+		}
+		s--;
+		$("#register-btn-getValidateCode").text("重发验证码("+s+")");
+	},1000)
+
+}
+
+
+

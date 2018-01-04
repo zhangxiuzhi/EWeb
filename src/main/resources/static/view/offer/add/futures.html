@@ -20,137 +20,144 @@
         </div>
 
         <!--商品1-->
-        <div class="box-container">
-            <div class="box-container-title">商品1 <span class="fa fa-caret-down text-danger" ></span></div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">*品名</label>
-                <div class="col-sm-4">
-                    <div id="component-selectBox-ItemName-1" inputName="commodityIdArr" data-validetta="required"></div>
+        <div class=""  id="offer-goods-1">
+            <div class="box-container-title"  data-toggle="collapse" href="#offer-goods-1-items">
+                商品1 <span class="fa fa-caret-down text-danger" ></span>
+            </div>
+            <div id="offer-goods-1-items" class="box-container collapse in">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><i class="text-danger">*</i>品名</label>
+                    <div class="col-sm-4">
+                        <div id="component-selectBox-ItemName-1" inputName="commodityIdArr" data-validetta="required"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">指标类型</label>
+                    <div class="col-sm-8">
+                        <div id="component-radioBoxGroup-kpiType-1" inputName="indicatorTypeIdArr"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">指标</label>
+                    <div class="col-sm-8">
+                        <table id="indicator-table-1" class="offer-kip-table">
+                            <tr>
+                                <th>Fe</th><th>SiO2</th><th>A12O3</th><th>Mn</th><th>LOI</th>
+                            </tr>
+                            <tr>
+                                <td><input type="text" class="form-control" name="feArr" id="indicator-FE-1" data-validetta="required"/></td>
+                                <td><input type="text" class="form-control" name="sio2Arr" id="indicator-SIO2-1"/></td>
+                                <td><input type="text" class="form-control" name="al2o3Arr" id="indicator-AL2O3-1"/></td>
+                                <td><input type="text" class="form-control" name="mnArr" id="indicator-MN-1"/></td>
+                                <td><input type="text" class="form-control" name="LOIArr" id="indicator-LOI-1"/></td>
+                            </tr>
+                            <tr>
+                                <th>P</th><th>S</th><th>H20</th><th>&nbsp;</th><th>&nbsp;</th>
+                            </tr>
+                            <tr>
+                                <td><input type="text" class="form-control" name="pArr" id="indicator-P-1"/></td>
+                                <td><input type="text" class="form-control" name="sArr" id="indicator-S-1"/></td>
+                                <td><input type="text" class="form-control" name="h2oArr" id="indicator-H2O-1"/></td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">粒度</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="sizeIndicators-1" name="sizeIndicatorsArr"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><i class="text-danger">*</i>数量</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" data-validetta="required" name="offerQuantityArr"/>
+                    </div>
+
+                    <label class="col-sm-2 control-label"><i class="text-danger">*</i>溢短装</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" data-validetta="required" name="moreOrLessArr"/>
+                    </div>
                 </div>
             </div>
-            
-            <div class="form-group">
-	            <label class="col-sm-2 control-label">指标类型</label>
-	            <div class="col-sm-8">
-	                <div id="component-radioBoxGroup-kpiType-1" inputName="indicatorTypeIdArr"></div>
-	            </div>
-	        </div>
-
-            <div class="form-group">
-                <label class="col-sm-2 control-label">指标</label>
-                <div class="col-sm-8">
-                    <table id="indicator-table-1" class="offer-kip-table">
-                        <tr>
-                            <th>Fe</th><th>SiO2</th><th>A12O3</th><th>Mn</th><th>LOI</th>
-                        </tr>
-                        <tr>
-                            <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="feArr" id="indicator-FE-1" data-validetta="required"/></td>
-                            <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="sio2Arr" id="indicator-SIO2-1"/></td>
-                            <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="al2o3Arr" id="indicator-AL2O3-1"/></td>
-                            <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="mnArr" id="indicator-MN-1"/></td>
-                            <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="LOIArr" id="indicator-LOI-1"/></td>
-                        </tr>
-                        <tr>
-                            <th>P</th><th>S</th><th>H20</th><th>&nbsp;</th><th>&nbsp;</th>
-                        </tr>
-                        <tr>
-                            <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="pArr" id="indicator-P-1"/></td>
-                            <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="sArr" id="indicator-S-1"/></td>
-                            <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="h2oArr" id="indicator-H2O-1"/></td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-sm-2 control-label">粒度</label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control" id="sizeIndicators-1" maxlength="32" name="sizeIndicatorsArr"/>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-sm-2 control-label">*数量</label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control mask-number" data-validetta="required" name="offerQuantityArr" maxlength="100"/>
-                </div>
-
-                <label class="col-sm-2 control-label">*溢短装</label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control mask-digits" digits="1" data-validetta="required" name="moreOrLessArr" maxlength="4"/>
-                </div>
-            </div>
-
         </div>
         <!--商品2-->
-        <div class="box-container" id="offer-goods-2" style="display: none;">
-            <div class="box-container-title">商品2 <span class="fa fa-caret-down text-danger"></span></div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">*品名</label>
-                <div class="col-sm-4">
-                    <div id="component-selectBox-ItemName-2" inputName="commodityIdArr"></div>
-                </div>
+        <div class="" id="offer-goods-2" style="display: none;">
+            <div class="box-container-title" data-toggle="collapse" href="#offer-goods-2-items">
+                商品2 <span class="fa fa-caret-down text-danger"></span>
             </div>
-            
-             <div class="form-group">
-	            <label class="col-sm-2 control-label">指标类型</label>
-	            <div class="col-sm-8">
-	                <div id="component-radioBoxGroup-kpiType-2" inputName="indicatorTypeIdArr"></div>
-	            </div>
-	        </div>
-
-            <div class="form-group">
-                <label class="col-sm-2 control-label">指标</label>
-                <div class="col-sm-8">
-                    <table id="indicator-table-2" class="offer-kip-table">
-                        <tr>
-                            <th>Fe</th><th>SiO2</th><th>A12O3</th><th>Mn</th><th>LOI</th>
-                        </tr>
-                        <tr>
-                            <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="feArr" id="indicator-FE-2"/></td>
-                            <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="sio2Arr" id="indicator-SIO2-2"/></td>
-                            <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="al2o3Arr" id="indicator-AL2O3-2"/></td>
-                            <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="mnArr" id="indicator-MN-2"/></td>
-                            <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="LOIArr" id="indicator-LOI-2"/></td>
-                        </tr>
-                        <tr>
-                            <th>P</th><th>S</th><th>H20</th><th>&nbsp;</th><th>&nbsp;</th>
-                        </tr>
-                        <tr>
-                            <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="pArr" id="indicator-P-2"/></td>
-                            <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="sArr" id="indicator-S-2"/></td>
-                            <td><input type="text" class="form-control mask-digits" digits="3" maxlength="6" name="h2oArr" id="indicator-H2O-2"/></td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-sm-2 control-label">粒度</label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control" id="sizeIndicators-2" name="sizeIndicatorsArr" maxlength="32"/>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-sm-2 control-label">*数量</label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control mask-number" name="offerQuantityArr" maxlength="100"/>
+            <div id="offer-goods-2-items" class="box-container collapse in">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><i class="text-danger">*</i>品名</label>
+                    <div class="col-sm-4">
+                        <div id="component-selectBox-ItemName-2" inputName="commodityIdArr"></div>
+                    </div>
                 </div>
 
-                <label class="col-sm-2 control-label">*溢短装</label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control mask-digits" digits="1" name="moreOrLessArr" maxlength="4"/>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">指标类型</label>
+                    <div class="col-sm-8">
+                        <div id="component-radioBoxGroup-kpiType-2" inputName="indicatorTypeIdArr"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">指标</label>
+                    <div class="col-sm-8">
+                        <table id="indicator-table-2" class="offer-kip-table">
+                            <tr>
+                                <th>Fe</th><th>SiO2</th><th>A12O3</th><th>Mn</th><th>LOI</th>
+                            </tr>
+                            <tr>
+                                <td><input type="text" class="form-control" name="feArr" id="indicator-FE-2"/></td>
+                                <td><input type="text" class="form-control" name="sio2Arr" id="indicator-SIO2-2"/></td>
+                                <td><input type="text" class="form-control" name="al2o3Arr" id="indicator-AL2O3-2"/></td>
+                                <td><input type="text" class="form-control" name="mnArr" id="indicator-MN-2"/></td>
+                                <td><input type="text" class="form-control" name="LOIArr" id="indicator-LOI-2"/></td>
+                            </tr>
+                            <tr>
+                                <th>P</th><th>S</th><th>H20</th><th>&nbsp;</th><th>&nbsp;</th>
+                            </tr>
+                            <tr>
+                                <td><input type="text" class="form-control" name="pArr" id="indicator-P-2"/></td>
+                                <td><input type="text" class="form-control" name="sArr" id="indicator-S-2"/></td>
+                                <td><input type="text" class="form-control" name="h2oArr" id="indicator-H2O-2"/></td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">粒度</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="sizeIndicators-2" name="sizeIndicatorsArr"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><i class="text-danger">*</i>数量</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" name="offerQuantityArr"/>
+                    </div>
+
+                    <label class="col-sm-2 control-label"><i class="text-danger">*</i>溢短装</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" name="moreOrLessArr"/>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="form-group">
-            <label class="col-sm-2 control-label">*价格</label>
+            <label class="col-sm-2 control-label"><i class="text-danger">*</i>价格</label>
             <div class="col-sm-2">
                 <select class="form-control" onchange="showFloatPrice(this)" name="priceModel" id="offer-priceModel">
                 </select>
@@ -162,28 +169,28 @@
                 <div class="form-group" id="offer-fixedPrice-goods-1">
                     <label class="col-sm-2 control-label">商品1</label>
                     <div class="col-sm-5">
-                        <input type="text" class="form-control mask-digits width130 inline-block margin-right-10" digits="1" id="offer-fixPrice-value" name="priceValueArr"/>美元/干吨
+                        <input type="text" class="form-control mask-number width130 inline-block margin-right-10" id="offer-fixPrice-value" name="priceValueArr"/>美元/干吨
                     </div>
                     <label class="col-sm-2 control-label">基于Fe%：</label>
                     <div class="col-sm-3">
-                       <input type="text" class="form-control mask-digits" digits="2" id="offer-fixPrice-value" name="priceBasisFeArr" maxlength="4"/>
+                       <input type="text" class="form-control mask-number" id="offer-fixPrice-value" name="priceBasisFeArr"/>
                     </div>
                 </div>
                 <div class="form-group" id="offer-fixedPrice-goods-2" style="display: none;">
                     <label class="col-sm-2 control-label">商品2</label>
                     <div class="col-sm-5">
-                        <input type="text" class="form-control mask-digits width130 inline-block margin-right-10" digits="1" id="offer-fixPrice-value" name="priceValueArr"/>美元/干吨
+                        <input type="text" class="form-control mask-number width130 inline-block margin-right-10" id="offer-fixPrice-value" name="priceValueArr"/>美元/干吨
                     </div>
                     <label class="col-sm-2 control-label">基于Fe%：</label>
                     <div class="col-sm-3">
-                        <input type="text" class="form-control mask-digits" digits="2" id="offer-fixPrice-value" name="priceBasisFeArr" maxlength="4"/>
+                        <input type="text" class="form-control mask-number" id="offer-fixPrice-value" name="priceBasisFeArr"/>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="form-group">
-            <label class="col-sm-2 control-label">*装货港</label>
+            <label class="col-sm-2 control-label"><i class="text-danger">*</i>装货港</label>
             <div class="col-sm-3">
                 <select class="form-control" data-validetta="required" id="select-loadingPort" name="loadingPortId">
                 	<option value=""></option>
@@ -192,9 +199,9 @@
         </div>
 
         <div class="form-group">
-            <label class="col-sm-2 control-label">*保税区</label>
+            <label class="col-sm-2 control-label"><i class="text-danger">*</i>保税区</label>
             <div class="col-sm-8">
-                <div id="component-radioBoxGroup-bondedAreas" inputName="isBondedArea" inputValue="0"></div>
+                <div id="component-radioBoxGroup-bondedAreas" inputName="isBondedArea" inputValue="0" data-validetta="required"></div>
             </div>
             <div class="col-sm-3" id="offer-bondedAreasPort-box" style="display: none;">
                 <select class="form-control" id="select-bondedAreasPort" name="bondedAreaPortId">
@@ -204,9 +211,9 @@
         </div>
 
         <div class="form-group" id="offer-priceTerm-box">
-            <label class="col-sm-2 control-label">*价格术语</label>
+            <label class="col-sm-2 control-label"><i class="text-danger">*</i>价格术语</label>
             <div class="col-sm-2">
-                <select class="form-control" id="select-priceTerm" name="priceTerm">
+                <select class="form-control" id="select-priceTerm" name="priceTerm" data-validetta="required">
                 	<option value=""></option>
                 </select>
             </div>
@@ -224,12 +231,12 @@
         </div>
 
         <div class="form-group">
-            <label class="col-sm-2 control-label">*报盘有效期</label>
+            <label class="col-sm-2 control-label"><i class="text-danger">*</i>报盘有效期</label>
             <div class="col-sm-4">
                 <input type="text" class="form-control datetimepicker" name="validTime" data-validetta="required"/>
             </div>
 
-            <label class="col-sm-2 control-label">*信用证交单期</label>
+            <label class="col-sm-2 control-label"><i class="text-danger">*</i>信用证交单期</label>
             <div class="col-sm-4">
                 <input type="text" class="form-control mask-number" name="lcPresentationPeriod" data-validetta="required"/>
             </div>

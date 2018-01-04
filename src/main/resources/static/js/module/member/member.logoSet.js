@@ -18,11 +18,6 @@ function JBSFrame_member_headSet() {
 
 	}
 
-	this.renderFormElement = function(){
-		//初始化图片裁剪
-		esteel_member_headSet.initCutter();
-	}
-
 	/*---------------------------------------------------------------------------------------------------------------------------*/
 
 	//初始化路由
@@ -39,6 +34,7 @@ function JBSFrame_member_headSet() {
 			var rr = elem.getAttribute("linkNode")
 			offerRoutes[rr] = self.loadRouter
 		})
+		console.log(offerRoutes)
 		var router = Router(offerRoutes);
 		router.configure({
 			on: self.selectTypeTab	//切换路由后设置高亮标签
@@ -49,7 +45,7 @@ function JBSFrame_member_headSet() {
 	this.loadRouter = function(){
 		var path = window.location.hash.slice(2);
 		$("#router-pageCotainer").load('/view/member/'+path+".html", function(){
-			self.renderFormElement();//渲染表单元素
+
 		});	//加载静态文件
 	}
 
@@ -63,43 +59,6 @@ function JBSFrame_member_headSet() {
 	/*---------------------------------------------------------------------------------------------------------------------------*/
 	var self = this;
 
-	//裁剪照片
-	this.initCutter = function(){
-		this.cutter = new jQuery.UtrialAvatarCutter({
-				//主图片所在容器ID
-				content : "picture_original",
-				//缩略图配置,ID:所在容器ID;width,height:缩略图大小
-				purviews : [
-					{id:"picture_100",width:100,height:100},
-					{id:"picture_50",width:50,height:50}
-				],
-				boxWidth:600,
-				boxHeight:300,
-				//选择器默认大小
-				selector : {width:200,height:200},
-				onChange: function (result){
-					for(var c in result){
-						$("#cutter-"+c).val(result[c]);
-					}
-				}
-		});
-	}
-	//添加图片
-	this.setupImage = function(result){
-		var saveStr = result.data[0];
-		var type = result.data[1];
-		var url = "/user/export/"+saveStr+"/"+type+"/html;";
-		$("#picture_original img").attr("src",url);
-		var $img = $("#picture_original img");
-		$img[0].onload= function(){
-			var size = getImgNaturalDimensions($img[0])
-			$img.css({
-				width:size[0] > 1000 ?  size[0] / 2 * 0.3 : size[0] * 0.3,
-				height:size[1]  > 1000 ?  size[1] / 2 * 0.3 : size[1] * 0.3
-			});
-			esteel_member_headSet.cutter.init();
-		}
-	}
 }
 
 
@@ -113,7 +72,6 @@ $(document).ready(function (e) {
 	esteel_member_headSet.initUI();
 	//初始化路由
 	esteel_member_headSet.initRouter();
-
 });
 
 //文件上传
@@ -138,19 +96,14 @@ function upload(elem){
 				//赋值
 				$("#filestr").val(saveStr);
 				$("#filetype").val(type);
-
-				//设置图片
-				esteel_member_headSet.setupImage(result);
 			}
 		}
     });
 }
-
-
-//普通会员操作
+//企业会员操作
 function confirm(){
 	//参数
-	var rank = 1; //表示操作为普通会员
+	var rank = 2; //表示操作为企业会员
 	var fileId = $("#filestr"); //文件类型
 	var imgType = $("#filetype"); //文件字符串
 	
@@ -163,13 +116,13 @@ function confirm(){
 	esteel_member_headSet.ajaxRequest({
 		url : "/user/imageCut",
 		data : {
-			rank : 1,
+			rank : 2,
 			fileId : 1,
 			imgType : 1,
-			x : $("#cutter-x").val(),
-			y : $("#cutter-y").val(),
-			width : $("#cutter-w").val(),
-			height : $("#cutter-y").val()
+			x : 1,
+			y : 1,
+			width : 1,
+			height : 1
 		}
 	}, function(data,msg) {
 		if(msg=="1"){
@@ -189,17 +142,6 @@ function confirm(){
 
 
 
-function getImgNaturalDimensions(img, callback) {
-	var nWidth, nHeight
-	if (img.naturalWidth) { // 现代浏览器
-		nWidth = img.naturalWidth
-		nHeight = img.naturalHeight
-	} else { // IE6/7/8
-		var imgae = new Image()
-		image.src = img.src
-		image.onload = function() {
-			callback(image.width, image.height)
-		}
-	}
-	return [nWidth, nHeight]
-}
+
+
+

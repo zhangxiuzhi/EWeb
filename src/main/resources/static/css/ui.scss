@@ -12,8 +12,8 @@ $color-success-response:#2ad593;
 $color-warning:#fc9a2f;
 $color-warning-response:#f4a92c;
 
-$color-info:#20b0de;
-$color-info-response:#20b0de;
+$color-info:#5c90d2;
+$color-info-response:#3169b1;
 
 $color-blue:#00447c;
 $color-blue-response:#002849;
@@ -48,10 +48,12 @@ body{
 超链接
 -----------------------------------------*/
 a {
-  color: $color-text;
+  color: $color-info;
   text-decoration: none;
-  :hover{
-    color: $color-theme-response;
+  transition:all 0.5s linear;
+  &:hover{
+    color: $color-info-response;
+    text-decoration: none;
   }
 }
 
@@ -292,6 +294,20 @@ a {
       border-color:$color-border-light;
     }
   }
+  .form-control-static{
+    border:none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+  }
+  .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control{
+    background-color: #eee;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+  }
+
+
   select.form-control{
     height:40px;
   }
@@ -310,18 +326,13 @@ a {
   }
 }
 /*水平排列标签*/
-.form-horizontal .form-group .control-label,
-.form-horizontal .form-group .control-assist{
-  text-align: right;
-  padding-top: 7px;
-  margin-bottom:0;
-}
 .form-horizontal {
   .form-group .control-label,
   .form-group .control-assist {
     text-align: right;
     padding-top: 7px;
     margin-bottom: 0;
+    line-height: 28px;
   }
 
   /*水平排列辅助*/
@@ -369,7 +380,7 @@ a {
   .input-group-btn .btn {
     padding: 6px 22px;
     line-height: 1.42857143;
-    height: 32px;
+    height: 42px;
   }
 }
 
