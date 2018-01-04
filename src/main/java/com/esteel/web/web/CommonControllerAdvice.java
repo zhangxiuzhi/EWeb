@@ -56,7 +56,7 @@ public class CommonControllerAdvice {
         model.addAttribute("rootPath", request.getContextPath());
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication instanceof AnonymousAuthenticationToken) {
+        if (authentication==null || authentication instanceof AnonymousAuthenticationToken) {
             model.addAttribute("isAuthed", false);
         } else {
             String userName = authentication.getName();

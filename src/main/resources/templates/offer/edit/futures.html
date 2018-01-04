@@ -317,9 +317,11 @@
 					
 					            <div class="form-group">
 					                <label class="col-sm-2 control-label">到港月</label>
-					                <div class="col-sm-4">
+					                <div class="col-sm-2">
 					                    <input type="text" class="form-control datetimepicker notime noday" name="transport_arrive_month" th:value="${offerTransport.transport_arrive_month}"/>
-					                     <input type="radio" value="0" name="transport_half_month" th:check="${'0' == offerTransport.transport_half_month}"/>上半月
+					                </div>
+					                <div class="col-sm-2">
+					                	<input type="radio" value="0" name="transport_half_month" th:check="${'0' == offerTransport.transport_half_month}"/>上半月
 					                    <input type="radio" value="1" name="transport_half_month" th:check="${'1' == offerTransport.transport_half_month}"/>下半月
 					                </div>
 					

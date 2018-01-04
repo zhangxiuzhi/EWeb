@@ -52,7 +52,7 @@ class ComponentJTable extends React.Component {
 			searchData: this.options.searchData,
 			page: 1,
 			sizePerPage: 10,
-			nodata: { text: "没有交易报盘" }
+			nodata: this.options.nodata//{ text: "没有交易报盘" }
 			//loadingText:{dataFormat:listLoadingIconFormat},	//自定义列表加载动画
 		};
 		return React.createElement(
