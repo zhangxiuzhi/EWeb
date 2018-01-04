@@ -652,10 +652,13 @@ filterbox
   padding:32px 30px;
   margin:25px 0 ;
 
+  .row{
+    margin-bottom: 15px;
+  }
   .filterbox-label{
     color: #a5a5a5;
     width: 90px;
-    padding-right:24px;
+    padding:5px 24px 0 0;
     text-align: right;
     font-weight: normal;
   }

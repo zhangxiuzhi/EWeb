@@ -18,6 +18,7 @@ import com.esteel.common.controller.WebReturnMessage;
 import com.esteel.web.service.MemberClient;
 import com.esteel.web.vo.MemberCompanyVo;
 import com.esteel.web.vo.MemberUserVo;
+import com.esteel.web.vo.WebUtils;
 
 /**
  * 用户个人信息模块
@@ -49,11 +50,11 @@ public class MemberUserInfoController {
 		if (companyId != null) {
 			MemberCompanyVo company = memberUserClient.findCompany((long) userVo.getCompanyId());
 			logger.debug("userInfo:个人信息页面,获取企业信息MemberCompanyVo："+company);
-			
-			if(company==null) {
-				MemberCompanyVo companys = new MemberCompanyVo();
-				companys.setApprovalStatus(1);
-				model.addAttribute("company", companys);
+			//用户申请成为企业子账号，未审核状态下不显示企业信息
+			if(userVo.getUserGrade()==0) {
+				MemberCompanyVo companyhide = new MemberCompanyVo();
+				company.setApprovalStatus(1);
+				model.addAttribute("company", companyhide);
 			}else {
 				model.addAttribute("company", company);
 			}
@@ -73,6 +74,9 @@ public class MemberUserInfoController {
 			company.setApprovalStatus(1);
 			model.addAttribute("company", company);
 		}
+		//设置手机，密码暗文
+		userVo.setMobile(WebUtils.MobileHide(userVo.getMobile()));
+		userVo.setEmail(WebUtils.EmailHide(userVo.getEmail()));
 		model.addAttribute("userVo", userVo);
 		return "/member/userInfo";
 	}
@@ -88,7 +92,7 @@ public class MemberUserInfoController {
 		return "/member/headSet";
 	}
 	/**
-	 * 
+	 * 跳转企业logo设置
 	 * @param model
 	 * @return
 	 */
@@ -181,7 +185,7 @@ public class MemberUserInfoController {
 		userVo.setCompanyId((int) companyId);
 		// 设置申请的状态 状态 0正常(默认) 1认证 99销户 2审核
 		userVo.setUserStatus(2);
-		userVo.setUserGrade(2);
+		userVo.setUserGrade(0);
 		// 保存
 		MemberUserVo registerUser = memberUserClient.registerUser(userVo);
 		logger.debug("applyTrader:保存用户信息，registerUser：" + registerUser );

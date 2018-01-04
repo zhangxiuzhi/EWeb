@@ -66,4 +66,33 @@ public class WebUtils {
 			return null;
 		}
 	}
+	/**
+	 * 手机号码之间五位暗文显示  例如：187*****885
+	 * @param mobile
+	 * @return
+	 */
+	public static String MobileHide(String mobile) {
+		StringBuffer sb = new StringBuffer(mobile);
+		sb.replace(3, 8, "*****");
+		return sb.toString();
+		
+	}
+	/**
+	 * 邮箱地址暗文显示 例：1********3@qq.com
+	 * @param email
+	 * @return
+	 */
+	public static String EmailHide(String email) {
+		String string = email.substring(email.lastIndexOf("@"));//尾巴
+		String[] split = email.split("@"); 
+		int length = split[0].length();
+		StringBuffer sb = new StringBuffer(split[0]);
+		for(int i = 0;i<length;i++) {
+			if(i!=0&&i!=length-1) {
+				sb.replace(i, i+1, "*");
+			}
+		}
+		sb.append(string);
+		return sb.toString();
+	}
 }

@@ -546,10 +546,12 @@ filterbox
   background: #f6f6f6;
   padding: 32px 30px;
   margin: 25px 0; }
+  .filterbox .row {
+    margin-bottom: 15px; }
   .filterbox .filterbox-label {
     color: #a5a5a5;
     width: 90px;
-    padding-right: 24px;
+    padding: 5px 24px 0 0;
     text-align: right;
     font-weight: normal; }
 

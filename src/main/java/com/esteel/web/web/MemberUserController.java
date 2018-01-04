@@ -438,7 +438,7 @@ public class MemberUserController {
 				// 根据前端传递的rank参数来判断头像设置的是普通会员还是企业
 				if (rank == 1) {
 					// 设置用户信息
-					userVo.setUserPicture(fileid + "JPEG");
+					userVo.setUserPicture(fileid + ".jpeg");
 					MemberUserVo saveUser = memberUserClient.registerUser(userVo);
 					Assert.notNull(saveUser, "保存失败");
 					return new WebReturnMessage(true, "1");
@@ -446,7 +446,7 @@ public class MemberUserController {
 					// 设置企业信息
 					MemberCompanyVo company = memberUserClient.findCompany((long) userVo.getCompanyId());
 					Assert.notNull(company, "保存失败");
-					company.setLogo(fileid + "JPEG");
+					company.setLogo(fileid + ".jpeg");
 					userVo.getCompanyId();
 					MemberCompanyVo saveComp = memberUserClient.saveComp(company);
 					Assert.notNull(saveComp, "保存失败");

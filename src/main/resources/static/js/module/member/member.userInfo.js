@@ -100,10 +100,11 @@ function checkForm() {
 			memberName : username
 		}
 	}, function(data, msg) {
-		if(msg=="1"){
-			alert("用户名已被占用,请重新输入");
+		if(msg!="0"){
+			esteel_member_userInfo.insertErrorBubble("username", "该用户名已被占用");
+			alert("该用户名已被占用");
 			status = false;
-		}else{
+		}else {
 			status = true;
 		}
 	});
@@ -127,10 +128,11 @@ function apply(){
 		 $("#change").html(msg);*/
 	});
 }
-//保存数据
+//修改用户名
 function submitUpd() {
 	if(status=="false"){
-		alert("用户名已被占用,用户名已被占用,请重新输入");
+		alert("该用户名已被占用");
+		
 		return;
 	}
 	var username = $("#username").val();
