@@ -89,7 +89,6 @@ public class WebApplication extends WebSecurityConfigurerAdapter {
 
                     }
                     response.sendRedirect(ssourl+"/logout?_target="+target);
-//                    response.sendRedirect(target);
                 }
             }
         };
