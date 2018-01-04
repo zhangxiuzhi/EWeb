@@ -22,6 +22,14 @@ function JBSFrame_safe_updateMail() {
 
 		//渲染步骤
 		this.renderStep();
+
+		//获取用户手机号码
+		esteel_safe_updateMail.ajaxRequest({
+			url : "/user/getMobile",
+			data : {}
+		}, function(data, msg) {
+			document.getElementById('phone').innerHTML = msg;
+		});
 	}
 
 	//渲染步骤
@@ -119,13 +127,7 @@ $(document).ready(function (e) {
 	esteel_safe_updateMail.initUI();
 	//初始化路由
 	esteel_safe_updateMail.initRouter();
-	//获取用户手机号码
-	esteel_safe_updateMail.ajaxRequest({
-		url : "/user/getMobile",
-		data : {}
-	}, function(data, msg) {
-		document.getElementById('phone').innerHTML = msg;
-	});
+
 });
 
 //获取验证码
@@ -138,6 +140,8 @@ function getCode(){
 		}
 	}, function(data, msg) {
 		alert(msg);
+		//倒计时
+		countDownSendSms();
 	});
 }
 //验证用户信息
@@ -208,7 +212,21 @@ function updateEmail(){
 }
 
 
+//验证码倒计时
+function countDownSendSms(){
+	$("#register-btn-getValidateCode").addClass("disabled");
+	var s = 60;
+	var clock = setInterval(function(){
+		if(s ==0){
+			clearInterval(clock);
+			$("#register-btn-getValidateCode").removeClass("disabled").text("获取验证码");
+			return false;
+		}
+		s--;
+		$("#register-btn-getValidateCode").text("重发验证码("+s+")");
+	},1000)
 
+}
 
 
 

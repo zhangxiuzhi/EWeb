@@ -864,6 +864,16 @@ body.member{
       border-top: 1px solid #444;
     }
   }
+
+  .validetta-msg{
+    position: absolute;
+    display: table;
+    top:0;
+    left:0;
+    padding-left: 22px;
+    font-size: 12px;
+    vertical-align:middle;
+  }
 }
 
 /*侧栏*/

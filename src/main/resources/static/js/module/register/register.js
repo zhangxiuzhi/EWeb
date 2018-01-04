@@ -105,12 +105,12 @@ function sendSms() {
 		}
 	}, function(result) {
 		alert("已发送");
-		$("#register-btn-getValidateCode").addClass("disabled");
 		countDownSendSms();
 	});
 }
 //验证码倒计时
 function countDownSendSms(){
+	$("#register-btn-getValidateCode").addClass("disabled");
 	var s = 60;
 	var clock = setInterval(function(){
 		if(s ==0){

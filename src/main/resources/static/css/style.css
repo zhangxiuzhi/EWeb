@@ -728,6 +728,14 @@ body.member {
       background: #323232;
       color: #b3b5ba;
       border-top: 1px solid #444; }
+  body.member .validetta-msg {
+    position: absolute;
+    display: table;
+    top: 0;
+    left: 0;
+    padding-left: 22px;
+    font-size: 12px;
+    vertical-align: middle; }
 
 /*侧栏*/
 .sidebar {
