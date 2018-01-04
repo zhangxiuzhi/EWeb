@@ -728,6 +728,14 @@ body.member {
       background: #323232;
       color: #b3b5ba;
       border-top: 1px solid #444; }
+  body.member .validetta-msg {
+    position: absolute;
+    display: table;
+    top: 0;
+    left: 0;
+    padding-left: 22px;
+    font-size: 12px;
+    vertical-align: middle; }
 
 /*侧栏*/
 .sidebar {
@@ -1020,7 +1028,10 @@ member
     margin-bottom: 20px; }
   .update-head .img-big {
     width: 602px;
-    height: 300px; }
+    height: 300px;
+    position: relative; }
+    .update-head .img-big img {
+      margin: 0 auto; }
   .update-head .btn-file {
     position: relative;
     display: inline-block;
@@ -1054,13 +1065,21 @@ member
       position: relative;
       margin-top: 20px; }
     .update-head .uh-right .preview-container1 {
-      width: 150px;
-      height: 150px;
-      margin-top: 0; }
-    .update-head .uh-right .preview-container2 {
       width: 100px;
       height: 100px;
       margin-top: 0; }
+      .update-head .uh-right .preview-container1 img {
+        position: absolute;
+        left: 0;
+        top: 0; }
+    .update-head .uh-right .preview-container2 {
+      width: 50px;
+      height: 50px;
+      margin-top: 0; }
+      .update-head .uh-right .preview-container2 img {
+        position: absolute;
+        left: 0;
+        top: 0; }
     .update-head .uh-right .size {
       margin-top: 2px; }
 

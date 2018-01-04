@@ -585,6 +585,49 @@ function JBSFrame() {
 		}
 
 	}
+
+	//错误的提示
+	this.insertErrorBubble = function (elementId, errorText) {
+		var $element = $("#" + elementId);
+		this.insertBubble($element,errorText,false);
+	}
+	//正确的提示
+	this.insertCorrectBubble = function (elementId, correctText) {
+		var $element = $("#" + elementId);
+		this.insertBubble($element,correctText==undefined?"":correctText,true);
+	}
+	//
+	this.insertBubble = function($element, text, correct){
+		this.removeBubble($element);
+
+		var $inputGroup = $element.parent(".input-group");
+		$inputGroup.next(".validetta-msg").remove();
+
+		var pos, W = 0, H = 0;
+		var $bubble = $("<div class='validetta-msg'></div>");
+		if(correct == true){
+			$bubble.addClass(" text-success")
+			$bubble.html("<i class='fa fa-check'></i> " + text);
+		}else{
+			$bubble.addClass(" text-danger")
+			$bubble.html("<i class='fa fa-close'></i> " + text);
+		}
+
+
+		W = $inputGroup.width();
+		H = $inputGroup.height();
+		pos = $element.position();
+		H = $element[0].offsetHeight;
+		$bubble.css({
+			lineHeight: H + "px",
+			left: W
+		});
+		$inputGroup.after($bubble);
+	}
+	this.removeBubble = function($element){
+		var $inputGroup = $element.parent(".input-group");
+		$inputGroup.next(".validetta-msg").remove();
+	}
 }
 
 

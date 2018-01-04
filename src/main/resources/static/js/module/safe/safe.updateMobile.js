@@ -25,6 +25,13 @@ function JBSFrame_safe_updateMobile() {
 
 		// 渲染步骤
 		this.renderStep();
+
+		//获取用户手机号码
+		esteel_safe_updateMobile.ajaxRequest({
+			url : "/user/getMobile"
+		}, function(data, msg) {
+			document.getElementById('phone').innerHTML = msg;
+		});
 	}
 
 	// 渲染步骤
@@ -109,6 +116,8 @@ function JBSFrame_safe_updateMobile() {
 	/*---------------------------------------------------------------------------------------------------------------------------*/
 	var self = this;
 
+
+
 }
 
 /*
@@ -122,12 +131,7 @@ $(document).ready(function(e) {
 	esteel_safe_updateMobile.initUI();
 	// 初始化路由
 	esteel_safe_updateMobile.initRouter();
-	//获取用户手机号码
-	esteel_safe_updateMobile.ajaxRequest({
-		url : "/user/getMobile"
-	}, function(data, msg) {
-		document.getElementById('phone').innerHTML = msg;
-	});
+
 	
 });
 
@@ -141,6 +145,8 @@ function getCode() {
 		}
 	}, function(data, msg) {
 		alert(msg);
+		//倒计时
+		countDownSendSms();
 	});
 
 }
@@ -193,16 +199,22 @@ function validate() {
 	var len = code.length;
 	// 验证
 	if (code == '') {
-		alert("验证码不能为空!");
+		esteel_safe_updateMobile.insertErrorBubble("code1","验证码不能为空");
 		return false;
+	}else{
+		esteel_safe_updateMobile.insertCorrectBubble("code1","");
 	}
 	if (len != 6) {
-		alert("请输入6位有效验证码");
+		esteel_safe_updateMobile.insertErrorBubble("code1","请输入6位有效验证码");
 		return false;
+	}else{
+		esteel_safe_updateMobile.insertCorrectBubble("code1","");
 	}
 	if (passwd == '') {
-		alert("密码不能为空");
+		esteel_safe_updateMobile.insertErrorBubble("code2","密码不能为空");
 		return false;
+	}else{
+		esteel_safe_updateMobile.insertCorrectBubble("code2","");
 	}
 	// 校验验证码
 	esteel_safe_updateMobile.ajaxRequest({
@@ -214,6 +226,8 @@ function validate() {
 			password : passwd
 		}
 	}, function(data, msg) {
+		esteel_safe_updateMobile.removeBubble("code1");
+		esteel_safe_updateMobile.removeBubble("code2");
 		if (data != null) {
 			alert(msg);
 			result = false;
@@ -256,4 +270,20 @@ function updateMobile() {
 		}
 	});
 	return result;
+}
+
+//验证码倒计时
+function countDownSendSms(){
+	$("#register-btn-getValidateCode").addClass("disabled");
+	var s = 60;
+	var clock = setInterval(function(){
+		if(s ==0){
+			clearInterval(clock);
+			$("#register-btn-getValidateCode").removeClass("disabled").text("获取验证码");
+			return false;
+		}
+		s--;
+		$("#register-btn-getValidateCode").text("重发验证码("+s+")");
+	},1000)
+
 }
